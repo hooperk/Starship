@@ -30,6 +30,9 @@ namespace StarshipGenerator
         /// <param name="man">manoeuvrability modifier of this bridge</param>
         public Bridge(HullType types, int power, int space, RuleBook origin, byte page, string special = null,
             int sp = 0, Quality quality = Quality.Common, int man = 0)
-            : base(sp, power, space, special, origin, page, types, quality) { }
+            : base(sp, power, space, special, origin, page, types, quality) 
+        {
+            this.Manoeuvrability = man;
+        }
     }
 }

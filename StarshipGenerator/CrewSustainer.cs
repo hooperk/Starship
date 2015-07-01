@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace StarshipGenerator
 {
     /// <summary>
-    /// Crew quarters or life sustainer
+    /// Crew quarters or life sustainer essential component
     /// </summary>
     public abstract class CrewSustainer : Component
     {
@@ -30,6 +30,9 @@ namespace StarshipGenerator
         /// <param name="sp">cost of this component</param>
         public CrewSustainer(HullType types, int power, int space, int morale, RuleBook origin, byte page,
             string special = null, Quality quality = Quality.Common, int sp = 0)
-            : base(sp, power, space, special, origin, page, types, quality) { }
+            : base(sp, power, space, special, origin, page, types, quality)
+        {
+            this.Morale = morale;
+        }
     }
 }

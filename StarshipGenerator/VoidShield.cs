@@ -30,6 +30,9 @@ namespace StarshipGenerator
         /// <param name="sp">cost of these shields</param>
         public VoidShield(HullType types, int power, int space, int str, RuleBook origin, byte page, string special = null,
             Quality quality = Quality.Common, int sp = 0)
-            : base(sp, power, space, special, origin, page, types, quality) { }
+            : base(sp, power, space, special, origin, page, types, quality)
+        {
+            this.Strength = str;
+        }
     }
 }

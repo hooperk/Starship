@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace StarshipGenerator
 {
+    /// <summary>
+    /// Augur array essential component
+    /// </summary>
     public class Augur : Component
     {
         /// <summary>
@@ -23,7 +26,9 @@ namespace StarshipGenerator
         {
             get
             {
-                return "External" + (String.IsNullOrEmpty(base.Special) ? "" : ", " + base.Special);
+                if(!base.Special.Contains("External"))
+                    return "External" + (String.IsNullOrEmpty(base.Special) ? "" : ", " + base.Special);
+                return base.Special;
             }
         }
 
@@ -40,6 +45,10 @@ namespace StarshipGenerator
         /// <param name="man">manoeuvrability modifier of this array</param>
         public Augur(int power, RuleBook origin, byte page, int det = 0, String special = null,
             Quality quality = Quality.Common, int sp = 0, int man = 0)
-            : base(sp, power, 0, special, origin, page, HullType.All, quality) { }
+            : base(sp, power, 0, special, origin, page, HullType.All, quality)
+        {
+            this.Manoeuvrability = man;
+            this.DetectionRating = det;
+        }
     }
 }

@@ -41,9 +41,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Dice.cs" />
-    <Compile Include="DiceOriginal.cs" />
+    <Compile Include="Augur.cs" />
+    <Compile Include="Bridge.cs" />
+    <Compile Include="Component.cs" />
+    <Compile Include="CrewSustainer.cs" />
+    <Compile Include="CTest.cs" />
+    <Compile Include="DiceRoll.cs" />
+    <Compile Include="Enums.cs" />
+    <Compile Include="GellarField.cs" />
+    <Compile Include="Hull.cs" />
+    <Compile Include="PlasmaDrive.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Starship.cs" />
+    <Compile Include="Supplemental.cs" />
+    <Compile Include="VoidShield.cs" />
+    <Compile Include="WarpDrive.cs" />
+    <Compile Include="Weapon.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

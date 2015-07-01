@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace StarshipGenerator
 {
-    public class DiceRoll
+    public struct DiceRoll
     {
-        public Regex ValidDice = new Regex(@"^([+-]?\d*d10)([+-]?\d*d5)?([+-]\d+)?|(\dd5)([+-]\d+)?|[+-]?\d+");
-        public Regex ParseDice = new Regex(@"^(([+-]\d*)d10)?([+-]?(\d*)d5)?([+-]\d+)?");
+        public static Regex ValidDice = new Regex(@"^([+-]?\d*d10)([+-]?\d*d5)?([+-]\d+)?|(\dd5)([+-]\d+)?|[+-]?\d+");
+        public static Regex ParseDice = new Regex(@"^(([+-]\d*)d10)?([+-]?(\d*)d5)?([+-]\d+)?");
 
         /// <summary>
         /// Number of d10
@@ -141,7 +141,12 @@ namespace StarshipGenerator
 
         public DiceRoll Mul(DiceRoll other)
         {
-            if (other.d10 != 0 || other.d5 != 0)
+            if (this.d10 == 0 && this.d5 == 0)
+            {
+                if (other.d10 != 0 || other.d5 != 0)//by putting this if inside the other instead if as an and, the else if won't be evaluated and the final return statement will perform just modifier * modifier
+                    return other.Mul(this.modifier);
+            }
+            else if (other.d10 != 0 || other.d5 != 0)
                 throw new FormatException("Cannot multiply by dice values, only modifiers and ints");
             return this.Mul(other.modifier);
         }

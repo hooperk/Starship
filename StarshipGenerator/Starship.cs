@@ -17,8 +17,8 @@ namespace StarshipGenerator
         CrewSustainer LifeSustainer;//seperate later with subclass or differentiate through filtering on something?
         CrewSustainer CrewQuarters;
         Augur AugurArrays;
-        Weapon[] Weapons;
-        Supplemental[] SupplementalComponents;
+        Weapon[] Weapons;//Initialise new when hull is chosen?
+        List<Supplemental> SupplementalComponents;
 
         MachineSpirit MachineSpirit;
         ShipHistory ShipHistory;
@@ -96,6 +96,7 @@ namespace StarshipGenerator
                 int total = Hull.DetectionRating;
                 if (AugurArrays != null)
                     total += AugurArrays.DetectionRating;
+                //check if the ship has that one component that alters detection(check detection of all components)
                 return total;
             }
         }
@@ -125,7 +126,7 @@ namespace StarshipGenerator
             get
             {
                 int total = this.Armour;
-                //if has prow armour + 4, else if has reinforced +2
+                //if has prow armour + 4, else if has reinforced +2; components.ProwArmour
                 return total;
             }
         }
@@ -158,7 +159,7 @@ namespace StarshipGenerator
                 if (PlasmaDrive == null)
                     return 0;
                 int total = PlasmaDrive.Power;
-                //add modifiers from histories or similar; auxilairy generators and built in components will modify UsedPower 
+                //add modifiers from histories or similar, include auxilary generators (components with generatepower true) 
                 return total;
             }
         }
@@ -247,6 +248,32 @@ namespace StarshipGenerator
                 return total;
             }
         }
-        public int CurrentIntegrity { get; set; }
+        public int CurrentIntegrity { get; set; }//When live ship is ready to go
+
+        public int CrewValue
+        {
+            get
+            {
+                int total = (int)CrewRating;
+                //crew rating bonuses
+                return total;
+            }
+        }
+
+        public int BSModifier
+        {
+            get
+            {
+                int total = 0;
+                if (ShipBridge != null)
+                    total += ShipBridge.BS;
+                if (AugurArrays != null)
+                    total += AugurArrays.BS;
+                //get modifier from components and Augur Arrays
+                return 0;
+            }
+        }
+
+        //get objective bonuses
     }
 }

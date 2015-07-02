@@ -87,4 +87,21 @@ namespace StarshipGenerator
         Veteran = 50,
         Elite = 60
     }
+
+    [Flags]
+    public enum Background : byte
+    {
+        None = 0x00,
+        PlanetBoundForMillenia1 = 0x01,
+        PlanetBoundForMillenia2 = 0x02,
+        PlanetBoundForMillenia3 = 0x03,
+        PlanetBoundForMillenia4 = 0x04,
+        PlanetBoundForMillenia5 = 0x05,
+        PlanetDoundForMillenia = 0x07,//first three bits used to show the result of the d5
+        ThulianExploratorVessel = 0x08,
+        ReaverOfTheUnbeholdenReaches = 0x10,
+        VeteranOfTheAngevinCrusade = 0x20,
+        ImplacableFoeOfTheFleet = 0x40,
+        SteadfastAllyofTheFleet = 0x80
+    }
 }

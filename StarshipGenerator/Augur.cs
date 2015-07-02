@@ -20,6 +20,10 @@ namespace StarshipGenerator
         /// </summary>
         public int DetectionRating { get; private set; }
         /// <summary>
+        /// Ballistic Skill modifier this array grants
+        /// </summary>
+        public int BS { get; private set; }
+        /// <summary>
         /// Any special effects of the array
         /// </summary>
         public override string Special
@@ -44,11 +48,12 @@ namespace StarshipGenerator
         /// <param name="sp">cost of this array</param>
         /// <param name="man">manoeuvrability modifier of this array</param>
         public Augur(int power, RuleBook origin, byte page, int det = 0, String special = null,
-            Quality quality = Quality.Common, int sp = 0, int man = 0)
+            Quality quality = Quality.Common, int sp = 0, int man = 0, int bs = 0)
             : base(sp, power, 0, special, origin, page, HullType.All, quality)
         {
             this.Manoeuvrability = man;
             this.DetectionRating = det;
+            this.BS = bs;
         }
     }
 }

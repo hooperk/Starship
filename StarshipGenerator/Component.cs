@@ -76,5 +76,32 @@ namespace StarshipGenerator
             this.HullTypes = types;
             this.Quality = quality;
         }
+
+        /// <summary>
+        /// Return the biggest ship this can be used by to determine priority for ships which can have components from multiple classes
+        /// </summary>
+        public int Priority
+        {
+            get
+            {
+                if ((HullTypes & HullType.BattleShip) != 0)
+                    return 8;
+                if ((HullTypes & HullType.GrandCruiser) != 0)
+                    return 7;
+                if ((HullTypes & HullType.BattleCruiser) != 0)
+                    return 6;
+                if ((HullTypes & HullType.Cruiser) != 0)
+                    return 5;
+                if ((HullTypes & HullType.LightCruiser) != 0)
+                    return 4;
+                if ((HullTypes & HullType.Frigate) != 0)
+                    return 3;
+                if ((HullTypes & HullType.Raider) != 0)
+                    return 2;
+                if ((HullTypes & HullType.Transport) != 0)
+                    return 1;
+                return 0;
+            }
+        }
     }
 }

@@ -50,4 +50,41 @@ namespace StarshipGenerator
         BattlefleetKoronus, 
         LureoftheExpanse
     }
+
+    public enum MachineSpirit : byte
+    {
+        ANoseForTrouble,
+        BlasphemousTendencies,
+        MartialHubris,
+        Rebellious,
+        Stoic,
+        Skittish,
+        Wrothful,
+        Resolute,
+        Adventurous,
+        AncientAndWise
+    }
+
+    public enum ShipHistory : byte
+    {
+        ReliquaryOfMars,
+        Haunted,
+        EmissaryOfTheImperator,
+        WolfInSheepsClothing,
+        TurbulentPast,
+        DeathCult,
+        WrestedFromASpaceHulk,
+        TemperamentalWarpEngine,
+        FinancesInArrears,
+        Xenophilous
+    }
+
+    public enum CrewRating : int
+    {
+        Incompetent = 20,
+        Competent = 30,
+        Crack = 40,
+        Veteran = 50,
+        Elite = 60
+    }
 }

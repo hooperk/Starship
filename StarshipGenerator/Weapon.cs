@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace StarshipGenerator
 {
+    //TODO: Add extra possible quality alterations
     /// <summary>
     /// Weapon components
     /// </summary>

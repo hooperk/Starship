@@ -5,6 +5,8 @@ VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarshipGenerator", "StarshipGenerator.csproj", "{BB161626-1862-477C-98C5-91EE8385D156}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarshipTester", "StarshipTester\StarshipTester.csproj", "{3F096387-2835-4274-81CE-34B8A6525382}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{BB161626-1862-477C-98C5-91EE8385D156}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BB161626-1862-477C-98C5-91EE8385D156}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BB161626-1862-477C-98C5-91EE8385D156}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F096387-2835-4274-81CE-34B8A6525382}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F096387-2835-4274-81CE-34B8A6525382}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F096387-2835-4274-81CE-34B8A6525382}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F096387-2835-4274-81CE-34B8A6525382}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

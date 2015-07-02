@@ -9,7 +9,7 @@ namespace StarshipGenerator
 {
     public struct DiceRoll
     {
-        public static Regex ValidDice = new Regex(@"^([+-]?\d*d10)([+-]?\d*d5)?([+-]\d+)?|(\dd5)([+-]\d+)?|[+-]?\d+");
+        public static Regex ValidDice = new Regex(@"^([+-]?\d*d10)([+-]\d*d5)?([+-]\d+)?|([+-]?\dd5)([+-]\d+)?|[+-]?\d+");
         public static Regex ParseDice = new Regex(@"^(([+-]\d*)d10)?([+-]?(\d*)d5)?([+-]\d+)?");
 
         /// <summary>
@@ -41,28 +41,61 @@ namespace StarshipGenerator
         /// <summary>
         /// Parse a string representation of a dice roll (a roll string)
         /// </summary>
-        /// <param name="roll">Roll string to parse</param>
-        public DiceRoll(String roll)
+        /// <param name="input">Roll string to parse</param>
+        public DiceRoll(String input)
         {
-            if (String.IsNullOrWhiteSpace(roll) || !ValidDice.IsMatch(roll))
-                throw new FormatException("Roll not in valid format");
-            CaptureCollection groups = ParseDice.Match(roll).Captures;
-            if (String.IsNullOrWhiteSpace(groups[0].Value))
-                this.d10 = 0;
-            else if (String.IsNullOrWhiteSpace(groups[1].Value))
-                this.d10 = 1;
+            String roll = new string(input.Where(c => Char.IsWhiteSpace(c)).ToArray());//strip whitespace
+            this.d10 = this.d5 = 0;
+            int index = 0;
+            int previous = index;
+            while (index < roll.Length)
+            {
+                if (roll[index++] == 'd')
+                {
+                    if (roll[index] == '1' && roll[index + 1] == '0')
+                    {
+                        if (previous == index - 1)
+                            d10 = 1;
+                        else
+                            d10 = Int32.Parse(roll.Substring(previous, index - previous - 1));
+                        index++;//move to the 0 so the final ++ puts after the dice
+                    }
+                    else if (roll[index] == '5')
+                    {
+                        if (previous == index - 2)
+                            d5 = 1;
+                        else
+                            d5 = Int32.Parse(roll.Substring(previous, index - previous - 1));
+                    }
+                    else
+                        throw new FormatException("Only d10 and d5 are supported");
+                    index++;//point after the dice
+                    previous = index;//advance last found
+                }
+            }
+            if (previous == index)
+                modifier = 0;
             else
-                this.d10 = int.Parse(groups[1].Value);
-            if (String.IsNullOrWhiteSpace(groups[2].Value))
-                this.d5 = 0;
-            else if (String.IsNullOrWhiteSpace(groups[3].Value))
-                this.d5 = 1;
-            else
-                this.d5 = int.Parse(groups[3].Value);
-            if (String.IsNullOrWhiteSpace(groups[4].Value))
-                this.modifier = 0;
-            else
-                this.modifier = int.Parse(groups[4].Value);
+                modifier = Int32.Parse(roll.Substring(previous, index - previous));
+            //if (String.IsNullOrWhiteSpace(roll) || !ValidDice.IsMatch(roll))
+            //    throw new FormatException("Roll not in valid format");
+            //Match match = ParseDice.Match(roll);
+            //if (String.IsNullOrWhiteSpace(match.Groups[1].Value))
+            //    this.d10 = 0;
+            //else if (String.IsNullOrWhiteSpace(match.Groups[2].Value))
+            //    this.d10 = 1;
+            //else
+            //    this.d10 = int.Parse(match.Groups[2].Value);
+            //if (String.IsNullOrWhiteSpace(match.Groups[3].Value))
+            //    this.d5 = 0;
+            //else if (String.IsNullOrWhiteSpace(match.Groups[4].Value))
+            //    this.d5 = 1;
+            //else
+            //    this.d5 = int.Parse(match.Groups[4].Value);
+            //if (String.IsNullOrWhiteSpace(match.Groups[5].Value))
+            //    this.modifier = 0;
+            //else
+            //    this.modifier = int.Parse(match.Groups[5].Value);
         }
 
         /// <summary>
@@ -72,12 +105,12 @@ namespace StarshipGenerator
         public override string ToString()
         {
             StringBuilder output = new StringBuilder();
-            if (d10 != 0)
+            if (d10 != 0) 
                 output.Append(d10 + "d10");
             if (d5 != 0)
-                output.Append(d5 + "d5");
+                output.Append((d10 == 0 || d5 < 0 ? "" : "+") + d5 + "d5");
             if (modifier != 0 || (d10 == 0 && d5 == 0))//if modifier is non-null or rest of string is null
-                output.Append(modifier);
+                output.Append((modifier < 0 || (d10 == 0 && d5 == 0) ? "" : "+") + modifier);
             return output.ToString();
         }
 
@@ -90,7 +123,7 @@ namespace StarshipGenerator
         }
 
         /// <summary>
-        /// Return a strign representation of the dice roll with a custom format
+        /// Return a string representation of the dice roll with a custom format
         /// </summary>
         /// <param name="format">String with letters denoting format options</param>
         /// <returns>Formatted strings</returns>

@@ -44,7 +44,7 @@ namespace StarshipGenerator
         /// <param name="input">Roll string to parse</param>
         public DiceRoll(String input)
         {
-            String roll = new string(input.Where(c => Char.IsWhiteSpace(c)).ToArray());//strip whitespace
+            String roll = new string(input.Where(c => !Char.IsWhiteSpace(c)).ToArray());//strip whitespace
             this.d10 = this.d5 = 0;
             int index = 0;
             int previous = index;
@@ -77,25 +77,6 @@ namespace StarshipGenerator
                 modifier = 0;
             else
                 modifier = Int32.Parse(roll.Substring(previous, index - previous));
-            //if (String.IsNullOrWhiteSpace(roll) || !ValidDice.IsMatch(roll))
-            //    throw new FormatException("Roll not in valid format");
-            //Match match = ParseDice.Match(roll);
-            //if (String.IsNullOrWhiteSpace(match.Groups[1].Value))
-            //    this.d10 = 0;
-            //else if (String.IsNullOrWhiteSpace(match.Groups[2].Value))
-            //    this.d10 = 1;
-            //else
-            //    this.d10 = int.Parse(match.Groups[2].Value);
-            //if (String.IsNullOrWhiteSpace(match.Groups[3].Value))
-            //    this.d5 = 0;
-            //else if (String.IsNullOrWhiteSpace(match.Groups[4].Value))
-            //    this.d5 = 1;
-            //else
-            //    this.d5 = int.Parse(match.Groups[4].Value);
-            //if (String.IsNullOrWhiteSpace(match.Groups[5].Value))
-            //    this.modifier = 0;
-            //else
-            //    this.modifier = int.Parse(match.Groups[5].Value);
         }
 
         /// <summary>

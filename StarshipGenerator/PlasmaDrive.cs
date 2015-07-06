@@ -19,6 +19,27 @@ namespace StarshipGenerator
         /// Speed modifier this drive grants
         /// </summary>
         public int Speed { get; private set; }//was there somethign about quality here? if so implement it in set
+        /// <summary>
+        /// Power supplied by component
+        /// </summary>
+        /// <remarks>Override for power generated modifier instead of power used</remarks>
+        public override int Power
+        {
+            get
+            {
+                switch (this.Quality)
+                {
+                    case Quality.Poor:
+                        return _power - 2;//poor quality generates 2 less instead of granting 1 more
+                    case Quality.Good:
+                    case Quality.Efficient:
+                    case Quality.Best:
+                        return _power + 1;
+                    default:
+                        return _power;
+                }
+            }
+        }
 
         /// <summary>
         /// Create a new plasma drive

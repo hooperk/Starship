@@ -75,6 +75,31 @@ namespace StarshipGenerator
         /// The modifier to detection rating from this component
         /// </summary>
         public int DetectionRating { get; protected set; }
+        /// <summary>
+        /// Power Used or supplied by component
+        /// </summary>
+        /// <remarks>Override for PowerGenerated = true</remarks>
+        public override int Power
+        {
+            get
+            {
+                if (PowerGenerated)
+                {
+                    switch (this.Quality)
+                    {
+                        case Quality.Poor:
+                            return Math.Max(_power - 2, 1);//poor quality generates 2 less instead of granting 1 more
+                        case Quality.Good:
+                        case Quality.Efficient:
+                        case Quality.Best:
+                            return _power + 1;
+                        default:
+                            return _power;
+                    }
+                }
+                return base.Power;
+            }
+        }
 
         /// <summary>
         /// Create a new supplemental Component
@@ -105,11 +130,11 @@ namespace StarshipGenerator
         /// <param name="exploration">modifier to exploration objectives</param>
         /// <param name="generated">If the power listed is generated instead of used</param>
         /// <param name="detection">modifier to detection rating fromt he component</param>
-        public Supplemental(HullType types, int power, int space, int sp, RuleBook origin, byte page, 
+        public Supplemental(HullType types, int power, int space, int sp, RuleBook origin, byte page,
             String special = null, Quality quality = Quality.Common, int speed = 0, int man = 0,
             int hullint = 0, int armour = 0, int turrets = 0, int morale = 0, int crew = 0,
             DiceRoll ramming = default(DiceRoll), int prowArmour = 0, int crewRating = 0,
-            int mining = 0, int creed = 0, int military = 0, int trade = 0, int criminal = 0, 
+            int mining = 0, int creed = 0, int military = 0, int trade = 0, int criminal = 0,
             int exploration = 0, bool generated = false, int detection = 0)
             : base(sp, power, space, special, origin, page, types, quality)
         {
@@ -160,13 +185,13 @@ namespace StarshipGenerator
         /// <param name="exploration">modifier to exploration objectives</param>
         /// <param name="generated">If the power listed is generated instead of used</param>
         /// <param name="detection">modifier to detection rating fromt he component</param>
-        public Supplemental(HullType types, int power, int space, int sp, RuleBook origin, byte page, 
-            String ramming, String special = null, Quality quality = Quality.Common, int speed = 0, 
-            int man = 0, int hullint = 0, int armour = 0, int turrets = 0, int morale = 0, 
-            int crew = 0, int prowArmour = 0, int crewRating = 0, int mining = 0, int creed = 0, int military = 0, 
+        public Supplemental(HullType types, int power, int space, int sp, RuleBook origin, byte page,
+            String ramming, String special = null, Quality quality = Quality.Common, int speed = 0,
+            int man = 0, int hullint = 0, int armour = 0, int turrets = 0, int morale = 0,
+            int crew = 0, int prowArmour = 0, int crewRating = 0, int mining = 0, int creed = 0, int military = 0,
             int trade = 0, int criminal = 0, int exploration = 0, bool generated = false, int detection = 0)
-            : this(types, power, space, sp, origin, page, special, quality, speed, man, hullint, 
-                armour, turrets, morale, crew, new DiceRoll(ramming), prowArmour, crewRating, 
+            : this(types, power, space, sp, origin, page, special, quality, speed, man, hullint,
+                armour, turrets, morale, crew, new DiceRoll(ramming), prowArmour, crewRating,
                 mining, creed, military, trade, criminal, exploration, generated, detection) { }
     }
 }

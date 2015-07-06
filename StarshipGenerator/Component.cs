@@ -42,11 +42,53 @@ namespace StarshipGenerator
         /// <summary>
         /// Power Used or supplied by component
         /// </summary>
-        public virtual int Power { get; private set; }//add quality modifier later on get
+        public virtual int Power
+        {
+            get
+            {
+                if (_power == 0)
+                    return 0;//TODO: check if there was any case where this is what happens
+                switch (this.Quality)
+                {
+                    case Quality.Poor:
+                        return _power + 1;
+                    case Quality.Good:
+                    case Quality.Efficient:
+                    case Quality.Best:
+                        return Math.Max(_power - 1, 1);
+                    default:
+                        return _power;
+                }
+            }
+            private set { _power = value; }
+        }//add quality modifier later on get
+        protected int _power;
         /// <summary>
         /// Space taken up by component
         /// </summary>
-        public virtual int Space { get; set; }//add quality modifier later on get
+        public virtual int Space
+        {
+            get
+            {
+                if (_space == 0)
+                    return 0;
+                switch (this.Quality)
+                {
+                    case Quality.Poor:
+                        return _space + 1;
+                    case Quality.Slim:
+                    case Quality.Best:
+                        return Math.Max(_space - 1, 1);
+                    default:
+                        return _space;
+                }
+            }
+            set
+            {
+                _space = value;
+            }
+        }
+        protected int _space;
         /// <summary>
         /// Any special effects of the component
         /// </summary>

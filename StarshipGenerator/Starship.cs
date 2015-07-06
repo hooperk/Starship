@@ -191,8 +191,6 @@ namespace StarshipGenerator
             get
             {
                 int total = 0;
-                if (PlasmaDrive != null)
-                    total += PlasmaDrive.Power;
                 if (WarpDrive != null)
                     total += WarpDrive.Power;
                 if (GellarField != null)

@@ -18,7 +18,27 @@ namespace StarshipGenerator
         /// <summary>
         /// Cost to add this Component
         /// </summary>
-        public virtual int SP { get; private set; }//add quality modifier later on get
+        public virtual int SP
+        {
+            get
+            {
+                switch (this.Quality)
+                {
+                    case Quality.Poor:
+                        return Math.Max(_sp - 1, 1);
+                    case Quality.Good:
+                    case Quality.Slim:
+                    case Quality.Efficient:
+                        return _sp + 1;
+                    case Quality.Best:
+                        return _sp + 2;
+                    default:
+                        return _sp;
+                }
+            }
+            private set { _sp = value; }
+        }
+        private int _sp;
         /// <summary>
         /// Power Used or supplied by component
         /// </summary>

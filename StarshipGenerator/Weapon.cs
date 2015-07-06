@@ -36,6 +36,38 @@ namespace StarshipGenerator
         /// Range of the weapon
         /// </summary>
         public int Range { get; private set; }
+        /// <summary>
+        /// Which stats are being affected by quality
+        /// </summary>
+        public WeaponQuality WeaponQuality { get; private set; }
+        /// <summary>
+        /// Power Used by weapon
+        /// </summary>
+        /// <remarks>Power isn't altered by quality</remarks>
+        public override int Power
+        {
+            get
+            {
+                return _power;
+            }
+        }
+        /// <summary>
+        /// Space taken up by weapon
+        /// </summary>
+        /// <remarks>Include possible adjustment for quality</remarks>
+        public override int Space
+        {
+            get
+            {
+                if((WeaponQuality & WeaponQuality.Space) > 0)
+                    return base.Space;
+                return _space;
+            }
+            set
+            {
+                base.Space = value;
+            }
+        }
 
         /// <summary>
         /// Create a new weapon
@@ -55,7 +87,7 @@ namespace StarshipGenerator
         /// <param name="quality">quality of this weapon</param>
         /// <param name="special">special rules of this weapon</param>
         public Weapon(WeaponType type, HullType hulls, WeaponSlot slots, int power, int space, int sp, int str,
-            DiceRoll damage, int crit, int range, RuleBook origin, byte page, Quality quality = Quality.Common, string special = null)
+            DiceRoll damage, int crit, int range, RuleBook origin, byte page, Quality quality = Quality.Common, WeaponQuality wq = WeaponQuality.None, string special = null)
             : base(sp, power, space, special, origin, page, hulls, quality)
         {
             this.Type = type;
@@ -64,6 +96,7 @@ namespace StarshipGenerator
             this.Damage = damage;
             this.Crit = crit;
             this.Range = range;
+            this.WeaponQuality = wq;
         }
 
         /// <summary>

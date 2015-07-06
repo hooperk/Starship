@@ -104,4 +104,16 @@ namespace StarshipGenerator
         ImplacableFoeOfTheFleet = 0x40,
         SteadfastAllyofTheFleet = 0x80
     }
+
+    [Flags]
+    public enum WeaponQuality : byte
+    {
+        None = 0x00,
+        SP = 0x01,
+        Space = 0x02,
+        Range = 0x04,
+        Crit = 0x08,
+        Damage = 0x10,
+        Strength = 0x20
+    }
 }

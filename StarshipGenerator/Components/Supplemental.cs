@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StarshipGenerator
+namespace StarshipGenerator.Components
 {
     /// <summary>
     /// Base for all supplemental components
@@ -19,6 +19,10 @@ namespace StarshipGenerator
         /// Manoeuvrability modifier this component grants
         /// </summary>
         public int Manoeuvrability { get; protected set; }
+        /// <summary>
+        /// Hull Integrity modifier this component grants
+        /// </summary>
+        public int HullIntegrity { get; protected set; }
         /// <summary>
         /// Armour modifier this component grants
         /// </summary>
@@ -43,6 +47,10 @@ namespace StarshipGenerator
         /// Additional damage to ramming
         /// </summary>
         public DiceRoll RamDamage { get; protected set; }
+        /// <summary>
+        /// Modifier to Crew Rating of this component
+        /// </summary>
+        public int CrewRating { get; protected set; }
         /// <summary>
         /// Modifiers to Mining Objectives
         /// </summary>
@@ -140,12 +148,14 @@ namespace StarshipGenerator
         {
             this.Speed = speed;
             this.Manoeuvrability = man;
+            this.HullIntegrity = hullint;
             this.Armour = armour;
             this.TurretRating = turrets;
             this.Morale = morale;
             this.CrewPopulation = crew;
             this.ProwArmour = prowArmour;
             this.RamDamage = ramming;
+            this.CrewRating = crewRating;
             this.MiningObjective = mining;
             this.CreedObjective = creed;
             this.MilitaryObjective = military;

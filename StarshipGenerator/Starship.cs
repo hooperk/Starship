@@ -3,31 +3,95 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using StarshipGenerator.Components;
 
 namespace StarshipGenerator
 {
     public class Starship
     {
-        Hull Hull;
-        PlasmaDrive PlasmaDrive;
-        WarpDrive WarpDrive;
-        GellarField GellarField;
-        VoidShield VoidShield;
-        Bridge ShipBridge;
-        CrewSustainer LifeSustainer;//seperate later with subclass or differentiate through filtering on something?
-        CrewSustainer CrewQuarters;
-        Augur AugurArrays;
-        Weapon[] Weapons;//Initialise new when hull is chosen?
-        List<Supplemental> SupplementalComponents;
+        public Hull Hull
+        {
+            get { return _hull; }
+            set
+            {
+                _hull = value;
+                Weapons = new Weapon[_hull.WeaponSlots];
+                SupplementalComponents = new List<Supplemental>();
+                if (_hull.DefaultProw != null)
+                    Weapons[0] = _hull.DefaultProw;
+                if (_hull.DefaultBroadside != null)
+                    Weapons[_hull.ProwSlots + _hull.DorsalSlots] = //Port slot
+                        Weapons[_hull.ProwSlots + _hull.DorsalSlots + _hull.SideSlots] = //Starboard slot
+                            _hull.DefaultBroadside;
+                if (_hull.DefaultComponents != null)
+                    SupplementalComponents.AddRange(_hull.DefaultComponents);
+            }
+        }
+        private Hull _hull;
+        /// <summary>
+        /// Plasma Drive of the Starship
+        /// </summary>
+        public PlasmaDrive PlasmaDrive { get; set; }
+        /// <summary>
+        /// Warp Drive of the Starship
+        /// </summary>
+        public WarpDrive WarpDrive { get; set; }
+        /// <summary>
+        /// Gellar Field of the Starship
+        /// </summary>
+        public GellarField GellarField { get; set; }
+        /// <summary>
+        /// Void Shield of the Starship
+        /// </summary>
+        public VoidShield VoidShield { get; set; }
+        /// <summary>
+        /// Bridge of the Starship
+        /// </summary>
+        public Bridge ShipBridge { get; set; }
+        /// <summary>
+        /// Life Sustainer of the Starship
+        /// </summary>
+        public LifeSustainer LifeSustainer { get; set; }//seperate later with subclass or differentiate through filtering on something?
+        /// <summary>
+        /// Crew Quarters of the Starship
+        /// </summary>
+        public CrewQuarters CrewQuarters { get; set; }
+        /// <summary>
+        /// Augur Arrays of the Starships
+        /// </summary>
+        public Augur AugurArrays { get; set; }
+        /// <summary>
+        /// Weapons mounted onf the Starship
+        /// </summary>
+        public Weapon[] Weapons { get; set; }//Ordered Prow, Dorsal, Port, Starboard, Keel, Aft
+        /// <summary>
+        /// Supplemental Components mounted in the Starship
+        /// </summary>
+        public List<Supplemental> SupplementalComponents { get; set; }
 
-        MachineSpirit MachineSpirit;
-        ShipHistory ShipHistory;
+        /// <summary>
+        /// Machine Spirit Complication of the Starship
+        /// </summary>
+        public MachineSpirit MachineSpirit { get; set; }
+        /// <summary>
+        /// Ship History Complication of the Starship
+        /// </summary>
+        public ShipHistory ShipHistory { get; set; }
 
-        CrewRating CrewRating;
-        Race CrewRace;
+        /// <summary>
+        /// Quality of this Starship's crew
+        /// </summary>
+        public CrewRating CrewRating { get; set; }
+        /// <summary>
+        /// Race of the crwe on this Starship
+        /// </summary>
+        public Race CrewRace { get; set; }
 
         //modifiers such as gm crew modifier
 
+        /// <summary>
+        /// Total SP cost of the Starship
+        /// </summary>
         public int SP
         {
             get
@@ -53,10 +117,14 @@ namespace StarshipGenerator
                     total += AugurArrays.SP;
                 foreach (Weapon gun in Weapons)
                     total += gun.SP;
-                //component as well
+                foreach (Supplemental component in SupplementalComponents)
+                    total += component.SP;
                 return total;
             }
         }
+        /// <summary>
+        /// Total Speed of the Starship
+        /// </summary>
         public int Speed
         {
             get
@@ -66,10 +134,14 @@ namespace StarshipGenerator
                 int total = Hull.Speed;
                 if (PlasmaDrive != null)
                     total += PlasmaDrive.Speed;
-                //Supplemental component alterations
+                foreach (Supplemental component in SupplementalComponents)
+                    total += component.Speed;
                 return total;
             }
         }
+        /// <summary>
+        /// Total Maneouvrability modifier of the Starship
+        /// </summary>
         public int Manoeuvrability
         {
             get
@@ -83,10 +155,14 @@ namespace StarshipGenerator
                     total += ShipBridge.Manoeuvrability;
                 if (AugurArrays != null)
                     total += AugurArrays.Manoeuvrability;
-                //Supplemental compoennts
+                foreach (Supplemental component in SupplementalComponents)
+                    total += component.Manoeuvrability;
                 return total;
             }
         }
+        /// <summary>
+        /// Total Detection Rating modifier of the Starship
+        /// </summary>
         public int DetectionRating
         {
             get
@@ -96,10 +172,14 @@ namespace StarshipGenerator
                 int total = Hull.DetectionRating;
                 if (AugurArrays != null)
                     total += AugurArrays.DetectionRating;
-                //check if the ship has that one component that alters detection(check detection of all components)
+                foreach (Supplemental component in SupplementalComponents)
+                    total += component.DetectionRating;
                 return total;
             }
         }
+        /// <summary>
+        /// Void Shield Strength of the Starship
+        /// </summary>
         public int Shields
         {
             get
@@ -110,37 +190,52 @@ namespace StarshipGenerator
                     return VoidShield.Strength;
             }
         }
+        /// <summary>
+        /// Total Armour of the Starship
+        /// </summary>
         public int Armour
         {
             get
             {
-                if(Hull == null)
+                if (Hull == null)
                     return 0;
                 int total = Hull.Armour;
-                //Extra armour from supplemental components
+                foreach (Supplemental component in SupplementalComponents)
+                    total += component.Armour;
                 return total;
             }
         }
+        /// <summary>
+        /// Frontal Armour of the Starship
+        /// </summary>
         public int ProwArmour
         {
             get
             {
                 int total = this.Armour;
-                //if has prow armour + 4, else if has reinforced +2; components.ProwArmour
+                foreach (Supplemental component in SupplementalComponents)
+                    total += component.ProwArmour;
                 return total;
             }
         }
+        /// <summary>
+        /// Turret Rating of the Starship
+        /// </summary>
         public int TurretRating
         {
             get
             {
-                if(Hull == null)
+                if (Hull == null)
                     return 0;
                 int total = Hull.TurretRating;
-                //supplemental turrets
+                foreach (Supplemental component in SupplementalComponents)
+                    total += component.TurretRating;
                 return total;
             }
         }
+        /// <summary>
+        /// Maximum available space of the Starship
+        /// </summary>
         public int MaxSpace
         {
             get
@@ -152,6 +247,9 @@ namespace StarshipGenerator
                 return total;
             }
         }
+        /// <summary>
+        /// Maximum available power of the Starship
+        /// </summary>
         public int MaxPower
         {
             get
@@ -159,10 +257,16 @@ namespace StarshipGenerator
                 if (PlasmaDrive == null)
                     return 0;
                 int total = PlasmaDrive.Power;
-                //add modifiers from histories or similar, include auxilary generators (components with generatepower true) 
+                total += Hull.Power;//if power != 0, hull grants or uses excess power
+                foreach (Supplemental component in SupplementalComponents)
+                    if (component.PowerGenerated)
+                        total += component.Power;
                 return total;
             }
         }
+        /// <summary>
+        /// Total space used on the Starship
+        /// </summary>
         public int UsedSpace
         {
             get
@@ -182,10 +286,14 @@ namespace StarshipGenerator
                     total += CrewQuarters.Space;
                 foreach (Weapon gun in Weapons)
                     total += gun.Space;
-                //component as well
+                foreach (Supplemental component in SupplementalComponents)
+                    total += component.Space;
                 return total;
             }
         }
+        /// <summary>
+        /// Total power used on the Starship
+        /// </summary>
         public int UsedPower
         {
             get
@@ -207,20 +315,32 @@ namespace StarshipGenerator
                     total += AugurArrays.Power;
                 foreach (Weapon gun in Weapons)
                     total += gun.Power;
-                //component as well
+                foreach (Supplemental component in SupplementalComponents)
+                    if (!component.PowerGenerated)
+                        total += component.Power;
                 return total;
             }
         }
+        /// <summary>
+        /// Maximum crew population of the Starship
+        /// </summary>
         public int CrewPopulation
         {
             get
             {
                 int total = 100;
-                //modify here
+                foreach (Supplemental component in SupplementalComponents)
+                    total += component.CrewPopulation;
                 return total;
             }
         }
+        /// <summary>
+        /// Current crew population of the Starship
+        /// </summary>
         public int CurrentCrew { get; set; }//When live ship is ready to go
+        /// <summary>
+        /// Maximum morale rating of the Starship
+        /// </summary>
         public int Morale
         {
             get
@@ -230,11 +350,19 @@ namespace StarshipGenerator
                     total += LifeSustainer.Morale;
                 if (CrewQuarters != null)
                     total += CrewQuarters.Morale;
-                //supplemental Components and histories
+                foreach (Supplemental component in SupplementalComponents)
+                    total += component.Morale;
+                //histories still
                 return total;
             }
         }
+        /// <summary>
+        /// Current morale rating of the Starship
+        /// </summary>
         public int CurrentMorale { get; set; }//When live ship is ready to go
+        /// <summary>
+        /// Maximum hull integrity of the Starship
+        /// </summary>
         public int HullIntegrity
         {
             get
@@ -242,22 +370,35 @@ namespace StarshipGenerator
                 if (Hull == null)
                     return 0;
                 int total = Hull.HullIntegrity;
-                //modifiers here
+                foreach (Supplemental component in SupplementalComponents)
+                    total += component.HullIntegrity;
+                //history
                 return total;
             }
         }
+        /// <summary>
+        /// Current hull integrity of the Starship
+        /// </summary>
         public int CurrentIntegrity { get; set; }//When live ship is ready to go
 
+        /// <summary>
+        /// Crew's skill level on this Starship
+        /// </summary>
         public int CrewValue
         {
             get
             {
                 int total = (int)CrewRating;
-                //crew rating bonuses
+                //upgrades
+                foreach (Supplemental component in SupplementalComponents)
+                    total += component.CrewRating;
                 return total;
             }
         }
 
+        /// <summary>
+        /// Ballistic skill modifier while shooting this Starship's weapons
+        /// </summary>
         public int BSModifier
         {
             get
@@ -269,6 +410,32 @@ namespace StarshipGenerator
                     total += AugurArrays.BS;
                 //get modifier from components and Augur Arrays
                 return 0;
+            }
+        }
+
+        /// <summary>
+        /// Ramming damage from this Starship
+        /// </summary>
+        public DiceRoll Ramming
+        {
+            get
+            {
+                DiceRoll ram = new DiceRoll(0, 0, 0);
+                if (Hull == null)
+                    return ram;
+                if ((Hull.HullTypes & (HullType.BattleShip | HullType.GrandCruiser | HullType.BattleCruiser
+                    | HullType.Cruiser)) > 0)
+                    ram = new DiceRoll(2, 0, 0);
+                if ((Hull.HullTypes & HullType.LightCruiser) > 0)
+                    ram = new DiceRoll(0, 2, 0);
+                if ((Hull.HullTypes & HullType.Frigate) > 0)
+                    ram = new DiceRoll(1, 0, 0);
+                if ((Hull.HullTypes & (HullType.Raider | HullType.Transport)) > 0)
+                    ram = new DiceRoll(0, 1, 0);
+                foreach (Supplemental component in SupplementalComponents)
+                    ram += component.RamDamage;
+                ram += ProwArmour;
+                return ram;
             }
         }
 

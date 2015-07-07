@@ -82,7 +82,7 @@ namespace StarshipGenerator
         /// <summary>
         /// Show dice roll in the format XdY+Z
         /// </summary>
-        /// <returns>dice r9oll as a roll string</returns>
+        /// <returns>dice roll as a roll string</returns>
         public override string ToString()
         {
             StringBuilder output = new StringBuilder();

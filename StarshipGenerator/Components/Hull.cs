@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StarshipGenerator
+namespace StarshipGenerator.Components
 {
     public class Hull : Component
     {
@@ -41,13 +41,10 @@ namespace StarshipGenerator
         /// </summary>
         public int DorsalSlots { get; private set; }
         /// <summary>
-        /// Number of port(left) weapon slots
+        /// Number of weapon slots in each side
         /// </summary>
-        public int PortSlots { get; private set; }
-        /// <summary>
-        /// Number of starboard(right) weapon slots
-        /// </summary>
-        public int StarboardSlots { get; private set; }
+        /// <remarks>per side not combined</remarks>
+        public int SideSlots { get; private set; }
         /// <summary>
         /// Number of Keel(can shoot everywhere) weapon slots
         /// </summary>
@@ -56,6 +53,28 @@ namespace StarshipGenerator
         /// Number of Aft (rear) weapon slots
         /// </summary>
         public int AftSlots { get; private set; }
+        /// <summary>
+        /// Total number of weapon slots
+        /// </summary>
+        public int WeaponSlots
+        {
+            get
+            {
+                return ProwSlots + DorsalSlots + (SideSlots * 2) + KeelSlots + AftSlots;
+            }
+        }
+        /// <summary>
+        /// Default prow-mounted weapon
+        /// </summary>
+        public Weapon DefaultProw { get; private set; }
+        /// <summary>
+        /// Default weapon in each side slot
+        /// </summary>
+        public Weapon DefaultBroadside { get; private set; }
+        /// <summary>
+        /// Array of default components
+        /// </summary>
+        public Supplemental[] DefaultComponents { get; private set; }
         //image or at least image path if gonna show
 
         /// <summary>
@@ -79,22 +98,24 @@ namespace StarshipGenerator
         /// <param name="starboard">number of starboard weapon slots</param>
         /// <param name="keel">number of keel weapon slots</param>
         /// <param name="aft">number of aft weapon slots</param>
-        public Hull(int speed, int man, int det, int hullint, int armour, int space, int sp, HullType type, 
-            String special, RuleBook origin, byte page, int turrets = 1, int prow = 0, int dorsal = 0, 
-            int port = 0, int starboard = 0, int keel = 0, int aft = 0) 
-            : base(sp,0,space,special,origin,page,type)
+        public Hull(int speed, int man, int det, int hullint, int armour, int space, int sp, HullType type,
+            String special, RuleBook origin, byte page, int turrets = 1, int prow = 0, int dorsal = 0,
+            int side = 0, int keel = 0, int aft = 0, Weapon frontal = null, Weapon broadside = null, Supplemental[] comps = null)
+            : base(sp, 0, space, special, origin, page, type)
         {
-            this.Speed = speed; 
-            this.Manoeuvrability = man; 
-            this.DetectionRating = det; 
-            this.Armour = armour; 
+            this.Speed = speed;
+            this.Manoeuvrability = man;
+            this.DetectionRating = det;
+            this.Armour = armour;
             this.TurretRating = turrets;
             this.ProwSlots = prow;
             this.DorsalSlots = dorsal;
-            this.PortSlots = port;
-            this.StarboardSlots = starboard;
+            this.SideSlots = side;
             this.KeelSlots = keel;
             this.AftSlots = aft;
+            this.DefaultProw = frontal;
+            this.DefaultBroadside = broadside;
+            this.DefaultComponents = comps;
         }
     }
 }

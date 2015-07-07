@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StarshipGenerator
 {
-    public enum WeaponType : byte { Macrobattery, Lance, TorpedoTubes, LandingBays, NovaCannon }
+    public enum WeaponType : byte { Macrobattery, Lance, TorpedoTube, LandingBay, NovaCannon }
 
     [Flags]
     public enum WeaponSlot : byte

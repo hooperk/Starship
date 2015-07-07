@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StarshipGenerator
+namespace StarshipGenerator.Components
 {
     /// <summary>
     /// Components for a ship

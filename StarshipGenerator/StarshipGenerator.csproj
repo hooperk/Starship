@@ -41,16 +41,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ammo\Squadron.cs" />
     <Compile Include="Components\Augur.cs" />
     <Compile Include="Components\Bridge.cs" />
     <Compile Include="Components\Component.cs" />
     <Compile Include="Components\CrewQuarters.cs" />
     <Compile Include="Components\CrewSustainer.cs" />
+    <Compile Include="Components\LandingBay.cs" />
     <Compile Include="Components\LifeSustainer.cs" />
     <Compile Include="Components\TorpedoTubes.cs" />
     <Compile Include="CTest.cs" />
-    <Compile Include="DiceRoll.cs" />
-    <Compile Include="Enums.cs" />
+    <Compile Include="Utils\DiceRoll.cs" />
+    <Compile Include="Utils\Enums.cs" />
     <Compile Include="Components\GellarField.cs" />
     <Compile Include="Components\Hull.cs" />
     <Compile Include="Components\PlasmaDrive.cs" />
@@ -60,7 +62,7 @@
     <Compile Include="Components\VoidShield.cs" />
     <Compile Include="Components\WarpDrive.cs" />
     <Compile Include="Components\Weapon.cs" />
-    <Compile Include="Torpedo.cs" />
+    <Compile Include="Ammo\Torpedo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

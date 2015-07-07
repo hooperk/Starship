@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using StarshipGenerator.Ammo;
+using StarshipGenerator.Utils;
 
 namespace StarshipGenerator.Components
 {
@@ -76,7 +77,7 @@ namespace StarshipGenerator.Components
         {
             this.Capacity = capacity;
             Ammo = new List<Torpedo>(Capacity);
-            Tubes = new Torpedo[str];
+            Tubes = new Torpedo[Strength];
         }
     }
 }

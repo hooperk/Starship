@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using StarshipGenerator.Ammo;
+using StarshipGenerator.Utils;
 
 namespace StarshipGenerator.Components
 {
@@ -66,7 +67,7 @@ namespace StarshipGenerator.Components
             DiceRoll damage, RuleBook origin, byte page, Quality quality = Quality.Common, WeaponQuality wq = WeaponQuality.None, string special = null)
             : base(WeaponType.LandingBay, hulls, slots, power, space, sp, str, default(DiceRoll), 0, 0, origin, page, quality, wq, special) 
         {
-            Squadrons = new List<Squadron>(str * 3);
+            Squadrons = new List<Squadron>(Strength * 3);
         }
     }
 }

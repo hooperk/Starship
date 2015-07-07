@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace StarshipGenerator
+namespace StarshipGenerator.Utils
 {
     public struct DiceRoll
     {

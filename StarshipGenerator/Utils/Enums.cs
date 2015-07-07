@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StarshipGenerator
+namespace StarshipGenerator.Utils
 {
     public enum WeaponType : byte { Macrobattery, Lance, TorpedoTube, LandingBay, NovaCannon }
 

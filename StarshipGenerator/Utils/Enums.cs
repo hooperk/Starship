@@ -19,7 +19,7 @@ namespace StarshipGenerator.Utils
         Dorsal = 0x10,
         Keel = 0x20,
         Lance = 0x40,
-        //Potential for one more special case
+        Auxiliary = 0x80,//Hold Landing bay or custom others
         All = 0xFF
     }
 

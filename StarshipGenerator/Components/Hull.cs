@@ -76,6 +76,10 @@ namespace StarshipGenerator.Components
         /// Array of default components
         /// </summary>
         public Supplemental[] DefaultComponents { get; private set; }
+        /// <summary>
+        /// Modifier to Command skill which this bridge grants
+        /// </summary>
+        public int Command { get; private set; }
         //image or at least image path if gonna show
 
         /// <summary>
@@ -95,13 +99,17 @@ namespace StarshipGenerator.Components
         /// <param name="turrets">turret rating of the hull</param>
         /// <param name="prow">number of prow weapon slots</param>
         /// <param name="dorsal">number of dorsal weapon slots</param>
-        /// <param name="port">number of port weapon slots</param>
-        /// <param name="starboard">number of starboard weapon slots</param>
+        /// <param name="side">number of port weapon slots</param>
         /// <param name="keel">number of keel weapon slots</param>
         /// <param name="aft">number of aft weapon slots</param>
+        /// <param name="frontal">Default prow weapon</param>
+        /// <param name="broadside">Default broadside weapons</param>
+        /// <param name="comps">Default supplemental components</param>
+        /// <param name="commmand">Command modifier of this hull</param>
         public Hull(int speed, int man, int det, int hullint, int armour, int space, int sp, HullType type,
             String special, RuleBook origin, byte page, int turrets = 1, int prow = 0, int dorsal = 0,
-            int side = 0, int keel = 0, int aft = 0, Weapon frontal = null, Weapon broadside = null, Supplemental[] comps = null)
+            int side = 0, int keel = 0, int aft = 0, Weapon frontal = null, Weapon broadside = null, 
+            Supplemental[] comps = null, int commmand = 0)
             : base(sp, 0, space, special, origin, page, type)
         {
             this.Speed = speed;
@@ -117,6 +125,7 @@ namespace StarshipGenerator.Components
             this.DefaultProw = frontal;
             this.DefaultBroadside = broadside;
             this.DefaultComponents = comps;
+            this.Command = Command;
         }
     }
 }

@@ -85,6 +85,14 @@ namespace StarshipGenerator.Components
         /// </summary>
         public int DetectionRating { get; protected set; }
         /// <summary>
+        /// Auxiliary weapons such as hold landing bay granted by component
+        /// </summary>
+        public Weapon AuxiliaryWeapon { get; private set; }
+        /// <summary>
+        /// Modifier to Macrobattery Damage 
+        /// </summary>
+        public int MacrobatteryModifier { get; private set; }
+        /// <summary>
         /// Power Used or supplied by component
         /// </summary>
         /// <remarks>Override for PowerGenerated = true</remarks>
@@ -139,12 +147,14 @@ namespace StarshipGenerator.Components
         /// <param name="exploration">modifier to exploration objectives</param>
         /// <param name="generated">If the power listed is generated instead of used</param>
         /// <param name="detection">modifier to detection rating fromt he component</param>
+        /// <param name="aux">Auxiliary weapons like hold landing bay granted by this component</param>
+        /// <param name="macrodamage">damage modifier to macrobatteries such as from the munitorium</param>
         public Supplemental(HullType types, int power, int space, int sp, RuleBook origin, byte page,
             String special = null, Quality quality = Quality.Common, int speed = 0, int man = 0,
             int hullint = 0, int armour = 0, int turrets = 0, int morale = 0, int crew = 0,
             DiceRoll ramming = default(DiceRoll), int prowArmour = 0, int crewRating = 0,
             int mining = 0, int creed = 0, int military = 0, int trade = 0, int criminal = 0,
-            int exploration = 0, bool generated = false, int detection = 0)
+            int exploration = 0, bool generated = false, int detection = 0, Weapon aux = null, int macrodamage = 0)
             : base(sp, power, space, special, origin, page, types, quality)
         {
             this.Speed = speed;
@@ -165,6 +175,8 @@ namespace StarshipGenerator.Components
             this.ExplorationObjective = exploration;
             this.PowerGenerated = generated;
             this.DetectionRating = detection;
+            this.AuxiliaryWeapon = aux;
+            this.MacrobatteryModifier = macrodamage;
         }
 
         /// <summary>

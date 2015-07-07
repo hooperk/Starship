@@ -20,6 +20,10 @@ namespace StarshipGenerator.Components
         /// Ballistic Skill modifier this bridge grants
         /// </summary>
         public int BS { get; private set; }
+        /// <summary>
+        /// Modifier to Command skill which this bridge grants
+        /// </summary>
+        public int Command { get; private set; }
         
         /// <summary>
         /// Create a new bridge
@@ -33,12 +37,15 @@ namespace StarshipGenerator.Components
         /// <param name="sp">cost of this bridge</param>
         /// <param name="quality">quality of this bridge</param>
         /// <param name="man">manoeuvrability modifier of this bridge</param>
+        /// <param name="bs">ballistic skill modifier of this bridge</param>
+        /// <param name="command">command modifier of this bridge</param>
         public Bridge(HullType types, int power, int space, RuleBook origin, byte page, string special = null,
-            int sp = 0, Quality quality = Quality.Common, int man = 0, int bs = 0)
+            int sp = 0, Quality quality = Quality.Common, int man = 0, int bs = 0, int command = 0)
             : base(sp, power, space, special, origin, page, types, quality) 
         {
             this.Manoeuvrability = man;
             this.BS = bs;
+            this.Command = command;
         }
     }
 }

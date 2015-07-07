@@ -8,8 +8,14 @@ using StarshipGenerator.Utils;
 
 namespace StarshipGenerator
 {
+    /// <summary>
+    /// Starship and all its internal components
+    /// </summary>
     public class Starship
     {
+        /// <summary>
+        /// Hull of the Starship
+        /// </summary>
         public Hull Hull
         {
             get { return _hull; }
@@ -69,6 +75,35 @@ namespace StarshipGenerator
         /// Supplemental Components mounted in the Starship
         /// </summary>
         public List<Supplemental> SupplementalComponents { get; set; }
+        /// <summary>
+        /// Listing of all the weapons on this ship and their slots
+        /// </summary>
+        public List<Tuple<WeaponSlot, Weapon>> WeaponList
+        {
+            get
+            {
+                if (Hull == null)
+                    return null;
+                int i = 0;
+                List<Tuple<WeaponSlot, Weapon>> list = new List<Tuple<WeaponSlot, Weapon>>();
+                while (i < Hull.ProwSlots)
+                    list.Add(new Tuple<WeaponSlot, Weapon>(WeaponSlot.Prow, Weapons[i++]));//Add the weapon and move the pointer
+                while (i < Hull.ProwSlots + Hull.DorsalSlots)
+                    list.Add(new Tuple<WeaponSlot, Weapon>(WeaponSlot.Dorsal, Weapons[i++]));//Add the weapon and move the pointer
+                while (i < Hull.ProwSlots + Hull.DorsalSlots + Hull.SideSlots)
+                    list.Add(new Tuple<WeaponSlot, Weapon>(WeaponSlot.Port, Weapons[i++]));//Add the weapon and move the pointer
+                while (i < Hull.ProwSlots + Hull.DorsalSlots + (Hull.SideSlots*2))
+                    list.Add(new Tuple<WeaponSlot, Weapon>(WeaponSlot.Starboard, Weapons[i++]));//Add the weapon and move the pointer
+                while (i < Hull.ProwSlots + Hull.DorsalSlots + (Hull.SideSlots * 2) + Hull.KeelSlots)
+                    list.Add(new Tuple<WeaponSlot, Weapon>(WeaponSlot.Keel, Weapons[i++]));//Add the weapon and move the pointer
+                while (i < Hull.ProwSlots + Hull.DorsalSlots + (Hull.SideSlots * 2) + Hull.KeelSlots + Hull.AftSlots)
+                    list.Add(new Tuple<WeaponSlot, Weapon>(WeaponSlot.Aft, Weapons[i++]));//Add the weapon and move the pointer
+                foreach (Supplemental component in SupplementalComponents)
+                    if (component.AuxiliaryWeapon != null)
+                        list.Add(new Tuple<WeaponSlot, Weapon>(WeaponSlot.Auxiliary, component.AuxiliaryWeapon));
+                return list;
+            }
+        }
 
         /// <summary>
         /// Machine Spirit Complication of the Starship
@@ -187,7 +222,7 @@ namespace StarshipGenerator
             {
                 if (VoidShield == null)
                     return 0;
-                else
+                else//upgrade can increase
                     return VoidShield.Strength;
             }
         }
@@ -440,6 +475,97 @@ namespace StarshipGenerator
             }
         }
 
-        //get objective bonuses
+        /// <summary>
+        /// Modifiers to Mining Objectives
+        /// </summary>
+        public int MiningObjective
+        {
+            get
+            {
+                int total = 0;
+                foreach (Supplemental component in SupplementalComponents)
+                    total += component.MiningObjective;
+                return total;
+            }
+        }
+        /// <summary>
+        /// Modifiers to Creed Objectives
+        /// </summary>
+        public int CreedObjective
+        {
+            get
+            {
+                int total = 0;
+                foreach (Supplemental component in SupplementalComponents)
+                    total += component.CreedObjective;
+                return total;
+            }
+        }
+        /// <summary>
+        /// Modifiers to Military Objectives
+        /// </summary>
+        public int MilitaryObjective
+        {
+            get
+            {
+                int total = 0;
+                foreach (Supplemental component in SupplementalComponents)
+                    total += component.MilitaryObjective;
+                return total;
+            }
+        }
+        /// <summary>
+        /// Modifiers to Trade Objectives
+        /// </summary>
+        public int TradeObjective
+        {
+            get
+            {
+                int total = 0;
+                foreach (Supplemental component in SupplementalComponents)
+                    total += component.TradeObjective;
+                return total;
+            }
+        }
+        /// <summary>
+        /// Modifiers to Criminal Objectives
+        /// </summary>
+        public int CriminalObjective
+        {
+            get
+            {
+                int total = 0;
+                foreach (Supplemental component in SupplementalComponents)
+                    total += component.CriminalObjective;
+                return total;
+            }
+        }
+        /// <summary>
+        /// Modifiers to Exploration Objectives
+        /// </summary>
+        public int ExplorationObjective
+        {
+            get
+            {
+                int total = 0;
+                foreach (Supplemental component in SupplementalComponents)
+                    total += component.ExplorationObjective;
+                return total;
+            }
+        }
+        /// <summary>
+        /// Modifiers to weapon damage for macrobatteries
+        /// </summary>
+        public int MacrobatteryModifier
+        {
+            get
+            {
+                int total = 0;
+                foreach (Supplemental component in SupplementalComponents)
+                    total += component.MacrobatteryModifier;
+                return total;
+            }
+        }
+
     }
 }

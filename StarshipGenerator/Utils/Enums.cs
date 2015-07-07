@@ -6,8 +6,14 @@ using System.Threading.Tasks;
 
 namespace StarshipGenerator.Utils
 {
+    /// <summary>
+    /// Class of Weapon
+    /// </summary>
     public enum WeaponType : byte { Macrobattery, Lance, TorpedoTube, LandingBay, NovaCannon }
 
+    /// <summary>
+    /// Denotes slots for weapons
+    /// </summary>
     [Flags]
     public enum WeaponSlot : byte
     {
@@ -23,6 +29,9 @@ namespace StarshipGenerator.Utils
         All = 0xFF
     }
 
+    /// <summary>
+    /// Denotes hull classes
+    /// </summary>
     [Flags]
     public enum HullType : byte { 
         None = 0x00,
@@ -37,11 +46,21 @@ namespace StarshipGenerator.Utils
         All = 0xFF
     }
 
-    //Slim and efficient are for deciding what bonus good quality grants
+    
+    /// <summary>
+    /// Component qualities
+    /// </summary>
+    /// <remarks>Slim and efficient are for deciding what bonus good quality grants</remarks>
     public enum Quality : byte { Poor, Common, Good, Slim, Efficient, Best }
 
+    /// <summary>
+    /// Races enumeration
+    /// </summary>
     public enum Race : byte { Human, Servitor, Ork, Eldar, Kroot, Chaos, Rakgol }//more to come?
 
+    /// <summary>
+    /// Enumeration denoting location of original component details
+    /// </summary>
     public enum RuleBook : byte { 
         Custom = 0, 
         CoreRulebook, 
@@ -51,6 +70,9 @@ namespace StarshipGenerator.Utils
         LureoftheExpanse
     }
 
+    /// <summary>
+    /// Machine Spirit Complications
+    /// </summary>
     public enum MachineSpirit : byte
     {
         ANoseForTrouble,
@@ -65,6 +87,9 @@ namespace StarshipGenerator.Utils
         AncientAndWise
     }
 
+    /// <summary>
+    /// Ship History Complications
+    /// </summary>
     public enum ShipHistory : byte
     {
         ReliquaryOfMars,
@@ -79,6 +104,9 @@ namespace StarshipGenerator.Utils
         Xenophilous
     }
 
+    /// <summary>
+    /// Crew Rating listing
+    /// </summary>
     public enum CrewRating : int
     {
         Incompetent = 20,
@@ -88,6 +116,20 @@ namespace StarshipGenerator.Utils
         Elite = 60
     }
 
+    /// <summary>
+    /// Listing of Servitor Crew qualities
+    /// </summary>
+    public enum ServitorQuality : int
+    {
+        Poor = 20,
+        Common = 30,
+        Good = 35,
+        Best = 40
+    }
+
+    /// <summary>
+    /// Background upgrades
+    /// </summary>
     [Flags]
     public enum Background : byte
     {
@@ -105,6 +147,9 @@ namespace StarshipGenerator.Utils
         SteadfastAllyofTheFleet = 0x80
     }
 
+    /// <summary>
+    /// Enumeration to show which stats are being affected by a weapon's quality
+    /// </summary>
     [Flags]
     public enum WeaponQuality : byte
     {
@@ -115,5 +160,66 @@ namespace StarshipGenerator.Utils
         Crit = 0x08,
         Damage = 0x10,
         Strength = 0x20
+    }
+
+    public static class EnumerationExtensions
+    {
+        public static string Print(this MachineSpirit self)
+        {
+            switch (self)
+            {
+                case MachineSpirit.ANoseForTrouble:
+                    return "A Nose For Trouble";
+                case MachineSpirit.BlasphemousTendencies:
+                    return "Blasphemous Tendencies";
+                case MachineSpirit.MartialHubris:
+                    return "Martial Hubris";
+                case MachineSpirit.Rebellious:
+                    return "Rebellious";
+                case MachineSpirit.Stoic:
+                    return "Stoic";
+                case MachineSpirit.Skittish:
+                    return "Skittish";
+                case MachineSpirit.Wrothful:
+                    return "Wrothful";
+                case MachineSpirit.Resolute:
+                    return "Resolute";
+                case MachineSpirit.Adventurous:
+                    return "Adventurous";
+                case MachineSpirit.AncientAndWise:
+                    return "Ancient and Wise";
+                default:
+                    return "";
+            }
+        }
+
+        public static string Print(this ShipHistory self)
+        {
+            switch(self)
+            {
+                case ShipHistory.ReliquaryOfMars:
+                    return "Reliquary of Mars";
+                case ShipHistory.Haunted:
+                    return "Haunted";
+                case ShipHistory.EmissaryOfTheImperator:
+                    return "Emissary of the Imperator";
+                case ShipHistory.WolfInSheepsClothing:
+                    return "Wolf in Sheeps Clothing";
+                case ShipHistory.TurbulentPast:
+                    return "Turbulent Past";
+                case ShipHistory.DeathCult:
+                    return "Death Cult";
+                case ShipHistory.WrestedFromASpaceHulk:
+                    return "Wrested from a Space Hulk";
+                case ShipHistory.TemperamentalWarpEngine:
+                    return "Temperamental Warp Engine";
+                case ShipHistory.FinancesInArrears:
+                    return "Finances in Arrears";
+                case ShipHistory.Xenophilous:
+                    return "Xenophilous";
+                default:
+                    return "";
+            }
+        }
     }
 }

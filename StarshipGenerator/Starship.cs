@@ -115,9 +115,9 @@ namespace StarshipGenerator
         public ShipHistory ShipHistory { get; set; }
 
         /// <summary>
-        /// Quality of this Starship's crew
+        /// Quality of this Starship's crew, base one set from CrewRating enumeration
         /// </summary>
-        public CrewRating CrewRating { get; set; }
+        public int CrewRating { get; set; }
         /// <summary>
         /// Race of the crwe on this Starship
         /// </summary>
@@ -424,7 +424,7 @@ namespace StarshipGenerator
         {
             get
             {
-                int total = (int)CrewRating;
+                int total = CrewRating;
                 //upgrades
                 foreach (Supplemental component in SupplementalComponents)
                     total += component.CrewRating;
@@ -563,6 +563,40 @@ namespace StarshipGenerator
                 int total = 0;
                 foreach (Supplemental component in SupplementalComponents)
                     total += component.MacrobatteryModifier;
+                return total;
+            }
+        }
+        /// <summary>
+        /// Morale Loss modifier from components
+        /// </summary>
+        public int MoraleLoss
+        {
+            get
+            {
+                int total = 0;
+                if (CrewQuarters != null)
+                    total += CrewQuarters.MoraleLoss;
+                if (LifeSustainer != null)
+                    total += LifeSustainer.MoraleLoss;
+                foreach (Supplemental component in SupplementalComponents)
+                    total += component.MoraleLoss;
+                //complications
+                return total;
+            }
+        }
+        /// <summary>
+        /// Crew Loss modifier from components
+        /// </summary>
+        public int CrewLoss
+        {
+            get
+            {
+                int total = 0;
+                if (LifeSustainer != null)
+                    total += LifeSustainer.CrewLoss;
+                foreach (Supplemental component in SupplementalComponents)
+                    total += component.CrewLoss;
+                //complications
                 return total;
             }
         }

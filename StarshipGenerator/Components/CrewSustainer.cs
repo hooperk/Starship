@@ -16,6 +16,10 @@ namespace StarshipGenerator.Components
         /// Morale modifier of this component
         /// </summary>
         public int Morale { get; protected set; }
+        /// <summary>
+        /// Modifier to morale losses granted by this component
+        /// </summary>
+        public int MoraleLoss { get; protected set; }
 
         /// <summary>
         /// Create a new Crew Quarters or Life Sustainer
@@ -29,11 +33,13 @@ namespace StarshipGenerator.Components
         /// <param name="special">special rules for this component</param>
         /// <param name="quality">quality of this component</param>
         /// <param name="sp">cost of this component</param>
+        /// <param name="loss">modifier to morale loss granted by this component</param>
         public CrewSustainer(HullType types, int power, int space, int morale, RuleBook origin, byte page,
-            string special = null, Quality quality = Quality.Common, int sp = 0)
+            string special = null, Quality quality = Quality.Common, int sp = 0, int loss = 0)
             : base(sp, power, space, special, origin, page, types, quality)
         {
             this.Morale = morale;
+            this.MoraleLoss = loss;
         }
     }
 }

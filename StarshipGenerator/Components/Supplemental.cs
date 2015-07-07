@@ -93,6 +93,14 @@ namespace StarshipGenerator.Components
         /// </summary>
         public int MacrobatteryModifier { get; private set; }
         /// <summary>
+        /// Morale loss modifier granted by the component
+        /// </summary>
+        public int MoraleLoss { get; private set; }
+        /// <summary>
+        /// Crew loss modifier granted by the component
+        /// </summary>
+        public int CrewLoss { get; private set; }
+        /// <summary>
         /// Power Used or supplied by component
         /// </summary>
         /// <remarks>Override for PowerGenerated = true</remarks>

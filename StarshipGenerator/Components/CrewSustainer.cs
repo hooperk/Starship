@@ -24,6 +24,7 @@ namespace StarshipGenerator.Components
         /// <summary>
         /// Create a new Crew Quarters or Life Sustainer
         /// </summary>
+        /// <param name="name">name of teh life sustainer of crew quarters</param>
         /// <param name="types">classes of ship which can use this component</param>
         /// <param name="power">power used by this component</param>
         /// <param name="space">space used by this component</param>
@@ -34,12 +35,34 @@ namespace StarshipGenerator.Components
         /// <param name="quality">quality of this component</param>
         /// <param name="sp">cost of this component</param>
         /// <param name="loss">modifier to morale loss granted by this component</param>
-        public CrewSustainer(HullType types, int power, int space, int morale, RuleBook origin, byte page,
+        public CrewSustainer(string name, HullType types, int power, int space, int morale, RuleBook origin, byte page,
             string special = null, Quality quality = Quality.Common, int sp = 0, int loss = 0)
-            : base(sp, power, space, special, origin, page, types, quality)
+            : base(name, sp, power, space, special, origin, page, types, quality)
         {
             this.Morale = morale;
             this.MoraleLoss = loss;
+        }
+
+        /// <summary>
+        /// Description of the Crew Quarters or Life Sustainer to display while picking
+        /// </summary>
+        public override string Description
+        {
+            get
+            {
+                StringBuilder output = new StringBuilder();
+                if (Morale > 0)
+                    output.Append("+" + Morale + " to maximum morale; ");
+                else if (Morale < 0)
+                    output.Append(Morale + " to maximum morale; ");
+                if (MoraleLoss > 0)
+                    output.Append("+" + MoraleLoss + " to morale losses; ");
+                else if (MoraleLoss < 0)
+                    output.Append(MoraleLoss + " to morale losses; ");
+                if (!String.IsNullOrWhiteSpace(Special))
+                    output.Append(Special + ";");
+                return output.ToString();
+            }
         }
     }
 }

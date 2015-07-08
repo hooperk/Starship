@@ -12,6 +12,7 @@ namespace StarshipGenerator.Components
         /// <summary>
         /// Create a new Crew Quarters
         /// </summary>
+        /// <param name="name">name of the crew quarters</param>
         /// <param name="types">classes of ship which can use this component</param>
         /// <param name="power">power used by this component</param>
         /// <param name="space">space used by this component</param>
@@ -22,8 +23,8 @@ namespace StarshipGenerator.Components
         /// <param name="quality">quality of this component</param>
         /// <param name="sp">cost of this component</param>
         /// <param name="loss">modifier to morale loss granted by this component</param>
-        public CrewQuarters(HullType types, int power, int space, int morale, RuleBook origin, byte page,
+        public CrewQuarters(string name, HullType types, int power, int space, int morale, RuleBook origin, byte page,
             string special = null, Quality quality = Quality.Common, int sp = 0, int loss = 0)
-            : base(types, power, space, morale, origin, page, special, quality, sp, loss) { }
+            : base(name, types, power, space, morale, origin, page, special, quality, sp, loss) { }
     }
 }

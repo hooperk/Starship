@@ -17,6 +17,7 @@ namespace StarshipGenerator.Components
         /// <summary>
         /// Create a new Life Sustainer
         /// </summary>
+        /// <param name="name">name of the life sustainer</param>
         /// <param name="types">classes of ship which can use this component</param>
         /// <param name="power">power used by this component</param>
         /// <param name="space">space used by this component</param>
@@ -28,11 +29,28 @@ namespace StarshipGenerator.Components
         /// <param name="sp">cost of this component</param>
         /// <param name="moraleLoss">modifier to morale loss granted by this component</param>
         /// <param name="crewLoss">modifier to crew loss granted by this component</param>
-        public LifeSustainer(HullType types, int power, int space, int morale, RuleBook origin, byte page,
+        public LifeSustainer(string name, HullType types, int power, int space, int morale, RuleBook origin, byte page,
             string special = null, Quality quality = Quality.Common, int sp = 0, int moraleLoss = 0, int crewLoss = 0)
-            : base(types, power, space, morale, origin, page, special, quality, sp, moraleLoss) 
+            : base(name, types, power, space, morale, origin, page, special, quality, sp, moraleLoss) 
         {
             this.CrewLoss = crewLoss;
+        }
+
+        /// <summary>
+        /// Description of the Life Sustainer to display while picking
+        /// </summary>
+        public override string Description
+        {
+            get
+            {
+                StringBuilder output = new StringBuilder();
+                if(CrewLoss > 0)
+                    output.Append("+" + CrewLoss + " to crew losses; ");
+                else if(CrewLoss > 0)
+                    output.Append("+" + CrewLoss + " to crew losses; ");
+                output.Append(base.Description);
+                return output.ToString();
+            }
         }
     }
 }

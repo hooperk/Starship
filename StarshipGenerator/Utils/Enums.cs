@@ -162,9 +162,19 @@ namespace StarshipGenerator.Utils
         Strength = 0x20
     }
 
+    /// <summary>
+    /// Enumeration stating if component is standard, Archeotech or Xenotech
+    /// </summary>
+    public enum ComponentOrigin : byte { Standard, Archeotech, Xenotech}
+
     public static class EnumerationExtensions
     {
-        public static string Print(this MachineSpirit self)
+        /// <summary>
+        /// Get the name for printing of this complication
+        /// </summary>
+        /// <param name="self">Complication</param>
+        /// <returns>Enum name as printable name</returns>
+        public static string Name(this MachineSpirit self)
         {
             switch (self)
             {
@@ -189,11 +199,84 @@ namespace StarshipGenerator.Utils
                 case MachineSpirit.AncientAndWise:
                     return "Ancient and Wise";
                 default:
-                    return "";
+                    return null;
             }
         }
 
-        public static string Print(this ShipHistory self)
+        /// <summary>
+        /// String description of complication
+        /// </summary>
+        /// <param name="self">Complication</param>
+        /// <returns>Enum description to print</returns>
+        public static string Description(this MachineSpirit self)
+        {
+            switch (self)
+            {
+                case MachineSpirit.ANoseForTrouble:
+                    return "+5 to Detection, -1 to Armour, Ship looks for battles crew might wish to avoid";
+                case MachineSpirit.BlasphemousTendencies:
+                    return "+15 Navigate through the warp, -5 to willpower tests";
+                case MachineSpirit.MartialHubris:
+                    return "+5 to ballistic skill tests with ship, -15 to pilot tests to escape combat";
+                case MachineSpirit.Rebellious:
+                    return "Components can randomly become unpowered no more than once per combat. On receiving critical, ignore on an 8+";
+                case MachineSpirit.Stoic:
+                    return "-1 profit factor from endeavours, when component is unpowered or damaged ignore on 7+";
+                case MachineSpirit.Skittish:
+                    return "-1 speed in combat, reduce long distance travels by 1d5 weeks min 1";
+                case MachineSpirit.Wrothful:
+                    return "+1 speed and 7 manoeuvrability in combat, -1 speed and -5 manoeuvrability and detection otherwise";
+                case MachineSpirit.Resolute:
+                    return "-1 Speed, +3 Hull Integrity, +10 to Repair tests";
+                case MachineSpirit.Adventurous:
+                    return "+10 detection while in an endeavour, -10 when not";
+                case MachineSpirit.AncientAndWise:
+                    return "-4 Hull Integrity, +10 to manouvre actions";
+                default:
+                    return null;
+            }
+        }
+
+        /// <summary>
+        /// Just special rules to display as text
+        /// </summary>
+        /// <param name="self">Complication</param>
+        /// <returns>Special rules to print</returns>
+        public static string Special(this MachineSpirit self)
+        {
+            switch (self)
+            {
+                case MachineSpirit.ANoseForTrouble:
+                    return "Ship looks for battles crew might wish to avoid";
+                case MachineSpirit.BlasphemousTendencies:
+                    return "-5 to willpower tests";
+                case MachineSpirit.MartialHubris:
+                    return "-15 to pilot tests to escape combat";
+                case MachineSpirit.Rebellious:
+                    return "Components can randomly become unpowered no more than once per combat. On receiving critical, ignore on an 8+";
+                case MachineSpirit.Stoic:
+                    return "-1 profit factor from endeavours, when component is unpowered or damaged ignore on 7+";
+                case MachineSpirit.Skittish:
+                    return "-1 speed in combat, reduce long distance travels by 1d5 weeks min 1";
+                case MachineSpirit.Wrothful:
+                    return "+1 speed and 7 manoeuvrability in combat, -1 speed and -5 manoeuvrability and detection otherwise";
+                case MachineSpirit.Resolute:
+                    return null;
+                case MachineSpirit.Adventurous:
+                    return "+10 detection while in an endeavour, -10 when not";
+                case MachineSpirit.AncientAndWise:
+                    return null;
+                default:
+                    return null;
+            }
+        }
+
+        /// <summary>
+        /// Get the name for printing of this complication
+        /// </summary>
+        /// <param name="self">Complication</param>
+        /// <returns>Enum name as printable name</returns>
+        public static string Name(this ShipHistory self)
         {
             switch(self)
             {
@@ -218,7 +301,75 @@ namespace StarshipGenerator.Utils
                 case ShipHistory.Xenophilous:
                     return "Xenophilous";
                 default:
-                    return "";
+                    return null;
+            }
+        }
+
+        /// <summary>
+        /// String description of complication
+        /// </summary>
+        /// <param name="self">Complication</param>
+        /// <returns>Enum description to print</returns>
+        public static string Description(this ShipHistory self)
+        {
+            switch (self)
+            {
+                case ShipHistory.ReliquaryOfMars:
+                    return "Must have an archeotech component, -20 tech-use tests to repair ship. Tech priests of Mars see vessel as holy and may wish to visit or possess it.";
+                case ShipHistory.Haunted:
+                    return "-10 Morale, +6 Detection, -5 to command tests against this vessel. Spirits may cause other issues.";
+                case ShipHistory.EmissaryOfTheImperator:
+                    return "+15 to intimidate tests and -5 to all other social tests, ship is not subtle";
+                case ShipHistory.WolfInSheepsClothing:
+                    return "-2 Power, Up to 3 components will be hidden from scans or appear as a smaller component of same type, may have hidden passageways or storage holds";
+                case ShipHistory.TurbulentPast:
+                    return "All crew memebers have -20 interacting with one group and +20 with an opposing group chosen at creation";
+                case ShipHistory.DeathCult:
+                    return "-8 Crew Population, Reduce morale loss by 2. Death cult on board";
+                case ShipHistory.WrestedFromASpaceHulk:
+                    return "+1 Armour, +1 speed, +3 Manoeuvrability. When the crew suffers a misfortune, GM rolls twice and chooses the worse result";
+                case ShipHistory.TemperamentalWarpEngine:
+                    return "When travelling through the warp roll d10. 1-6: increase time by 1d5 weeks, 7+ reduce time by 1d5 weeks. May also occasionally end up somewhere other than where it intended";
+                case ShipHistory.FinancesInArrears:
+                    return "Bound to a financer, all objectives require 50 extra achievement points. The financer may also act as a contact too";
+                case ShipHistory.Xenophilous:
+                    return "Ship must have 1 Xenotech component, -30 to repair, -10 if character has Forbidden Lore(Xenos)";
+                default:
+                    return null;
+            }
+        }
+
+        /// <summary>
+        /// Just special rules to display as text
+        /// </summary>
+        /// <param name="self">Complication</param>
+        /// <returns>Special rules to print</returns>
+        public static string Special(this ShipHistory self)
+        {
+            switch (self)
+            {
+                case ShipHistory.ReliquaryOfMars:
+                    return "Must have an archeotech component. Tech priests of Mars see vessel as holy and may wish to visit or possess it.";
+                case ShipHistory.Haunted:
+                    return "-5 to command tests against this vessel. Spirits may cause other issues.";
+                case ShipHistory.EmissaryOfTheImperator:
+                    return "+15 to intimidate tests and -5 to all other social tests, ship is not subtle";
+                case ShipHistory.WolfInSheepsClothing:
+                    return "Up to 3 components will be hidden from scans or appear as a smaller component of same type, may have hidden passageways or storage holds";
+                case ShipHistory.TurbulentPast:
+                    return "All crew memebers have -20 interacting with one group and +20 with an opposing group chosen at creation";
+                case ShipHistory.DeathCult:
+                    return "Death cult on board";
+                case ShipHistory.WrestedFromASpaceHulk:
+                    return "When the crew suffers a misfortune, GM rolls twice and chooses the worse result";
+                case ShipHistory.TemperamentalWarpEngine:
+                    return "When travelling through the warp roll d10. 1-6: increase time by 1d5 weeks, 7+ reduce time by 1d5 weeks. May also occasionally end up somewhere other than where it intended";
+                case ShipHistory.FinancesInArrears:
+                    return "Bound to a financer, all objectives require 50 extra achievement points. The financer may also act as a contact too";
+                case ShipHistory.Xenophilous:
+                    return "Ship must have 1 Xenotech component, -20 to repair if character does not have Forbidden Lore(Xenos)";
+                default:
+                    return null;
             }
         }
     }

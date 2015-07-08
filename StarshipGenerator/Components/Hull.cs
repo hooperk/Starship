@@ -80,11 +80,17 @@ namespace StarshipGenerator.Components
         /// Modifier to Command skill which this bridge grants
         /// </summary>
         public int Command { get; private set; }
+        /// <summary>
+        /// Maximum speed, for instance Universe Class's plodding speed 2.
+        /// 0 or less indicates no limit.
+        /// </summary>
+        public int MaxSpeed { get; private set; }
         //image or at least image path if gonna show
 
         /// <summary>
         /// Create a new hull
         /// </summary>
+        /// <param name="name">name of the hull</param>
         /// <param name="speed">base speed of the hull</param>
         /// <param name="man">base manoeuvrability of hull</param>
         /// <param name="det">base detection rating of hull</param>
@@ -95,7 +101,7 @@ namespace StarshipGenerator.Components
         /// <param name="type">which type(s) this hull can mount components for</param>
         /// <param name="special">special rules for this hull</param>
         /// <param name="origin">rulebook this hull can be found in</param>
-        /// <param name="page">page numvber to find the hull on</param>
+        /// <param name="page">page number to find the hull on</param>
         /// <param name="turrets">turret rating of the hull</param>
         /// <param name="prow">number of prow weapon slots</param>
         /// <param name="dorsal">number of dorsal weapon slots</param>
@@ -106,11 +112,12 @@ namespace StarshipGenerator.Components
         /// <param name="broadside">Default broadside weapons</param>
         /// <param name="comps">Default supplemental components</param>
         /// <param name="commmand">Command modifier of this hull</param>
-        public Hull(int speed, int man, int det, int hullint, int armour, int space, int sp, HullType type,
+        /// <param name="maxspeed">maximum speed of ship. <1 = unlimited</param>
+        public Hull(string name, int speed, int man, int det, int hullint, int armour, int space, int sp, HullType type,
             String special, RuleBook origin, byte page, int turrets = 1, int prow = 0, int dorsal = 0,
             int side = 0, int keel = 0, int aft = 0, Weapon frontal = null, Weapon broadside = null, 
-            Supplemental[] comps = null, int commmand = 0)
-            : base(sp, 0, space, special, origin, page, type)
+            Supplemental[] comps = null, int commmand = 0, int maxspeed = 0)
+            : base(name, sp, 0, space, special, origin, page, type)
         {
             this.Speed = speed;
             this.Manoeuvrability = man;
@@ -126,6 +133,40 @@ namespace StarshipGenerator.Components
             this.DefaultBroadside = broadside;
             this.DefaultComponents = comps;
             this.Command = Command;
+            this.MaxSpeed = maxspeed;
+        }
+
+        /// <summary>
+        /// Description of the Hull to display while picking
+        /// </summary>
+        public override string Description
+        {
+            get
+            {
+                StringBuilder output = new StringBuilder();
+                if (Command > 0)
+                    output.Append("+" + Command + " to command tests; ");
+                else if (Command > 0)
+                    output.Append("+" + Command + " to command tests; ");
+                if (DefaultProw != null)
+                {
+                    output.Append("Prow slot already equipped with " + DefaultProw.Name);
+                    if (DefaultProw.Type == WeaponType.TorpedoTube)
+                        output.Append(" with ammo capacity of " + ((TorpedoTubes)DefaultProw).Capacity);
+                    output.Append("; ");
+                }
+                if (DefaultBroadside != null)
+                    output.Append("1 Port and Starboard slot already equipped with " + DefaultBroadside.Name
+                        + "; ");
+                foreach (String component in DefaultComponents.Select(c => c.Name).Distinct())
+                {
+                    int count = DefaultComponents.Where(c => c.Name == component).Count();
+                    output.Append("Comes with " + count + " built in " + component + (count > 1 ? "s; " : "; "));
+                }
+                if (!String.IsNullOrWhiteSpace(Special))
+                    output.Append(Special + ";");
+                return output.ToString();
+            }
         }
     }
 }

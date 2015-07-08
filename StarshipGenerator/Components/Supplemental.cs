@@ -101,6 +101,14 @@ namespace StarshipGenerator.Components
         /// </summary>
         public int CrewLoss { get; private set; }
         /// <summary>
+        /// Ballistic Skill modifier granted by the component
+        /// </summary>
+        public int BSModifier { get; private set; }
+        /// <summary>
+        /// Modifier to navigate the warp
+        /// </summary>
+        public int NavigateWarp { get; private set; }
+        /// <summary>
         /// Power Used or supplied by component
         /// </summary>
         /// <remarks>Override for PowerGenerated = true</remarks>
@@ -129,6 +137,7 @@ namespace StarshipGenerator.Components
         /// <summary>
         /// Create a new supplemental Component
         /// </summary>
+        /// <param name="name">name of the component</param>
         /// <param name="types">Classes of ship that can use this component</param>
         /// <param name="power">power used or granted by this component</param>
         /// <param name="space">space used by this component</param>
@@ -157,13 +166,16 @@ namespace StarshipGenerator.Components
         /// <param name="detection">modifier to detection rating fromt he component</param>
         /// <param name="aux">Auxiliary weapons like hold landing bay granted by this component</param>
         /// <param name="macrodamage">damage modifier to macrobatteries such as from the munitorium</param>
-        public Supplemental(HullType types, int power, int space, int sp, RuleBook origin, byte page,
+        /// <param name="bs">ballistic skill modifier from this component</param>
+        /// <param name="navigate">modifer to navigate the warp</param>
+        public Supplemental(string name, HullType types, int power, int space, int sp, RuleBook origin, byte page,
             String special = null, Quality quality = Quality.Common, int speed = 0, int man = 0,
             int hullint = 0, int armour = 0, int turrets = 0, int morale = 0, int crew = 0,
             DiceRoll ramming = default(DiceRoll), int prowArmour = 0, int crewRating = 0,
             int mining = 0, int creed = 0, int military = 0, int trade = 0, int criminal = 0,
-            int exploration = 0, bool generated = false, int detection = 0, Weapon aux = null, int macrodamage = 0)
-            : base(sp, power, space, special, origin, page, types, quality)
+            int exploration = 0, bool generated = false, int detection = 0, Weapon aux = null, 
+            int macrodamage = 0, int bs = 0, int navigate = 0)
+            : base(name, sp, power, space, special, origin, page, types, quality)
         {
             this.Speed = speed;
             this.Manoeuvrability = man;
@@ -185,6 +197,8 @@ namespace StarshipGenerator.Components
             this.DetectionRating = detection;
             this.AuxiliaryWeapon = aux;
             this.MacrobatteryModifier = macrodamage;
+            this.BSModifier = bs;
+            this.NavigateWarp = navigate;
         }
 
         /// <summary>

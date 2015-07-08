@@ -59,7 +59,8 @@ namespace StarshipGenerator.Components
         /// <summary>
         /// Create a new Torpedo Tube
         /// </summary>
-        /// <param name="hulls">class fo ship that can mount this weapon</param>
+        /// <param name="name">name of the torpedo tube</param>
+        /// <param name="hulls">class of ship that can mount this weapon</param>
         /// <param name="slots">locatiosn where this weapon can be mounted</param>
         /// <param name="power">power used by this weapon</param>
         /// <param name="space">space used by this method</param>
@@ -71,9 +72,9 @@ namespace StarshipGenerator.Components
         /// <param name="quality">quality of this weapon</param>
         /// <param name="wq">enum declaring which qualities to be adjusted</param>
         /// <param name="special">special rules of this weapon</param>
-        public TorpedoTubes(HullType hulls, WeaponSlot slots, int power, int space, int sp, int str,
-            DiceRoll damage, int capacity, RuleBook origin, byte page, Quality quality = Quality.Common, WeaponQuality wq = WeaponQuality.None, string special = null)
-            : base(WeaponType.TorpedoTube, hulls, slots, power, space, sp, str, default(DiceRoll), 0, 0, origin, page, quality, wq, special) 
+        public TorpedoTubes(string name, HullType hulls, WeaponSlot slots, int power, int space, int sp, int str,
+            int capacity, RuleBook origin, byte page, Quality quality = Quality.Common, WeaponQuality wq = WeaponQuality.None, string special = null)
+            : base(name, WeaponType.TorpedoTube, hulls, slots, power, space, sp, str, default(DiceRoll), 0, 0, origin, page, quality, wq, special) 
         {
             this.Capacity = capacity;
             Ammo = new List<Torpedo>(Capacity);

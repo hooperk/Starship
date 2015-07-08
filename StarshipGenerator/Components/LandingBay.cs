@@ -51,6 +51,7 @@ namespace StarshipGenerator.Components
         /// <summary>
         /// Create a new Landing Bay
         /// </summary>
+        /// <param name="name">name of the landing bay</param>
         /// <param name="hulls">class fo ship that can mount this weapon</param>
         /// <param name="slots">locatiosn where this weapon can be mounted</param>
         /// <param name="power">power used by this weapon</param>
@@ -63,9 +64,9 @@ namespace StarshipGenerator.Components
         /// <param name="quality">quality of this weapon</param>
         /// <param name="wq">enum declaring which qualities to be adjusted</param>
         /// <param name="special">special rules of this weapon</param>
-        public LandingBay(HullType hulls, WeaponSlot slots, int power, int space, int sp, int str,
-            DiceRoll damage, RuleBook origin, byte page, Quality quality = Quality.Common, WeaponQuality wq = WeaponQuality.None, string special = null)
-            : base(WeaponType.LandingBay, hulls, slots, power, space, sp, str, default(DiceRoll), 0, 0, origin, page, quality, wq, special) 
+        public LandingBay(string name, HullType hulls, WeaponSlot slots, int power, int space, int sp, int str,
+            RuleBook origin, byte page, Quality quality = Quality.Common, WeaponQuality wq = WeaponQuality.None, string special = null)
+            : base(name, WeaponType.LandingBay, hulls, slots, power, space, sp, str, default(DiceRoll), 0, 0, origin, page, quality, wq, special) 
         {
             Squadrons = new List<Squadron>(Strength * 3);
         }

@@ -172,7 +172,13 @@ namespace StarshipGenerator
                     total += PlasmaDrive.Speed;
                 foreach (Supplemental component in SupplementalComponents)
                     total += component.Speed;
-                return total;
+                if (MachineSpirit == MachineSpirit.Resolute)
+                    total -= 1;
+                if (ShipHistory == ShipHistory.WrestedFromASpaceHulk)
+                    total += 1;
+                if(Hull.MaxSpeed < 1)
+                    return Math.Max(total, 1);//Math.max in case ship has lots of negatives to speed and is universe class or something equally stupid
+                return (Math.Min(Hull.MaxSpeed, Math.Max(total, 1)));//no faster than max speed, no slower than 1
             }
         }
         /// <summary>
@@ -193,6 +199,8 @@ namespace StarshipGenerator
                     total += AugurArrays.Manoeuvrability;
                 foreach (Supplemental component in SupplementalComponents)
                     total += component.Manoeuvrability;
+                if (ShipHistory == ShipHistory.WrestedFromASpaceHulk)
+                    total += 3;
                 return total;
             }
         }
@@ -210,6 +218,10 @@ namespace StarshipGenerator
                     total += AugurArrays.DetectionRating;
                 foreach (Supplemental component in SupplementalComponents)
                     total += component.DetectionRating;
+                if (MachineSpirit == MachineSpirit.ANoseForTrouble)
+                    total += 5;
+                if (ShipHistory == ShipHistory.Haunted)
+                    total += 6;
                 return total;
             }
         }
@@ -238,6 +250,10 @@ namespace StarshipGenerator
                 int total = Hull.Armour;
                 foreach (Supplemental component in SupplementalComponents)
                     total += component.Armour;
+                if (MachineSpirit == MachineSpirit.ANoseForTrouble)
+                    total -= 1;
+                if (ShipHistory == ShipHistory.WrestedFromASpaceHulk)
+                    total += 1;
                 return total;
             }
         }
@@ -297,6 +313,8 @@ namespace StarshipGenerator
                 foreach (Supplemental component in SupplementalComponents)
                     if (component.PowerGenerated)
                         total += component.Power;
+                if (ShipHistory == ShipHistory.WolfInSheepsClothing)
+                    total -= 2;
                 return total;
             }
         }
@@ -367,6 +385,8 @@ namespace StarshipGenerator
                 int total = 100;
                 foreach (Supplemental component in SupplementalComponents)
                     total += component.CrewPopulation;
+                if (ShipHistory == ShipHistory.DeathCult)
+                    total -= 8;
                 return total;
             }
         }
@@ -388,7 +408,8 @@ namespace StarshipGenerator
                     total += CrewQuarters.Morale;
                 foreach (Supplemental component in SupplementalComponents)
                     total += component.Morale;
-                //histories still
+                if (ShipHistory == ShipHistory.Haunted)
+                    total -= 10;
                 return total;
             }
         }
@@ -409,6 +430,8 @@ namespace StarshipGenerator
                 foreach (Supplemental component in SupplementalComponents)
                     total += component.HullIntegrity;
                 //history
+                if (MachineSpirit == MachineSpirit.Resolute)
+                    total += 3;
                 return total;
             }
         }
@@ -444,7 +467,11 @@ namespace StarshipGenerator
                     total += ShipBridge.BS;
                 if (AugurArrays != null)
                     total += AugurArrays.BS;
-                //get modifier from components and Augur Arrays
+                foreach (Supplemental component in SupplementalComponents)
+                    total += component.BSModifier;
+                //upgrades
+                if (MachineSpirit == MachineSpirit.MartialHubris)
+                    total += 5;
                 return 0;
             }
         }
@@ -580,7 +607,8 @@ namespace StarshipGenerator
                     total += LifeSustainer.MoraleLoss;
                 foreach (Supplemental component in SupplementalComponents)
                     total += component.MoraleLoss;
-                //complications
+                if (ShipHistory == ShipHistory.DeathCult)
+                    total -= 2;
                 return total;
             }
         }
@@ -601,5 +629,61 @@ namespace StarshipGenerator
             }
         }
 
+        /// <summary>
+        /// Modifier to repair tests
+        /// </summary>
+        public int RepairTest
+        {
+            get
+            {
+                int total = 0;
+                if (ShipBridge != null)
+                    total += ShipBridge.Repair;
+                //upgrades
+                if (MachineSpirit == MachineSpirit.Resolute)
+                    total += 10;
+                if (ShipHistory == ShipHistory.ReliquaryOfMars)
+                    total -= 20;
+                if (ShipHistory == ShipHistory.Xenophilous)
+                    total -= 10;//remainder in special
+                return total;
+            }
+        }
+
+        /// <summary>
+        /// Modifier to pilot tests
+        /// </summary>
+        public int PilotTest
+        {
+            get
+            {
+                int total = 0;
+                if (ShipBridge != null)
+                    total += ShipBridge.Pilot;
+                //upgrades
+                if (MachineSpirit == MachineSpirit.AncientAndWise)
+                    total += 10;
+                return total;
+            }
+        }
+
+        /// <summary>
+        /// Modifier to navigate warp tests
+        /// </summary>
+        public int NavigateTest
+        {
+            get
+            {
+                int total = 0;
+                if (GellarField != null)
+                    total += GellarField.NavigateWarp;
+                if (ShipBridge != null)
+                    total += ShipBridge.NavigateWarp;
+                foreach (Supplemental component in SupplementalComponents)
+                    total += component.NavigateWarp;
+                //upgrades
+                return total;
+            }
+        }
     }
 }

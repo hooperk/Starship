@@ -13,6 +13,10 @@ namespace StarshipGenerator.Components
     public abstract class Component
     {
         /// <summary>
+        /// Name of the component
+        /// </summary>
+        public string Name { get; private set; }
+        /// <summary>
         /// Bitarray dictating if a component can be used with a particular hull
         /// </summary>
         public HullType HullTypes { get; private set; }
@@ -120,6 +124,7 @@ namespace StarshipGenerator.Components
         /// <summary>
         /// Create a new Component object
         /// </summary>
+        /// <param name="name">name of component</param>
         /// <param name="sp">cost of the component</param>
         /// <param name="power">power used or provided by the component</param>
         /// <param name="space">space taken or provided by the component</param>
@@ -128,8 +133,9 @@ namespace StarshipGenerator.Components
         /// <param name="page">page of the rulebook that the component may be found on</param>
         /// <param name="types">hulls which may use this component</param>
         /// <param name="quality">Quality of this component</param>
-        public Component(int sp, int power, int space, string special, RuleBook origin, byte page, HullType types, Quality quality = Quality.Common)
+        public Component(string name, int sp, int power, int space, string special, RuleBook origin, byte page, HullType types, Quality quality = Quality.Common)
         {
+            this.Name = name;
             this.SP = sp;
             this.Power = power;
             this.Space = space;
@@ -164,6 +170,20 @@ namespace StarshipGenerator.Components
                 if ((HullTypes & HullType.Transport) != 0)
                     return 1;
                 return 0;
+            }
+        }
+
+        /// <summary>
+        /// Description of the component to display while picking
+        /// </summary>
+        public virtual string Description
+        {
+            get
+            {
+                StringBuilder output = new StringBuilder();
+                if (!String.IsNullOrWhiteSpace(Special)) ;
+                output.Append(Special + ";");
+                return output.ToString();
             }
         }
     }

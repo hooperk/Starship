@@ -99,18 +99,30 @@ namespace StarshipGenerator.Components
         {
             get
             {
+                int mod = 0;
                 if ((WeaponQuality & WeaponQuality.Range) > 0)
                 {
                     switch (Quality)
                     {
                         case Quality.Poor:
-                            return Math.Max(_range - 1, 1);
+                            mod -= 1;
+                            break;
                         case Quality.Good:
                         case Quality.Best:
-                            return _range + 1;
+                            mod += 1;
+                            break;
                     }
                 }
-                return _range;
+                switch(TurboWeapon){
+                    case Quality.Poor:
+                        mod -= 1;
+                        break;
+                    case Quality.Good:
+                    case Quality.Best:
+                        mod += 1;
+                        break;
+                }
+                return Math.Max(_range+mod, 1);//prevent potential <1 values
             }
             private set { _range = value; }
         }
@@ -147,37 +159,31 @@ namespace StarshipGenerator.Components
                 base.Space = value;
             }
         }
-
         /// <summary>
-        /// Create a new weapon
+        /// Quality of the Turbo-Weapon Upgrade
         /// </summary>
-        /// <param name="name">name of the weapon</param>
-        /// <param name="type">class of weapon</param>
-        /// <param name="hulls">class fo ship that can mount this weapon</param>
-        /// <param name="slots">locatiosn where this weapon can be mounted</param>
-        /// <param name="power">power used by this weapon</param>
-        /// <param name="space">space used by this method</param>
-        /// <param name="sp">cost of this weapon</param>
-        /// <param name="str">strength of the weapon</param>
-        /// <param name="damage">damage of the weapon</param>
-        /// <param name="crit">crit rating of the weapon</param>
-        /// <param name="range">range of the weapon</param>
-        /// <param name="origin">rulebook containing this weapon</param>
-        /// <param name="page">page this weapon can be found on</param>
-        /// <param name="quality">quality of this weapon</param>
-        /// <param name="wq">enum declaring which qualities to be adjusted</param>
-        /// <param name="special">special rules of this weapon</param>
-        public Weapon(string name, WeaponType type, HullType hulls, WeaponSlot slots, int power, int space, int sp, int str,
-            DiceRoll damage, int crit, int range, RuleBook origin, byte page, Quality quality = Quality.Common, WeaponQuality wq = WeaponQuality.None, string special = null)
-            : base(name, sp, power, space, special, origin, page, hulls, quality)
+        public Quality TurboWeapon { get; set; }
+        /// <summary>
+        /// Any special rules of the weapon
+        /// </summary>
+        public override string Special
         {
-            this.Type = type;
-            this.Slots = slots;
-            this.Strength = str;
-            this.Damage = damage;
-            this.Crit = crit;
-            this.Range = range;
-            this.WeaponQuality = wq;
+            get
+            {
+                StringBuilder output = new StringBuilder();
+                if (TurboWeapon != Quality.None)
+                {
+                    output.Append("Ignore penalties for firing this weapon at double range; ");
+                    if (TurboWeapon == Quality.Best)
+                        output.Append("+5 Ballistic Skill Tests with this weapon; ");
+                }
+                output.Append(base.Special);
+                return output.ToString();
+            }
+            set
+            {
+                base.Special = value;
+            }
         }
 
         /// <summary>
@@ -199,8 +205,46 @@ namespace StarshipGenerator.Components
         /// <param name="quality">quality of this weapon</param>
         /// <param name="wq">enum declaring which qualities to be adjusted</param>
         /// <param name="special">special rules of this weapon</param>
+        /// <param name="turbo">Quality of turboweapon battery upgrade if applicable</param>
         public Weapon(string name, WeaponType type, HullType hulls, WeaponSlot slots, int power, int space, int sp, int str,
-            string damage, int crit, int range, RuleBook origin, byte page, Quality quality = Quality.Common, WeaponQuality wq = WeaponQuality.None, string special = null)
-            : this(name, type, hulls, slots, power, space, sp, str, new DiceRoll(damage), crit, range, origin, page, quality, wq, special) { }
+            DiceRoll damage, int crit, int range, RuleBook origin, byte page, Quality quality = Quality.Common, 
+            WeaponQuality wq = WeaponQuality.None, string special = null, Quality turbo = Quality.None)
+            : base(name, sp, power, space, special, origin, page, hulls, quality)
+        {
+            this.Type = type;
+            this.Slots = slots;
+            this.Strength = str;
+            this.Damage = damage;
+            this.Crit = crit;
+            this.Range = range;
+            this.WeaponQuality = wq;
+            this.TurboWeapon = turbo;
+        }
+
+        /// <summary>
+        /// Create a new weapon
+        /// </summary>
+        /// <param name="name">name of the weapon</param>
+        /// <param name="type">class of weapon</param>
+        /// <param name="hulls">class fo ship that can mount this weapon</param>
+        /// <param name="slots">locatiosn where this weapon can be mounted</param>
+        /// <param name="power">power used by this weapon</param>
+        /// <param name="space">space used by this method</param>
+        /// <param name="sp">cost of this weapon</param>
+        /// <param name="str">strength of the weapon</param>
+        /// <param name="damage">damage of the weapon</param>
+        /// <param name="crit">crit rating of the weapon</param>
+        /// <param name="range">range of the weapon</param>
+        /// <param name="origin">rulebook containing this weapon</param>
+        /// <param name="page">page this weapon can be found on</param>
+        /// <param name="quality">quality of this weapon</param>
+        /// <param name="wq">enum declaring which qualities to be adjusted</param>
+        /// <param name="special">special rules of this weapon</param>
+        /// <param name="turbo">Quality of turboweapon battery upgrade if applicable</param>
+        public Weapon(string name, WeaponType type, HullType hulls, WeaponSlot slots, int power, int space, 
+            int sp, int str, string damage, int crit, int range, RuleBook origin, byte page, Quality quality = Quality.Common,
+            WeaponQuality wq = WeaponQuality.None, string special = null, Quality turbo = Quality.None)
+            : this(name, type, hulls, slots, power, space, sp, str, new DiceRoll(damage), crit, range, 
+            origin, page, quality, wq, special, turbo) { }
     }
 }

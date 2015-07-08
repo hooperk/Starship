@@ -176,6 +176,8 @@ namespace StarshipGenerator
                     total -= 1;
                 if (ShipHistory == ShipHistory.WrestedFromASpaceHulk)
                     total += 1;
+                if (CrewRace == Race.EvilSunz)
+                    total += 1;
                 if(Hull.MaxSpeed < 1)
                     return Math.Max(total, 1);//Math.max in case ship has lots of negatives to speed and is universe class or something equally stupid
                 return (Math.Min(Hull.MaxSpeed, Math.Max(total, 1)));//no faster than max speed, no slower than 1
@@ -401,6 +403,8 @@ namespace StarshipGenerator
         {
             get
             {
+                if (CrewRace == Race.Servitor)
+                    return 100;
                 int total = 100;
                 if (LifeSustainer != null)
                     total += LifeSustainer.Morale;
@@ -416,7 +420,17 @@ namespace StarshipGenerator
         /// <summary>
         /// Current morale rating of the Starship
         /// </summary>
-        public int CurrentMorale { get; set; }//When live ship is ready to go
+        public int CurrentMorale
+        {
+            get
+            {
+                if (CrewRace == Race.Servitor)
+                    return 100;
+                else return _currentMorale;
+            }
+            set { _currentMorale = value; }
+        }//When live ship is ready to go
+        private int _currentMorale;
         /// <summary>
         /// Maximum hull integrity of the Starship
         /// </summary>
@@ -609,6 +623,8 @@ namespace StarshipGenerator
                     total += component.MoraleLoss;
                 if (ShipHistory == ShipHistory.DeathCult)
                     total -= 2;
+                if (CrewRace == Race.Eldar)
+                    total -= 1;
                 return total;
             }
         }
@@ -619,13 +635,19 @@ namespace StarshipGenerator
         {
             get
             {
-                int total = 0;
+                double total = 0;
                 if (LifeSustainer != null)
                     total += LifeSustainer.CrewLoss;
                 foreach (Supplemental component in SupplementalComponents)
                     total += component.CrewLoss;
                 //complications
-                return total;
+                if (CrewRace == Race.Ork)
+                    total -= 1;
+                if (CrewRace == Race.Eldar)
+                    total += 1;
+                if (CrewRace == Race.Servitor)
+                    total = total / 2;
+                return (int)Math.Ceiling(total);
             }
         }
 

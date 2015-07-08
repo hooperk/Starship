@@ -33,40 +33,45 @@ namespace StarshipGenerator.Utils
     /// Denotes hull classes
     /// </summary>
     [Flags]
-    public enum HullType : byte { 
+    public enum HullType : byte
+    {
         None = 0x00,
-        Transport = 0x01, 
-        Raider = 0x02, 
-        Frigate = 0x04, 
-        LightCruiser = 0x08, 
-        Cruiser = 0x10, 
-        BattleCruiser = 0x20, 
+        Transport = 0x01,
+        Raider = 0x02,
+        Frigate = 0x04,
+        LightCruiser = 0x08,
+        Cruiser = 0x10,
+        BattleCruiser = 0x20,
         GrandCruiser = 0x40,
         BattleShip = 0x80,//NOT IMPLEMENTED
         All = 0xFF
     }
 
-    
+
     /// <summary>
     /// Component qualities
     /// </summary>
-    /// <remarks>Slim and efficient are for deciding what bonus good quality grants</remarks>
-    public enum Quality : byte { Poor, Common, Good, Slim, Efficient, Best }
+    /// <remarks>
+    /// Slim and efficient are for deciding what bonus good quality grants.
+    /// None for Upgrades
+    /// </remarks>
+    public enum Quality : byte { None, Poor, Common, Good, Slim, Efficient, Best }
 
     /// <summary>
     /// Races enumeration
     /// </summary>
-    public enum Race : byte { Human, Servitor, Ork, Eldar, Kroot, Chaos, Rakgol }//more to come?
+    public enum Race : byte { Human, Servitor, Ork, Eldar, Stryxis, Kroot, Chaos, Rakgol, Goff, EvilSunz, BadMoons, Deathskulls, BloodAxes, SnakeBites }//more to come?
 
     /// <summary>
     /// Enumeration denoting location of original component details
     /// </summary>
-    public enum RuleBook : byte { 
-        Custom = 0, 
-        CoreRulebook, 
-        IntoTheStorm, 
-        HostileAcquisition, 
-        BattlefleetKoronus, 
+    public enum RuleBook : byte
+    {
+        Custom = 0,
+        CoreRulebook,
+        IntoTheStorm,
+        HostileAcquisition,
+        BattlefleetKoronus,
         LureoftheExpanse
     }
 
@@ -165,7 +170,7 @@ namespace StarshipGenerator.Utils
     /// <summary>
     /// Enumeration stating if component is standard, Archeotech or Xenotech
     /// </summary>
-    public enum ComponentOrigin : byte { Standard, Archeotech, Xenotech}
+    public enum ComponentOrigin : byte { Standard, Archeotech, Xenotech }
 
     public static class EnumerationExtensions
     {
@@ -278,7 +283,7 @@ namespace StarshipGenerator.Utils
         /// <returns>Enum name as printable name</returns>
         public static string Name(this ShipHistory self)
         {
-            switch(self)
+            switch (self)
             {
                 case ShipHistory.ReliquaryOfMars:
                     return "Reliquary of Mars";
@@ -368,6 +373,123 @@ namespace StarshipGenerator.Utils
                     return "Bound to a financer, all objectives require 50 extra achievement points. The financer may also act as a contact too";
                 case ShipHistory.Xenophilous:
                     return "Ship must have 1 Xenotech component, -20 to repair if character does not have Forbidden Lore(Xenos)";
+                default:
+                    return null;
+            }
+        }
+
+        /// <summary>
+        /// Name of the Race
+        /// </summary>
+        /// <param name="self">Race</param>
+        /// <returns>Human readable name of the race</returns>
+        public static string Name(this Race self)
+        {
+            switch (self)
+            {
+                case Race.Human:
+                    return "Human";
+                case Race.Servitor:
+                    return "Servitor";
+                case Race.Ork:
+                    return "Ork";
+                case Race.Eldar:
+                    return "Eldar";
+                case Race.Stryxis:
+                    return "Stryxis";
+                case Race.Rakgol:
+                    return "Rak'Gol";
+                case Race.Kroot:
+                    return "Kroot";
+                case Race.Chaos:
+                    return "Chaos";
+                case Race.Goff:
+                    return "Goff Orks";
+                case Race.EvilSunz:
+                    return "Evil Sunz Orks";
+                case Race.BadMoons:
+                    return "Bad Moons Orks";
+                case Race.Deathskulls:
+                    return "Death Skulls Orks";
+                case Race.BloodAxes:
+                    return "Blood Axes Orks";
+                case Race.SnakeBites:
+                    return "Snake Bites Orks";
+                default:
+                    return null;
+            }
+        }
+        
+        /// <summary>
+        /// Description of advantages of each race
+        /// </summary>
+        /// <param name="self">Race</param>
+        /// <returns>Details of each race</returns>
+        public static string Description(this Race self)
+        {
+            switch (self)
+            {
+                case Race.Human:
+                    return "Standard Imperial Citizens";
+                case Race.Servitor:
+                    return "-10 Ballistic and Command tests, Always morale 100 and half crew losses rounding up, Tech Use instead of Medicae for Triage";
+                case Race.Ork:
+                    return "+10 hit and run and boarding tests. +10 to pilot tests to increase speed. Ship moves +1d5 VU when it does not turn. Reduce crew losses by 1. -10 to silent running";
+                case Race.Eldar:
+                    return "May reroll any pilot tests for manoeuvre actions. +10 to boarding actiosn and inflicts 1d5+2 morale and crew damage instead of 1d5. Increase crew losses by 1, loses 1 less morale to minimum of 1.";
+                case Race.Stryxis:
+                    return "A Strange race who appear addicted to haggling";
+                case Race.Rakgol:
+                    return "Strange radiation mutated creatures";
+                case Race.Kroot:
+                    return "Avian mercenaries";
+                case Race.Chaos:
+                    return "Worshippers of the dark gods";
+                case Race.Goff:
+                    return Race.Ork.Description() + ". Further +10 pilot tests to ram and boarding test";
+                case Race.EvilSunz:
+                    return Race.Ork.Description() + ". +1 speed";
+                case Race.BadMoons:
+                    return Race.Ork.Description() + ". Roll twice and pick highest to determine strength of ork macrobatteries";
+                case Race.Deathskulls:
+                    return Race.Ork.Description() + ". May have 1 imperial component on their ork vessel";
+                case Race.BloodAxes:
+                    return "+10 hit and run and boarding tests. +10 to pilot tests to increase speed. Ship moves +1d5 VU when it does not turn. Reduce crew losses by 1., No usual penalties to silent running";
+                case Race.SnakeBites:
+                    return Race.Ork.Description() + ". Does additional 1d5 crew and morale damage in boarding actions, may only be taken as crews for a Rok";
+                default:
+                    return null;
+            }
+        }
+
+        /// <summary>
+        /// Special rules of a race
+        /// </summary>
+        /// <param name="self">Race</param>
+        /// <returns>Special rules of a race for inclusion in ship profile</returns>
+        public static string Special(this Race self)
+        {
+            switch (self)
+            {
+                case Race.Human:
+                    return null;
+                case Race.Servitor:
+                    return "Tech Use test instead of Medicae for Triage";
+                case Race.Ork:
+                case Race.EvilSunz:
+                    return "+10 hit and run and boarding tests. +10 to pilot tests to increase speed. Ship moves +1d5 VU when it does not turn. -10 to silent running";
+                case Race.Eldar:
+                    return "May reroll any pilot tests for manoeuvre actions. +10 to boarding actiosn and inflicts 1d5+2 morale and crew damage instead of 1d5";
+                case Race.Goff:
+                    return Race.Ork.Special() + ". Further +10 pilot tests to ram and boarding test";
+                case Race.BadMoons:
+                    return Race.Ork.Special() + ". Roll twice and pick highest to determine strength of ork macrobatteries";
+                case Race.Deathskulls:
+                    return Race.Ork.Special() + ". May have 1 imperial component on their ork vessel";
+                case Race.BloodAxes:
+                    return "+10 hit and run and boarding tests. +10 to pilot tests to increase speed. Ship moves +1d5 VU when it does not turn.";
+                case Race.SnakeBites:
+                    return Race.Ork.Description() + ". Does additional 1d5 crew and morale damage in boarding actions, may only be taken as crews for a Rok";
                 default:
                     return null;
             }

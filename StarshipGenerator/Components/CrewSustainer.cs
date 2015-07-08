@@ -59,8 +59,7 @@ namespace StarshipGenerator.Components
                     output.Append("+" + MoraleLoss + " to morale losses; ");
                 else if (MoraleLoss < 0)
                     output.Append(MoraleLoss + " to morale losses; ");
-                if (!String.IsNullOrWhiteSpace(Special))
-                    output.Append(Special + ";");
+                output.Append(base.Description);
                 return output.ToString();
             }
         }

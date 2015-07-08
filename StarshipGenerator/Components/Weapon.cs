@@ -183,6 +183,7 @@ namespace StarshipGenerator.Components
         /// <summary>
         /// Create a new weapon
         /// </summary>
+        /// <param name="name">name of the weapon</param>
         /// <param name="type">class of weapon</param>
         /// <param name="hulls">class fo ship that can mount this weapon</param>
         /// <param name="slots">locatiosn where this weapon can be mounted</param>
@@ -198,8 +199,8 @@ namespace StarshipGenerator.Components
         /// <param name="quality">quality of this weapon</param>
         /// <param name="wq">enum declaring which qualities to be adjusted</param>
         /// <param name="special">special rules of this weapon</param>
-        public Weapon(WeaponType type, HullType hulls, WeaponSlot slots, int power, int space, int sp, int str,
+        public Weapon(string name, WeaponType type, HullType hulls, WeaponSlot slots, int power, int space, int sp, int str,
             string damage, int crit, int range, RuleBook origin, byte page, Quality quality = Quality.Common, WeaponQuality wq = WeaponQuality.None, string special = null)
-            : this(type, hulls, slots, power, space, sp, str, new DiceRoll(damage), crit, range, origin, page, quality, wq, special) { }
+            : this(name, type, hulls, slots, power, space, sp, str, new DiceRoll(damage), crit, range, origin, page, quality, wq, special) { }
     }
 }

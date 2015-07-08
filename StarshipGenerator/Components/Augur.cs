@@ -32,7 +32,7 @@ namespace StarshipGenerator.Components
             get
             {
                 if (!base.Special.Contains("External"))
-                    return "External" + (String.IsNullOrEmpty(base.Special) ? "" : "; " + base.Special + ";");
+                    return "External" + (String.IsNullOrEmpty(base.Special) ? "" : "; " + base.Special);
                 return base.Special;
             }
         }

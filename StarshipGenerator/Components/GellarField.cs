@@ -47,8 +47,7 @@ namespace StarshipGenerator.Components
                     output.Append("+" + NavigateWarp + " to navigate through the warp; ");
                 else if (NavigateWarp < 0)
                     output.Append(NavigateWarp + " to navigate through the warp; ");
-                if (!String.IsNullOrWhiteSpace(Special))
-                    output.Append(Special + ";");
+                output.Append(base.Description);
                 return output.ToString();
             }
         }

@@ -282,7 +282,7 @@ namespace StarshipGenerator
                 int total = Hull.TurretRating;
                 foreach (Supplemental component in SupplementalComponents)
                     total += component.TurretRating;
-                return total;
+                return Math.Max(total, 0);
             }
         }
         /// <summary>
@@ -464,7 +464,7 @@ namespace StarshipGenerator
             {
                 int total = 0;
                 if (ShipBridge != null)
-                    total += ShipBridge.BS;
+                    total += ShipBridge.BSModifier;
                 if (AugurArrays != null)
                     total += AugurArrays.BS;
                 foreach (Supplemental component in SupplementalComponents)

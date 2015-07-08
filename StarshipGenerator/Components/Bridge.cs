@@ -19,7 +19,7 @@ namespace StarshipGenerator.Components
         /// <summary>
         /// Ballistic Skill modifier this bridge grants
         /// </summary>
-        public int BS { get; private set; }
+        public int BSModifier { get; private set; }
         /// <summary>
         /// Modifier to Command skill which this bridge grants
         /// </summary>
@@ -61,7 +61,7 @@ namespace StarshipGenerator.Components
             : base(name, sp, power, space, special, origin, page, types, quality)
         {
             this.Manoeuvrability = man;
-            this.BS = bs;
+            this.BSModifier = bs;
             this.Command = command;
             this.Repair = repair;
             this.Pilot = pilot;
@@ -80,10 +80,10 @@ namespace StarshipGenerator.Components
                     output.Append("+" + Manoeuvrability + " Manoeuvrability; ");
                 else if (Manoeuvrability < 0)
                     output.Append(Manoeuvrability + " Manoeuvrability; ");
-                if (BS > 0)
-                    output.Append("+" + BS + " Ballistic Skill; ");
-                else if (BS < 0)
-                    output.Append(BS + " Ballistic Skill; ");
+                if (BSModifier > 0)
+                    output.Append("+" + BSModifier + " Ballistic Skill; ");
+                else if (BSModifier < 0)
+                    output.Append(BSModifier + " Ballistic Skill; ");
                 if (Pilot > 0)
                     output.Append("+" + Pilot + " to pilot tests; ");
                 else if (Pilot < 0)
@@ -100,8 +100,7 @@ namespace StarshipGenerator.Components
                     output.Append("+" + Repair + " to repair tests; ");
                 else if (Repair < 0)
                     output.Append(Repair + " to repair tests; ");
-                if (!String.IsNullOrWhiteSpace(Special))
-                    output.Append(Special + ";");
+                output.Append(base.Description);
                 return output.ToString();
             }
         }

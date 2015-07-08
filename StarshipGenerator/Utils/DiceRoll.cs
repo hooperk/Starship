@@ -164,6 +164,37 @@ namespace StarshipGenerator.Utils
                 throw new FormatException("Cannot multiply by dice values, only modifiers and ints");
             return this.Mul(other.modifier);
         }
+
+        public bool Equals(DiceRoll other)
+        {
+            return (this.d10 == other.d10) && (this.d5 == other.d5) && (this.modifier == other.modifier);
+        }
+
+        public bool Equals(String other)
+        {
+            try
+            {
+                return this.Equals(new DiceRoll(other));
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is DiceRoll)
+                return this.Equals((DiceRoll)obj);
+            if(obj is String)
+                return this.Equals((String)obj);
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return d10.GetHashCode() + (13*d5.GetHashCode()) + (27*modifier.GetHashCode());
+        }
         #endregion
 
         #region operator overloads
@@ -195,6 +226,31 @@ namespace StarshipGenerator.Utils
         public static DiceRoll operator *(DiceRoll first, int second)
         {
             return first.Mul(second);
+        }
+
+        public static bool operator ==(DiceRoll first, DiceRoll second)
+        {
+            return first.Equals(second);
+        }
+
+        public static bool operator ==(DiceRoll first, String second)
+        {
+            return first.Equals(second);
+        }
+
+        public static bool operator !=(DiceRoll first, DiceRoll second)
+        {
+            return !(first == second); 
+        }
+
+        public static bool operator !=(DiceRoll first, string second)
+        {
+            return !(first == second);
+        }
+
+        public static explicit operator DiceRoll(string self)
+        {
+            return new DiceRoll(self);
         }
         #endregion
     }

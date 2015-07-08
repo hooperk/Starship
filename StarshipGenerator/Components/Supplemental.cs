@@ -204,6 +204,7 @@ namespace StarshipGenerator.Components
         /// <summary>
         /// Create a new supplemental Component
         /// </summary>
+        /// <param name="name">name of the supplemental component</param>
         /// <param name="types">Classes of ship that can use this component</param>
         /// <param name="power">power used or granted by this component</param>
         /// <param name="space">space used by this component</param>
@@ -230,13 +231,112 @@ namespace StarshipGenerator.Components
         /// <param name="exploration">modifier to exploration objectives</param>
         /// <param name="generated">If the power listed is generated instead of used</param>
         /// <param name="detection">modifier to detection rating fromt he component</param>
-        public Supplemental(HullType types, int power, int space, int sp, RuleBook origin, byte page,
+        public Supplemental(string name, HullType types, int power, int space, int sp, RuleBook origin, byte page,
             String ramming, String special = null, Quality quality = Quality.Common, int speed = 0,
             int man = 0, int hullint = 0, int armour = 0, int turrets = 0, int morale = 0,
             int crew = 0, int prowArmour = 0, int crewRating = 0, int mining = 0, int creed = 0, int military = 0,
             int trade = 0, int criminal = 0, int exploration = 0, bool generated = false, int detection = 0)
-            : this(types, power, space, sp, origin, page, special, quality, speed, man, hullint,
+            : this(name, types, power, space, sp, origin, page, special, quality, speed, man, hullint,
                 armour, turrets, morale, crew, new DiceRoll(ramming), prowArmour, crewRating,
                 mining, creed, military, trade, criminal, exploration, generated, detection) { }
+
+        /// <summary>
+        /// Description of the Augur Array to display while picking
+        /// </summary>
+        public override string Description
+        {
+            get
+            {
+                StringBuilder output = new StringBuilder();
+                if (Speed > 0)
+                    output.Append("+" + Speed + " Speed; ");
+                else if (Speed < 0)
+                    output.Append(Speed + " Speed; ");
+                if (Manoeuvrability > 0)
+                    output.Append("+" + Manoeuvrability + " Manoeuvrability; ");
+                else if (Manoeuvrability < 0)
+                    output.Append(Manoeuvrability + " Manoeuvrability; ");
+                if (HullIntegrity > 0)
+                    output.Append("+" + HullIntegrity + " Hull Integrity; ");
+                else if (HullIntegrity < 0)
+                    output.Append(HullIntegrity + " Hull Integrity; ");
+                if (Armour > 0)
+                    output.Append("+" + Armour + " Armour; ");
+                else if (Armour < 0)
+                    output.Append(Armour + " Armour; ");
+                if (ProwArmour > 0)
+                    output.Append("+" + ProwArmour + " Armour; ");
+                else if (ProwArmour < 0)
+                    output.Append(ProwArmour + " Armour; ");
+                if (TurretRating > 0)
+                    output.Append("+" + TurretRating + " Turret Rating; ");
+                else if (TurretRating < 0)
+                    output.Append(TurretRating + " Turret Rating; ");
+                if (Morale > 0)
+                    output.Append("+" + Morale + " to maximum morale; ");
+                else if (Morale < 0)
+                    output.Append(Morale + " to maximum morale; ");
+                if (CrewPopulation > 0)
+                    output.Append("+" + CrewPopulation + " to maximum crew population; ");
+                else if (CrewPopulation < 0)
+                    output.Append(CrewPopulation + " to maximum crew population; ");
+                if (RamDamage != default(DiceRoll))
+                    output.Append(RamDamage.ToString("m") + " to ramming damage; ");
+                if (CrewRating > 0)
+                    output.Append("+" + CrewRating + " to crew rating; ");
+                else if (CrewRating < 0)
+                    output.Append(CrewRating + " to crew rating; ");
+                if (MiningObjective > 0)
+                    output.Append("+" + MiningObjective + " to mining objectives; ");
+                else if (MiningObjective < 0)
+                    output.Append(MiningObjective + " to mining objectives; ");
+                if (CreedObjective > 0)
+                    output.Append("+" + CreedObjective + " to mining objectives; ");
+                else if (CreedObjective < 0)
+                    output.Append(CreedObjective + " to mining objectives; ");
+                if (MilitaryObjective > 0)
+                    output.Append("+" + MilitaryObjective + " to mining objectives; ");
+                else if (MilitaryObjective < 0)
+                    output.Append(MilitaryObjective + " to mining objectives; ");
+                if (TradeObjective > 0)
+                    output.Append("+" + TradeObjective + " to mining objectives; ");
+                else if (TradeObjective < 0)
+                    output.Append(TradeObjective + " to mining objectives; ");
+                if (CriminalObjective > 0)
+                    output.Append("+" + CriminalObjective + " to mining objectives; ");
+                else if (CriminalObjective < 0)
+                    output.Append(CriminalObjective + " to mining objectives; ");
+                if (ExplorationObjective > 0)
+                    output.Append("+" + ExplorationObjective + " to mining objectives; ");
+                else if (ExplorationObjective < 0)
+                    output.Append(ExplorationObjective + " to mining objectives; ");
+                if (DetectionRating > 0)
+                    output.Append("+" + DetectionRating + " Detection Rating; ");
+                else if (DetectionRating < 0)
+                    output.Append(DetectionRating + " Detection Rating; ");
+                if (MacrobatteryModifier > 0)
+                    output.Append("+" + MacrobatteryModifier + " to macrobattery damage; ");
+                else if (MacrobatteryModifier < 0)
+                    output.Append(MacrobatteryModifier + " to macrobattery damage; ");
+                if (MoraleLoss > 0)
+                    output.Append("+" + MoraleLoss + " to morale losses; ");
+                else if (MoraleLoss < 0)
+                    output.Append(MoraleLoss + " to morale losses; ");
+                if (CrewLoss > 0)
+                    output.Append("+" + CrewLoss + " to morale losses; ");
+                else if (CrewLoss < 0)
+                    output.Append(CrewLoss + " to morale losses; ");
+                if (BSModifier > 0)
+                    output.Append("+" + BSModifier + " Ballistic Skill; ");
+                else if (BSModifier < 0)
+                    output.Append(BSModifier + " Ballistic Skill; ");
+                if (NavigateWarp > 0)
+                    output.Append("+" + NavigateWarp + " to navigate through the warp; ");
+                else if (NavigateWarp < 0)
+                    output.Append(NavigateWarp + " to navigate through the warp; ");
+                output.Append(base.Description);
+                return output.ToString();
+            }
+        }
     }
 }

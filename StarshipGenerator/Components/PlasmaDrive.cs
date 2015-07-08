@@ -80,8 +80,7 @@ namespace StarshipGenerator.Components
                     output.Append("+" + Manoeuvrability + " Manoeuvrability; ");
                 else if (Manoeuvrability < 0)
                     output.Append(Manoeuvrability + " Manoeuvrability; ");
-                if (!String.IsNullOrWhiteSpace(Special))
-                    output.Append(Special + ";");
+                output.Append(base.Description);
                 return output.ToString();
             }
         }

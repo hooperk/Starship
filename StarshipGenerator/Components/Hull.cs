@@ -163,8 +163,7 @@ namespace StarshipGenerator.Components
                     int count = DefaultComponents.Where(c => c.Name == component).Count();
                     output.Append("Comes with " + count + " built in " + component + (count > 1 ? "s; " : "; "));
                 }
-                if (!String.IsNullOrWhiteSpace(Special))
-                    output.Append(Special + ";");
+                output.Append(base.Special);
                 return output.ToString();
             }
         }

@@ -80,5 +80,19 @@ namespace StarshipGenerator.Components
             Ammo = new List<Torpedo>(Capacity);
             Tubes = new Torpedo[Strength];
         }
+
+        /// <summary>
+        /// Description of the Augur Array to display while picking
+        /// </summary>
+        public override string Description
+        {
+            get
+            {
+                StringBuilder output = new StringBuilder();
+                output.Append("Ammo capacity of " + Capacity + "; ");
+                output.Append(base.Description);
+                return output.ToString();
+            }
+        }
     }
 }

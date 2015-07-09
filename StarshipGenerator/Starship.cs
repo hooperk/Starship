@@ -414,6 +414,25 @@ namespace StarshipGenerator
                     total += component.Morale;
                 if (ShipHistory == ShipHistory.Haunted)
                     total -= 10;
+                if (CherubimAerie == Quality.Poor)
+                    total -= 2;
+                else if (CherubimAerie != Quality.None)
+                    total -= 1;
+                switch (CrewImprovements)
+                {
+                    case Quality.Poor:
+                        total += 1;
+                        break;
+                    case Quality.Common:
+                        total += 2;
+                        break;
+                    case Quality.Good:
+                        total += 3;
+                        break;
+                    case Quality.Best:
+                        total += 5;
+                        break;
+                }
                 return total;
             }
         }
@@ -565,6 +584,8 @@ namespace StarshipGenerator
                 int total = 0;
                 foreach (Supplemental component in SupplementalComponents)
                     total += component.TradeObjective;
+                if (OstentatiousDisplayOfWealth != Quality.None)
+                    total += 25;
                 return total;
             }
         }
@@ -578,6 +599,8 @@ namespace StarshipGenerator
                 int total = 0;
                 foreach (Supplemental component in SupplementalComponents)
                     total += component.CriminalObjective;
+                if (OstentatiousDisplayOfWealth != Quality.None)
+                    total += 25;
                 return total;
             }
         }
@@ -707,5 +730,10 @@ namespace StarshipGenerator
                 return total;
             }
         }
+
+        //upgrades
+        public Quality CherubimAerie;
+        public Quality CrewImprovements;
+        public Quality OstentatiousDisplayOfWealth;
     }
 }

@@ -44,6 +44,7 @@ namespace StarshipGenerator.Utils
         BattleCruiser = 0x20,
         GrandCruiser = 0x40,
         BattleShip = 0x80,//NOT IMPLEMENTED
+        CruiserPlus = 0xF1,//Cruiser or bigger
         All = 0xFF
     }
 
@@ -571,6 +572,29 @@ namespace StarshipGenerator.Utils
                     if ((self & Background.PlanetBoundForMillenia) > 0)
                         return "Begins play with a modified drive at no cost, and may take one other archeotech component, +10 manoeuvrability within 5VU of a planet";
                     return null;
+            }
+        }
+
+        /// <summary>
+        /// Hull types a Background can be used for
+        /// </summary>
+        /// <param name="self">Background</param>
+        /// <returns>Classes of ship which can have this upgrade</returns>
+        public static HullType Hulltypes(this Background self)
+        {
+            switch (self)
+            {
+                case Background.ThulianExploratorVessel:
+                    return HullType.Frigate | HullType.LightCruiser | HullType.CruiserPlus;
+                case Background.ReaverOfTheUnbeholdenReaches:
+                    return HullType.Transport | HullType.Raider | HullType.Frigate;
+                case Background.VeteranOfTheAngevinCrusade:
+                case Background.ImplacableFoeOfTheFleet:
+                case Background.SteadfastAllyofTheFleet:
+                case Background.PlanetBoundForMillenia:
+                    return HullType.All;
+                default:
+                    return HullType.None;
             }
         }
     }

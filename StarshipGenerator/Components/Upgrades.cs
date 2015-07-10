@@ -9,6 +9,11 @@ namespace StarshipGenerator.Components
 {
     public static class Upgrades
     {
+        //Into The Storm: Atomics, Cherubim Aerie, Crew Improvements, Ostentatious Display of Wealth, Servitor Crew, 
+        //Starchart Collection, Storm Trooper Detachment, Turbo Weapon Batteries, Vaulted Ceilings
+        //Hostile Acquisitions: Arrestor Engines, Distributed Cargo Hold, Disciplinarium, Mimic Drive, Overload Shield Capacitors,
+        //Resolution Arena, Secondary Reactors, Superior Damage Controls, Targetting Matrix
+
         public static string CherubimAerieDescription(Quality cherubs)
         {
             switch (cherubs)

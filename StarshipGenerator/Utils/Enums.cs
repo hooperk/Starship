@@ -144,12 +144,13 @@ namespace StarshipGenerator.Utils
         PlanetBoundForMillenia3 = 0x03,
         PlanetBoundForMillenia4 = 0x04,
         PlanetBoundForMillenia5 = 0x05,
-        PlanetDoundForMillenia = 0x07,//first three bits used to show the result of the d5
+        PlanetBoundForMillenia = 0x07,//first three bits used to show the result of the d5
         ThulianExploratorVessel = 0x08,
         ReaverOfTheUnbeholdenReaches = 0x10,
         VeteranOfTheAngevinCrusade = 0x20,
         ImplacableFoeOfTheFleet = 0x40,
-        SteadfastAllyofTheFleet = 0x80
+        SteadfastAllyofTheFleet = 0x80,
+        VesselOfTheFleet = 0xC0//both of the fleet for adding command
     }
 
     /// <summary>
@@ -491,6 +492,84 @@ namespace StarshipGenerator.Utils
                 case Race.SnakeBites:
                     return Race.Ork.Description() + ". Does additional 1d5 crew and morale damage in boarding actions, may only be taken as crews for a Rok";
                 default:
+                    return null;
+            }
+        }
+
+        /// <summary>
+        /// Get the name for printing of this background
+        /// </summary>
+        /// <param name="self">Background</param>
+        /// <returns>Enum name as printable name</returns>
+        public static string Name(this Background self)
+        {
+            switch (self)
+            {
+                case Background.ThulianExploratorVessel:
+                    return "Thulian Explorator Vessel";
+                case Background.ReaverOfTheUnbeholdenReaches:
+                    return "Reaver of the Unbeholden Reaches";
+                case Background.VeteranOfTheAngevinCrusade:
+                    return "Veteran of the Angevin Crusade";
+                case Background.ImplacableFoeOfTheFleet:
+                    return "Implacable Foe of The Fleet";
+                case Background.SteadfastAllyofTheFleet:
+                    return "Steadfast Ally of the Fleet";
+                case Background.PlanetBoundForMillenia:
+                    return "Planetbound for Millenia";
+                default:
+                    return null;
+            }
+        }
+
+        /// <summary>
+        /// Description of effects of each background
+        /// </summary>
+        /// <param name="self">Background</param>
+        /// <returns>Details of each background</returns>
+        public static string Description(this Background self)
+        {
+            switch (self)
+            {
+                case Background.ThulianExploratorVessel:
+                    return "+10 Detection, must take 1 archeotech component, -1 speed and -5 manoeuvrabilty";
+                case Background.ReaverOfTheUnbeholdenReaches:
+                    return "Long-term repairs fix 1d10+5 Hull Integrity, +10 to Silent Running, -10 to all social tests with anyone that knows where the crew is from";
+                case Background.VeteranOfTheAngevinCrusade:
+                    return "+10 Ballistic Skill with ship weapons, -40 to Silent Running, +10 to charm and intimidate tests with anyone who understands the deeds of the ship";
+                case Background.ImplacableFoeOfTheFleet:
+                    return "+10 Command Test on board, Command test to ignore effects of crippled for first round after being crippled, crew members gain Enemy(Imperial Navy)";
+                case Background.SteadfastAllyofTheFleet:
+                    return "+10 Command Test on board, Command test to ignore effects of crippled for first round after being crippled, crew members gain Good Reputation(Imperial Navy)";
+                default:
+                    if((self & Background.PlanetBoundForMillenia) > 0)
+                        return "Begins play with a modified drive at no cost, and may take one other archeotech component, +10 manoeuvrability within 5VU of a planet, Hull integrity -1d5-1 for Frigate, Transport or Raider, -1d5 for larger";
+                    return null;
+            }
+        }
+
+        /// <summary>
+        /// The special rules added by the background
+        /// </summary>
+        /// <param name="self">Background</param>
+        /// <returns>Special rules of a background for inclusion on ship profile</returns>
+        public static string Special(this Background self)
+        {
+            switch (self)
+            {
+                case Background.ThulianExploratorVessel:
+                    return "Must take 1 archeotech component";
+                case Background.ReaverOfTheUnbeholdenReaches:
+                    return "Long-term repairs fix 1d10+5 Hull Integrity, +10 to Silent Running, -10 to all social tests with anyone that knows where the crew is from";
+                case Background.VeteranOfTheAngevinCrusade:
+                    return "-40 to Silent Running, +10 to charm and intimidate tests with anyone who understands the deeds of the ship";
+                case Background.ImplacableFoeOfTheFleet:
+                    return "Command test to ignore effects of crippled for first round after being crippled, crew members gain Enemy(Imperial Navy)";
+                case Background.SteadfastAllyofTheFleet:
+                    return "Command test to ignore effects of crippled for first round after being crippled, crew members gain Good Reputation(Imperial Navy)";
+                default:
+                    if ((self & Background.PlanetBoundForMillenia) > 0)
+                        return "Begins play with a modified drive at no cost, and may take one other archeotech component, +10 manoeuvrability within 5VU of a planet";
                     return null;
             }
         }

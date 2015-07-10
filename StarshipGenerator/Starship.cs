@@ -92,7 +92,7 @@ namespace StarshipGenerator
                     list.Add(new Tuple<WeaponSlot, Weapon>(WeaponSlot.Dorsal, Weapons[i++]));//Add the weapon and move the pointer
                 while (i < Hull.ProwSlots + Hull.DorsalSlots + Hull.SideSlots)
                     list.Add(new Tuple<WeaponSlot, Weapon>(WeaponSlot.Port, Weapons[i++]));//Add the weapon and move the pointer
-                while (i < Hull.ProwSlots + Hull.DorsalSlots + (Hull.SideSlots*2))
+                while (i < Hull.ProwSlots + Hull.DorsalSlots + (Hull.SideSlots * 2))
                     list.Add(new Tuple<WeaponSlot, Weapon>(WeaponSlot.Starboard, Weapons[i++]));//Add the weapon and move the pointer
                 while (i < Hull.ProwSlots + Hull.DorsalSlots + (Hull.SideSlots * 2) + Hull.KeelSlots)
                     list.Add(new Tuple<WeaponSlot, Weapon>(WeaponSlot.Keel, Weapons[i++]));//Add the weapon and move the pointer
@@ -155,6 +155,24 @@ namespace StarshipGenerator
                     total += gun.SP;
                 foreach (Supplemental component in SupplementalComponents)
                     total += component.SP;
+                switch (Background)
+                {
+                    case Background.ThulianExploratorVessel:
+                    case Background.ImplacableFoeOfTheFleet:
+                        total += 1;
+                        break;
+                    case Background.ReaverOfTheUnbeholdenReaches:
+                    case Background.SteadfastAllyofTheFleet:
+                        total += 2;
+                        break;
+                    case Background.VeteranOfTheAngevinCrusade:
+                        total += 3;
+                        break;
+                    default:
+                        if ((Background & Background.PlanetBoundForMillenia) > 0)
+                            total += 3;
+                        break;
+                }
                 return total;
             }
         }
@@ -178,7 +196,9 @@ namespace StarshipGenerator
                     total += 1;
                 if (CrewRace == Race.EvilSunz)
                     total += 1;
-                if(Hull.MaxSpeed < 1)
+                if (Background == Background.ThulianExploratorVessel)
+                    total -= 1;
+                if (Hull.MaxSpeed < 1)
                     return Math.Max(total, 1);//Math.max in case ship has lots of negatives to speed and is universe class or something equally stupid
                 return (Math.Min(Hull.MaxSpeed, Math.Max(total, 1)));//no faster than max speed, no slower than 1
             }
@@ -203,6 +223,8 @@ namespace StarshipGenerator
                     total += component.Manoeuvrability;
                 if (ShipHistory == ShipHistory.WrestedFromASpaceHulk)
                     total += 3;
+                if (Background == Background.ThulianExploratorVessel)
+                    total -= 5;
                 return total;
             }
         }
@@ -224,6 +246,8 @@ namespace StarshipGenerator
                     total += 5;
                 if (ShipHistory == ShipHistory.Haunted)
                     total += 6;
+                if (Background == Background.ThulianExploratorVessel)
+                    total += 10;
                 return total;
             }
         }
@@ -297,7 +321,30 @@ namespace StarshipGenerator
                 if (Hull == null)
                     return 0;
                 int total = Hull.Space;
-                //There was something that reduced max space... one of the histories?
+                if (VaultedCeilings != Quality.None)
+                {
+                    if ((Hull.HullTypes & HullType.Raider) > 0)
+                        total -= 1;
+                    else if ((Hull.HullTypes & (HullType.Transport | HullType.Frigate)) > 0)
+                        total -= 2;
+                    else if ((Hull.HullTypes & HullType.LightCruiser) > 0)
+                        total -= 3;
+                    else
+                        total -= 4;
+                    if (VaultedCeilings == Quality.Best)
+                        total -= 1;
+                }
+                if (SecondaryReactor != Quality.None)
+                {
+                    if ((Hull.HullTypes & HullType.Raider | HullType.Frigate) > 0)
+                        total -= 1;
+                    else if ((Hull.HullTypes & (HullType.Transport)) > 0)
+                        total -= 2;
+                    else if ((Hull.HullTypes & HullType.LightCruiser) > 0)
+                        total -= 3;
+                    else
+                        total -= 4;
+                }
                 return total;
             }
         }
@@ -433,6 +480,34 @@ namespace StarshipGenerator
                         total += 5;
                         break;
                 }
+                switch (VaultedCeilings)
+                {
+                    case Quality.Poor:
+                    case Quality.Common:
+                        total += 5;
+                        break;
+                    case Quality.Good:
+                        total += 7;
+                        break;
+                    case Quality.Best:
+                        total += 10;
+                        break;
+                }
+                switch (ResolutionArena)
+                {
+                    case Quality.Poor:
+                        total += 2;
+                        break;
+                    case Quality.Common:
+                    case Quality.Good:
+                        total += 3;
+                        break;
+                    case Quality.Best:
+                        total += 5;
+                        break;
+                }
+                if (DistributedCargoHold != Quality.None)
+                    total -= 2;
                 return total;
             }
         }
@@ -465,6 +540,12 @@ namespace StarshipGenerator
                 //history
                 if (MachineSpirit == MachineSpirit.Resolute)
                     total += 3;
+                if ((Background & Background.PlanetBoundForMillenia) > 0)
+                {
+                    total -= (int)(Background & Background.PlanetBoundForMillenia);//lower 3 bits are the value to deduct by
+                    if ((Hull.HullTypes & (HullType.Transport | HullType.Raider | HullType.Frigate)) > 0)
+                        total -= 1;
+                }
                 return total;
             }
         }
@@ -503,9 +584,35 @@ namespace StarshipGenerator
                 foreach (Supplemental component in SupplementalComponents)
                     total += component.BSModifier;
                 //upgrades
+                if (CrewRace == Race.Servitor)
+                    total -= 10;
                 if (MachineSpirit == MachineSpirit.MartialHubris)
                     total += 5;
+                if (Background == Background.VeteranOfTheAngevinCrusade)
+                    total += 10;
                 return 0;
+            }
+        }
+
+        /// <summary>
+        /// Modifier to command tests
+        /// </summary>
+        public int Command
+        {
+            get
+            {
+                int total = 0;
+                if (Hull != null)
+                    total += Hull.Command;
+                if (ShipBridge != null)
+                    total += ShipBridge.Command;
+                if (CrewRace == Race.Servitor)
+                    total -= 10;
+                if (Disciplinarium == Quality.Good || Disciplinarium == Quality.Best)
+                    total += 5;
+                if ((Background & Background.VesselOfTheFleet) > 0)
+                    total += 10;
+                return total;
             }
         }
 
@@ -601,6 +708,10 @@ namespace StarshipGenerator
                     total += component.CriminalObjective;
                 if (OstentatiousDisplayOfWealth != Quality.None)
                     total += 25;
+                if (DistributedCargoHold == Quality.Best)
+                    total += 75;
+                else if (DistributedCargoHold != Quality.None)
+                    total += 50;
                 return total;
             }
         }
@@ -614,6 +725,10 @@ namespace StarshipGenerator
                 int total = 0;
                 foreach (Supplemental component in SupplementalComponents)
                     total += component.ExplorationObjective;
+                if (StarchartCollection == Quality.Best)
+                    total += 50;
+                else if (StarchartCollection != Quality.None)
+                    total += 25;
                 return total;
             }
         }
@@ -691,6 +806,19 @@ namespace StarshipGenerator
                     total -= 20;
                 if (ShipHistory == ShipHistory.Xenophilous)
                     total -= 10;//remainder in special
+                switch (DistributedCargoHold)
+                {
+                    case Quality.Poor:
+                        total -= 15;
+                        break;
+                    case Quality.Common:
+                        total -= 10;
+                        break;
+                    case Quality.Good:
+                    case Quality.Best:
+                        total -= 5;
+                        break;
+                }
                 return total;
             }
         }
@@ -735,5 +863,20 @@ namespace StarshipGenerator
         public Quality CherubimAerie;
         public Quality CrewImprovements;
         public Quality OstentatiousDisplayOfWealth;
+        public Quality StarchartCollection;
+        public Quality StormTrooperDetachment;
+        public Quality VaultedCeilings;
+        public Quality ArresterEngines;
+        public Quality DistributedCargoHold;
+        public Quality Disciplinarium;
+        public Quality MimicDrive;
+        public Quality OverloadShieldCapacitors;
+        public Quality ResolutionArena;
+        public Quality SecondaryReactor;
+        public Quality SuperiorDamageControl;
+        public Quality TargettingMatrix;
+        public int Matrix;//weapon upgraded by poor Targetting Matrix if any
+
+        public Background Background;
     }
 }

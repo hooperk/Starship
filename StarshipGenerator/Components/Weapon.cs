@@ -164,6 +164,10 @@ namespace StarshipGenerator.Components
         /// </summary>
         public Quality TurboWeapon { get; set; }
         /// <summary>
+        /// Quality of TargettingMatrix affecting this weapon
+        /// </summary>
+        public Quality TargettingMatrix { get; set; }
+        /// <summary>
         /// Any special rules of the weapon
         /// </summary>
         public override string Special

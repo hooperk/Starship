@@ -50,6 +50,7 @@
     <Compile Include="Components\LandingBay.cs" />
     <Compile Include="Components\LifeSustainer.cs" />
     <Compile Include="Components\TorpedoTubes.cs" />
+    <Compile Include="Components\Upgrades.cs" />
     <Compile Include="CTest.cs" />
     <Compile Include="Utils\DiceRoll.cs" />
     <Compile Include="Utils\Enums.cs" />

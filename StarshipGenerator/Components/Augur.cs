@@ -23,7 +23,7 @@ namespace StarshipGenerator.Components
         /// <summary>
         /// Ballistic Skill modifier this array grants
         /// </summary>
-        public int BS { get; private set; }
+        public int BSModifier { get; private set; }
         /// <summary>
         /// Any special effects of the array
         /// </summary>
@@ -56,7 +56,33 @@ namespace StarshipGenerator.Components
         {
             this.Manoeuvrability = man;
             this.DetectionRating = det;
-            this.BS = bs;
+            this.BSModifier = bs;
+        }
+
+        /// <summary>
+        /// Serialises the Augur Array
+        /// </summary>
+        /// <returns>JSON object as string</returns>
+        public override string ToJSON()
+        {
+            /*
+             * { 
+             * "Augur" : { 
+             *  "Name" : name, 
+             *  "Power" : power, 
+             *  "Origin" : origin, 
+             *  "Page" : page, 
+             *  "Det" : det, 
+             *  "Special" : special, 
+             *  "Quality" : quality, 
+             *  "SP" : sp, 
+             *  "Man": man, 
+             *  "BS" : bs }
+             * }
+             * */
+            return @"{""Augur"":{""Name"":""" + Name +@""",""Power"":"+Power+@",""Origin"":"+(byte)Origin+@",""Page"":"+PageNumber
+                +@",""Det"":"+DetectionRating+@",""Special"":"""+Special+@""",""Quality"":"+(byte)Quality+@",""SP"":"+SP
+                    +@",""Man"":"+Manoeuvrability+@",""BS"":"+BSModifier+@"}}";
         }
 
         /// <summary>
@@ -76,10 +102,10 @@ namespace StarshipGenerator.Components
                     output.Append("+" + Manoeuvrability + " Manoeuvrability; ");
                 else if (Manoeuvrability < 0)
                     output.Append(Manoeuvrability + " Manoeuvrability; ");
-                if (BS > 0)
-                    output.Append("+" + BS + " Ballistic Skill; ");
-                else if (BS < 0)
-                    output.Append(BS + " Ballistic Skill; ");
+                if (BSModifier > 0)
+                    output.Append("+" + BSModifier + " Ballistic Skill; ");
+                else if (BSModifier < 0)
+                    output.Append(BSModifier + " Ballistic Skill; ");
                 output.Append(Special);
                 return output.ToString();
             }

@@ -186,5 +186,11 @@ namespace StarshipGenerator.Components
                 return output.ToString();
             }
         }
+
+        /// <summary>
+        /// Serialises the component
+        /// </summary>
+        /// <returns>JSON object as string</returns>
+        public abstract string ToJSON();
     }
 }

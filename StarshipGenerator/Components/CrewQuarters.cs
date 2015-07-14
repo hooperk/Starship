@@ -26,5 +26,31 @@ namespace StarshipGenerator.Components
         public CrewQuarters(string name, HullType types, int power, int space, int morale, RuleBook origin, byte page,
             string special = null, Quality quality = Quality.Common, int sp = 0, int loss = 0)
             : base(name, types, power, space, morale, origin, page, special, quality, sp, loss) { }
+
+        /// <summary>
+        /// Serialises the crew quarters
+        /// </summary>
+        /// <returns>JSON object as string</returns>
+        public override string ToJSON()
+        {
+            /*{
+             * "Quarters" : {
+             *  "Name" : name,
+             *  "Types" : types,
+             *  "Power" : power,
+             *  "Space" : space,
+             *  "Morale" : morale,
+             *  "Origin" : origin,
+             *  "Page" : page,
+             *  "Special" : special,
+             *  "Quality" : quality,
+             *  "SP" : sp,
+             *  "Loss" : loss}
+             *}
+             **/
+            return @"{""Quarters"":{""Name"":""" + Name + @""",""Types"":" + (byte)HullTypes + @",""Power"":" + Power + @",""Space"":"
+                + Space + @",""Morale"":" + Morale + @",""Origin"":" + (byte)Origin + @",""Page"":" + PageNumber + @",""Special"":""" + Special
+                + @""",""Quality"":" + Quality + @",""SP"":" + SP + @",""Loss"":" + MoraleLoss + @"}}";
+        }
     }
 }

@@ -31,6 +31,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Icons\67ef7f38d041ca72ffefb8c111fae756_KPF_6.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -67,6 +70,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Icons\67ef7f38d041ca72ffefb8c111fae756_KPF_1.ico" />
+    <Content Include="Icons\67ef7f38d041ca72ffefb8c111fae756_KPF_2.ico" />
+    <Content Include="Icons\67ef7f38d041ca72ffefb8c111fae756_KPF_3.ico" />
+    <Content Include="Icons\67ef7f38d041ca72ffefb8c111fae756_KPF_4.ico" />
+    <Content Include="Icons\67ef7f38d041ca72ffefb8c111fae756_KPF_5.ico" />
+    <Content Include="Icons\67ef7f38d041ca72ffefb8c111fae756_KPF_6.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

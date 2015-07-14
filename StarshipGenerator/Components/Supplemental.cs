@@ -168,13 +168,15 @@ namespace StarshipGenerator.Components
         /// <param name="macrodamage">damage modifier to macrobatteries such as from the munitorium</param>
         /// <param name="bs">ballistic skill modifier from this component</param>
         /// <param name="navigate">modifer to navigate the warp</param>
+        /// <param name="crewLoss">modifier to crew losses</param>
+        /// <param name="moraleLoss">modifier to morale losses</param>
         public Supplemental(string name, HullType types, int power, int space, int sp, RuleBook origin, byte page,
             String special = null, Quality quality = Quality.Common, int speed = 0, int man = 0,
             int hullint = 0, int armour = 0, int turrets = 0, int morale = 0, int crew = 0,
             DiceRoll ramming = default(DiceRoll), int prowArmour = 0, int crewRating = 0,
             int mining = 0, int creed = 0, int military = 0, int trade = 0, int criminal = 0,
             int exploration = 0, bool generated = false, int detection = 0, Weapon aux = null, 
-            int macrodamage = 0, int bs = 0, int navigate = 0)
+            int macrodamage = 0, int bs = 0, int navigate = 0, int crewLoss = 0, int moraleLoss = 0)
             : base(name, sp, power, space, special, origin, page, types, quality)
         {
             this.Speed = speed;
@@ -199,6 +201,8 @@ namespace StarshipGenerator.Components
             this.MacrobatteryModifier = macrodamage;
             this.BSModifier = bs;
             this.NavigateWarp = navigate;
+            this.CrewLoss = crewLoss;
+            this.MoraleLoss = moraleLoss;
         }
 
         /// <summary>
@@ -231,14 +235,79 @@ namespace StarshipGenerator.Components
         /// <param name="exploration">modifier to exploration objectives</param>
         /// <param name="generated">If the power listed is generated instead of used</param>
         /// <param name="detection">modifier to detection rating fromt he component</param>
+        /// <param name="aux">Auxiliary weapons like hold landing bay granted by this component</param>
+        /// <param name="macrodamage">damage modifier to macrobatteries such as from the munitorium</param>
+        /// <param name="bs">ballistic skill modifier from this component</param>
+        /// <param name="navigate">modifer to navigate the warp</param>
+        /// <param name="crewLoss">modifier to crew losses</param>
+        /// <param name="moraleLoss">modifier to morale losses</param>
         public Supplemental(string name, HullType types, int power, int space, int sp, RuleBook origin, byte page,
             String ramming, String special = null, Quality quality = Quality.Common, int speed = 0,
             int man = 0, int hullint = 0, int armour = 0, int turrets = 0, int morale = 0,
             int crew = 0, int prowArmour = 0, int crewRating = 0, int mining = 0, int creed = 0, int military = 0,
-            int trade = 0, int criminal = 0, int exploration = 0, bool generated = false, int detection = 0)
+            int trade = 0, int criminal = 0, int exploration = 0, bool generated = false, int detection = 0,
+            Weapon aux = null, int macrodamage = 0, int bs = 0, int navigate = 0, int crewLoss = 0, int moraleLoss = 0)
             : this(name, types, power, space, sp, origin, page, special, quality, speed, man, hullint,
                 armour, turrets, morale, crew, new DiceRoll(ramming), prowArmour, crewRating,
-                mining, creed, military, trade, criminal, exploration, generated, detection) { }
+                mining, creed, military, trade, criminal, exploration, generated, detection, aux,
+                macrodamage, bs, navigate, crewLoss, moraleLoss) { }
+
+        /// <summary>
+        /// Serialises the Supplemental Component
+        /// </summary>
+        /// <returns>JSON object as string</returns>
+        public override string ToJSON()
+        {
+            /*{
+             * "Supplemental" : {
+             *  "Name" : name,
+             *  "Types" : types,
+             *  "Power" : power.
+             *  "Space" : space,
+             *  "SP" : sp,
+             *  "Origin" : origin,
+             *  "Page" : page,
+             *  "Ram" : ram,
+             *  "Special" : special,
+             *  "Quality" : quality,
+             *  "Speed" : speed,
+             *  "Man" : man,
+             *  "Int" : int,
+             *  "Armour" : armour,
+             *  "Turrets" : turrets,
+             *  "Morale" : morale,
+             *  "Crew" : crew,
+             *  "Prow" : prow,
+             *  "Rating" : rating,
+             *  "Mining" : mining,
+             *  "Creed" : creed,
+             *  "Military" : military,
+             *  "Trade" : trade,
+             *  "Criminal" : criminal,
+             *  "Explore" : explore,
+             *  "Gen" : gen,
+             *  "Det" : det,
+             *  "Aux" : {Weapon : {...}},
+             *  "Macro" : damage,
+             *  "BS" : bs,
+             *  "Nav" : nav,
+             *  "CrewLoss" : crewLoss,
+             *  "MoraleLoss" : moraleLoss }
+             *}
+             */
+            return @"{""Supplemental"":{""Name"":""" + Name + @""",""Types"":" + (byte)HullTypes + @",""Power"":" + Power
+                + @",""Space"":" + Space + @",""SP"":" + SP + @",""Origin"":" + (byte)Origin + @",""Page"":" + PageNumber
+                + @",""Ram"":""" + RamDamage.ToString() + @""",""Special"":""" + Special + @""",""Quality"":"
+                + (byte)Quality + @",""Speed"":" + Speed + @",""Man"":" + Manoeuvrability + @",""Int"":" + HullIntegrity
+                + @",""Armour"":" + Armour + @",""Turrets"":" + TurretRating + @",""Morale"":" + Morale + @",""Crew"":"
+                + CrewPopulation + @",""Prow"":" + ProwArmour + @",""Rating"":" + CrewRating + @",""Mining"":"
+                + MiningObjective + @",""Creed"":" + CreedObjective + @",""Military"":" + MilitaryObjective
+                + @",""Trade"":" + TradeObjective + @",""Criminal"":" + CriminalObjective + @",""Explore"":"
+                + ExplorationObjective + @",""Gen"":" + PowerGenerated.ToString() + @",""Det"":" + DetectionRating
+                + @",""Aux"":" + (AuxiliaryWeapon == null ? @"null" : AuxiliaryWeapon.ToJSON()) + @",""Macro"":"
+                + MacrobatteryModifier + @",""BS"":" + BSModifier + @",""Nav"":" + NavigateWarp + @",""CrewLoss"":"
+                + CrewLoss + @",""MoraleLoss"":" + MoraleLoss + @"}}";
+        }
 
         /// <summary>
         /// Description of the Augur Array to display while picking

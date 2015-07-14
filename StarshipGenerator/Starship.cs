@@ -580,7 +580,7 @@ namespace StarshipGenerator
                 if (ShipBridge != null)
                     total += ShipBridge.BSModifier;
                 if (AugurArrays != null)
-                    total += AugurArrays.BS;
+                    total += AugurArrays.BSModifier;
                 foreach (Supplemental component in SupplementalComponents)
                     total += component.BSModifier;
                 //upgrades

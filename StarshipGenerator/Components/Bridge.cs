@@ -69,6 +69,36 @@ namespace StarshipGenerator.Components
         }
 
         /// <summary>
+        /// Serialises the Bridge
+        /// </summary>
+        /// <returns>JSON object as string</returns>
+        public override string ToJSON()
+        {
+            /*{
+             * "Bridge" : {
+             *  "Name" : name,
+             *  "Types" : types,
+             *  "Power" : power,
+             *  "Space" : space,
+             *  "Origin" : origin,
+             *  "Page" : page,
+             *  "Special" : special,
+             *  "SP" : sp,
+             *  "Quality" : quality,
+             *  "Man" : man,
+             *  "BS" : bs,
+             *  "Command" : command,
+             *  "Repair" : repair,
+             *  "Pilot" : pilot,
+             *  "Nav" : nav }
+             *}*/
+            return @"{""Bridge"":{""Name"":""" + Name + @""",""Types"":" + (byte)HullTypes + @",""Power"":" + Power + @",""Space"":" + Space
+                + @",""Origin"":" + (byte)Origin + @",""Page"":" + PageNumber + @",""Special"":""" + Special + @""",""SP"":" + SP
+                + @",""Quality"":" + (byte)Quality + @",""Man"":" + Manoeuvrability + @",""BS"":" + BSModifier + @",""Command"":" + Command
+                + @",""Repair"":" + Repair + @",""Pilot"":" + Pilot + @",""Nav"":" + NavigateWarp + @"}}";
+        }
+
+        /// <summary>
         /// Description of the bridge to display while picking
         /// </summary>
         public override string Description

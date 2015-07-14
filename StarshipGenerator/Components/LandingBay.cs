@@ -70,5 +70,33 @@ namespace StarshipGenerator.Components
         {
             Squadrons = new List<Squadron>(Strength * 3);
         }
+
+        /// <summary>
+        /// Serialises the Landing Bay
+        /// </summary>
+        /// <returns>JSON object as string</returns>
+        public override string ToJSON()
+        {
+            /*{
+             * "Landing" : {
+             *  "Name" : name,
+             *  "Types" : types,
+             *  "Slots" : slots,
+             *  "Power" : power,
+             *  "Space" : space,
+             *  "SP" : sp,
+             *  "Str" : str,
+             *  "Origin" : origin,
+             *  "Page" : page,
+             *  "Quality" : quality,
+             *  "WeapQual" : wq,
+             *  "Special" : special }
+             *}
+             */
+            return @"{""Landing"":{""Name"":""" + Name + @""",""Types"":" + (byte)HullTypes + @",""Slots"":" + (byte)Slots
+                + @",""Power"":" + Power + @",""Space"":" + Space + @",""SP"":" + SP + @",""Str"":" + Strength + @",""Origin"":"
+                + (byte)Origin + @",""Page"":" + PageNumber + @",""Quality"":" + (byte)Quality + @",""WeapQual"":"
+                + (byte)WeaponQuality + @",""Special"":""" + Special + @"""}}";
+        }
     }
 }

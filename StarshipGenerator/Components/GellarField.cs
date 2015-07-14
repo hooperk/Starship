@@ -36,6 +36,28 @@ namespace StarshipGenerator.Components
         }
 
         /// <summary>
+        /// Serialises the Gellar Field
+        /// </summary>
+        /// <returns>JSON object as string</returns>
+        public override string ToJSON()
+        {
+            /*
+             * {
+             *  "Gellar" : {
+             *   "Name" : name,
+             *   "Types" : types,
+             *   "Power" : power,
+             *   "Special" : special,
+             *   "Origin" : origin,
+             *   "Page" : page,
+             *   "SP" : sp,
+             *   "Nav" : nav }
+             * }
+             * */
+            return @"{""Gellar"":{""Name"":""" + Name + @""",""Types"":" + (byte)HullTypes + @",""Power"":" + Power + @",""Special"":"""
+                + Special + @""",""Origin"":" + (byte)Origin + @",""Page"":" + PageNumber + @",""SP"":" + SP + @",""Nav"":" + NavigateWarp + @"}}";
+        }
+        /// <summary>
         /// Description of the GellarField to display while picking
         /// </summary>
         public override string Description

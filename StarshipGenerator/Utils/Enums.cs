@@ -134,6 +134,16 @@ namespace StarshipGenerator.Utils
     }
 
     /// <summary>
+    /// List of strengths of squadrons
+    /// </summary>
+    public enum Strength : byte
+    {
+        Destroyed = 0,
+        Half,
+        Full
+    }
+
+    /// <summary>
     /// Background upgrades
     /// </summary>
     [Flags]

@@ -65,6 +65,32 @@ namespace StarshipGenerator.Components
         }
 
         /// <summary>
+        /// Serialises the component
+        /// </summary>
+        /// <returns>JSON object as string</returns>
+        public override string ToJSON()
+        {
+            /*{
+             * "Plasma" : {
+             *  "Name" : name,
+             *  "Types" : types,
+             *  "Power" : power,
+             *  "Space" : space,
+             *  "Special" : special,
+             *  "Origin" : origin,
+             *  "Page" : page,
+             *  "SP" : sp,
+             *  "Quality" : quality,
+             *  "Speed" : speed,
+             *  "Man" : man }
+             *}
+             */
+            return @"{""Plasma"":{""Name"":""" + Name + @""",""Types"":" + (byte)HullTypes + @",""Power"":" + Power + @",""Space"":"
+                + @",""Special"":""" + Special + @""",""Origin"":" + (byte)Origin + @",""Page"":" + PageNumber + @",""SP"":"
+                + SP + @",""Quality"":" + (byte)Quality + @",""Speed"":" + Speed + @",""Man"":" + Manoeuvrability + @"}}";
+        }
+
+        /// <summary>
         /// Description of the Plasma Drive to display while picking
         /// </summary>
         public override string Description

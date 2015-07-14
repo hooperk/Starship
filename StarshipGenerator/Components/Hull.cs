@@ -137,6 +137,62 @@ namespace StarshipGenerator.Components
         }
 
         /// <summary>
+        /// Serialises the component
+        /// </summary>
+        /// <returns>JSON object as string</returns>
+        public override string ToJSON()
+        {
+            /*
+             * {
+             *  "Hull" : {
+             *   "Name" : name,
+             *   "Speed" : speed,
+             *   "Man" : man,
+             *   "Det" : det,
+             *   "Int" : hullint,
+             *   "Armour" : armour,
+             *   "Space" : space,
+             *   "SP" : sp,
+             *   "Types" : types,
+             *   "Special" : special,
+             *   "Origin" : origin,
+             *   "Page" : page,
+             *   "Turrets" : turrets,
+             *   "Prow" : prow,
+             *   "Dorsal" : dorsal,
+             *   "Side" : side,
+             *   "Keel" : keel,
+             *   "Aft" : aft,
+             *   "Frontal" : {Weapon : {...}}
+             *   "Broadside" : {Weapon : {...}}
+             *   "Comps" : [{Supplemental : {...}},{Supplemental : {...}}...]
+             *   "Command" : command,
+             *   "Max" : maxspeed }
+             * }
+             */
+            StringBuilder output = new StringBuilder(@"{""Hull"":{""Name"":""" + Name + @""",""Speed"":" + Speed);
+            output.Append(@",""Man"":" + Manoeuvrability + @",""Det"":" + DetectionRating + @",""Int"":" + HullIntegrity);
+            output.Append(@",""Armour"":" + Armour + @",""Space"":" + Space + @",""SP"":" + SP + @",""Types"":" + (byte)HullTypes);
+            output.Append(@",""Special"":""" + Special + @""",""Origin"":" + (byte)Origin + @",""Page"":" + PageNumber);
+            output.Append(@",""Turrets"":" + TurretRating + @",""Prow"":" + ProwSlots + @",""Dorsal"":" + DorsalSlots);
+            output.Append(@",""Side"":" + SideSlots + @",""Keel"":" + KeelSlots + @",""Aft"":" + AftSlots);
+            output.Append(@",""Frontal"":" + (DefaultProw == null ? @"null" : DefaultProw.ToJSON()));
+            output.Append(@",""Broadside"":" + (DefaultBroadside == null ? @"null" : DefaultBroadside.ToJSON()));
+            output.Append(@",""Comps"":[");
+            if (DefaultComponents != null)
+            {
+                for (int i = 0; i < DefaultComponents.Length; i++)
+                {
+                    output.Append(DefaultComponents[i].ToJSON());
+                    if (i < DefaultComponents.Length - 1)
+                        output.Append(@",");
+                }
+            }
+            output.Append(@"],""Command"":" + Command + @",""Max"":" + MaxSpeed + @"}}");
+            return output.ToString();
+        }
+
+        /// <summary>
         /// Description of the Hull to display while picking
         /// </summary>
         public override string Description

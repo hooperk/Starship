@@ -37,6 +37,34 @@ namespace StarshipGenerator.Components
         }
 
         /// <summary>
+        /// Serialises the Life sustainer
+        /// </summary>
+        /// <returns>JSON object as string</returns>
+        public override string ToJSON()
+        {
+            /*{
+             * "Sustainer" : {
+             *  "Name" : name,
+             *  "Types" : types,
+             *  "Power" : power,
+             *  "Space" : space,
+             *  "Morale" : morale,
+             *  "Origin" : origin,
+             *  "Page" : page,
+             *  "Special" : special,
+             *  "Quality" : quality,
+             *  "SP" : sp,
+             *  "MoraleLoss" : loss,
+             *  "CrewLoss" : loss }
+             *}
+             */
+            return @"{""Sustainer"":{""Name"":""" + Name + @""",""Types"":" + (byte)HullTypes + @",""Power"":" + Power + @",""Space"":"
+                + Space + @",""Morale"":" + Morale + @",""Origin"":" + (byte)Origin + @",""Page"":" + PageNumber + @",""Special"":"""
+                + Special + @""",""Quality"":" + (byte)Quality + @",""SP"":" + SP + @",""MoraleLoss"":" + MoraleLoss
+                + @",""CrewLoss"":" + CrewLoss + @"}}";
+        }
+
+        /// <summary>
         /// Description of the Life Sustainer to display while picking
         /// </summary>
         public override string Description

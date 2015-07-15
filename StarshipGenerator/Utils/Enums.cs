@@ -21,6 +21,7 @@ namespace StarshipGenerator.Utils
         Prow = 0x01,
         Port = 0x02,
         Starboard = 0x04,
+        Side = 0x06,
         Aft = 0x08,
         Dorsal = 0x10,
         Keel = 0x20,
@@ -43,7 +44,7 @@ namespace StarshipGenerator.Utils
         Cruiser = 0x10,
         BattleCruiser = 0x20,
         GrandCruiser = 0x40,
-        BattleShip = 0x80,//NOT IMPLEMENTED
+        BattleShip = 0x80,//NOT IMPLEMENTED, currently included in Cruiser+
         CruiserPlus = 0xF1,//Cruiser or bigger
         All = 0xFF
     }
@@ -141,6 +142,29 @@ namespace StarshipGenerator.Utils
         Destroyed = 0,
         Half,
         Full
+    }
+
+    /// <summary>
+    /// Listing of Torpedo warheads
+    /// </summary>
+    public enum Warhead : byte
+    {
+        Plasma = 0,
+        Boarding,
+        Melta,
+        Virus,
+        Vortex
+    }
+
+    /// <summary>
+    /// Listing of Torpedo guidance systems
+    /// </summary>
+    public enum Guidance : byte
+    {
+        Standard = 0,
+        Guided,
+        Seeking,
+        ShortBurn
     }
 
     /// <summary>
@@ -606,6 +630,40 @@ namespace StarshipGenerator.Utils
                 default:
                     return HullType.None;
             }
+        }
+
+        /// <summary>
+        /// Description of a Guidance system
+        /// </summary>
+        /// <param name="self">Guidance</param>
+        /// <returns>String to list for a Guidance System</returns>
+        public static string Description(this Guidance self)
+        {
+            switch (self)
+            {
+                case Guidance.Standard:
+                    return "+20 Torpedo Rating";
+                case Guidance.Guided:
+                    return "One character may make +0 Tech-Use+Detection test to turn torpedo up to 45 degrees at start of it's movement each turn. Enemies which have identified the torpedo tubes may make -40 Tech-Use Test to gain control instead. +20 Torpedo Rating";
+                case Guidance.Seeking:
+                    return "+30 Torpedo Rating";
+                case Guidance.ShortBurn:
+                    return "Torpedo moves 15 VUs a turn but has max range of 30VU. +15 Torpedo Rating";
+                default:
+                    return null;
+            }
+        }
+
+        /// <summary>
+        /// Special Rules of a Guidance system
+        /// </summary>
+        /// <param name="self">Guidance</param>
+        /// <returns>String to list for a Guidance System</returns>
+        public static string Special(this Guidance self)
+        {
+            if(self == Guidance.Guided)
+                return "One character may make +0 Tech-Use+Detection test to turn torpedo up to 45 degrees at start of it's movement each turn. Enemies which have identified the torpedo tubes may make -40 Tech-Use Test to gain control instead";
+            return null;
         }
     }
 }

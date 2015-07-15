@@ -14,7 +14,7 @@ namespace StarshipGenerator.Components
     public class LandingBay : Weapon
     {
         /// <summary>
-        /// All the squadrons this landign bay can fit
+        /// All the squadrons this landing bay can fit
         /// </summary>
         public List<Squadron> Squadrons;
         /// <summary>
@@ -65,8 +65,9 @@ namespace StarshipGenerator.Components
         /// <param name="wq">enum declaring which qualities to be adjusted</param>
         /// <param name="special">special rules of this weapon</param>
         public LandingBay(string name, HullType hulls, WeaponSlot slots, int power, int space, int sp, int str,
-            RuleBook origin, byte page, Quality quality = Quality.Common, WeaponQuality wq = WeaponQuality.None, string special = null)
-            : base(name, WeaponType.LandingBay, hulls, slots, power, space, sp, str, default(DiceRoll), 0, 0, origin, page, quality, wq, special) 
+            RuleBook origin, byte page, Quality quality = Quality.Common, WeaponQuality wq = WeaponQuality.None, 
+            string special = null, ComponentOrigin comp = ComponentOrigin.Standard)
+            : base(name, WeaponType.LandingBay, hulls, slots, power, space, sp, str, default(DiceRoll), 0, 0, origin, page, quality, wq, special, Quality.None, comp) 
         {
             Squadrons = new List<Squadron>(Strength * 3);
         }
@@ -90,13 +91,25 @@ namespace StarshipGenerator.Components
              *  "Page" : page,
              *  "Quality" : quality,
              *  "WeapQual" : wq,
-             *  "Special" : special }
+             *  "Special" : special,
+             *  "Comp" : comp,
+             *  "Squadrons": [squadrons] }
              *}
              */
-            return @"{""Landing"":{""Name"":""" + Name + @""",""Types"":" + (byte)HullTypes + @",""Slots"":" + (byte)Slots
+            StringBuilder output = new StringBuilder(@"{""Landing"":{""Name"":""" + Name + @""",""Types"":" + (byte)HullTypes + @",""Slots"":" + (byte)Slots
                 + @",""Power"":" + Power + @",""Space"":" + Space + @",""SP"":" + SP + @",""Str"":" + Strength + @",""Origin"":"
                 + (byte)Origin + @",""Page"":" + PageNumber + @",""Quality"":" + (byte)Quality + @",""WeapQual"":"
-                + (byte)WeaponQuality + @",""Special"":""" + Special + @"""}}";
+                + (byte)WeaponQuality + @",""Special"":""" + Special + @""",""Comp"":" + (byte)ComponentOrigin + @",""Squadrons"":[");
+            if (Squadrons != null)
+            {
+                for(int i = 0; i < Squadrons.Count; i++){
+                    output.Append(Squadrons[i].ToJSON());
+                    if (i < Squadrons.Count - 1)
+                        output.Append(",");
+                }
+            }
+            output.Append(@"]}}");
+            return output.ToString();
         }
     }
 }

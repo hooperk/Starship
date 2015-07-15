@@ -25,6 +25,32 @@ namespace StarshipGenerator.Components
         /// <param name="special">special rules of this drive</param>
         /// <param name="quality">quality of this drive</param>
         public WarpDrive(string name, HullType types, int power, int space, RuleBook origin, byte page, int sp = 0, string special = null, 
-            Quality quality = Quality.Common) : base(name, sp, power, space, special, origin, page, types, quality) { }
+            Quality quality = Quality.Common, ComponentOrigin comp = ComponentOrigin.Standard) 
+            : base(name, sp, power, space, special, origin, page, types, quality, comp) { }
+
+        /// <summary>
+        /// Serialises the WarpDrive
+        /// </summary>
+        /// <returns>JSON object as string</returns>
+        public override string ToJSON()
+        {
+            /*{
+             * "Warp" : {
+             *  "Name" : name,
+             *  "Types" : types,
+             *  "Power" : power,
+             *  "Space" : space,
+             *  "Origin" : origin,
+             *  "Page" : page,
+             *  "SP" : sp,
+             *  "Special" : special,
+             *  "Quality" : quality,
+             *  "Comp" : comp }
+             *}
+             */
+            return @"{""Warp"":{""Name"":""" + Name + @""",""Types"":" + (byte)HullTypes + @",""Power"":" + Power + @",""Space"":"
+                + Space + @",""Origin"":" + (byte)Origin + @",""Page"":" + PageNumber + @",""SP"":" + SP + @",""Special"":"""
+                + Special + @""",""Quality"":" + (byte)Quality + @",""Comp"":" + (byte)ComponentOrigin + @"}}";
+        }
     }
 }

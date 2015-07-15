@@ -30,8 +30,8 @@ namespace StarshipGenerator.Components
         /// <param name="moraleLoss">modifier to morale loss granted by this component</param>
         /// <param name="crewLoss">modifier to crew loss granted by this component</param>
         public LifeSustainer(string name, HullType types, int power, int space, int morale, RuleBook origin, byte page,
-            string special = null, Quality quality = Quality.Common, int sp = 0, int moraleLoss = 0, int crewLoss = 0)
-            : base(name, types, power, space, morale, origin, page, special, quality, sp, moraleLoss) 
+            string special = null, Quality quality = Quality.Common, int sp = 0, int moraleLoss = 0, int crewLoss = 0, ComponentOrigin comp = ComponentOrigin.Standard)
+            : base(name, types, power, space, morale, origin, page, special, quality, sp, moraleLoss, comp) 
         {
             this.CrewLoss = crewLoss;
         }
@@ -55,13 +55,14 @@ namespace StarshipGenerator.Components
              *  "Quality" : quality,
              *  "SP" : sp,
              *  "MoraleLoss" : loss,
-             *  "CrewLoss" : loss }
+             *  "CrewLoss" : loss,
+             *  "Comp" : comp }
              *}
              */
             return @"{""Sustainer"":{""Name"":""" + Name + @""",""Types"":" + (byte)HullTypes + @",""Power"":" + Power + @",""Space"":"
                 + Space + @",""Morale"":" + Morale + @",""Origin"":" + (byte)Origin + @",""Page"":" + PageNumber + @",""Special"":"""
                 + Special + @""",""Quality"":" + (byte)Quality + @",""SP"":" + SP + @",""MoraleLoss"":" + MoraleLoss
-                + @",""CrewLoss"":" + CrewLoss + @"}}";
+                + @",""CrewLoss"":" + CrewLoss + @",""Comp"":" + (byte)ComponentOrigin + @"}}";
         }
 
         /// <summary>

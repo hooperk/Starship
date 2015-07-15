@@ -111,12 +111,12 @@ namespace StarshipGenerator.Components
         /// <param name="frontal">Default prow weapon</param>
         /// <param name="broadside">Default broadside weapons</param>
         /// <param name="comps">Default supplemental components</param>
-        /// <param name="commmand">Command modifier of this hull</param>
+        /// <param name="command">Command modifier of this hull</param>
         /// <param name="maxspeed">maximum speed of ship. <1 = unlimited</param>
         public Hull(string name, int speed, int man, int det, int hullint, int armour, int space, int sp, HullType type,
             String special, RuleBook origin, byte page, int turrets = 1, int prow = 0, int dorsal = 0,
             int side = 0, int keel = 0, int aft = 0, Weapon frontal = null, Weapon broadside = null, 
-            Supplemental[] comps = null, int commmand = 0, int maxspeed = 0)
+            Supplemental[] comps = null, int command = 0, int maxspeed = 0)
             : base(name, sp, 0, space, special, origin, page, type)
         {
             this.Speed = speed;
@@ -132,7 +132,7 @@ namespace StarshipGenerator.Components
             this.DefaultProw = frontal;
             this.DefaultBroadside = broadside;
             this.DefaultComponents = comps;
-            this.Command = Command;
+            this.Command = command;
             this.MaxSpeed = maxspeed;
         }
 

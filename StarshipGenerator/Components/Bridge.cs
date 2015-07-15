@@ -57,8 +57,8 @@ namespace StarshipGenerator.Components
         /// <param name="navigate">modifier to navigate the warp from this bridge</param>
         public Bridge(string name, HullType types, int power, int space, RuleBook origin, byte page, string special = null,
             int sp = 0, Quality quality = Quality.Common, int man = 0, int bs = 0, int command = 0,
-            int repair = 0, int pilot = 0, int navigate = 0)
-            : base(name, sp, power, space, special, origin, page, types, quality)
+            int repair = 0, int pilot = 0, int navigate = 0, ComponentOrigin comp = ComponentOrigin.Standard)
+            : base(name, sp, power, space, special, origin, page, types, quality, comp)
         {
             this.Manoeuvrability = man;
             this.BSModifier = bs;
@@ -90,12 +90,13 @@ namespace StarshipGenerator.Components
              *  "Command" : command,
              *  "Repair" : repair,
              *  "Pilot" : pilot,
-             *  "Nav" : nav }
+             *  "Nav" : nav,
+             *  "Comp" : comp }
              *}*/
             return @"{""Bridge"":{""Name"":""" + Name + @""",""Types"":" + (byte)HullTypes + @",""Power"":" + Power + @",""Space"":" + Space
                 + @",""Origin"":" + (byte)Origin + @",""Page"":" + PageNumber + @",""Special"":""" + Special + @""",""SP"":" + SP
                 + @",""Quality"":" + (byte)Quality + @",""Man"":" + Manoeuvrability + @",""BS"":" + BSModifier + @",""Command"":" + Command
-                + @",""Repair"":" + Repair + @",""Pilot"":" + Pilot + @",""Nav"":" + NavigateWarp + @"}}";
+                + @",""Repair"":" + Repair + @",""Pilot"":" + Pilot + @",""Nav"":" + NavigateWarp + @",""Comp"":" + (byte)ComponentOrigin + @"}}";
         }
 
         /// <summary>

@@ -24,8 +24,8 @@ namespace StarshipGenerator.Components
         /// <param name="sp">cost of this component</param>
         /// <param name="loss">modifier to morale loss granted by this component</param>
         public CrewQuarters(string name, HullType types, int power, int space, int morale, RuleBook origin, byte page,
-            string special = null, Quality quality = Quality.Common, int sp = 0, int loss = 0)
-            : base(name, types, power, space, morale, origin, page, special, quality, sp, loss) { }
+            string special = null, Quality quality = Quality.Common, int sp = 0, int loss = 0, ComponentOrigin comp = ComponentOrigin.Standard)
+            : base(name, types, power, space, morale, origin, page, special, quality, sp, loss, comp) { }
 
         /// <summary>
         /// Serialises the crew quarters
@@ -50,7 +50,7 @@ namespace StarshipGenerator.Components
              **/
             return @"{""Quarters"":{""Name"":""" + Name + @""",""Types"":" + (byte)HullTypes + @",""Power"":" + Power + @",""Space"":"
                 + Space + @",""Morale"":" + Morale + @",""Origin"":" + (byte)Origin + @",""Page"":" + PageNumber + @",""Special"":""" + Special
-                + @""",""Quality"":" + Quality + @",""SP"":" + SP + @",""Loss"":" + MoraleLoss + @"}}";
+                + @""",""Quality"":" + (byte)Quality + @",""SP"":" + SP + @",""Loss"":" + MoraleLoss + @",""Comp"":" + (byte)ComponentOrigin + @"}}";
         }
     }
 }

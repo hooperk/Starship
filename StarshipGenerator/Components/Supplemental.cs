@@ -171,13 +171,14 @@ namespace StarshipGenerator.Components
         /// <param name="crewLoss">modifier to crew losses</param>
         /// <param name="moraleLoss">modifier to morale losses</param>
         public Supplemental(string name, HullType types, int power, int space, int sp, RuleBook origin, byte page,
-            String special = null, Quality quality = Quality.Common, int speed = 0, int man = 0,
+            DiceRoll ramming, String special = null, Quality quality = Quality.Common, int speed = 0, int man = 0,
             int hullint = 0, int armour = 0, int turrets = 0, int morale = 0, int crew = 0,
-            DiceRoll ramming = default(DiceRoll), int prowArmour = 0, int crewRating = 0,
+            int prowArmour = 0, int crewRating = 0,
             int mining = 0, int creed = 0, int military = 0, int trade = 0, int criminal = 0,
             int exploration = 0, bool generated = false, int detection = 0, Weapon aux = null, 
-            int macrodamage = 0, int bs = 0, int navigate = 0, int crewLoss = 0, int moraleLoss = 0)
-            : base(name, sp, power, space, special, origin, page, types, quality)
+            int macrodamage = 0, int bs = 0, int navigate = 0, int crewLoss = 0, int moraleLoss = 0, 
+            ComponentOrigin comp = ComponentOrigin.Standard)
+            : base(name, sp, power, space, special, origin, page, types, quality, comp)
         {
             this.Speed = speed;
             this.Manoeuvrability = man;
@@ -242,15 +243,16 @@ namespace StarshipGenerator.Components
         /// <param name="crewLoss">modifier to crew losses</param>
         /// <param name="moraleLoss">modifier to morale losses</param>
         public Supplemental(string name, HullType types, int power, int space, int sp, RuleBook origin, byte page,
-            String ramming, String special = null, Quality quality = Quality.Common, int speed = 0,
+            String ramming = null, String special = null, Quality quality = Quality.Common, int speed = 0,
             int man = 0, int hullint = 0, int armour = 0, int turrets = 0, int morale = 0,
             int crew = 0, int prowArmour = 0, int crewRating = 0, int mining = 0, int creed = 0, int military = 0,
             int trade = 0, int criminal = 0, int exploration = 0, bool generated = false, int detection = 0,
-            Weapon aux = null, int macrodamage = 0, int bs = 0, int navigate = 0, int crewLoss = 0, int moraleLoss = 0)
-            : this(name, types, power, space, sp, origin, page, special, quality, speed, man, hullint,
-                armour, turrets, morale, crew, new DiceRoll(ramming), prowArmour, crewRating,
+            Weapon aux = null, int macrodamage = 0, int bs = 0, int navigate = 0, int crewLoss = 0, int moraleLoss = 0,
+            ComponentOrigin comp = ComponentOrigin.Standard)
+            : this(name, types, power, space, sp, origin, page, new DiceRoll(ramming), special, quality, speed, man, hullint,
+                armour, turrets, morale, crew, prowArmour, crewRating,
                 mining, creed, military, trade, criminal, exploration, generated, detection, aux,
-                macrodamage, bs, navigate, crewLoss, moraleLoss) { }
+                macrodamage, bs, navigate, crewLoss, moraleLoss, comp) { }
 
         /// <summary>
         /// Serialises the Supplemental Component
@@ -292,7 +294,8 @@ namespace StarshipGenerator.Components
              *  "BS" : bs,
              *  "Nav" : nav,
              *  "CrewLoss" : crewLoss,
-             *  "MoraleLoss" : moraleLoss }
+             *  "MoraleLoss" : moraleLoss,
+             *  "Comp" : comp }
              *}
              */
             return @"{""Supplemental"":{""Name"":""" + Name + @""",""Types"":" + (byte)HullTypes + @",""Power"":" + Power
@@ -303,10 +306,10 @@ namespace StarshipGenerator.Components
                 + CrewPopulation + @",""Prow"":" + ProwArmour + @",""Rating"":" + CrewRating + @",""Mining"":"
                 + MiningObjective + @",""Creed"":" + CreedObjective + @",""Military"":" + MilitaryObjective
                 + @",""Trade"":" + TradeObjective + @",""Criminal"":" + CriminalObjective + @",""Explore"":"
-                + ExplorationObjective + @",""Gen"":" + PowerGenerated.ToString() + @",""Det"":" + DetectionRating
+                + ExplorationObjective + @",""Gen"":" + (PowerGenerated ? 1 : 0) + @",""Det"":" + DetectionRating
                 + @",""Aux"":" + (AuxiliaryWeapon == null ? @"null" : AuxiliaryWeapon.ToJSON()) + @",""Macro"":"
                 + MacrobatteryModifier + @",""BS"":" + BSModifier + @",""Nav"":" + NavigateWarp + @",""CrewLoss"":"
-                + CrewLoss + @",""MoraleLoss"":" + MoraleLoss + @"}}";
+                + CrewLoss + @",""MoraleLoss"":" + MoraleLoss + @",""Comp"":" + (byte)ComponentOrigin + @"}}";
         }
 
         /// <summary>

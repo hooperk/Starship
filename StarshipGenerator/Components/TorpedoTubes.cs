@@ -56,6 +56,16 @@ namespace StarshipGenerator.Components
             }
         }
 
+        public override string Special
+        {
+            get
+            {
+                if (!base.Special.Contains("Volatile"))
+                    return "Volatile" + (String.IsNullOrEmpty(base.Special) ? "" : "; " + base.Special);
+                return base.Special;
+            }
+        }
+
         /// <summary>
         /// Create a new Torpedo Tube
         /// </summary>
@@ -73,12 +83,67 @@ namespace StarshipGenerator.Components
         /// <param name="wq">enum declaring which qualities to be adjusted</param>
         /// <param name="special">special rules of this weapon</param>
         public TorpedoTubes(string name, HullType hulls, WeaponSlot slots, int power, int space, int sp, int str,
-            int capacity, RuleBook origin, byte page, Quality quality = Quality.Common, WeaponQuality wq = WeaponQuality.None, string special = null)
-            : base(name, WeaponType.TorpedoTube, hulls, slots, power, space, sp, str, default(DiceRoll), 0, 0, origin, page, quality, wq, special) 
+            int capacity, RuleBook origin, byte page, Quality quality = Quality.Common, WeaponQuality wq = WeaponQuality.None, 
+            string special = null, ComponentOrigin comp = ComponentOrigin.Standard)
+            : base(name, WeaponType.TorpedoTube, hulls, slots, power, space, sp, str, default(DiceRoll), 0, 0, origin, page, 
+                quality, wq, special, Quality.None, comp) 
         {
             this.Capacity = capacity;
             Ammo = new List<Torpedo>(Capacity);
             Tubes = new Torpedo[Strength];
+        }
+
+        /// <summary>
+        /// Serialises the Torpedo Tubes
+        /// </summary>
+        /// <returns>JSON object as string</returns>
+        public override string ToJSON()
+        {
+            /*{
+             * "Torpedo" : {
+             *  "Name" : name,
+             *  "Types" : types,
+             *  "Slots" : slots,
+             *  "Power" : power,
+             *  "Space" : space,
+             *  "SP" : sp,
+             *  "Size" : size,
+             *  "Origin" : origin,
+             *  "Page" : page,
+             *  "Quality" : quality,
+             *  "WeapQual" : wq,
+             *  "Special" : special,
+             *  "Comp" : comp,
+             *  "Ammo" : [Torpedoes],
+             *  "Tubes" : [Tubes] }
+             *}
+             */
+            StringBuilder output = new StringBuilder(
+                @"{""Torpedo"":{""Name"":""" + Name + @""",""Types"":" + (byte)HullTypes + @",""Slots"":" + (byte)Slots
+                + @",""Power"":" + Power + @",""Space"":" + Space + @",""SP"":" + SP + @",""Size"":" + Capacity + @",""Origin"":"
+                + (byte)Origin + @",""Page"":" + PageNumber + @",""Quality"":" + (byte)Quality + @",""WeapQual"":"
+                + (byte)WeaponQuality + @",""Special"":""" + Special + @""",""Comp"":" + (byte)ComponentOrigin
+                + @",""Ammo"":[");
+            if (Ammo != null)
+            {
+                for (int i = 0; i < Ammo.Count; i++)
+                {
+                    output.Append(Ammo[i].ToJSON());
+                    if (i < Ammo.Count - 1)
+                        output.Append(",");
+                }
+            }
+            output.Append(@"],""Tubes"":[");
+            if (Tubes != null)
+            {
+                for(int i = 0; i < Tubes.Length; i++){
+                    output.Append((Tubes[i] == null ? "null" : Tubes[i].ToJSON()));
+                    if (i < Tubes.Length - 1)
+                        output.Append(",");
+                }
+            }
+            output.Append(@"]}}");
+            return output.ToString();
         }
 
         /// <summary>

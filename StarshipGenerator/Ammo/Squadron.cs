@@ -7,15 +7,38 @@ using StarshipGenerator.Utils;
 
 namespace StarshipGenerator.Ammo
 {
-    //TODO: All this
+    /// <summary>
+    /// Squadron class represnting squadrons of small craft
+    /// </summary>
     public class Squadron
     {
+        /// <summary>
+        /// Name of the Squadron
+        /// </summary>
         public string Name {get; private set; }
+        /// <summary>
+        /// Race Squadron belongs to
+        /// </summary>
         public Race Race { get; private set; }
+        /// <summary>
+        /// Craft Rating of the Squadron
+        /// </summary>
         public int CraftRating { get; private set; }
+        /// <summary>
+        /// VUs squadron may move per turn
+        /// </summary>
         public int Speed { get; private set; }
+        /// <summary>
+        /// Maximum size of squadron
+        /// </summary>
         public int MaxSize { get; private set; }
+        /// <summary>
+        /// Current Size of the Squadron
+        /// </summary>
         public int CurrentSize;
+        /// <summary>
+        /// Squadron strength as abstract
+        /// </summary>
         public Strength Strength
         {
             get

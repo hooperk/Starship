@@ -44,6 +44,11 @@ namespace StarshipGenerator.Utils
         /// <param name="input">Roll string to parse</param>
         public DiceRoll(String input)
         {
+            if (input == null)
+            {
+                this.d10 = this.d5 = this.modifier = 0;
+                return;
+            }
             String roll = new string(input.Where(c => !Char.IsWhiteSpace(c)).ToArray());//strip whitespace
             this.d10 = this.d5 = 0;
             int index = 0;

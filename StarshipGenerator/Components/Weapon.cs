@@ -212,8 +212,8 @@ namespace StarshipGenerator.Components
         /// <param name="turbo">Quality of turboweapon battery upgrade if applicable</param>
         public Weapon(string name, WeaponType type, HullType hulls, WeaponSlot slots, int power, int space, int sp, int str,
             DiceRoll damage, int crit, int range, RuleBook origin, byte page, Quality quality = Quality.Common, 
-            WeaponQuality wq = WeaponQuality.None, string special = null, Quality turbo = Quality.None)
-            : base(name, sp, power, space, special, origin, page, hulls, quality)
+            WeaponQuality wq = WeaponQuality.None, string special = null, Quality turbo = Quality.None, ComponentOrigin comp = ComponentOrigin.Standard)
+            : base(name, sp, power, space, special, origin, page, hulls, quality, comp)
         {
             this.Type = type;
             this.Slots = slots;
@@ -247,8 +247,43 @@ namespace StarshipGenerator.Components
         /// <param name="turbo">Quality of turboweapon battery upgrade if applicable</param>
         public Weapon(string name, WeaponType type, HullType hulls, WeaponSlot slots, int power, int space, 
             int sp, int str, string damage, int crit, int range, RuleBook origin, byte page, Quality quality = Quality.Common,
-            WeaponQuality wq = WeaponQuality.None, string special = null, Quality turbo = Quality.None)
+            WeaponQuality wq = WeaponQuality.None, string special = null, Quality turbo = Quality.None, ComponentOrigin comp = ComponentOrigin.Standard)
             : this(name, type, hulls, slots, power, space, sp, str, new DiceRoll(damage), crit, range, 
-            origin, page, quality, wq, special, turbo) { }
+            origin, page, quality, wq, special, turbo, comp) { }
+
+        /// <summary>
+        /// Serialises the component
+        /// </summary>
+        /// <returns>JSON object as string</returns>
+        public override string ToJSON()
+        {
+            /*{
+             * "Weapon": {
+             *  "Name" : name,
+             *  "WeapType" : type,
+             *  "Types" : types,
+             *  "Slots" : slots,
+             *  "Power" : power,
+             *  "Space" : space,
+             *  "SP" : sp,
+             *  "Str" : str,
+             *  "Damage" : damage,
+             *  "Crit" : crit,
+             *  "Range" : range,
+             *  "Origin" : origin,
+             *  "Page" :  page,
+             *  "Quality" : quality,
+             *  "WeapQual" : wq,
+             *  "Special" : special,
+             *  "Turbo" : turbo,
+             *  "Comp" : comp }
+             *}
+             */
+            return @"{""Weapon"":{""Name"":""" + Name + @""",""WeapType"":" + (byte)Type + @",""Types"":" + (byte)HullTypes
+                + @",""Slots"":" + (byte)Slots + @",""Power"":" + Power + @",""Space"":" + Space + @",""SP"":" + SP + @",""Str"":"
+                + Strength + @",""Damage"":""" + Damage.ToString() + @""",""Crit"":" + Crit + @",""Range"":" + Range
+                + @",""Origin"":" + (byte)Origin + @",""Page"":" + PageNumber + @",""Quality"":" + (byte)Quality
+                + @",""Special"":""" + Special + @""",""Turbo"":" + (byte)TurboWeapon + @",""Comp"":" + (byte)ComponentOrigin + @"}}";
+        }
     }
 }

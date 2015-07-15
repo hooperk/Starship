@@ -51,8 +51,9 @@ namespace StarshipGenerator.Components
         /// <param name="man">manoeuvrability modifier of this array</param>
         /// <param name="bs">ballistic skill modifier of this array</param>
         public Augur(string name, int power, RuleBook origin, byte page, int det = 0, String special = null,
-            Quality quality = Quality.Common, int sp = 0, int man = 0, int bs = 0)
-            : base(name, sp, power, 0, special, origin, page, HullType.All, quality)
+            Quality quality = Quality.Common, int sp = 0, int man = 0, int bs = 0, 
+            ComponentOrigin comp = ComponentOrigin.Standard)
+            : base(name, sp, power, 0, special, origin, page, HullType.All, quality,comp)
         {
             this.Manoeuvrability = man;
             this.DetectionRating = det;
@@ -77,12 +78,13 @@ namespace StarshipGenerator.Components
              *  "Quality" : quality, 
              *  "SP" : sp, 
              *  "Man": man, 
-             *  "BS" : bs }
+             *  "BS" : bs,
+             *  "Comp" : comp }
              * }
              * */
-            return @"{""Augur"":{""Name"":""" + Name +@""",""Power"":"+Power+@",""Origin"":"+(byte)Origin+@",""Page"":"+PageNumber
-                +@",""Det"":"+DetectionRating+@",""Special"":"""+Special+@""",""Quality"":"+(byte)Quality+@",""SP"":"+SP
-                    +@",""Man"":"+Manoeuvrability+@",""BS"":"+BSModifier+@"}}";
+            return @"{""Augur"":{""Name"":""" + Name + @""",""Power"":" + Power + @",""Origin"":" + (byte)Origin + @",""Page"":" + PageNumber
+                + @",""Det"":" + DetectionRating + @",""Special"":""" + base.Special + @""",""Quality"":" + (byte)Quality + @",""SP"":" + SP
+                    + @",""Man"":" + Manoeuvrability + @",""BS"":" + BSModifier + @",""Comp"":" + (byte)ComponentOrigin + @"}}";
         }
 
         /// <summary>

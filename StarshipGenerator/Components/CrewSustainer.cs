@@ -36,8 +36,8 @@ namespace StarshipGenerator.Components
         /// <param name="sp">cost of this component</param>
         /// <param name="loss">modifier to morale loss granted by this component</param>
         public CrewSustainer(string name, HullType types, int power, int space, int morale, RuleBook origin, byte page,
-            string special = null, Quality quality = Quality.Common, int sp = 0, int loss = 0)
-            : base(name, sp, power, space, special, origin, page, types, quality)
+            string special = null, Quality quality = Quality.Common, int sp = 0, int loss = 0, ComponentOrigin comp = ComponentOrigin.Standard)
+            : base(name, sp, power, space, special, origin, page, types, quality, comp)
         {
             this.Morale = morale;
             this.MoraleLoss = loss;

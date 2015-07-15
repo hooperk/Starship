@@ -57,8 +57,8 @@ namespace StarshipGenerator.Components
         /// <param name="speed">speed modifier of this drive</param>
         /// <param name="man">manoeuvrability modifier of this drive</param>
         public PlasmaDrive(string name, HullType types, int power, int space, string special, RuleBook origin, byte page, int sp = 0, 
-            Quality quality = Quality.Common, int speed = 0, int man = 0)
-            : base(name, sp, power, space, special, origin, page, types, quality)
+            Quality quality = Quality.Common, int speed = 0, int man = 0, ComponentOrigin comp = ComponentOrigin.Standard)
+            : base(name, sp, power, space, special, origin, page, types, quality, comp)
         {
             this.Manoeuvrability = man;
             this.Speed = speed;
@@ -82,12 +82,13 @@ namespace StarshipGenerator.Components
              *  "SP" : sp,
              *  "Quality" : quality,
              *  "Speed" : speed,
-             *  "Man" : man }
+             *  "Man" : man,
+             *  "Comp" : comp }
              *}
              */
             return @"{""Plasma"":{""Name"":""" + Name + @""",""Types"":" + (byte)HullTypes + @",""Power"":" + Power + @",""Space"":"
-                + @",""Special"":""" + Special + @""",""Origin"":" + (byte)Origin + @",""Page"":" + PageNumber + @",""SP"":"
-                + SP + @",""Quality"":" + (byte)Quality + @",""Speed"":" + Speed + @",""Man"":" + Manoeuvrability + @"}}";
+                + Space + @",""Special"":""" + Special + @""",""Origin"":" + (byte)Origin + @",""Page"":" + PageNumber + @",""SP"":"
+                + SP + @",""Quality"":" + (byte)Quality + @",""Speed"":" + Speed + @",""Man"":" + Manoeuvrability + @",""Comp"":" + (byte)ComponentOrigin + @"}}";
         }
 
         /// <summary>

@@ -120,6 +120,10 @@ namespace StarshipGenerator.Components
         /// Quality of the component
         /// </summary>
         public Quality Quality { get; set; }
+        /// <summary>
+        /// Origin of the component
+        /// </summary>
+        public ComponentOrigin ComponentOrigin { get; private set; }
 
         /// <summary>
         /// Create a new Component object
@@ -133,7 +137,7 @@ namespace StarshipGenerator.Components
         /// <param name="page">page of the rulebook that the component may be found on</param>
         /// <param name="types">hulls which may use this component</param>
         /// <param name="quality">Quality of this component</param>
-        public Component(string name, int sp, int power, int space, string special, RuleBook origin, byte page, HullType types, Quality quality = Quality.Common)
+        public Component(string name, int sp, int power, int space, string special, RuleBook origin, byte page, HullType types, Quality quality = Quality.Common, ComponentOrigin comp = ComponentOrigin.Standard)
         {
             this.Name = name;
             this.SP = sp;
@@ -144,6 +148,7 @@ namespace StarshipGenerator.Components
             this.PageNumber = page;
             this.HullTypes = types;
             this.Quality = quality;
+            this.ComponentOrigin = comp;
         }
 
         /// <summary>

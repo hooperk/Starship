@@ -14,6 +14,11 @@ namespace StarshipGenerator.Utils
         //public static Starship LoadLSS
 
         //public static Starship LoadSSS
+        //Modified -> Regular w/ Modified = true
+        //Some drives were renamed for move to c#
+        //name.Replace("†","") for finding supplementals
+
+        //public static void Update - do fetches by name to update information in case of fixes
 
         //public static Loader Load
 
@@ -25,6 +30,11 @@ namespace StarshipGenerator.Utils
     /// </summary>
     public static class Saver
     {
+        /// <summary>
+        /// Escape any double quotes from a string, and replace it with an empty string if it is null
+        /// </summary>
+        /// <param name="self">String to format</param>
+        /// <returns>Formatted string ready for JSON</returns>
         public static string Escape(this string self)
         {
             if (self == null)
@@ -32,5 +42,22 @@ namespace StarshipGenerator.Utils
             return self.Replace("\"", "\\\"");
         }
 
+        /// <summary>
+        /// Save a Starship in the old .sss format
+        /// </summary>
+        /// <param name="ship">Starship to save</param>
+        public static void SaveSSS(Starship ship)
+        {
+
+        }
+
+        /// <summary>
+        /// Save a Starship in the new .lss format
+        /// </summary>
+        /// <param name="ship">Starship to save</param>
+        public static void SaveLSS(Starship ship)
+        {
+
+        }
     }
 }

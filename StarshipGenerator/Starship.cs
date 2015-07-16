@@ -32,6 +32,8 @@ namespace StarshipGenerator
                             _hull.DefaultBroadside;
                 if (_hull.DefaultComponents != null)
                     SupplementalComponents.AddRange(_hull.DefaultComponents);
+                if (_hull.History != Utils.ShipHistory.None)
+                    ShipHistory = _hull.History;
             }
         }
         private Hull _hull;
@@ -274,6 +276,8 @@ namespace StarshipGenerator
                 if (Hull == null)
                     return 0;
                 int total = Hull.Armour;
+                if (Hull.ArmourLocked)
+                    return total;
                 foreach (Supplemental component in SupplementalComponents)
                     total += component.Armour;
                 if (MachineSpirit == MachineSpirit.ANoseForTrouble)
@@ -577,6 +581,8 @@ namespace StarshipGenerator
             get
             {
                 int total = 0;
+                if (Hull != null)
+                    total += Hull.BSModifier;
                 if (ShipBridge != null)
                     total += ShipBridge.BSModifier;
                 if (AugurArrays != null)
@@ -848,6 +854,8 @@ namespace StarshipGenerator
             get
             {
                 int total = 0;
+                if (Hull != null)
+                    total += Hull.NavigateWarp;
                 if (GellarField != null)
                     total += GellarField.NavigateWarp;
                 if (ShipBridge != null)

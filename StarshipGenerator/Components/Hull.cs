@@ -85,6 +85,26 @@ namespace StarshipGenerator.Components
         /// 0 or less indicates no limit.
         /// </summary>
         public int MaxSpeed { get; private set; }
+        /// <summary>
+        /// Default ship history, mainly for Loki
+        /// </summary>
+        public ShipHistory History { get; private set; }
+        /// <summary>
+        /// Modifer to ballistic skill with this ship's weapons
+        /// </summary>
+        public int BSModifier { get; private set; }
+        /// <summary>
+        /// Whether the ship may be given armour upgrades
+        /// </summary>
+        public bool ArmourLocked { get; private set; }
+        /// <summary>
+        /// Modifiers to navigate warp with this ship
+        /// </summary>
+        public int NavigateWarp { get; private set; }
+        /// <summary>
+        /// Type of VoidShields which can be used by this hull
+        /// </summary>
+        public HullType VoidShields { get; private set; }
         //image or at least image path if gonna show
 
         /// <summary>
@@ -112,12 +132,19 @@ namespace StarshipGenerator.Components
         /// <param name="broadside">Default broadside weapons</param>
         /// <param name="comps">Default supplemental components</param>
         /// <param name="command">Command modifier of this hull</param>
-        /// <param name="maxspeed">maximum speed of ship. <1 = unlimited</param>
+        /// <param name="maxspeed">maximum speed of ship. &lt;1 = unlimited</param>
+        /// <param name="power">Power generated(or used)by hull, not including built in systems(those should be listed in themselves)</param>
+        /// <param name="history">History this hull always has</param>
+        /// <param name="bs">Modifier to ballistic skill tests with this hull</param>
+        /// <param name="locked">If the ship has been locked so it may not add more armour</param>
+        /// <param name="navigate">modifier to navigate warp</param>
+        /// <param name="shields">hulltypes of the shields which may be added</param>
         public Hull(string name, int speed, int man, int det, int hullint, int armour, int space, int sp, HullType type,
             String special, RuleBook origin, byte page, int turrets = 1, int prow = 0, int dorsal = 0,
             int side = 0, int keel = 0, int aft = 0, Weapon frontal = null, Weapon broadside = null, 
-            Supplemental[] comps = null, int command = 0, int maxspeed = 0)
-            : base(name, sp, 0, space, special, origin, page, type)
+            Supplemental[] comps = null, int command = 0, int maxspeed = 0, int power = 0, ShipHistory history = ShipHistory.None, 
+            int bs = 0, bool locked = false, int navigate = 0, HullType shields = HullType.None)
+            : base(name, sp, power, space, special, origin, page, type)
         {
             this.Speed = speed;
             this.Manoeuvrability = man;
@@ -134,6 +161,11 @@ namespace StarshipGenerator.Components
             this.DefaultComponents = comps;
             this.Command = command;
             this.MaxSpeed = maxspeed;
+            this.History = history;
+            this.BSModifier = bs;
+            this.ArmourLocked = locked;
+            this.NavigateWarp = navigate;
+            this.VoidShields = (shields == HullType.None ? type : shields);
         }
 
         /// <summary>
@@ -167,7 +199,13 @@ namespace StarshipGenerator.Components
              *   "Broadside" : {Weapon : {...}}
              *   "Comps" : [{Supplemental : {...}},{Supplemental : {...}}...]
              *   "Command" : command,
-             *   "Max" : maxspeed }
+             *   "Max" : maxspeed,
+             *   "Power" : power,
+             *   "History" : History,
+             *   "BS" : bs,
+             *   "Locked" : locked,
+             *   "Nav" : nav,
+             *   "Shields" : shields }
              * }
              */
             StringBuilder output = new StringBuilder(@"{""Hull"":{""Name"":""" + Name + @""",""Speed"":" + Speed);
@@ -188,7 +226,8 @@ namespace StarshipGenerator.Components
                         output.Append(@",");
                 }
             }
-            output.Append(@"],""Command"":" + Command + @",""Max"":" + MaxSpeed + @"}}");
+            output.Append(@"],""Command"":" + Command + @",""Max"":" + MaxSpeed + @",""Power"":" + Power + @",""History"":" + (byte)History 
+                + @",""BS"":" + BSModifier + @",""Locked"":" + (ArmourLocked ? 1 : 0) + @",""Nav"":" + NavigateWarp + @",""Shields"":" + (byte)VoidShields + @"}}");
             return output.ToString();
         }
 
@@ -219,6 +258,16 @@ namespace StarshipGenerator.Components
                     int count = DefaultComponents.Where(c => c.Name == component).Count();
                     output.Append("Comes with " + count + " built in " + component + (count > 1 ? "s; " : "; "));
                 }
+                if (History != ShipHistory.None)
+                    output.Append("Past History is always " + History.Name() + ";");
+                if (BSModifier != 0)
+                    output.Append((BSModifier > 0 ? "+" : "") + BSModifier + " to hit with this ship's weapons");
+                if (NavigateWarp != 0)
+                    output.Append((NavigateWarp > 0 ? "+" : "") + NavigateWarp + " to navigate during warp travel;");
+                if (ArmourLocked)
+                    output.Append("May not be given armour upgrades;");
+                if (VoidShields != HullTypes)
+                    output.Append("May attach Void Shields as if " + VoidShields.ToString());
                 output.Append(base.Special);
                 return output.ToString();
             }

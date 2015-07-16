@@ -133,6 +133,14 @@ namespace StarshipGenerator.Components
                 return base.Power;
             }
         }
+        /// <summary>
+        /// Name of the component replaced by this(for hold landing bay)
+        /// </summary>
+        public string Replace { get; private set; }
+        /// <summary>
+        /// Maximum number of this component you may have, &lt;1 means unlimited
+        /// </summary>
+        public int Max { get; private set; }
 
         /// <summary>
         /// Create a new supplemental Component
@@ -177,7 +185,7 @@ namespace StarshipGenerator.Components
             int mining = 0, int creed = 0, int military = 0, int trade = 0, int criminal = 0,
             int exploration = 0, bool generated = false, int detection = 0, Weapon aux = null, 
             int macrodamage = 0, int bs = 0, int navigate = 0, int crewLoss = 0, int moraleLoss = 0, 
-            ComponentOrigin comp = ComponentOrigin.Standard)
+            ComponentOrigin comp = ComponentOrigin.Standard, string replace = null, int max = 0)
             : base(name, sp, power, space, special, origin, page, types, quality, comp)
         {
             this.Speed = speed;
@@ -204,6 +212,8 @@ namespace StarshipGenerator.Components
             this.NavigateWarp = navigate;
             this.CrewLoss = crewLoss;
             this.MoraleLoss = moraleLoss;
+            this.Replace = replace;
+            this.Max = max;
         }
 
         /// <summary>
@@ -248,11 +258,11 @@ namespace StarshipGenerator.Components
             int crew = 0, int prowArmour = 0, int crewRating = 0, int mining = 0, int creed = 0, int military = 0,
             int trade = 0, int criminal = 0, int exploration = 0, bool generated = false, int detection = 0,
             Weapon aux = null, int macrodamage = 0, int bs = 0, int navigate = 0, int crewLoss = 0, int moraleLoss = 0,
-            ComponentOrigin comp = ComponentOrigin.Standard)
+            ComponentOrigin comp = ComponentOrigin.Standard, string replace = null, int max = 0)
             : this(name, types, power, space, sp, origin, page, new DiceRoll(ramming), special, quality, speed, man, hullint,
                 armour, turrets, morale, crew, prowArmour, crewRating,
                 mining, creed, military, trade, criminal, exploration, generated, detection, aux,
-                macrodamage, bs, navigate, crewLoss, moraleLoss, comp) { }
+                macrodamage, bs, navigate, crewLoss, moraleLoss, comp, replace, max) { }
 
         /// <summary>
         /// Serialises the Supplemental Component
@@ -295,7 +305,9 @@ namespace StarshipGenerator.Components
              *  "Nav" : nav,
              *  "CrewLoss" : crewLoss,
              *  "MoraleLoss" : moraleLoss,
-             *  "Comp" : comp }
+             *  "Comp" : comp,
+             *  "Replace" : replace,
+             *  "Max" : max }
              *}
              */
             return @"{""Supplemental"":{""Name"":""" + Name + @""",""Types"":" + (byte)HullTypes + @",""Power"":" + Power
@@ -309,7 +321,7 @@ namespace StarshipGenerator.Components
                 + ExplorationObjective + @",""Gen"":" + (PowerGenerated ? 1 : 0) + @",""Det"":" + DetectionRating
                 + @",""Aux"":" + (AuxiliaryWeapon == null ? @"null" : AuxiliaryWeapon.ToJSON()) + @",""Macro"":"
                 + MacrobatteryModifier + @",""BS"":" + BSModifier + @",""Nav"":" + NavigateWarp + @",""CrewLoss"":"
-                + CrewLoss + @",""MoraleLoss"":" + MoraleLoss + @",""Comp"":" + (byte)ComponentOrigin + @"}}";
+                + CrewLoss + @",""MoraleLoss"":" + MoraleLoss + @",""Comp"":" + (byte)ComponentOrigin + @",""Replace"":""" + Replace + @""",""Max"":" + Max + @"}}";
         }
 
         /// <summary>
@@ -320,6 +332,8 @@ namespace StarshipGenerator.Components
             get
             {
                 StringBuilder output = new StringBuilder();
+                if (Replace != null)
+                    output.Append("Replaces a " + Replace + ";");
                 if (Speed > 0)
                     output.Append("+" + Speed + " Speed; ");
                 else if (Speed < 0)
@@ -406,6 +420,8 @@ namespace StarshipGenerator.Components
                     output.Append("+" + NavigateWarp + " to navigate through the warp; ");
                 else if (NavigateWarp < 0)
                     output.Append(NavigateWarp + " to navigate through the warp; ");
+                if (Max > 0)
+                    output.Append("May only take " + Max + ";");
                 output.Append(base.Description);
                 return output.ToString();
             }

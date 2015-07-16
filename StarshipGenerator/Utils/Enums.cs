@@ -82,6 +82,7 @@ namespace StarshipGenerator.Utils
     /// </summary>
     public enum MachineSpirit : byte
     {
+        None = 0,
         ANoseForTrouble,
         BlasphemousTendencies,
         MartialHubris,
@@ -99,6 +100,7 @@ namespace StarshipGenerator.Utils
     /// </summary>
     public enum ShipHistory : byte
     {
+        None = 0,
         ReliquaryOfMars,
         Haunted,
         EmissaryOfTheImperator,

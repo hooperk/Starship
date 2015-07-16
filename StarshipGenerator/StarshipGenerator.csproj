@@ -54,7 +54,7 @@
     <Compile Include="Components\LifeSustainer.cs" />
     <Compile Include="Components\TorpedoTubes.cs" />
     <Compile Include="Components\Upgrades.cs" />
-    <Compile Include="CTest.cs" />
+    <Compile Include="Generator.cs" />
     <Compile Include="Utils\DiceRoll.cs" />
     <Compile Include="Utils\Enums.cs" />
     <Compile Include="Components\GellarField.cs" />

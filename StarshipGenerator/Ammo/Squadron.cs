@@ -97,7 +97,7 @@ namespace StarshipGenerator.Ammo
              *  "Size" : size }
              *}
              */
-            return @"{""Squadron"":{""Name"":""" + Name + @""",""Race"":" + (byte)Race + @",""Rating"":" + CraftRating 
+            return @"{""Squadron"":{""Name"":""" + Name.Escape() + @""",""Race"":" + (byte)Race + @",""Rating"":" + CraftRating 
                 + @",""Speed"":" + Speed + @",""Max"":" + MaxSize + @",""Size"":" + CurrentSize + @"}}";
         }
     }

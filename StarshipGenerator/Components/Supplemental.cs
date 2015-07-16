@@ -310,9 +310,9 @@ namespace StarshipGenerator.Components
              *  "Max" : max }
              *}
              */
-            return @"{""Supplemental"":{""Name"":""" + Name + @""",""Types"":" + (byte)HullTypes + @",""Power"":" + Power
+            return @"{""Supplemental"":{""Name"":""" + Name.Escape() + @""",""Types"":" + (byte)HullTypes + @",""Power"":" + Power
                 + @",""Space"":" + Space + @",""SP"":" + SP + @",""Origin"":" + (byte)Origin + @",""Page"":" + PageNumber
-                + @",""Ram"":""" + RamDamage.ToString() + @""",""Special"":""" + Special + @""",""Quality"":"
+                + @",""Ram"":""" + RamDamage.ToString().Escape() + @""",""Special"":""" + Special.Escape() + @""",""Quality"":"
                 + (byte)Quality + @",""Speed"":" + Speed + @",""Man"":" + Manoeuvrability + @",""Int"":" + HullIntegrity
                 + @",""Armour"":" + Armour + @",""Turrets"":" + TurretRating + @",""Morale"":" + Morale + @",""Crew"":"
                 + CrewPopulation + @",""Prow"":" + ProwArmour + @",""Rating"":" + CrewRating + @",""Mining"":"
@@ -321,7 +321,7 @@ namespace StarshipGenerator.Components
                 + ExplorationObjective + @",""Gen"":" + (PowerGenerated ? 1 : 0) + @",""Det"":" + DetectionRating
                 + @",""Aux"":" + (AuxiliaryWeapon == null ? @"null" : AuxiliaryWeapon.ToJSON()) + @",""Macro"":"
                 + MacrobatteryModifier + @",""BS"":" + BSModifier + @",""Nav"":" + NavigateWarp + @",""CrewLoss"":"
-                + CrewLoss + @",""MoraleLoss"":" + MoraleLoss + @",""Comp"":" + (byte)ComponentOrigin + @",""Replace"":""" + Replace + @""",""Max"":" + Max + @"}}";
+                + CrewLoss + @",""MoraleLoss"":" + MoraleLoss + @",""Comp"":" + (byte)ComponentOrigin + @",""Replace"":""" + Replace.Escape() + @""",""Max"":" + Max + @"}}";
         }
 
         /// <summary>

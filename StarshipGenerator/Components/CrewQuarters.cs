@@ -48,8 +48,8 @@ namespace StarshipGenerator.Components
              *  "Loss" : loss}
              *}
              **/
-            return @"{""Quarters"":{""Name"":""" + Name + @""",""Types"":" + (byte)HullTypes + @",""Power"":" + Power + @",""Space"":"
-                + Space + @",""Morale"":" + Morale + @",""Origin"":" + (byte)Origin + @",""Page"":" + PageNumber + @",""Special"":""" + Special
+            return @"{""Quarters"":{""Name"":""" + Name.Escape() + @""",""Types"":" + (byte)HullTypes + @",""Power"":" + Power + @",""Space"":"
+                + Space + @",""Morale"":" + Morale + @",""Origin"":" + (byte)Origin + @",""Page"":" + PageNumber + @",""Special"":""" + Special.Escape()
                 + @""",""Quality"":" + (byte)Quality + @",""SP"":" + SP + @",""Loss"":" + MoraleLoss + @",""Comp"":" + (byte)ComponentOrigin + @"}}";
         }
     }

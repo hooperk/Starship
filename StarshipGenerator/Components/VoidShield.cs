@@ -58,9 +58,9 @@ namespace StarshipGenerator.Components
              *  "Comp" : comp }
              *}
              */
-            return @"{""Shield"":{""Name"":""" + Name + @""",""Types"":" + (byte)HullTypes + @",""Power"":" + Power + @",""Space"":"
+            return @"{""Shield"":{""Name"":""" + Name.Escape() + @""",""Types"":" + (byte)HullTypes + @",""Power"":" + Power + @",""Space"":"
                 + Space + @",""Str"":" + Strength + @",""Origin"":" + (byte)Origin + @",""Page"":" + PageNumber + @",""Special"":"""
-                + Special + @""",""Quality"":" + (byte)Quality + @",""SP"":" + SP + @",""Comp"":" + (byte)ComponentOrigin + @"}}";
+                + Special.Escape() + @""",""Quality"":" + (byte)Quality + @",""SP"":" + SP + @",""Comp"":" + (byte)ComponentOrigin + @"}}";
         }
     }
 }

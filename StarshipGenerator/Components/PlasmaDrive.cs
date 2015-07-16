@@ -12,6 +12,15 @@ namespace StarshipGenerator.Components
     /// </summary>
     public class PlasmaDrive : Component
     {
+        public override string Name
+        {
+            get
+            {
+                if (Modified && base.ComponentOrigin == ComponentOrigin.Standard)
+                    return "Modified " + Name;
+                return base.Name;
+            }
+        }
         /// <summary>
         /// Manoeuvrability modifier this drive grants
         /// </summary>
@@ -19,7 +28,17 @@ namespace StarshipGenerator.Components
         /// <summary>
         /// Speed modifier this drive grants
         /// </summary>
-        public int Speed { get; private set; }//was there somethign about quality here? if so implement it in set
+        public int Speed
+        {
+            get
+            {
+                if (Modified && base.ComponentOrigin == ComponentOrigin.Standard)
+                    return _speed + 1;
+                return _speed;
+            }
+            private set { _speed = value; }
+        }
+        private int _speed;
         /// <summary>
         /// Power supplied by component
         /// </summary>
@@ -41,6 +60,36 @@ namespace StarshipGenerator.Components
                 }
             }
         }
+        /// <summary>
+        /// If the drive is a modified archeotech version
+        /// </summary>
+        public bool Modified { get; private set; }
+
+        public override int Space
+        {
+            get
+            {
+                if (Modified && base.ComponentOrigin == ComponentOrigin.Standard)
+                    return Space - 1;
+                return base.Space;
+            }
+            set
+            {
+                base.Space = value;
+            }
+        }
+        /// <summary>
+        /// Whether the drive is archeotech, xenotech or standard
+        /// </summary>
+        public override ComponentOrigin ComponentOrigin
+        {
+            get
+            {
+                if (Modified && base.ComponentOrigin == ComponentOrigin.Standard)
+                    return ComponentOrigin.Archeotech;
+                return base.ComponentOrigin;
+            }
+        }
 
         /// <summary>
         /// Create a new plasma drive
@@ -56,12 +105,13 @@ namespace StarshipGenerator.Components
         /// <param name="quality">quality of this drive</param>
         /// <param name="speed">speed modifier of this drive</param>
         /// <param name="man">manoeuvrability modifier of this drive</param>
-        public PlasmaDrive(string name, HullType types, int power, int space, string special, RuleBook origin, byte page, int sp = 0, 
-            Quality quality = Quality.Common, int speed = 0, int man = 0, ComponentOrigin comp = ComponentOrigin.Standard)
+        public PlasmaDrive(string name, HullType types, int power, int space, string special, RuleBook origin, byte page, int sp = 0,
+            Quality quality = Quality.Common, int speed = 0, int man = 0, ComponentOrigin comp = ComponentOrigin.Standard, bool modified = false)
             : base(name, sp, power, space, special, origin, page, types, quality, comp)
         {
             this.Manoeuvrability = man;
             this.Speed = speed;
+            Modified = modified;
         }
 
         /// <summary>
@@ -83,12 +133,14 @@ namespace StarshipGenerator.Components
              *  "Quality" : quality,
              *  "Speed" : speed,
              *  "Man" : man,
-             *  "Comp" : comp }
+             *  "Comp" : comp,
+             *  "Mod" : mod}
              *}
              */
-            return @"{""Plasma"":{""Name"":""" + Name + @""",""Types"":" + (byte)HullTypes + @",""Power"":" + Power + @",""Space"":"
-                + Space + @",""Special"":""" + Special + @""",""Origin"":" + (byte)Origin + @",""Page"":" + PageNumber + @",""SP"":"
-                + SP + @",""Quality"":" + (byte)Quality + @",""Speed"":" + Speed + @",""Man"":" + Manoeuvrability + @",""Comp"":" + (byte)ComponentOrigin + @"}}";
+            return @"{""Plasma"":{""Name"":""" + base.Name.Escape() + @""",""Types"":" + (byte)HullTypes + @",""Power"":" + Power + @",""Space"":"
+                + Space + @",""Special"":""" + Special.Escape() + @""",""Origin"":" + (byte)Origin + @",""Page"":" + PageNumber + @",""SP"":"
+                + SP + @",""Quality"":" + (byte)Quality + @",""Speed"":" + Speed + @",""Man"":" + Manoeuvrability + @",""Comp"":"
+                + (byte)ComponentOrigin + @",""Mod"":" + (Modified ? 1 : 0) + @"}}";
         }
 
         /// <summary>

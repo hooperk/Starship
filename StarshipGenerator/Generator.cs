@@ -60,15 +60,38 @@ namespace StarshipGenerator
             comps.Add(new Hull("Universe-Class Mass Conveyor", 2, -20, 5, 65, 12, 94, 45, HullType.Transport, null, RuleBook.BattlefleetKoronus, 30, dorsal: 1, side: 1, maxspeed: 2, power: 10, comps: new Supplemental[] { MainCargoHold, MainCargoHold, MainCargoHold, MainCargoHold }));
             comps.Add(new Hull("Vagabond-Class Merchant Trader", 4, -5, 10, 40, 13, 40, 20, HullType.Transport, null, RuleBook.CoreRulebook, 194, 1, 1, 1));
             comps.Add(new Hull("Viper-Class Scout Sloop", 11, 30, 25, 25, 14, 29, 27, HullType.Raider, null, RuleBook.BattlefleetKoronus, 28, dorsal: 1));
-            //end of hulls
-
+            //End of hulls
+            //Plasma Drives
+            comps.Add(new PlasmaDrive("Cypra-Pattern Class 1 Drive", HullType.Transport, 30, 10, "+15 to silent running, any attempts to detect this vessel suffer -15", RuleBook.BattlefleetKoronus, 42, 2, comp: ComponentOrigin.Archeotech));
+            comps.Add(new PlasmaDrive("Cypra-Pattern Class 2 Drive", HullType.Raider | HullType.Frigate, 40, 12, "+15 to silent running, any attempts to detect this vessel suffer -15", RuleBook.BattlefleetKoronus, 42, 2, comp: ComponentOrigin.Archeotech));
+            comps.Add(new PlasmaDrive("Jovian-Pattern Class 1 Drive", HullType.Transport, 35, 8, null, RuleBook.CoreRulebook, 199));
+            comps.Add(new PlasmaDrive("Jovian-Pattern Class 2 Drive", HullType.Raider | HullType.Frigate, 45, 10, null, RuleBook.CoreRulebook, 199));
+            comps.Add(new PlasmaDrive("Jovian-Pattern Class 3 Drive", HullType.LightCruiser, 60, 12, null, RuleBook.CoreRulebook, 199));
+            comps.Add(new PlasmaDrive("Jovian-Pattern Class 4 Drive", HullType.CruiserPlus, 75, 14, null, RuleBook.CoreRulebook, 199));
+            comps.Add(new PlasmaDrive(@"Jovian-Pattern ""Warcruiser"" Drive", HullType.CruiserPlus, 85, 17, null, RuleBook.IntoTheStorm, 156, 2));
+            comps.Add(new PlasmaDrive(@"Jovian-Pattern ""Warcruiser"" Drive", HullType.LightCruiser, 65, 14, null, RuleBook.IntoTheStorm, 156, 2));
+            comps.Add(new PlasmaDrive("Jovian-Pattern Class 8.1 Drive", HullType.Frigate, 44, 11, "On a critical hit to this drive roll a d10, ignore the crit on a 4+", RuleBook.BattlefleetKoronus, 31, 1));
+            comps.Add(new PlasmaDrive("Jovian-Pattern Class 8.2 Drive", HullType.LightCruiser, 59, 13, "On a critical hit to this drive roll a d10, ignore the crit on a 4+", RuleBook.BattlefleetKoronus, 31, 1));
+            comps.Add(new PlasmaDrive("Jovian-Pattern Class 8.3 Drive", HullType.CruiserPlus, 74, 15, "On a critical hit to this drive roll a d10, ignore the crit on a 4+", RuleBook.BattlefleetKoronus, 31, 1));
+            comps.Add(new PlasmaDrive("Jovian-Pattern Class 8.4 Drive", HullType.GrandCruiser, 93, 20, "On a critical hit to this drive roll a d10, ignore the crit on a 4+", RuleBook.BattlefleetKoronus, 31, 1));
+            comps.Add(new PlasmaDrive("Lathe-Pattern Class 1 Drive", HullType.Transport, 40, 12, null, RuleBook.CoreRulebook, 199, 1));
+            comps.Add(new PlasmaDrive(@"Lathe-Pattern Class 2a ""Sprint Trader"" Drive", HullType.Transport, 40, 14, null, RuleBook.IntoTheStorm, 156, 2, speed: 1, man: 3));
+            comps.Add(new PlasmaDrive(@"Lathe-Pattern Class 2b ""Escort"" Drive", HullType.Raider | HullType.Frigate, 47, 14, null, RuleBook.IntoTheStorm, 156, 2, speed: 1, man: 3));
+            comps.Add(new PlasmaDrive("Mezoa-Pattern Theta-7 Drive", HullType.Transport, 44, 18, "If vessel suffers thrusters damaged or engine crippled critical hits, the roll to determine severity is automatically 10", RuleBook.BattlefleetKoronus, 31, 1, speed: 2, man: 5));
+            comps.Add(new PlasmaDrive("Mimic Engine", HullType.CruiserPlus, 75, 14, "Navigator may make a +10 perception test to disguise ship as one it has already encountered, this lasts until seen visually", RuleBook.HostileAcquisition, 74, 3, comp: ComponentOrigin.Xenotech));
+            comps.Add(new PlasmaDrive("Mimic Engine", HullType.LightCruiser, 60, 12, "Navigator may make a +10 perception test to disguise ship as one it has already encountered, this lasts until seen visually", RuleBook.HostileAcquisition, 74, 3, comp: ComponentOrigin.Xenotech));
+            comps.Add(new PlasmaDrive("Mimic Engine", HullType.Raider | HullType.Frigate, 45, 10, "Navigator may make a +10 perception test to disguise ship as one it has already encountered, this lasts until seen visually", RuleBook.HostileAcquisition, 74, 3, comp: ComponentOrigin.Xenotech));
+            comps.Add(new PlasmaDrive("Mimic Engine", HullType.Transport, 40, 12, "Navigator may make a +10 perception test to disguise ship as one it has already encountered, this lasts until seen visually", RuleBook.HostileAcquisition, 74, 3, comp: ComponentOrigin.Xenotech));
+            comps.Add(new PlasmaDrive(@"Saturine-Pattern Class 4A ""Ultra"" Drive", HullType.BattleCruiser, 90, 14, null, RuleBook.BattlefleetKoronus, 31));
+            comps.Add(new PlasmaDrive("Saturine-Pattern Class 5 Drive", HullType.GrandCruiser, 95, 18, null, RuleBook.BattlefleetKoronus, 31));
+            comps.Add(new PlasmaDrive(@"Segrazian ""Viperdrive"" Pirate Engine", HullType.Raider | HullType.Frigate, 45, 16, "If the vessel suffers an engine crippled critical hit, the severity roll is automatically 8-10, engines wrecked", RuleBook.HostileAcquisition, 69, 2, man: 5, speed: 2));
+            //End of Plasma Drives
             comps.Add(new Augur("Auto-stabalised Logis-Targeter", 5, RuleBook.CoreRulebook, 207, 5, bs: 5, comp:ComponentOrigin.Archeotech));
             comps.Add(new Bridge("Armoured Bridge", HullType.CruiserPlus | HullType.LightCruiser, 3, 2, RuleBook.CoreRulebook, 200, "Ignore critical hits, damaged or unpowered on a d10 of 4+"));
             comps.Add(new CrewQuarters("Bilge Rat Quarters", HullType.CruiserPlus | HullType.LightCruiser, 2, 3, -2, RuleBook.BattlefleetKoronus, 33, "Reduce crew loss by 2 for depressurisation"));
             comps.Add(new GellarField("Belecace-pattern 90.r Gellar Field", HullType.All, 1, "-20 on warp encounters table", RuleBook.BattlefleetKoronus, 32, 0, 10));
             comps.Add(new LandingBay("Jovian Pattern Escort Bay", HullType.CruiserPlus | HullType.LightCruiser, WeaponSlot.Side, 1, 4, 1, 1, RuleBook.BattlefleetKoronus, 36));
             comps.Add(new LifeSustainer("Ancient Life Sustainer", HullType.CruiserPlus | HullType.LightCruiser, 2, 2, 2, RuleBook.CoreRulebook, 206, "Reduce loss to crew population from non-combat sources by 1", sp: 2, comp: ComponentOrigin.Archeotech));
-            comps.Add(new PlasmaDrive("Cypra-pattern Class 1 Drive", HullType.Transport, 30, 10, "+15 to silent running, any attempts to detect this vessel suffer -15", RuleBook.BattlefleetKoronus, 42, 2, comp: ComponentOrigin.Archeotech));
             comps.Add(new Supplemental("Arboretum", HullType.Transport | HullType.Raider | HullType.Frigate, 2, 2, 1, RuleBook.IntoTheStorm, 160, null, "Double the time a ship may spend at void before suffering crew and morale damage", crew: 2));
             comps.Add(new TorpedoTubes("Fortis Pattern Torpedo Tubes", HullType.CruiserPlus | HullType.LightCruiser, WeaponSlot.Prow | WeaponSlot.Keel, 2, 8, 3, 6, 42, RuleBook.BattlefleetKoronus, 37, special: "+2VUs Torpedo speed on turn they are launched"));
             comps.Add(new VoidShield("Castellan Shield", HullType.All, 5, 1, 1, RuleBook.IntoTheStorm, 161, "During enemy turn, may make free -10 tech use to double number of shields", sp: 2, comp: ComponentOrigin.Archeotech));

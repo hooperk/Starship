@@ -119,10 +119,10 @@ namespace StarshipGenerator.Components
              *}
              */
             StringBuilder output = new StringBuilder(
-                @"{""Torpedo"":{""Name"":""" + Name + @""",""Types"":" + (byte)HullTypes + @",""Slots"":" + (byte)Slots
+                @"{""Torpedo"":{""Name"":""" + Name.Escape() + @""",""Types"":" + (byte)HullTypes + @",""Slots"":" + (byte)Slots
                 + @",""Power"":" + Power + @",""Space"":" + Space + @",""SP"":" + SP + @",""Size"":" + Capacity + @",""Origin"":"
                 + (byte)Origin + @",""Page"":" + PageNumber + @",""Quality"":" + (byte)Quality + @",""WeapQual"":"
-                + (byte)WeaponQuality + @",""Special"":""" + Special + @""",""Comp"":" + (byte)ComponentOrigin
+                + (byte)WeaponQuality + @",""Special"":""" + Special.Escape() + @""",""Comp"":" + (byte)ComponentOrigin
                 + @",""Ammo"":[");
             if (Ammo != null)
             {

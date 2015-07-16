@@ -67,6 +67,7 @@
     <Compile Include="Components\WarpDrive.cs" />
     <Compile Include="Components\Weapon.cs" />
     <Compile Include="Ammo\Torpedo.cs" />
+    <Compile Include="Utils\Loader.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

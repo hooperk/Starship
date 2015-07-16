@@ -96,10 +96,10 @@ namespace StarshipGenerator.Components
              *  "Squadrons": [squadrons] }
              *}
              */
-            StringBuilder output = new StringBuilder(@"{""Landing"":{""Name"":""" + Name + @""",""Types"":" + (byte)HullTypes + @",""Slots"":" + (byte)Slots
+            StringBuilder output = new StringBuilder(@"{""Landing"":{""Name"":""" + Name.Escape() + @""",""Types"":" + (byte)HullTypes + @",""Slots"":" + (byte)Slots
                 + @",""Power"":" + Power + @",""Space"":" + Space + @",""SP"":" + SP + @",""Str"":" + Strength + @",""Origin"":"
                 + (byte)Origin + @",""Page"":" + PageNumber + @",""Quality"":" + (byte)Quality + @",""WeapQual"":"
-                + (byte)WeaponQuality + @",""Special"":""" + Special + @""",""Comp"":" + (byte)ComponentOrigin + @",""Squadrons"":[");
+                + (byte)WeaponQuality + @",""Special"":""" + Special.Escape() + @""",""Comp"":" + (byte)ComponentOrigin + @",""Squadrons"":[");
             if (Squadrons != null)
             {
                 for(int i = 0; i < Squadrons.Count; i++){

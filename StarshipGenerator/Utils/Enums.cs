@@ -44,7 +44,7 @@ namespace StarshipGenerator.Utils
         Cruiser = 0x10,
         BattleCruiser = 0x20,
         GrandCruiser = 0x40,
-        BattleShip = 0x80,//NOT IMPLEMENTED, currently included in Cruiser+
+        BattleShip = 0x80,//NOT IMPLEMENTED, currently included in Cruiser+ or All
         CruiserPlus = 0xF1,//Cruiser or bigger
         All = 0xFF
     }

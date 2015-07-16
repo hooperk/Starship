@@ -279,11 +279,11 @@ namespace StarshipGenerator.Components
              *  "Comp" : comp }
              *}
              */
-            return @"{""Weapon"":{""Name"":""" + Name + @""",""WeapType"":" + (byte)Type + @",""Types"":" + (byte)HullTypes
+            return @"{""Weapon"":{""Name"":""" + Name.Escape() + @""",""WeapType"":" + (byte)Type + @",""Types"":" + (byte)HullTypes
                 + @",""Slots"":" + (byte)Slots + @",""Power"":" + Power + @",""Space"":" + Space + @",""SP"":" + SP + @",""Str"":"
-                + Strength + @",""Damage"":""" + Damage.ToString() + @""",""Crit"":" + Crit + @",""Range"":" + Range
+                + Strength + @",""Damage"":""" + Damage.ToString().Escape() + @""",""Crit"":" + Crit + @",""Range"":" + Range
                 + @",""Origin"":" + (byte)Origin + @",""Page"":" + PageNumber + @",""Quality"":" + (byte)Quality
-                + @",""Special"":""" + Special + @""",""Turbo"":" + (byte)TurboWeapon + @",""Comp"":" + (byte)ComponentOrigin + @"}}";
+                + @",""Special"":""" + Special.Escape() + @""",""Turbo"":" + (byte)TurboWeapon + @",""Comp"":" + (byte)ComponentOrigin + @"}}";
         }
     }
 }

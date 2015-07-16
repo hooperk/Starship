@@ -15,7 +15,7 @@ namespace StarshipGenerator.Components
         /// <summary>
         /// Name of the component
         /// </summary>
-        public string Name { get; private set; }
+        public virtual string Name { get; private set; }
         /// <summary>
         /// Bitarray dictating if a component can be used with a particular hull
         /// </summary>
@@ -123,7 +123,7 @@ namespace StarshipGenerator.Components
         /// <summary>
         /// Origin of the component
         /// </summary>
-        public ComponentOrigin ComponentOrigin { get; private set; }
+        public virtual ComponentOrigin ComponentOrigin { get; private set; }
 
         /// <summary>
         /// Create a new Component object

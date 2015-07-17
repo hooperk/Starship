@@ -147,7 +147,16 @@ namespace StarshipGenerator
             //Crew Quarters
             comps.Add(new CrewQuarters("Bilge Rat Quarters", HullType.CruiserPlus | HullType.LightCruiser, 2, 3, -2, RuleBook.BattlefleetKoronus, 33, "Reduce crew loss by 2 for depressurisation"));
             comps.Add(new CrewQuarters("Bilge Rat Quarters", HullType.Transport | HullType.Raider | HullType.Frigate, 1, 2, -2, RuleBook.BattlefleetKoronus, 33, "Reduce crew loss by 2 for depressurisation"));
-            
+            comps.Add(new CrewQuarters("Clan-kin Quarters", HullType.CruiserPlus | HullType.LightCruiser, 2, 5, 0, RuleBook.IntoTheStorm, 157, "+5 to command tests to defend agaisnt boarding and hit and run", sp: 1, loss: -1));
+            comps.Add(new CrewQuarters("Clan-kin Quarters", HullType.Transport | HullType.Raider | HullType.Frigate, 1, 4, 0, RuleBook.IntoTheStorm, 157, "+5 to command tests to defend agaisnt boarding and hit and run", sp: 1, loss: -1));
+            comps.Add(new CrewQuarters("Cold Quarters", HullType.CruiserPlus | HullType.LightCruiser, 4, 5, 0, RuleBook.IntoTheStorm, 157, "Once per session the captain may choose to reduce one source of crew population loss to 0", sp: 1));
+            comps.Add(new CrewQuarters("Cold Quarters", HullType.Transport | HullType.Raider | HullType.Frigate, 3, 4, 0, RuleBook.IntoTheStorm, 157, "Once per session the captain may choose to reduce one source of crew population loss to 0", sp: 1));
+            comps.Add(new CrewQuarters("Pressed Crew Quarters", HullType.CruiserPlus | HullType.LightCruiser, 2, 3, -1, RuleBook.CoreRulebook, 200));
+            comps.Add(new CrewQuarters("Pressed Crew Quarters", HullType.Transport | HullType.Raider | HullType.Frigate, 1, 2, -1, RuleBook.CoreRulebook, 200));
+            comps.Add(new CrewQuarters("Slave Quarters", HullType.CruiserPlus | HullType.LightCruiser, 1, 2, -5, RuleBook.HostileAcquisition, 71));
+            comps.Add(new CrewQuarters("Slave Quarters", HullType.Transport | HullType.Raider | HullType.Frigate, 1, 1, -5, RuleBook.HostileAcquisition, 71));
+            comps.Add(new CrewQuarters("Voidsmen Quarters", HullType.CruiserPlus | HullType.LightCruiser, 2, 4, 0, RuleBook.CoreRulebook, 200));
+            comps.Add(new CrewQuarters("Voidsmen Quarters", HullType.Transport | HullType.Raider | HullType.Frigate, 1, 3, 0, RuleBook.CoreRulebook, 200));
             //End of Crew Quarters
             //Augur Arrays
             comps.Add(new Augur("Auto-stabalised Logis-Targeter", 5, RuleBook.CoreRulebook, 207, 5, bs: 5, comp: ComponentOrigin.Archeotech));

@@ -36,6 +36,30 @@ namespace StarshipGenerator.Components
         /// Modifier to navigate the warp
         /// </summary>
         public int NavigateWarp { get; private set; }
+        /// <summary>
+        /// Modifiers to Mining Objectives
+        /// </summary>
+        public int MiningObjective { get; protected set; }
+        /// <summary>
+        /// Modifiers to Creed Objectives
+        /// </summary>
+        public int CreedObjective { get; protected set; }
+        /// <summary>
+        /// Modifiers to Military Objectives
+        /// </summary>
+        public int MilitaryObjective { get; protected set; }
+        /// <summary>
+        /// Modifiers to Trade Objectives
+        /// </summary>
+        public int TradeObjective { get; protected set; }
+        /// <summary>
+        /// Modifiers to Criminal Objectives
+        /// </summary>
+        public int CriminalObjective { get; protected set; }
+        /// <summary>
+        /// Modifiers to Exploration Objectives
+        /// </summary>
+        public int ExplorationObjective { get; protected set; }
 
         /// <summary>
         /// Create a new bridge
@@ -57,7 +81,8 @@ namespace StarshipGenerator.Components
         /// <param name="navigate">modifier to navigate the warp from this bridge</param>
         public Bridge(string name, HullType types, int power, int space, RuleBook origin, byte page, string special = null,
             int sp = 0, Quality quality = Quality.Common, int man = 0, int bs = 0, int command = 0,
-            int repair = 0, int pilot = 0, int navigate = 0, ComponentOrigin comp = ComponentOrigin.Standard)
+            int repair = 0, int pilot = 0, int navigate = 0, ComponentOrigin comp = ComponentOrigin.Standard, int mining = 0, 
+            int creed = 0, int military = 0, int trade = 0, int criminal = 0, int exploration = 0)
             : base(name, sp, power, space, special, origin, page, types, quality, comp)
         {
             this.Manoeuvrability = man;
@@ -66,6 +91,12 @@ namespace StarshipGenerator.Components
             this.Repair = repair;
             this.Pilot = pilot;
             this.Repair = repair;
+            this.MiningObjective = mining;
+            this.CreedObjective = creed;
+            this.MilitaryObjective = military;
+            this.TradeObjective = trade;
+            this.CriminalObjective = criminal;
+            this.ExplorationObjective = exploration;
         }
 
         /// <summary>
@@ -91,12 +122,20 @@ namespace StarshipGenerator.Components
              *  "Repair" : repair,
              *  "Pilot" : pilot,
              *  "Nav" : nav,
-             *  "Comp" : comp }
+             *  "Comp" : comp,
+             *  "Mining" : mining,
+             *  "Creed" : creed,
+             *  "Military" : military,
+             *  "Trade" : trade,
+             *  "Criminal" : criminal,
+             *  "Explore" : explore }
              *}*/
             return @"{""Bridge"":{""Name"":""" + Name.Escape() + @""",""Types"":" + (byte)HullTypes + @",""Power"":" + Power + @",""Space"":" + Space
                 + @",""Origin"":" + (byte)Origin + @",""Page"":" + PageNumber + @",""Special"":""" + Special.Escape() + @""",""SP"":" + SP
                 + @",""Quality"":" + (byte)Quality + @",""Man"":" + Manoeuvrability + @",""BS"":" + BSModifier + @",""Command"":" + Command
-                + @",""Repair"":" + Repair + @",""Pilot"":" + Pilot + @",""Nav"":" + NavigateWarp + @",""Comp"":" + (byte)ComponentOrigin + @"}}";
+                + @",""Repair"":" + Repair + @",""Pilot"":" + Pilot + @",""Nav"":" + NavigateWarp + @",""Comp"":" + (byte)ComponentOrigin 
+                + @",""Mining"":" + MiningObjective + @",""Creed"":" + CreedObjective + @",""Military"":" + MilitaryObjective
+                + @",""Trade"":" + TradeObjective + @",""Criminal"":" + CriminalObjective + @",""Explore"":" + ExplorationObjective + @"}}";
         }
 
         /// <summary>
@@ -131,6 +170,30 @@ namespace StarshipGenerator.Components
                     output.Append("+" + Repair + " to repair tests; ");
                 else if (Repair < 0)
                     output.Append(Repair + " to repair tests; ");
+                if (MiningObjective > 0)
+                    output.Append("+" + MiningObjective + " to mining objectives; ");
+                else if (MiningObjective < 0)
+                    output.Append(MiningObjective + " to mining objectives; ");
+                if (CreedObjective > 0)
+                    output.Append("+" + CreedObjective + " to mining objectives; ");
+                else if (CreedObjective < 0)
+                    output.Append(CreedObjective + " to mining objectives; ");
+                if (MilitaryObjective > 0)
+                    output.Append("+" + MilitaryObjective + " to mining objectives; ");
+                else if (MilitaryObjective < 0)
+                    output.Append(MilitaryObjective + " to mining objectives; ");
+                if (TradeObjective > 0)
+                    output.Append("+" + TradeObjective + " to mining objectives; ");
+                else if (TradeObjective < 0)
+                    output.Append(TradeObjective + " to mining objectives; ");
+                if (CriminalObjective > 0)
+                    output.Append("+" + CriminalObjective + " to mining objectives; ");
+                else if (CriminalObjective < 0)
+                    output.Append(CriminalObjective + " to mining objectives; ");
+                if (ExplorationObjective > 0)
+                    output.Append("+" + ExplorationObjective + " to mining objectives; ");
+                else if (ExplorationObjective < 0)
+                    output.Append(ExplorationObjective + " to mining objectives; ");
                 output.Append(base.Description);
                 return output.ToString();
             }

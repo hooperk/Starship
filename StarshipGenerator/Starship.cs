@@ -656,6 +656,8 @@ namespace StarshipGenerator
             get
             {
                 int total = 0;
+                if (ShipBridge != null)
+                    total += ShipBridge.MiningObjective;
                 foreach (Supplemental component in SupplementalComponents)
                     total += component.MiningObjective;
                 return total;
@@ -669,6 +671,8 @@ namespace StarshipGenerator
             get
             {
                 int total = 0;
+                if (ShipBridge != null)
+                    total += ShipBridge.CreedObjective;
                 foreach (Supplemental component in SupplementalComponents)
                     total += component.CreedObjective;
                 return total;
@@ -682,6 +686,8 @@ namespace StarshipGenerator
             get
             {
                 int total = 0;
+                if (ShipBridge != null)
+                    total += ShipBridge.MilitaryObjective;
                 foreach (Supplemental component in SupplementalComponents)
                     total += component.MilitaryObjective;
                 return total;
@@ -695,6 +701,8 @@ namespace StarshipGenerator
             get
             {
                 int total = 0;
+                if (ShipBridge != null)
+                    total += ShipBridge.TradeObjective;
                 foreach (Supplemental component in SupplementalComponents)
                     total += component.TradeObjective;
                 if (OstentatiousDisplayOfWealth != Quality.None)
@@ -710,6 +718,8 @@ namespace StarshipGenerator
             get
             {
                 int total = 0;
+                if (ShipBridge != null)
+                    total += ShipBridge.CriminalObjective;
                 foreach (Supplemental component in SupplementalComponents)
                     total += component.CriminalObjective;
                 if (OstentatiousDisplayOfWealth != Quality.None)
@@ -729,6 +739,8 @@ namespace StarshipGenerator
             get
             {
                 int total = 0;
+                if (ShipBridge != null)
+                    total += ShipBridge.ExplorationObjective;
                 foreach (Supplemental component in SupplementalComponents)
                     total += component.ExplorationObjective;
                 if (StarchartCollection == Quality.Best)

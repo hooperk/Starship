@@ -98,19 +98,47 @@ namespace StarshipGenerator
             //End of Warp Drives
             //Gellar Fields
             comps.Add(new GellarField("Belecace-pattern 90.r Gellar Field", HullType.All, 1, "-20 on warp encounters table", RuleBook.BattlefleetKoronus, 32, 0, 10));
-            comps.Add(new GellarField("Emergency Gellar Field", HullType.All, 2, "If vessel suddenly enters the warp, roll a d10: on a 3+ Gellar Field activates automatically", RuleBook.IntoTheStorm, 156));
+            comps.Add(new GellarField("Emergency Gellar Field", HullType.All, 2, "If vessel suddenly enters the warp roll a d10: on a 3+ Gellar Field activates automatically", RuleBook.IntoTheStorm, 156));
             comps.Add(new GellarField("Gellar Field", HullType.All, 1, null, RuleBook.CoreRulebook, 199));
             comps.Add(new GellarField("Mezoa Gellar Void Integrant", HullType.Transport | HullType.Raider, 0, "-5 to rolls on warp encounters table; Damage to Void shields also affects Gellar Field", RuleBook.HostileAcquisition, 70, 0));
             comps.Add(new GellarField("Warpsbane Hull", HullType.All, 1, "When rolling for warp encounters two rolls are made and the Navigator may choose which to apply", RuleBook.CoreRulebook, 199, 2, 10));
             //End of Gellar Fields
-            comps.Add(new Augur("Auto-stabalised Logis-Targeter", 5, RuleBook.CoreRulebook, 207, 5, bs: 5, comp:ComponentOrigin.Archeotech));
+            //Void Shields
+            comps.Add(new VoidShield("Castellan Shield", HullType.All, 5, 1, 1, RuleBook.IntoTheStorm, 161, "During enemy turn, may make free -10 tech use to double number of shields", sp: 2, comp: ComponentOrigin.Archeotech));
+            comps.Add(new VoidShield("Castellan Shield Array", HullType.CruiserPlus, 7, 2, 2, RuleBook.IntoTheStorm, 161, "During enemy turn, may make free -10 tech use to double number of shields", sp: 2, comp: ComponentOrigin.Archeotech));
+            comps.Add(new VoidShield("Multiple Void Shield Array", HullType.CruiserPlus, 8, 1, 2, RuleBook.CoreRulebook, 200));
+            comps.Add(new VoidShield("Repulsor Shield Array", HullType.CruiserPlus, 8, 1, 2, RuleBook.IntoTheStorm, 157, "No penalties for moving through nebulae, ice rings, plasma clouds or celestial phenomonon"));
+            comps.Add(new VoidShield("Repulsor Shield", HullType.All, 6, 1, 1, RuleBook.IntoTheStorm, 156, "No penalties for moving through nebulae, ice rings, plasma clouds or celestial phenomonon"));
+            comps.Add(new VoidShield("Single Void Shield Array", HullType.All, 5, 1, 1, RuleBook.CoreRulebook, 199));
+            comps.Add(new VoidShield("Triple Void Shield Array", HullType.GrandCruiser, 9, 3, 3, RuleBook.BattlefleetKoronus, 32));
+            comps.Add(new VoidShield(@"Voss ""Glimmer""-Pattern Multiple Void Shield Array", HullType.CruiserPlus, 5, 1, 2, RuleBook.BattlefleetKoronus, 32, "When this cancels a hit roll a d10: on a 3 or lower the void shield fails to stop the hit"));
+            comps.Add(new VoidShield(@"Voss ""Glimmer""-Pattern Void Shield Array", HullType.All, 3, 1, 1, RuleBook.BattlefleetKoronus, 32, "When this cancels a hit roll a d10: on a 3 or lower the void shield fails to stop the hit"));
+            //End of Void Shields
+            //Ship's Bridges
             comps.Add(new Bridge("Armoured Bridge", HullType.CruiserPlus | HullType.LightCruiser, 3, 2, RuleBook.CoreRulebook, 200, "Ignore critical hits, damaged or unpowered on a d10 of 4+"));
+            comps.Add(new Bridge("Armoured Bridge", HullType.Raider | HullType.Frigate, 2, 2, RuleBook.CoreRulebook, 200, "Ignore critical hits, damaged or unpowered on a d10 of 4+"));
+            comps.Add(new Bridge("Bridge of Antiquity", HullType.CruiserPlus | HullType.LightCruiser, 2, 1, RuleBook.CoreRulebook, 207, "+10 to social skills tests for characters on the bridge", 2, man: 5, command: 10, comp: ComponentOrigin.Archeotech));
+            comps.Add(new Bridge("Bridge of Antiquity", HullType.Transport | HullType.Raider | HullType.Frigate, 1, 1, RuleBook.CoreRulebook, 207, "+10 to social skills tests for characters on the bridge", 2, man: 5, command: 10, comp: ComponentOrigin.Archeotech));
+            comps.Add(new Bridge("Combat Bridge", HullType.CruiserPlus | HullType.LightCruiser, 2, 2, RuleBook.CoreRulebook, 200, repair: 10));
+            comps.Add(new Bridge("Combat Bridge", HullType.Transport | HullType.Raider | HullType.Frigate, 1, 1, RuleBook.CoreRulebook, 200, repair: 10));
+            comps.Add(new Bridge("Command Bridge", HullType.CruiserPlus | HullType.LightCruiser, 3, 2, RuleBook.CoreRulebook, 200, sp: 1, bs: 5, command: 5));
+            comps.Add(new Bridge("Command Bridge", HullType.Raider | HullType.Frigate, 2, 1, RuleBook.CoreRulebook, 200, sp: 1, bs: 5, command: 5));
+            comps.Add(new Bridge("Commerce Bridge", HullType.Transport, 1, 1, RuleBook.CoreRulebook, 200, trade: 50));
+            comps.Add(new Bridge("Exploration Bridge", HullType.CruiserPlus | HullType.LightCruiser, 4, 2, RuleBook.IntoTheStorm, 157, "+5 to active augury", 1, exploration: 50));
+            comps.Add(new Bridge("Exploration Bridge", HullType.Transport | HullType.Raider | HullType.Frigate, 4, 1, RuleBook.IntoTheStorm, 157, "+5 to active augury", 1, exploration: 50));
+            comps.Add(new Bridge("Fleet Flag Bridge", HullType.GrandCruiser, 4, 4, RuleBook.BattlefleetKoronus, 32, "+5 to Navigate(Stellar) tests; Allied ships within 30VU also gain +5 to Pilot and Navigate tests", 1, command: 10, pilot: 5, navigate: 5));
+            comps.Add(new Bridge("Flight Command Bridge", HullType.CruiserPlus | HullType.LightCruiser, 2, 2, RuleBook.BattlefleetKoronus, 32, "+5 to command tests for small craft squadrons; Tests to ready new squadrons for launch are automatically passed; Gain +25 to objectives when using small craft for ground to air actions"));
+            comps.Add(new Bridge("Invasion Bridge", HullType.CruiserPlus, 4, 3, RuleBook.BattlefleetKoronus, 32, "+10 to Ballistic Skill tests against planetary targets, units on a planet orbitted by this vessel coutn as equipped with a multicompass as long as they are in vox contact"));
+            comps.Add(new Bridge("Ship Master's Bridge", HullType.CruiserPlus, 4, 3, RuleBook.CoreRulebook, 200, "+5 to Navigate(Stellar) tests", bs: 10, pilot: 5, navigate: 5));
+            comps.Add(new Bridge("Smuggler's Bridge", HullType.Transport, 1, 1, RuleBook.HostileAcquisition, 70, criminal: 50));
+            //End of Ships Bridges
+            
+            comps.Add(new Augur("Auto-stabalised Logis-Targeter", 5, RuleBook.CoreRulebook, 207, 5, bs: 5, comp:ComponentOrigin.Archeotech));
             comps.Add(new CrewQuarters("Bilge Rat Quarters", HullType.CruiserPlus | HullType.LightCruiser, 2, 3, -2, RuleBook.BattlefleetKoronus, 33, "Reduce crew loss by 2 for depressurisation"));
             comps.Add(new LandingBay("Jovian Pattern Escort Bay", HullType.CruiserPlus | HullType.LightCruiser, WeaponSlot.Side, 1, 4, 1, 1, RuleBook.BattlefleetKoronus, 36));
             comps.Add(new LifeSustainer("Ancient Life Sustainer", HullType.CruiserPlus | HullType.LightCruiser, 2, 2, 2, RuleBook.CoreRulebook, 206, "Reduce loss to crew population from non-combat sources by 1", sp: 2, comp: ComponentOrigin.Archeotech));
             comps.Add(new Supplemental("Arboretum", HullType.Transport | HullType.Raider | HullType.Frigate, 2, 2, 1, RuleBook.IntoTheStorm, 160, null, "Double the time a ship may spend at void before suffering crew and morale damage", crew: 2));
             comps.Add(new TorpedoTubes("Fortis Pattern Torpedo Tubes", HullType.CruiserPlus | HullType.LightCruiser, WeaponSlot.Prow | WeaponSlot.Keel, 2, 8, 3, 6, 42, RuleBook.BattlefleetKoronus, 37, special: "+2VUs Torpedo speed on turn they are launched"));
-            comps.Add(new VoidShield("Castellan Shield", HullType.All, 5, 1, 1, RuleBook.IntoTheStorm, 161, "During enemy turn, may make free -10 tech use to double number of shields", sp: 2, comp: ComponentOrigin.Archeotech));
             comps.Add(new Weapon("Bombardment Cannons", WeaponType.Macrobattery, HullType.CruiserPlus | HullType.LightCruiser, WeaponSlot.Prow | WeaponSlot.Dorsal | WeaponSlot.Keel, 5, 3, 3, 3, new DiceRoll(1, 0, 6), 2, 4, RuleBook.BattlefleetKoronus, 34, special: "Add +1 to crits rolled, +20 to intimidate tests while ship armed with this is in orbit, may add 50 to military objectives on that planet, for planetary bombardments affects double the area, +20 damage to large enemies, +10 damage to individuals and vehicles"));
             List<Squadron> squads = new List<Squadron>();
             squads.Add(new Squadron("Fury Interceptor", Race.Human, 10, 10, 20));

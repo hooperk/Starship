@@ -40,7 +40,7 @@ namespace StarshipGenerator.Utils
         }
         
         //Modified -> Regular w/ Modified = true
-        //Some drives were renamed for move to c#
+        //Some components were renamed for move to c#
         //name.Replace("†","") for finding supplementals
 
         /// <summary>

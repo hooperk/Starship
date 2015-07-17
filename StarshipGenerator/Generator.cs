@@ -132,7 +132,18 @@ namespace StarshipGenerator
             comps.Add(new Bridge("Ship Master's Bridge", HullType.CruiserPlus, 4, 3, RuleBook.CoreRulebook, 200, "+5 to Navigate(Stellar) tests", bs: 10, pilot: 5, navigate: 5));
             comps.Add(new Bridge("Smuggler's Bridge", HullType.Transport, 1, 1, RuleBook.HostileAcquisition, 70, criminal: 50));
             //End of Ships Bridges
-            
+            //Life Sustainers
+            comps.Add(new LifeSustainer("Ancient Life Sustainer", HullType.CruiserPlus | HullType.LightCruiser, 2, 2, 2, RuleBook.CoreRulebook, 206, "Reduce loss to crew population from non-combat sources by 1", sp: 2, comp: ComponentOrigin.Archeotech));
+            comps.Add(new LifeSustainer("Ancient Life Sustainer", HullType.Transport | HullType.Raider | HullType.Frigate, 2, 1, 2, RuleBook.CoreRulebook, 206, "Reduce loss to crew population from non-combat sources by 1", sp: 2, comp: ComponentOrigin.Archeotech));
+            comps.Add(new LifeSustainer("Clemency-Pattern Life Sustainer", HullType.CruiserPlus | HullType.LightCruiser, 5, 5, 1, RuleBook.BattlefleetKoronus, 32, "Reduce damage by depressurisation by 4 to a minimum of 0"));
+            comps.Add(new LifeSustainer("Clemency-Pattern Life Sustainer", HullType.Transport | HullType.Raider | HullType.Frigate, 4, 4, 1, RuleBook.BattlefleetKoronus, 32, "Reduce damage by depressurisation by 4 to a minimum of 0"));
+            comps.Add(new LifeSustainer("Euphoric Life Sustainer", HullType.CruiserPlus | HullType.LightCruiser, 5, 3, 0, RuleBook.HostileAcquisition, 70, "This may be activated to provide these effects: +10 to Morale, -10 to crew rating, -10 to opponents command test if they perform a hit & run on this vessel; After this is deactivated the vessel suffers -10 morale for a day while the crew sobers up", sp: 1));
+            comps.Add(new LifeSustainer("Euphoric Life Sustainer", HullType.Transport | HullType.Raider | HullType.Frigate, 4, 2, 0, RuleBook.HostileAcquisition, 70, "This may be activated to provide these effects: +10 to Morale, -10 to crew rating, -10 to opponents command test if they perform a hit & run on this vessel; After this is deactivated the vessel suffers -10 morale for a day while the crew sobers up", sp: 1));
+            comps.Add(new LifeSustainer("Mark 1.r Life Sustainer", HullType.CruiserPlus | HullType.LightCruiser, 4, 2, 0, RuleBook.CoreRulebook, 200, moraleLoss: 1));
+            comps.Add(new LifeSustainer("Mark 1.r Life Sustainer", HullType.Transport | HullType.Raider | HullType.Frigate, 3, 1, 0, RuleBook.CoreRulebook, 200, moraleLoss: 1));
+            comps.Add(new LifeSustainer("Vitae-Pattern Life Sustainer", HullType.CruiserPlus | HullType.LightCruiser, 5, 3, 0, RuleBook.CoreRulebook, 200));
+            comps.Add(new LifeSustainer("Vitae-Pattern Life Sustainer", HullType.Transport | HullType.Raider | HullType.Frigate, 4, 2, 0, RuleBook.CoreRulebook, 200));
+            //End of Life Sustainers
             comps.Add(new Augur("Auto-stabalised Logis-Targeter", 5, RuleBook.CoreRulebook, 207, 5, bs: 5, comp:ComponentOrigin.Archeotech));
             comps.Add(new CrewQuarters("Bilge Rat Quarters", HullType.CruiserPlus | HullType.LightCruiser, 2, 3, -2, RuleBook.BattlefleetKoronus, 33, "Reduce crew loss by 2 for depressurisation"));
             comps.Add(new LandingBay("Jovian Pattern Escort Bay", HullType.CruiserPlus | HullType.LightCruiser, WeaponSlot.Side, 1, 4, 1, 1, RuleBook.BattlefleetKoronus, 36));

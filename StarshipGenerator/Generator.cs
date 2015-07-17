@@ -96,10 +96,16 @@ namespace StarshipGenerator
             comps.Add(new WarpDrive("Strelov 1 Warp Engine", HullType.Transport | HullType.Raider | HullType.Frigate, 10, 10, RuleBook.CoreRulebook, 199));
             comps.Add(new WarpDrive("Strelov 2 Warp Engine", HullType.LightCruiser | HullType.CruiserPlus, 12, 12, RuleBook.CoreRulebook, 199));
             //End of Warp Drives
+            //Gellar Fields
+            comps.Add(new GellarField("Belecace-pattern 90.r Gellar Field", HullType.All, 1, "-20 on warp encounters table", RuleBook.BattlefleetKoronus, 32, 0, 10));
+            comps.Add(new GellarField("Emergency Gellar Field", HullType.All, 2, "If vessel suddenly enters the warp, roll a d10: on a 3+ Gellar Field activates automatically", RuleBook.IntoTheStorm, 156));
+            comps.Add(new GellarField("Gellar Field", HullType.All, 1, null, RuleBook.CoreRulebook, 199));
+            comps.Add(new GellarField("Mezoa Gellar Void Integrant", HullType.Transport | HullType.Raider, 0, "-5 to rolls on warp encounters table; Damage to Void shields also affects Gellar Field", RuleBook.HostileAcquisition, 70, 0));
+            comps.Add(new GellarField("Warpsbane Hull", HullType.All, 1, "When rolling for warp encounters two rolls are made and the Navigator may choose which to apply", RuleBook.CoreRulebook, 199, 2, 10));
+            //End of Gellar Fields
             comps.Add(new Augur("Auto-stabalised Logis-Targeter", 5, RuleBook.CoreRulebook, 207, 5, bs: 5, comp:ComponentOrigin.Archeotech));
             comps.Add(new Bridge("Armoured Bridge", HullType.CruiserPlus | HullType.LightCruiser, 3, 2, RuleBook.CoreRulebook, 200, "Ignore critical hits, damaged or unpowered on a d10 of 4+"));
             comps.Add(new CrewQuarters("Bilge Rat Quarters", HullType.CruiserPlus | HullType.LightCruiser, 2, 3, -2, RuleBook.BattlefleetKoronus, 33, "Reduce crew loss by 2 for depressurisation"));
-            comps.Add(new GellarField("Belecace-pattern 90.r Gellar Field", HullType.All, 1, "-20 on warp encounters table", RuleBook.BattlefleetKoronus, 32, 0, 10));
             comps.Add(new LandingBay("Jovian Pattern Escort Bay", HullType.CruiserPlus | HullType.LightCruiser, WeaponSlot.Side, 1, 4, 1, 1, RuleBook.BattlefleetKoronus, 36));
             comps.Add(new LifeSustainer("Ancient Life Sustainer", HullType.CruiserPlus | HullType.LightCruiser, 2, 2, 2, RuleBook.CoreRulebook, 206, "Reduce loss to crew population from non-combat sources by 1", sp: 2, comp: ComponentOrigin.Archeotech));
             comps.Add(new Supplemental("Arboretum", HullType.Transport | HullType.Raider | HullType.Frigate, 2, 2, 1, RuleBook.IntoTheStorm, 160, null, "Double the time a ship may spend at void before suffering crew and morale damage", crew: 2));

@@ -658,6 +658,8 @@ namespace StarshipGenerator
                 int total = 0;
                 if (ShipBridge != null)
                     total += ShipBridge.MiningObjective;
+                if (AugurArrays != null)
+                    total += AugurArrays.MiningObjective;
                 foreach (Supplemental component in SupplementalComponents)
                     total += component.MiningObjective;
                 return total;
@@ -673,6 +675,8 @@ namespace StarshipGenerator
                 int total = 0;
                 if (ShipBridge != null)
                     total += ShipBridge.CreedObjective;
+                if (AugurArrays != null)
+                    total += AugurArrays.CreedObjective;
                 foreach (Supplemental component in SupplementalComponents)
                     total += component.CreedObjective;
                 return total;
@@ -688,6 +692,8 @@ namespace StarshipGenerator
                 int total = 0;
                 if (ShipBridge != null)
                     total += ShipBridge.MilitaryObjective;
+                if (AugurArrays != null)
+                    total += AugurArrays.MilitaryObjective;
                 foreach (Supplemental component in SupplementalComponents)
                     total += component.MilitaryObjective;
                 return total;
@@ -703,6 +709,8 @@ namespace StarshipGenerator
                 int total = 0;
                 if (ShipBridge != null)
                     total += ShipBridge.TradeObjective;
+                if (AugurArrays != null)
+                    total += AugurArrays.TradeObjective;
                 foreach (Supplemental component in SupplementalComponents)
                     total += component.TradeObjective;
                 if (OstentatiousDisplayOfWealth != Quality.None)
@@ -720,6 +728,8 @@ namespace StarshipGenerator
                 int total = 0;
                 if (ShipBridge != null)
                     total += ShipBridge.CriminalObjective;
+                if (AugurArrays != null)
+                    total += AugurArrays.CriminalObjective;
                 foreach (Supplemental component in SupplementalComponents)
                     total += component.CriminalObjective;
                 if (OstentatiousDisplayOfWealth != Quality.None)
@@ -741,6 +751,8 @@ namespace StarshipGenerator
                 int total = 0;
                 if (ShipBridge != null)
                     total += ShipBridge.ExplorationObjective;
+                if (AugurArrays != null)
+                    total += AugurArrays.ExplorationObjective;
                 foreach (Supplemental component in SupplementalComponents)
                     total += component.ExplorationObjective;
                 if (StarchartCollection == Quality.Best)

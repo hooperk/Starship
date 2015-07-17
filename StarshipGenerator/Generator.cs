@@ -144,8 +144,21 @@ namespace StarshipGenerator
             comps.Add(new LifeSustainer("Vitae-Pattern Life Sustainer", HullType.CruiserPlus | HullType.LightCruiser, 5, 3, 0, RuleBook.CoreRulebook, 200));
             comps.Add(new LifeSustainer("Vitae-Pattern Life Sustainer", HullType.Transport | HullType.Raider | HullType.Frigate, 4, 2, 0, RuleBook.CoreRulebook, 200));
             //End of Life Sustainers
-            comps.Add(new Augur("Auto-stabalised Logis-Targeter", 5, RuleBook.CoreRulebook, 207, 5, bs: 5, comp:ComponentOrigin.Archeotech));
+            //Crew Quarters
             comps.Add(new CrewQuarters("Bilge Rat Quarters", HullType.CruiserPlus | HullType.LightCruiser, 2, 3, -2, RuleBook.BattlefleetKoronus, 33, "Reduce crew loss by 2 for depressurisation"));
+            comps.Add(new CrewQuarters("Bilge Rat Quarters", HullType.Transport | HullType.Raider | HullType.Frigate, 1, 2, -2, RuleBook.BattlefleetKoronus, 33, "Reduce crew loss by 2 for depressurisation"));
+            
+            //End of Crew Quarters
+            //Augur Arrays
+            comps.Add(new Augur("Auto-stabalised Logis-Targeter", 5, RuleBook.CoreRulebook, 207, 5, bs: 5, comp: ComponentOrigin.Archeotech));
+            comps.Add(new Augur("BG-15 Assault Scanners", 5, RuleBook.BattlefleetKoronus, 33, 0, "+5 to Ballistic Skills tests against planetary targets", military: 50));
+            comps.Add(new Augur("Deep Void Augur Array", 7, RuleBook.CoreRulebook, 202, 10, sp: 1));
+            comps.Add(new Augur("Mark 100 Augur Array", 3, RuleBook.CoreRulebook, 201));
+            comps.Add(new Augur("Mark 201.b Augur Array", 5, RuleBook.CoreRulebook, 201, 5));
+            comps.Add(new Augur("R-50 Auspex Multi-band", 4, RuleBook.CoreRulebook, 202, -2, "+5 to maneouvrability tests to avoid celestial phenomena", exploration: 50));
+            comps.Add(new Augur("W-240 Passive Detection Arrays", 3, RuleBook.HostileAcquisition, 71, special: "May perform any detection actions on silent running without penalty", sp: 1));
+            comps.Add(new Augur("X-470 Ultimo Array", 6, RuleBook.BattlefleetKoronus, 33, 10, "+15 to detect ships on silent runnign with active augury; +5 to opponents ballistic skill tests to hit this vessel"));
+            //End of Augur Arrays
             comps.Add(new LandingBay("Jovian Pattern Escort Bay", HullType.CruiserPlus | HullType.LightCruiser, WeaponSlot.Side, 1, 4, 1, 1, RuleBook.BattlefleetKoronus, 36));
             comps.Add(new LifeSustainer("Ancient Life Sustainer", HullType.CruiserPlus | HullType.LightCruiser, 2, 2, 2, RuleBook.CoreRulebook, 206, "Reduce loss to crew population from non-combat sources by 1", sp: 2, comp: ComponentOrigin.Archeotech));
             comps.Add(new Supplemental("Arboretum", HullType.Transport | HullType.Raider | HullType.Frigate, 2, 2, 1, RuleBook.IntoTheStorm, 160, null, "Double the time a ship may spend at void before suffering crew and morale damage", crew: 2));

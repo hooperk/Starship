@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace StarshipGenerator.Utils
 {
@@ -11,18 +12,75 @@ namespace StarshipGenerator.Utils
     /// </summary>
     public class Loader
     {
-        //public static Starship LoadLSS
+        public static Starship LoadLSS(String path)
+        {
+            using (FileStream fs = File.OpenRead(path))
+            {
+                return LoadLSS(fs);
+            }
+        }
 
-        //public static Starship LoadSSS
+        public static Starship LoadLSS(FileStream fs)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public static Starship LoadSSS(String path)
+        {
+            using (FileStream fs = File.OpenRead(path))
+            {
+                return LoadSSS(fs);
+            }
+        }
+
+        public static Starship LoadSSS(FileStream fs)
+        {
+            throw new NotImplementedException();
+        }
+        
         //Modified -> Regular w/ Modified = true
         //Some drives were renamed for move to c#
         //name.Replace("†","") for finding supplementals
 
-        //public static void Update - do fetches by name to update information in case of fixes
+        /// <summary>
+        /// do fetches by name to update information in case of fixes
+        /// </summary>
+        public static void Update()
+        {
 
-        //public static Loader Load
+        }
 
-        //public Loader
+        public static Loader Load(string path)
+        {
+            using (FileStream fs = File.OpenRead(path))
+            {
+                return Load(fs);
+            }
+        }
+
+        public static Loader Load(FileStream fs)
+        {
+            return new Loader(fs);
+        }
+
+        public Loader(String path)
+        {
+            using (FileStream fs = File.OpenRead(path))
+            {
+                _load(fs);
+            }
+        }
+
+        public Loader(FileStream fs)
+        {
+            _load(fs);
+        }
+
+        private void _load(FileStream fs)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     /// <summary>
@@ -57,7 +115,7 @@ namespace StarshipGenerator.Utils
         /// <param name="ship">Starship to save</param>
         public static void SaveLSS(Starship ship)
         {
-
+            
         }
     }
 }

@@ -86,6 +86,16 @@ namespace StarshipGenerator
             comps.Add(new PlasmaDrive("Saturine-Pattern Class 5 Drive", HullType.GrandCruiser, 95, 18, null, RuleBook.BattlefleetKoronus, 31));
             comps.Add(new PlasmaDrive(@"Segrazian ""Viperdrive"" Pirate Engine", HullType.Raider | HullType.Frigate, 45, 16, "If the vessel suffers an engine crippled critical hit, the severity roll is automatically 8-10, engines wrecked", RuleBook.HostileAcquisition, 69, 2, man: 5, speed: 2));
             //End of Plasma Drives
+            //Warp Drives
+            comps.Add(new WarpDrive("Albanov 1 Warp Engine", HullType.Transport | HullType.Raider | HullType.Frigate, 10, 11, RuleBook.HostileAcquisition, 69, 1, "Double base travel time through immaterium, +20 to warp travel encounters, +10 to leave the warp"));
+            comps.Add(new WarpDrive("Klenova Class M Warp Engine", HullType.Transport | HullType.Raider | HullType.Frigate, 10, 10, RuleBook.HostileAcquisition, 69, 0, "Navigator not needed or used, may only make calculated jumps, must test for warp encounters daily instead of per 5 days, ignore all navigate warp modifiers"));
+            comps.Add(new WarpDrive("Markov 1 Warp Engine", HullType.Transport | HullType.Raider | HullType.Frigate, 12, 12, RuleBook.IntoTheStorm, 156, 1, "Reduce Warp Travel time by 1d5 weeks"));
+            comps.Add(new WarpDrive("Markov 2 Warp Engine", HullType.LightCruiser | HullType.CruiserPlus, 13, 13, RuleBook.IntoTheStorm, 156, 1, "Reduce Warp Travel time by 1d10 days"));
+            comps.Add(new WarpDrive("Miloslav G-616.b Warp Engine", HullType.Transport | HullType.Raider | HullType.Frigate, 8, 10, RuleBook.BattlefleetKoronus, 31, 0, "Half warp passage time but roll for encounters every 3 days instead of 5"));
+            comps.Add(new WarpDrive("Miloslav H-616.b Warp Engine", HullType.LightCruiser | HullType.CruiserPlus, 10, 12, RuleBook.BattlefleetKoronus, 31, 0, "Half warp passage time but roll for encounters every 3 days instead of 5"));
+            comps.Add(new WarpDrive("Strelov 1 Warp Engine", HullType.Transport | HullType.Raider | HullType.Frigate, 10, 10, RuleBook.CoreRulebook, 199));
+            comps.Add(new WarpDrive("Strelov 2 Warp Engine", HullType.LightCruiser | HullType.CruiserPlus, 12, 12, RuleBook.CoreRulebook, 199));
+            //End of Warp Drives
             comps.Add(new Augur("Auto-stabalised Logis-Targeter", 5, RuleBook.CoreRulebook, 207, 5, bs: 5, comp:ComponentOrigin.Archeotech));
             comps.Add(new Bridge("Armoured Bridge", HullType.CruiserPlus | HullType.LightCruiser, 3, 2, RuleBook.CoreRulebook, 200, "Ignore critical hits, damaged or unpowered on a d10 of 4+"));
             comps.Add(new CrewQuarters("Bilge Rat Quarters", HullType.CruiserPlus | HullType.LightCruiser, 2, 3, -2, RuleBook.BattlefleetKoronus, 33, "Reduce crew loss by 2 for depressurisation"));
@@ -95,7 +105,6 @@ namespace StarshipGenerator
             comps.Add(new Supplemental("Arboretum", HullType.Transport | HullType.Raider | HullType.Frigate, 2, 2, 1, RuleBook.IntoTheStorm, 160, null, "Double the time a ship may spend at void before suffering crew and morale damage", crew: 2));
             comps.Add(new TorpedoTubes("Fortis Pattern Torpedo Tubes", HullType.CruiserPlus | HullType.LightCruiser, WeaponSlot.Prow | WeaponSlot.Keel, 2, 8, 3, 6, 42, RuleBook.BattlefleetKoronus, 37, special: "+2VUs Torpedo speed on turn they are launched"));
             comps.Add(new VoidShield("Castellan Shield", HullType.All, 5, 1, 1, RuleBook.IntoTheStorm, 161, "During enemy turn, may make free -10 tech use to double number of shields", sp: 2, comp: ComponentOrigin.Archeotech));
-            comps.Add(new WarpDrive("Albanov 1 Warp Engine", HullType.Transport | HullType.Raider | HullType.Frigate, 10, 11, RuleBook.HostileAcquisition, 69, 1, "Double base travel time through immaterium, +20 to warp travel encounters, +10 to leave the warp"));
             comps.Add(new Weapon("Bombardment Cannons", WeaponType.Macrobattery, HullType.CruiserPlus | HullType.LightCruiser, WeaponSlot.Prow | WeaponSlot.Dorsal | WeaponSlot.Keel, 5, 3, 3, 3, new DiceRoll(1, 0, 6), 2, 4, RuleBook.BattlefleetKoronus, 34, special: "Add +1 to crits rolled, +20 to intimidate tests while ship armed with this is in orbit, may add 50 to military objectives on that planet, for planetary bombardments affects double the area, +20 damage to large enemies, +10 damage to individuals and vehicles"));
             List<Squadron> squads = new List<Squadron>();
             squads.Add(new Squadron("Fury Interceptor", Race.Human, 10, 10, 20));

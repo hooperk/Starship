@@ -65,6 +65,18 @@ namespace StarshipGenerator.Ammo
                 }
             }
         }
+        /// <summary>
+        /// Special rules for the squadron
+        /// </summary>
+        public String Special { get; private set; }
+        /// <summary>
+        /// Rulebook containing rules for this squadron
+        /// </summary>
+        public RuleBook Origin { get; private set; }
+        /// <summary>
+        /// Page of rulebook that rules for this squadron are on
+        /// </summary>
+        public byte Page { get; private set; }
 
         /// <summary>
         /// A new Squadron at full strength
@@ -72,13 +84,16 @@ namespace StarshipGenerator.Ammo
         /// <param name="rating">Craft Rating of Squad</param>
         /// <param name="speed">Speed of Squadron</param>
         /// <param name="size">Maximum Size of Squadron</param>
-        public Squadron(String name, Race race, int rating, int speed, int size)
+        public Squadron(String name, Race race, int rating, int speed, int size, string special = null, RuleBook origin = RuleBook.BattlefleetKoronus, byte page = 14)
         {
             this.Name = name;
             this.Race = race;
             this.CraftRating = rating;
             this.Speed = speed;
             this.CurrentSize = this.MaxSize = size;
+            this.Special = special;
+            this.Origin = origin;
+            this.Page = page;
         }
 
         /// <summary>
@@ -98,7 +113,8 @@ namespace StarshipGenerator.Ammo
              *}
              */
             return @"{""Squadron"":{""Name"":""" + Name.Escape() + @""",""Race"":" + (byte)Race + @",""Rating"":" + CraftRating 
-                + @",""Speed"":" + Speed + @",""Max"":" + MaxSize + @",""Size"":" + CurrentSize + @"}}";
+                + @",""Speed"":" + Speed + @",""Max"":" + MaxSize + @",""Size"":" + CurrentSize + @",""Special"":""" + Special.Escape() 
+                + @""",""Origin"":" + (byte)Origin + @",""Page"":" + Page + @"}}";
         }
     }
 }

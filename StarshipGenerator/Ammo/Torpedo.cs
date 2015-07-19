@@ -25,6 +25,7 @@ namespace StarshipGenerator.Ammo
         private static DiceRoll MeltaWarhead = new DiceRoll(2, 0, 15);
         private static DiceRoll VirusWarhead = new DiceRoll(2, 0, 10);
         private static DiceRoll VortexWarhead = new DiceRoll(2, 0, 5);
+        private static DiceRoll VoidWarhead = new DiceRoll(2, 0, 14);
 
         /// <summary>
         /// Create a new Torpedo
@@ -34,7 +35,10 @@ namespace StarshipGenerator.Ammo
         public Torpedo(Warhead warhead, Guidance system = Guidance.Standard)
         {
             this.Warhead = warhead;
-            this.GuidanceSystem = system;
+            if (this.Warhead == Warhead.Void || this.Warhead == Warhead.Leech)
+                this.GuidanceSystem = Guidance.Seeking;
+            else
+                this.GuidanceSystem = system;
         }
 
         public string ToJSON()
@@ -154,6 +158,8 @@ namespace StarshipGenerator.Ammo
                         return 1;
                     case Warhead.Vortex:
                         return 5;
+                    case Warhead.Leech:
+                        return 0;
                     default:
                         return 3;
                 }
@@ -164,7 +170,9 @@ namespace StarshipGenerator.Ammo
         {
             get
             {
-                StringBuilder output = new StringBuilder("Terminal Penetration("+TerminalPenetration+")");
+                StringBuilder output = new StringBuilder();
+                if (TerminalPenetration != 0)
+                    output.Append("Terminal Penetration(" + TerminalPenetration + ")");
                 switch (Warhead)
                 {
                     case Warhead.Boarding:
@@ -179,10 +187,44 @@ namespace StarshipGenerator.Ammo
                     case Warhead.Vortex:
                         output.Append("; Ignores armour, each hit causes 1d5 morale damage as well as normal effects. If tubes armed wit hthese are damaged, coutn as destroyed and inflict 3 other critical hits to random locations of vessel");
                         break;
+                    case Warhead.Leech:
+                        output.Append("Does not deal damage, instead each torpedo which hits sticks to the target vessel, imposing -2 to speed and -30 to tests to increase speed. This effect is not cumulative but lasts as long as at least 1 remains. The Emergency Repairs action may remove 1 leech torpedo, +1 per two degrees of success, instead of repairign damaged components");
+                        break;
                 }
                 if (GuidanceSystem.Special() != null)
                     output.Append("; " + GuidanceSystem.Special());
+                if(Warhead == Warhead.Void || Warhead == Warhead.Leech)
+                    output.Append("; Negate any turret rating bonuses that target ship would get to shoot down torpedos");
                 return output.ToString();
+            }
+        }
+
+        public RuleBook Origin
+        {
+            get
+            {
+                switch (Warhead)
+                {
+                    case Warhead.Void:
+                    case Warhead.Leech:
+                        return RuleBook.SoulReaver;
+                    default:
+                        return RuleBook.BattlefleetKoronus;
+                }
+            }
+        }
+
+        public byte Page
+        {
+            get
+            {
+                switch (Origin)
+                {
+                    case RuleBook.SoulReaver:
+                        return 136;
+                    default:
+                        return 8;
+                }
             }
         }
     }

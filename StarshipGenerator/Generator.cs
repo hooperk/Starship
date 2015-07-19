@@ -180,11 +180,28 @@ namespace StarshipGenerator
             comps.Add(new Weapon("Godsbane Lance Battery", WeaponType.Lance, HullType.BattleCruiser | HullType.GrandCruiser | HullType.BattleShip, WeaponSlot.Lance, 12, 6, 3, 2, new DiceRoll(1, 0, 2), 3, 12, RuleBook.BattlefleetKoronus, 34, special: "If the target is over 20VUs away, reduce damage to 1d10"));
             comps.Add(new Weapon("Grapple Cannon", WeaponType.Macrobattery, HullType.Raider, WeaponSlot.All, 2, 2, 1, 1, default(DiceRoll), 0, 0, RuleBook.HostileAcquisition, 71, special: "When making a boarding test, may make a -10 ballistic skill test instead of the -20 Pilot+Maneouverability test, and if you do the test for the target to escape the boarding action is -40 instead of -20"));
             //End of Weapons
-            comps.Add(new LandingBay("Jovian Pattern Escort Bay", HullType.CruiserPlus | HullType.LightCruiser, WeaponSlot.Side, 1, 4, 1, 1, RuleBook.BattlefleetKoronus, 36));
-            comps.Add(new LifeSustainer("Ancient Life Sustainer", HullType.CruiserPlus | HullType.LightCruiser, 2, 2, 2, RuleBook.CoreRulebook, 206, "Reduce loss to crew population from non-combat sources by 1", sp: 2, comp: ComponentOrigin.Archeotech));
+            //Supplemental Components
             comps.Add(new Supplemental("Arboretum", HullType.Transport | HullType.Raider | HullType.Frigate, 2, 2, 1, RuleBook.IntoTheStorm, 160, null, "Double the time a ship may spend at void before suffering crew and morale damage", crew: 2));
+            
+            //End of Supplemental Components
+            //Squadrons
             List<Squadron> squads = new List<Squadron>();
-            squads.Add(new Squadron("Fury Interceptor", Race.Human, 10, 10, 20));
+            squads.Add(new Squadron("Fury Interceptor", Race.Human, 10, 10, 20, "When checking for squadron losses, this squadron reduces its losses by one ot a minimum of zero or gains +5 to the upkeep test"));
+            squads.Add(new Squadron("Starhawk Bomber", Race.Human, 0, 6, 10, "When checking for squadron losses, this squadron reduces its losses by one ot a minimum of zero or gains +5 to the upkeep test"));
+            squads.Add(new Squadron("Shark Assault Boat", Race.Human, 5, 10, 8));
+            squads.Add(new Squadron("Swiftdeath Fighter", Race.Chaos, 10, 11, 30, "When checking for squadron losses, this squadron increases its losses by 1 to the squadron maximum or suffers -5 on the Upkeep test"));
+            squads.Add(new Squadron("Doomfire Bomber", Race.Chaos, 0, 7, 15, "When checking for squadron losses, this squadron increases its losses by 1 to the squadron maximum or suffers -5 on the Upkeep test"));
+            squads.Add(new Squadron("Dreadclaw Assault Boat", Race.Chaos, 5, 11, 15));
+            squads.Add(new Squadron("Darkstar Fighter", Race.Eldar, 15, 12, 12, "Suffers no penalties for being below half strength"));
+            squads.Add(new Squadron("Eagle Bomber", Race.Eldar, 6, 9, 6, "Suffers no penalties for being below half strength"));
+            squads.Add(new Squadron("Bloodflayer", Race.Rakgol, 8, 9, 15, "May be used as fighter craft or assault craft, but craft rating drops to +4 when used as fighters"));
+            squads.Add(new Squadron("Fighta-bommerz", Race.Ork, 8, 8, 25, "May be used as fighter craft or bombers, but craft rating drops to +5 when used as bombers"));
+            squads.Add(new Squadron("Assault Boats", Race.Ork, 8, 10, 15));
+            squads.Add(new Squadron("Raptor Interceptors", Race.DarkEldar, 15, 12, 12, "Suffers no penalties for being below half strength, negate any Turret Rating bonuses that the target ship would normally receive when attemptign to shoot down these craft in an incoming attack wave", RuleBook.SoulReaver, 136));
+            squads.Add(new Squadron("Tormentor Bombers", Race.DarkEldar, 6, 9, 6, "Suffers no penalties for being below half strength, negate any Turret Rating bonuses that the target ship would normally receive when attemptign to shoot down these craft in an incoming attack wave", RuleBook.SoulReaver, 136));
+            squads.Add(new Squadron("Slavebringer Assault Boats", Race.DarkEldar, 11, 12, 5, "Suffers no penalties for being below half strength, negate any Turret Rating bonuses that the target ship would normally receive when attemptign to shoot down these craft in an incoming attack wave", RuleBook.SoulReaver, 136));
+            //End of Squadrons
+            comps.Add(new LandingBay("Jovian Pattern Escort Bay", HullType.CruiserPlus | HullType.LightCruiser, WeaponSlot.Side, 1, 4, 1, 1, RuleBook.BattlefleetKoronus, 36));
             using (FileStream fs = File.Create("ComponentsAndAmmo.config"))
             using (StreamWriter sw = new StreamWriter(fs))
             {

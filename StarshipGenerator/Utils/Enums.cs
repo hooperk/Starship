@@ -62,7 +62,7 @@ namespace StarshipGenerator.Utils
     /// <summary>
     /// Races enumeration
     /// </summary>
-    public enum Race : byte { Human, Servitor, Ork, Eldar, Stryxis, Kroot, Chaos, Rakgol, Goff, EvilSunz, BadMoons, Deathskulls, BloodAxes, SnakeBites }//more to come?
+    public enum Race : byte { Human, Servitor, Ork, Eldar, DarkEldar, Stryxis, Kroot, Chaos, Rakgol, Goff, EvilSunz, BadMoons, Deathskulls, BloodAxes, SnakeBites }//more to come?
 
     /// <summary>
     /// Enumeration denoting location of original component details
@@ -74,7 +74,8 @@ namespace StarshipGenerator.Utils
         IntoTheStorm,
         HostileAcquisition,
         BattlefleetKoronus,
-        LureoftheExpanse
+        LureoftheExpanse,
+        SoulReaver
     }
 
     /// <summary>
@@ -155,7 +156,9 @@ namespace StarshipGenerator.Utils
         Boarding,
         Melta,
         Virus,
-        Vortex
+        Vortex,
+        Void,
+        Leech
     }
 
     /// <summary>
@@ -212,6 +215,57 @@ namespace StarshipGenerator.Utils
 
     public static class EnumerationExtensions
     {
+        /// <summary>
+        /// Returns the shortened name of the rulebook for dispaly
+        /// </summary>
+        /// <param name="self">Rulebook to display</param>
+        /// <returns>Shortened name of the rulebook</returns>
+        public static string Name(this RuleBook self)
+        {
+            switch (self)
+            {
+                case RuleBook.CoreRulebook:
+                    return "Core Rulebook";
+                case RuleBook.IntoTheStorm:
+                    return "Into the Storm";
+                case RuleBook.HostileAcquisition:
+                    return "Hostile Acquisitions";
+                case RuleBook.BattlefleetKoronus:
+                    return "Battlefleet Koronus";
+                case RuleBook.LureoftheExpanse:
+                    return "Lure of the Expanse";
+                case RuleBook.SoulReaver:
+                    return "The Soul Reaver";
+                default:
+                    return "Custom";
+            }
+        }
+
+        /// <summary>
+        /// Returns the full name of the rulebook for dispaly
+        /// </summary>
+        /// <param name="self">Rulebook to display</param>
+        /// <returns>Full name of the rulebook</returns>
+        public static string LongName(this RuleBook self)
+        {
+            switch (self)
+            {
+                case RuleBook.CoreRulebook:
+                    return "Rogue Trader Core Rulebook";
+                case RuleBook.IntoTheStorm:
+                    return "Into the Storm: The Explorer's Handbook";
+                case RuleBook.HostileAcquisition:
+                    return "Hostile Acquisitions: Profit and Plunder in teh Lawless Expanse";
+                case RuleBook.BattlefleetKoronus:
+                    return "Battlefleet Koronus: Voidshps and Warfare in the Koronus Expanse";
+                case RuleBook.LureoftheExpanse:
+                    return "Lure of the Expanse";
+                case RuleBook.SoulReaver:
+                    return "The Soul Reaver";
+                default:
+                    return "Custom";    
+            }
+        }
         /// <summary>
         /// Get the name for printing of this complication
         /// </summary>
@@ -433,6 +487,8 @@ namespace StarshipGenerator.Utils
                     return "Ork";
                 case Race.Eldar:
                     return "Eldar";
+                case Race.DarkEldar:
+                    return "Dark Eldar";
                 case Race.Stryxis:
                     return "Stryxis";
                 case Race.Rakgol:
@@ -474,7 +530,9 @@ namespace StarshipGenerator.Utils
                 case Race.Ork:
                     return "+10 hit and run and boarding tests. +10 to pilot tests to increase speed. Ship moves +1d5 VU when it does not turn. Reduce crew losses by 1. -10 to silent running";
                 case Race.Eldar:
-                    return "May reroll any pilot tests for manoeuvre actions. +10 to boarding actiosn and inflicts 1d5+2 morale and crew damage instead of 1d5. Increase crew losses by 1, loses 1 less morale to minimum of 1.";
+                    return "May reroll any pilot tests for manoeuvre actions. +10 to boarding actions and inflicts 1d5+2 morale and crew damage instead of 1d5. Increase crew losses by 1, loses 1 less morale to minimum of 1.";
+                case Race.DarkEldar:
+                    return "May reroll any pilot tests for manoeuvre actions. +10 to boarding actions and inflicts 1d5+2 morale and crew damage instead of 1d5. +20 to hit and runs and may inflict 1d10 crew and morale damage instead of inflicting a critical hit. Replenish crew's crew population and morale equalt to the amount of damage done to each in boarding and hit and run attacks.";
                 case Race.Stryxis:
                     return "A Strange race who appear addicted to haggling";
                 case Race.Rakgol:
@@ -517,7 +575,9 @@ namespace StarshipGenerator.Utils
                 case Race.EvilSunz:
                     return "+10 hit and run and boarding tests. +10 to pilot tests to increase speed. Ship moves +1d5 VU when it does not turn. -10 to silent running";
                 case Race.Eldar:
-                    return "May reroll any pilot tests for manoeuvre actions. +10 to boarding actiosn and inflicts 1d5+2 morale and crew damage instead of 1d5";
+                    return "May reroll any pilot tests for manoeuvre actions. +10 to boarding actions and inflicts 1d5+2 morale and crew damage instead of 1d5";
+                case Race.DarkEldar:
+                    return "May reroll any pilot tests for manoeuvre actions. +10 to boarding actions and inflicts 1d5+2 morale and crew damage instead of 1d5. +20 to hit and runs and may inflict 1d10 crew and morale damage instead of inflicting a critical hit. Replenish crew's crew population and morale equalt to the amount of damage done to each in boarding and hit and run attacks.";
                 case Race.Goff:
                     return Race.Ork.Special() + ". Further +10 pilot tests to ram and boarding test";
                 case Race.BadMoons:

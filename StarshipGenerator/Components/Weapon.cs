@@ -25,7 +25,7 @@ namespace StarshipGenerator.Components
         /// Strength of the weapon
         /// </summary>
         /// <remarks>Accounts for quality</remarks>
-        public int Strength
+        public virtual int Strength
         {
             get
             {
@@ -284,6 +284,17 @@ namespace StarshipGenerator.Components
                 + Strength + @",""Damage"":""" + Damage.ToString().Escape() + @""",""Crit"":" + Crit + @",""Range"":" + Range
                 + @",""Origin"":" + (byte)Origin + @",""Page"":" + PageNumber + @",""Quality"":" + (byte)Quality
                 + @",""Special"":""" + Special.Escape() + @""",""Turbo"":" + (byte)TurboWeapon + @",""Comp"":" + (byte)ComponentOrigin + @"}}";
+        }
+
+        /// <summary>
+        /// Range of the weapon, as a string (mostly for Nova cannon's override)
+        /// </summary>
+        public virtual string DisplayRange
+        {
+            get
+            {
+                return Range.ToString();
+            }
         }
     }
 }

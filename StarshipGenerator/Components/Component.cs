@@ -185,10 +185,9 @@ namespace StarshipGenerator.Components
         {
             get
             {
-                StringBuilder output = new StringBuilder();
                 if (!String.IsNullOrWhiteSpace(Special))
-                    output.Append(Special);
-                return output.ToString();
+                    return Special;
+                return "";
             }
         }
 

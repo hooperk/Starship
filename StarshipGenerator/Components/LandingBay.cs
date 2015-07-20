@@ -111,5 +111,16 @@ namespace StarshipGenerator.Components
             output.Append(@"]}}");
             return output.ToString();
         }
+
+        /// <summary>
+        /// Display no range for Landing Bays
+        /// </summary>
+        public override string DisplayRange
+        {
+            get
+            {
+                return null;
+            }
+        }
     }
 }

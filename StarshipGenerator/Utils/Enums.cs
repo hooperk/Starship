@@ -17,7 +17,7 @@ namespace StarshipGenerator.Utils
     [Flags]
     public enum WeaponSlot : byte
     {
-        None = 0x00,
+        Auxiliary = 0x00,//Hold Landing bay or custom others
         Prow = 0x01,
         Port = 0x02,
         Starboard = 0x04,
@@ -25,8 +25,8 @@ namespace StarshipGenerator.Utils
         Aft = 0x08,
         Dorsal = 0x10,
         Keel = 0x20,
-        Lance = 0x40,
-        Auxiliary = 0x80,//Hold Landing bay or custom others
+        Lance = 0x40,//prow for transport, raider and frigates, any for other classes
+        Heavy = 0x80,//Voidsunder, prow unless grand, in which case also dorsal
         All = 0xFF
     }
 
@@ -44,8 +44,9 @@ namespace StarshipGenerator.Utils
         Cruiser = 0x10,
         BattleCruiser = 0x20,
         GrandCruiser = 0x40,
-        BattleShip = 0x80,//NOT IMPLEMENTED, currently included in Cruiser+ or All
-        CruiserPlus = 0xF1,//Cruiser or bigger
+        BattleShip = 0x80,//NOT IMPLEMENTED, currently hand coded onto grand
+        CruiserPlus = 0xF0,//Cruiser or bigger
+        AllCruiser= 0xF8,//Light cruiser or bigger
         All = 0xFF
     }
 

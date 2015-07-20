@@ -82,10 +82,10 @@ namespace StarshipGenerator.Components
         /// <param name="quality">quality of this weapon</param>
         /// <param name="wq">enum declaring which qualities to be adjusted</param>
         /// <param name="special">special rules of this weapon</param>
-        public TorpedoTubes(string name, HullType hulls, WeaponSlot slots, int power, int space, int sp, int str,
+        public TorpedoTubes(string name, HullType hulls, int power, int space, int sp, int str,
             int capacity, RuleBook origin, byte page, Quality quality = Quality.Common, WeaponQuality wq = WeaponQuality.None, 
             string special = null, ComponentOrigin comp = ComponentOrigin.Standard)
-            : base(name, WeaponType.TorpedoTube, hulls, slots, power, space, sp, str, default(DiceRoll), 0, 0, origin, page, 
+            : base(name, WeaponType.TorpedoTube, hulls, WeaponSlot.Prow | WeaponSlot.Keel, power, space, sp, str, default(DiceRoll), 0, 0, origin, page, 
                 quality, wq, special, Quality.None, comp) 
         {
             this.Capacity = capacity;
@@ -103,7 +103,6 @@ namespace StarshipGenerator.Components
              * "Torpedo" : {
              *  "Name" : name,
              *  "Types" : types,
-             *  "Slots" : slots,
              *  "Power" : power,
              *  "Space" : space,
              *  "SP" : sp,
@@ -119,7 +118,7 @@ namespace StarshipGenerator.Components
              *}
              */
             StringBuilder output = new StringBuilder(
-                @"{""Torpedo"":{""Name"":""" + Name.Escape() + @""",""Types"":" + (byte)HullTypes + @",""Slots"":" + (byte)Slots
+                @"{""Torpedo"":{""Name"":""" + Name.Escape() + @""",""Types"":" + (byte)HullTypes
                 + @",""Power"":" + Power + @",""Space"":" + Space + @",""SP"":" + SP + @",""Size"":" + Capacity + @",""Origin"":"
                 + (byte)Origin + @",""Page"":" + PageNumber + @",""Quality"":" + (byte)Quality + @",""WeapQual"":"
                 + (byte)WeaponQuality + @",""Special"":""" + Special.Escape() + @""",""Comp"":" + (byte)ComponentOrigin
@@ -157,6 +156,17 @@ namespace StarshipGenerator.Components
                 output.Append("Ammo capacity of " + Capacity + "; ");
                 output.Append(base.Description);
                 return output.ToString();
+            }
+        }
+
+        /// <summary>
+        /// Display no range for Torpedo Tubes
+        /// </summary>
+        public override string DisplayRange
+        {
+            get
+            {
+                return null;
             }
         }
     }

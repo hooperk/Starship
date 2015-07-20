@@ -52,6 +52,7 @@
     <Compile Include="Components\CrewSustainer.cs" />
     <Compile Include="Components\LandingBay.cs" />
     <Compile Include="Components\LifeSustainer.cs" />
+    <Compile Include="Components\NovaCannon.cs" />
     <Compile Include="Components\TorpedoTubes.cs" />
     <Compile Include="Components\Upgrades.cs" />
     <Compile Include="Generator.cs" />

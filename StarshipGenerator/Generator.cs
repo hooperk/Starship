@@ -220,8 +220,21 @@ namespace StarshipGenerator
             comps.Add(new Supplemental("Hold Landing Bay", HullType.Transport, 1, 0, 2, RuleBook.BattlefleetKoronus, 36, man: -5, hullint: -5, replace: "Main Cargo Hold", max: 1, aux: HoldLandingBay));
             comps.Add(new Supplemental("Auxiliary Plasma Banks", ~HullType.AllCruiser, 8, 5, 1, RuleBook.IntoTheStorm, 159, generated: true, special: "If this component becomes damaged, the vessel takes 1d5 hull integrity damage and the plasma drive is set on fire"));
             comps.Add(new Supplemental("Auxiliary Plasma Banks", HullType.AllCruiser, 10, 6, 1, RuleBook.IntoTheStorm, 159, generated: true, special: "If this component becomes damaged, the vessel takes 1d5 hull integrity damage and the plasma drive is set on fire"));
-            comps.Add(new Supplemental("Arboretum", HullType.Transport | HullType.Raider | HullType.Frigate, 2, 2, 1, RuleBook.IntoTheStorm, 160, null, "Double the time a ship may spend at void before suffering crew and morale damage", crew: 2));
-            
+            comps.Add(new Supplemental("Arboretum", ~HullType.AllCruiser, 2, 2, 1, RuleBook.IntoTheStorm, 160, null, "Double the time a ship may spend at void before suffering crew and morale damage", crew: 2, max: 1));
+            comps.Add(new Supplemental("Arboretum", HullType.AllCruiser, 2, 3, 1, RuleBook.IntoTheStorm, 160, null, "Double the time a ship may spend at void before suffering crew and morale damage", crew: 2, max: 1));
+            comps.Add(new Supplemental("Armour Plating", ~HullType.AllCruiser, 0, 1, 2, RuleBook.CoreRulebook, 204, man: -2, armour: 1, max: 1));
+            comps.Add(new Supplemental("Armour Plating", HullType.AllCruiser, 0, 2, 2, RuleBook.CoreRulebook, 204, man: -2, armour: 1, max: 1));
+            comps.Add(new Supplemental("Armoured Prow", HullType.CruiserPlus, 0, 4, 2, RuleBook.CoreRulebook, 204, new DiceRoll(1, 0, 0), "Cannot take macrobatteries or lance in prow", prowArmour: 4, max: 1));
+            comps.Add(new Supplemental("Asteroid Mining Facility", HullType.All, 6, 10, 3, RuleBook.IntoTheStorm, 160, null, "May construct trade endeavours based on mining, can gain +200 to mining objectives", max: 1));
+            comps.Add(new Supplemental("Astropathic Choir-Chambers", HullType.All, 1, 1, 1, RuleBook.IntoTheStorm, 160, null, "+10 to focus power tests for astro-telepathy while in this component and +5VU range on psychic powers made by psykers in this component during combat", max: 1));
+            comps.Add(new Supplemental("Augmented Retro-Thrusters", HullType.Raider | HullType.Frigate, 3, 0, 2, RuleBook.CoreRulebook, 203, man: 5, special: "External"));
+            comps.Add(new Supplemental("Augmented Retro-Thrusters", HullType.LightCruiser | HullType.Transport, 4, 0, 2, RuleBook.CoreRulebook, 203, man: 5, special: "External"));
+            comps.Add(new Supplemental("Augmented Retro-Thrusters", HullType.CruiserPlus, 5, 0, 2, RuleBook.CoreRulebook, 203, man: 5, special: "External"));
+            comps.Add(new Supplemental("Auto-Temple", HullType.All, 1, 1, 0, RuleBook.HostileAcquisition, 72, null, "May be returned to ship in 2-3 days by work crew and lifters", morale: 2, creed: 150, max: 1));
+            comps.Add(new Supplemental("Barracks", HullType.All, 2, 4, 2, RuleBook.CoreRulebook, 203, null, "+20 to command tests for boarding and hit and run", military: 100));
+            comps.Add(new Supplemental("Brig", HullType.All, 1, 1, 1, RuleBook.BattlefleetKoronus, 37, null, "+5 to intimidate tests as part of extended actions, may earn 25 objective points to objectives involding the capture or transport of prisoners", morale: 1));
+            comps.Add(new Supplemental("Broadband Hymn-Casters", HullType.All, 3, 0, 1, RuleBook.IntoTheStorm, 161, null, "External; All other ships within 30VUs must make a -10 Tech-Use Test in order to use vox or other broadcast communications; While active characters aboard this vessel gain +10 to intimidate tests on against all ships within 30VUs", max: 1));
+
             //End of Supplemental Components
             //Squadrons
             List<Squadron> squads = new List<Squadron>();

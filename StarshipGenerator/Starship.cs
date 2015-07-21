@@ -13,6 +13,7 @@ namespace StarshipGenerator
     /// </summary>
     public class Starship
     {
+        public String Name;
         /// <summary>
         /// Hull of the Starship
         /// </summary>
@@ -910,5 +911,58 @@ namespace StarshipGenerator
         public int Matrix;//weapon upgraded by poor Targetting Matrix if any
 
         public Background Background;
+
+        public string ToJSON()
+        {
+            /*{
+             * "Starship" : {
+             *  "Name" : name,
+             *  "Hull" : Hull,
+             *  "Plasma" : PlasmaDrive,
+             *  "Warp" : WarpDrive,
+             *  "Gellar" : GellarField,
+             *  "Void" : VoidShield,
+             *  "Bridge" : ShipBridge,
+             *  "Sustainer" : LifeSustainer,
+             *  "Quarters" : CrewQuarters,
+             *  "Augurs" : AugurArrays,
+             *  "Weapons" : [...],
+             *  "Supplementals" : [...],
+             *  "Machine" : MachineSpirit,
+             *  "History" : ShipHistory,
+             *  "Rating" : CrewRating,
+             *  "Race" : CrewRace,
+             *  "CrewPop" : CurrentCrew,
+             *  "Morale" : CurrentMorale,
+             *  "Integrity" : CurrentIntegrity,
+             *  "Cherubim" : CherubimAerie,
+             *  "Improvements" : CrewImprovements,
+             *  "Ostentatious" : OstentatiousDisplayOfWealth,
+             *  "Starchart" : StarchartCollection,
+             *  "StormTrooper" : StormTrooperDetachment,
+             *  "Vaulted" : VaultedCeilings,
+             *  "Arrester" : ArresterEngines,
+             *  "Distributed" : DistributedCargoHold,
+             *  "Disciplinarium" : Disciplinarium,
+             *  "Mimic" : MimicDrive,
+             *  "Overload" : OverloadShieldCapacitors,
+             *  "Resolution" : ResolutionArena,
+             *  "Secondary" : SecondaryReactor,
+             *  "DamageControl" : SuperiorDamageControl,
+             *  "Targetting" : TargettingMatrix,
+             *  "Matrix" : Matrix,
+             *  "Background" : Background }
+             *  }
+             */
+            return @"{""Starship"":""Name"":""" + Name.Escape() + @""",""Hull"":" + Hull.JSON() + @",""Plasma"":" + PlasmaDrive.JSON() + @",""Warp"":" + WarpDrive.JSON() + @",""Gellar"":" + GellarField.JSON()
+                + @",""Void"":" + VoidShield.JSON() + @",""Bridge"":" + ShipBridge.JSON() + @",""Sustainer"":" + LifeSustainer.JSON() + @",""Quarters"":" + CrewQuarters.JSON() + @",""Augurs"":" + AugurArrays.JSON()
+                + @",""Weapons"":[" + String.Join(",", Weapons.Select(x => x.JSON())) + @"],""Supplementals"":[" + String.Join(",", SupplementalComponents.Select(x => x.ToJSON())) + @"],""Machine"":"
+                + (byte)MachineSpirit + @",""History"":" + (byte)ShipHistory + @",""Rating"":" + CrewRating + @",""Race"":" + (byte)CrewRace + @",""CrewPop"":" + CurrentCrew + @",""Morale"":" + Morale
+                + @",""Integrity"":" + CurrentIntegrity + @",""Cherubim"":" + (byte)CherubimAerie + @",""Improvements"":" + (byte)CrewImprovements + @",""Ostentatious"":" + (byte)OstentatiousDisplayOfWealth
+                + @",""Starchart"":" + (byte)StarchartCollection + @",""StormTrooper"":" + (byte)StormTrooperDetachment + @",""Vaulted"":" + (byte)VaultedCeilings + @",""Arrester"":" + (byte)ArresterEngines
+                + @",""Distributed"":" + (byte)DistributedCargoHold + @",""Disciplinarium"":" + (byte)Disciplinarium + @",""Mimic"":" + (byte)MimicDrive + @",""Overload"":" + (byte)OverloadShieldCapacitors
+                + @",""Resolution"":" + (byte)ResolutionArena + @",""Secondary"":" + (byte)SecondaryReactor + @",""DamageControl"":" + (byte)SuperiorDamageControl + @",""Targetting"":" + (byte)TargettingMatrix
+                + @",""Matrix"":" + Matrix + @",""Background"":" + (byte)Background;            
+        }
     }
 }

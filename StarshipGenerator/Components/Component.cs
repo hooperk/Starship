@@ -197,4 +197,19 @@ namespace StarshipGenerator.Components
         /// <returns>JSON object as string</returns>
         public abstract string ToJSON();
     }
+
+    public static class ComponentExtension
+    {
+        /// <summary>
+        /// External method for making a component json which should properly handle nulls 
+        /// </summary>
+        /// <param name="self">Compoent to get JSON from</param>
+        /// <returns>'null' if component is null, Component.ToJSON() otherwise</returns>
+        public static String JSON(this Component self)
+        {
+            if (self == null)
+                return @"null";
+            return self.ToJSON();
+        }
+    }
 }

@@ -214,8 +214,8 @@ namespace StarshipGenerator.Components
             output.Append(@",""Special"":""" + Special.Escape() + @""",""Origin"":" + (byte)Origin + @",""Page"":" + PageNumber);
             output.Append(@",""Turrets"":" + TurretRating + @",""Prow"":" + ProwSlots + @",""Dorsal"":" + DorsalSlots);
             output.Append(@",""Side"":" + SideSlots + @",""Keel"":" + KeelSlots + @",""Aft"":" + AftSlots);
-            output.Append(@",""Frontal"":" + (DefaultProw == null ? @"null" : DefaultProw.ToJSON()));
-            output.Append(@",""Broadside"":" + (DefaultBroadside == null ? @"null" : DefaultBroadside.ToJSON()));
+            output.Append(@",""Frontal"":" + DefaultProw.JSON());
+            output.Append(@",""Broadside"":" + DefaultBroadside.JSON());
             output.Append(@",""Comps"":[");
             if (DefaultComponents != null)
             {

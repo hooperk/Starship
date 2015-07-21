@@ -319,7 +319,7 @@ namespace StarshipGenerator.Components
                 + MiningObjective + @",""Creed"":" + CreedObjective + @",""Military"":" + MilitaryObjective
                 + @",""Trade"":" + TradeObjective + @",""Criminal"":" + CriminalObjective + @",""Explore"":"
                 + ExplorationObjective + @",""Gen"":" + (PowerGenerated ? 1 : 0) + @",""Det"":" + DetectionRating
-                + @",""Aux"":" + (AuxiliaryWeapon == null ? @"null" : AuxiliaryWeapon.ToJSON()) + @",""Macro"":"
+                + @",""Aux"":" + AuxiliaryWeapon.JSON() + @",""Macro"":"
                 + MacrobatteryModifier + @",""BS"":" + BSModifier + @",""Nav"":" + NavigateWarp + @",""CrewLoss"":"
                 + CrewLoss + @",""MoraleLoss"":" + MoraleLoss + @",""Comp"":" + (byte)ComponentOrigin + @",""Replace"":""" + Replace.Escape() + @""",""Max"":" + Max + @"}}";
         }

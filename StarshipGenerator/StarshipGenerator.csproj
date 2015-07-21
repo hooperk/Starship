@@ -69,9 +69,13 @@
     <Compile Include="Components\Weapon.cs" />
     <Compile Include="Ammo\Torpedo.cs" />
     <Compile Include="Utils\Loader.cs" />
+    <Compile Include="Utils\Saver.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Utils\ComponentsAndAmmo.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Icons\67ef7f38d041ca72ffefb8c111fae756_KPF_1.ico" />

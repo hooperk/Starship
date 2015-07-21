@@ -12,6 +12,11 @@ namespace StarshipGenerator.Utils
     /// </summary>
     public class Loader
     {
+        //Components
+        //end components
+        //Xeno-Hull Components
+        //End Xeno-Hull Components
+
         public static Starship LoadLSS(String path)
         {
             using (FileStream fs = File.OpenRead(path))

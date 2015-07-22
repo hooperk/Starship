@@ -145,7 +145,7 @@ namespace StarshipGenerator.Utils
                     (port + starboard) / 2, keel, aft));
 
             }
-            ship.Hull = Hulls.Where(x => x.Name.Equals(file["hull"])).First();
+            ship.Hull = Hulls.Where(x => x.Name.Equals(file["hull"])).FirstOrDefault();
             HullType shipClass = HullType.None;
             if (ship.Hull != null)
                 shipClass = ship.Hull.HullTypes;
@@ -153,15 +153,135 @@ namespace StarshipGenerator.Utils
             for (int i = 1; i <= 6; i++)
             {
                 //add each custom weapon - check for duplication
+                if (!(String.IsNullOrWhiteSpace(file["customweapon" + i]) || String.IsNullOrWhiteSpace(file["customweapon" + i + "type"]) || String.IsNullOrWhiteSpace(file["customweapon" + i + "range"])))
+                {
+                    String name = file["customweapon" + i];
+                    WeaponType type = WeaponType.Macrobattery;
+                    switch (file["customweapon" + i + "type"])
+                    {
+                        case "Lance":
+                            type = WeaponType.Lance;
+                            break;
+                        case "Landing Bays":
+                            type = WeaponType.LandingBay;
+                            break;
+                        case "Torpedo Tubes":
+                            type = WeaponType.TorpedoTube;
+                            break;
+                        case "Nova Cannon":
+                            type = WeaponType.NovaCannon;
+                            break;
+                    }
+                    WeaponSlot slots = WeaponSlot.Auxiliary;//just to be very certain not to have uninitialised
+                    if (!String.IsNullOrWhiteSpace(file["customslot" + i]))
+                    {
+                        slots = (WeaponSlot)Enum.Parse(typeof(WeaponSlot), file["customslot" + i]);
+                    }
+                    else
+                    {
+                        switch (type)
+                        {
+                            case WeaponType.Macrobattery:
+                                if (name.IndexOf("Broadside", StringComparison.OrdinalIgnoreCase) >= 0)//ignorecase search for broadside to apply broadside rules
+                                    slots = WeaponSlot.Side;
+                                else
+                                    slots = WeaponSlot.All;
+                                break;
+                            case WeaponType.Lance:
+                                slots = WeaponSlot.Lance;
+                                break;
+                            case WeaponType.LandingBay:
+                                slots = WeaponSlot.Side;
+                                break;
+                            //case WeaponType.NovaCannon:
+                            //    slots = WeaponSlot.Prow;
+                            //    break;
+                            //case WeaponType.TorpedoTube:
+                            //    slots = WeaponSlot.Prow | WeaponSlot.Keel;
+                            //    break;
+                        }
+                    }
+                    int str = 0;
+                    if (!String.IsNullOrWhiteSpace(file["customweapon" + i + "str"]))
+                        str = int.Parse(file["customweapon" + i + "str"]);
+                    DiceRoll damage = new DiceRoll(file["customweapon" + i + "dice"]);
+                    if (!String.IsNullOrWhiteSpace(file["customweapon" + i + "damage"]))
+                        damage += int.Parse(file["customweapon" + i + "damage"]);
+                    int range = int.Parse(file["customweapon" + i + "range"]);
+                    int crit = 0;
+                    if (!String.IsNullOrWhiteSpace(file["customweapon" + i + "crit"]))
+                        crit = int.Parse(file["customweapon" + i + "crit"]);
+                    int space = 0;
+                    if (!String.IsNullOrWhiteSpace(file["customweapon" + i + "space"]))
+                        space = int.Parse(file["customweapon" + i + "space"]);
+                    int sp = 0;
+                    if (!String.IsNullOrWhiteSpace(file["customweapon" + i + "sp"]))
+                        sp = int.Parse(file["customweapon" + i + "sp"]);
+                    int power = 0;
+                    if (!String.IsNullOrWhiteSpace(file["customweapon" + i + "power"]))
+                        power = int.Parse(file["customweapon" + i + "power"]);
+                    string special = file["customweapon" + i + "special"];
+                    HullType weaponClass = HullType.All;
+                    if(ship.Hull != null)
+                        weaponClass = ship.Hull.HullTypes;
+                    switch (type)
+                    {
+                        case WeaponType.TorpedoTube:
+                            Weapons.Add(new TorpedoTubes(name, weaponClass, power, space, sp, str, 0, RuleBook.Custom, 0, special: special));
+                            break;
+                        case WeaponType.NovaCannon:
+                            Weapons.Add(new NovaCannon(name, weaponClass, power, space, sp, damage, range, RuleBook.Custom, 0, special));
+                            break;
+                        case WeaponType.LandingBay:
+                            Weapons.Add(new LandingBay(name, weaponClass, slots, power, space, sp, str, RuleBook.Custom, 0, special: special));
+                            break;
+                        default:
+                            Weapons.Add(new Weapon(name, type, weaponClass, slots, power, space, sp, str, damage, crit, range, RuleBook.Custom, 0, special: special));
+                            break;
+                    }
+                }
             }
             for (int i = 0; i < ship.Weapons.Length; i++)
             {
                 //add each weapon
-                ship.Weapons[i] = Weapons.Where(x => x.Name.Equals(file["weapon" + (i + 1)])).First();
-                Quality q = Quality.Common;
-                if(!String.IsNullOrWhiteSpace(file["weapon" + (i + 1) + "quality"]))
-                    q = (Quality)Enum.Parse(typeof(Quality),file["weapon" + (i + 1) + "quality"]);
-                //wxq1 & wxq2 for WeaponQuality, weapxmod for turbo
+                Weapon weapon = Weapons.Where(x => x.Name.Equals(file["weapon" + (i + 1)])).FirstOrDefault();
+                if (weapon != null)
+                {
+                    Quality quality = Quality.Common;
+                    if (!String.IsNullOrWhiteSpace(file["weapon" + (i + 1) + "quality"]))
+                        quality = (Quality)Enum.Parse(typeof(Quality), file["weapon" + (i + 1) + "quality"]);
+                    WeaponQuality wq = WeaponQuality.None;
+                    //wxq1 & wxq2 for WeaponQuality, weapxmod for turbo
+                    for (int j = 1; j <= 2; j++)
+                    {
+                        switch (file["w" + (i + 1) + "q" + j])
+                        {
+                            case "Space":
+                                wq |= WeaponQuality.Space;
+                                break;
+                            case "Range":
+                                wq |= WeaponQuality.Range;
+                                break;
+                            case "Crit Rating":
+                                wq |= WeaponQuality.Crit;
+                                break;
+                            case "Strength":
+                                wq |= WeaponQuality.Strength;
+                                break;
+                            case "Damage":
+                                wq |= WeaponQuality.Damage;
+                                break;
+                        }
+                    }
+                    Quality turbo = Quality.None;
+                    if (!String.IsNullOrWhiteSpace(file["weap" + (i + 1) + "mod"]))
+                        turbo = (Quality)Enum.Parse(typeof(Quality), file["weap" + (i + 1) + "mod"]);
+                    if (quality != Quality.Common || turbo != Quality.None)
+                        ship.Weapons[i] = new Weapon(weapon.Name, weapon.Type, weapon.HullTypes, weapon.Slots, weapon.Power, weapon.Space, weapon.SP, weapon.Strength, weapon.Damage, weapon.Crit, weapon.Range,
+                            weapon.Origin, weapon.PageNumber, quality, wq, weapon.Special, turbo, weapon.ComponentOrigin);
+                    else
+                        ship.Weapons[i] = weapon;
+                }
             }
             throw new NotImplementedException();
         }

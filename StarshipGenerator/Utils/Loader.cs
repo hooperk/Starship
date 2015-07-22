@@ -22,6 +22,15 @@ namespace StarshipGenerator.Utils
         public static readonly Supplemental ArmouredProw = new Supplemental("Armoured Prow", HullType.CruiserPlus, 0, 0, 0, RuleBook.CoreRulebook, 204, new DiceRoll(1, 0, 0), "Cannot take macrobatteries or lance in prow", prowArmour: 4, max: 1);
         public static readonly Supplemental PlasmaRefinery = new Supplemental("Plasma Refinery", HullType.Transport, 10, 0, 0, RuleBook.BattlefleetKoronus, 30, special: "May spend 3 days and make 2 +10 pilot tests to harvest plasma granting +100 to objectives if fuel is used or sold. Failure on either test by 5 or more degrees destroyes the ship. If the ship does not harvest plasma for a year, reduce maximum power by 10");
         public static readonly LandingBay HoldLandingBay = new LandingBay("Hold Landing Bay", HullType.Transport, WeaponSlot.Auxiliary, 0, 0, 0, 2, RuleBook.BattlefleetKoronus, 36, special: "Attack Craft launched from this reduce their movement by 2VUs on the turn they launch. While in combat, squadron attempting to land must make a +10 Piloting + craft rating test to land safely. If this test is failed by 4 or more degrees teh component is considered damaged. it takes half an hour to land outside of combat");
+        //Renames from old ship sheet
+        private static readonly String BombardmentCannons = "Stygies-Pattern Bombardment Cannons";
+        private static readonly String JovianMissiles = "Jovian-Pattern Missile Battery";
+        private static readonly String LatheGravCulverin = "Lathe-Pattern Grav-Culverin Broadside";
+        private static readonly String MarsBroadsides = "Mars-Pattern Macrocannon Broadside";
+        private static readonly String MarsMacrocannons = "Mars-Pattern Macrocannons";
+        private static readonly String MezoaLanceBattery = "Mezoa-Pattern Hybrid Lance Battery";
+        private static readonly String MezoaLance = "Mezoa-Pattern Hybrid Lance Weapon";
+        private static readonly String RyzaPlasma = "Ryza-Pattern Plasma Battery";
         //Components
         public List<Hull> Hulls;
         public List<PlasmaDrive> PlasmaDrives;
@@ -145,7 +154,7 @@ namespace StarshipGenerator.Utils
                     (port + starboard) / 2, keel, aft));
 
             }
-            ship.Hull = Hulls.Where(x => x.Name.Equals(file["hull"])).FirstOrDefault();
+            ship.Hull = Hulls.Where(x => x.Name.Equals(file["hull"], StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
             HullType shipClass = HullType.None;
             if (ship.Hull != null)
                 shipClass = ship.Hull.HullTypes;
@@ -244,7 +253,37 @@ namespace StarshipGenerator.Utils
             for (int i = 0; i < ship.Weapons.Length; i++)
             {
                 //add each weapon
-                Weapon weapon = Weapons.Where(x => x.Name.Equals(file["weapon" + (i + 1)])).FirstOrDefault();
+                Weapon weapon = Weapons.Where(x => x.Name.Equals(file["weapon" + (i + 1)], StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
+                if (weapon == null)
+                {
+                    switch (file["weapon" + (i + 1)])
+                    {
+                        case "Bombardment Cannons":
+                            weapon = Weapons.Where(x => x.Name.Equals(BombardmentCannons)).FirstOrDefault();
+                            break;
+                        case "Jovian Missile Battery":
+                            weapon = Weapons.Where(x => x.Name.Equals(JovianMissiles)).FirstOrDefault();
+                            break;
+                        case "Lathe Grav-culverin Broadside":
+                            weapon = Weapons.Where(x => x.Name.Equals(LatheGravCulverin)).FirstOrDefault();
+                            break;
+                        case "Mars Pattern Macrocannon Broadide":
+                            weapon = Weapons.Where(x => x.Name.Equals(MarsBroadsides)).FirstOrDefault();
+                            break;
+                        case "Mars Pattern Macrocannons":
+                            weapon = Weapons.Where(x => x.Name.Equals(MarsMacrocannons)).FirstOrDefault();
+                            break;
+                        case "Mezoa Lance Battery":
+                            weapon = Weapons.Where(x => x.Name.Equals(MezoaLanceBattery)).FirstOrDefault();
+                            break;
+                        case "Mezoa Lance Weapon":
+                            weapon = Weapons.Where(x => x.Name.Equals(MezoaLance)).FirstOrDefault();
+                            break;
+                        case "Ryza Pattern Plasma Battery":
+                            weapon = Weapons.Where(x => x.Name.Equals(RyzaPlasma)).FirstOrDefault();
+                            break;
+                    }
+                }
                 if (weapon != null)
                 {
                     Quality quality = Quality.Common;
@@ -356,7 +395,7 @@ namespace StarshipGenerator.Utils
             Hulls.Add(new Hull("Goliath-Class Factory Ship", 3, -10, 4, 50, 14, 40, 25, HullType.Transport, null, RuleBook.BattlefleetKoronus, 30, dorsal: 1, side: 1, comps: new Supplemental[] { MainCargoHold, MainCargoHold, PlasmaRefinery }));
             Hulls.Add(new Hull("Havoc-Class Merchant Raider", 9, 25, 10, 30, 16, 40, 35, HullType.Raider, null, RuleBook.CoreRulebook, 195, 1, 1, 1));
             Hulls.Add(new Hull("Hazeroth-Class Privateer", 10, 23, 12, 32, 14, 35, 30, HullType.Raider, null, RuleBook.CoreRulebook, 194, 1, 1, 1));
-            Hulls.Add(new Hull("Iconoclast-Class Destroyee", 10, 25, 10, 28, 14, 32, 29, HullType.Raider, "Long term repairs repair an additional 2 hull integrity", RuleBook.BattlefleetKoronus, 28, dorsal: 2));
+            Hulls.Add(new Hull("Iconoclast-Class Destroyer", 10, 25, 10, 28, 14, 32, 29, HullType.Raider, "Long term repairs repair an additional 2 hull integrity", RuleBook.BattlefleetKoronus, 28, dorsal: 2));
             Hulls.Add(new Hull("Jericho-Class Pligrim Vessel", 3, -10, 5, 50, 12, 45, 20, HullType.Transport, null, RuleBook.CoreRulebook, 194, prow: 1, side: 1, comps: new Supplemental[] { MainCargoHold }));
             Hulls.Add(new Hull("Lathe-Class Monitor-Cruiser", 5, 12, 15, 62, 20, 60, 55, HullType.LightCruiser, null, RuleBook.IntoTheStorm, 152, 1, 1, 1, 1));
             Hulls.Add(new Hull("Loki-Class Q-Ship", 4, -5, 10, 40, 13, 45, 21, HullType.Transport, null, RuleBook.IntoTheStorm, 151, 1, 1, 1, comps: new Supplemental[] { MainCargoHold }, history: ShipHistory.WolfInSheepsClothing));
@@ -496,7 +535,7 @@ namespace StarshipGenerator.Utils
             //End of Augur Arrays
             //Weapons
             Weapons = new List<Weapon>(46);
-            Weapons.Add(new Weapon("Stygies-Pattern Bombardment Cannons", WeaponType.Macrobattery, HullType.AllCruiser, WeaponSlot.Prow | WeaponSlot.Dorsal | WeaponSlot.Keel, 5, 3, 3, 3, new DiceRoll(1, 0, 6), 2, 4, RuleBook.BattlefleetKoronus, 34, special: "Add +1 to critical table for crits rolled, +20 to intimidate tests while ship armed with this is in orbit, may add 50 to military objectives on that planet, for planetary bombardments affects double the area, +20 damage to large enemies, +10 damage to individuals and vehicles"));
+            Weapons.Add(new Weapon(BombardmentCannons, WeaponType.Macrobattery, HullType.AllCruiser, WeaponSlot.Prow | WeaponSlot.Dorsal | WeaponSlot.Keel, 5, 3, 3, 3, new DiceRoll(1, 0, 6), 2, 4, RuleBook.BattlefleetKoronus, 34, special: "Add +1 to critical table for crits rolled, +20 to intimidate tests while ship armed with this is in orbit, may add 50 to military objectives on that planet, for planetary bombardments affects double the area, +20 damage to large enemies, +10 damage to individuals and vehicles"));
             Weapons.Add(new Weapon("Dark Cannon", WeaponType.Macrobattery, HullType.All, WeaponSlot.All, 4, 2, 3, 3, new DiceRoll(1, 0, 1), 6, 6, RuleBook.HostileAcquisition, 74, special: "Vessels hit by this weapon suffer -15 to ballistic skill in their following turn", comp: ComponentOrigin.Xenotech));
             Weapons.Add(new Weapon("Disruption Macrocannons", WeaponType.Macrobattery, HullType.All, WeaponSlot.All, 4, 2, 2, 3, new DiceRoll(1, 0, 1), 0, 5, RuleBook.BattlefleetKoronus, 34, special: "Does not cause damage but for every 5 damage rolled, ignoring armour, oen random compoent on target vessel becomes unpowered; Cannot crit and may only be combined into a salvo with other Disruption Macrocannon batteries"));
             Weapons.Add(new Weapon("Disruption Macrocannon Broadside", WeaponType.Macrobattery, HullType.AllCruiser, WeaponSlot.Side, 6, 5, 2, 6, new DiceRoll(1, 0, 1), 0, 5, RuleBook.BattlefleetKoronus, 34, special: "Does not cause damage but for every 5 damage rolled, ignoring armour, oen random compoent on target vessel becomes unpowered; Cannot crit and may only be combined into a salvo with other Disruption Macrocannon batteries"));
@@ -509,23 +548,23 @@ namespace StarshipGenerator.Utils
             Weapons.Add(new TorpedoTubes("Gryphonne-Pattern Torpedo Tubes", ~HullType.Transport, 2, 6, 1, 4, 24, RuleBook.BattlefleetKoronus, 27));
             Weapons.Add(new Weapon("Hecutor-Pattern Plasma Battery", WeaponType.Macrobattery, HullType.AllCruiser, WeaponSlot.All, 8, 3, 2, 3, new DiceRoll(1, 0, 2), 4, 11, RuleBook.BattlefleetKoronus, 34, special: "When this rolls a critical result of 1 or 2, it affects 2 components instead of 1"));
             Weapons.Add(new Weapon("Hecutor-Pattern Plasma Broadside", WeaponType.Macrobattery, HullType.BattleCruiser | HullType.GrandCruiser | HullType.BattleShip, WeaponSlot.Side, 12, 5, 2, 5, new DiceRoll(1, 0, 2), 4, 11, RuleBook.BattlefleetKoronus, 34, special: "When this rolls a critical result of 1 or 2, it affects 2 components instead of 1"));
-            Weapons.Add(new Weapon("Jovian-Pattern Missile Battery", WeaponType.Macrobattery, HullType.All, WeaponSlot.All, 3, 1, 1, 5, new DiceRoll(1, 0, 1), 6, 6, RuleBook.IntoTheStorm, 158, special: "May not fire two turns ion a row"));
+            Weapons.Add(new Weapon(JovianMissiles, WeaponType.Macrobattery, HullType.All, WeaponSlot.All, 3, 1, 1, 5, new DiceRoll(1, 0, 1), 6, 6, RuleBook.IntoTheStorm, 158, special: "May not fire two turns ion a row"));
             Weapons.Add(new LandingBay("Jovian-Pattern Escort Bay", HullType.AllCruiser, WeaponSlot.Side, 1, 4, 1, 1, RuleBook.BattlefleetKoronus, 36));
             Weapons.Add(new LandingBay("Jovian-Pattern Landing Bay", HullType.CruiserPlus, WeaponSlot.Side, 1, 6, 2, 2, RuleBook.BattlefleetKoronus, 36));
             Weapons.Add(new NovaCannon("Jovian-Pattern Nova Cannon", HullType.CruiserPlus, 6, 7, 5, new DiceRoll(0, 2, 7), 35, RuleBook.BattlefleetKoronus, 42, comp: ComponentOrigin.Archeotech, special: "Ships hit by this suffer 1d5 morale damage even if no damage is inflicted; If this is ever damaged: instead it is destroyed and ship takes 1d10 hull integrity damage with no reduction from armour or shields"));
             Weapons.Add(new Weapon("Las-Burner", WeaponType.Lance, HullType.All, WeaponSlot.Lance | WeaponSlot.Dorsal | WeaponSlot.Keel, 7, 3, 2, 2, new DiceRoll(0, 1, 1), 3, 3, RuleBook.BattlefleetKoronus, 35, special: "Grants +5 to opposed command test for boarding actions"));
-            Weapons.Add(new Weapon("Lathe-Pattern Grav-Culverin Broadside", WeaponType.Macrobattery, HullType.AllCruiser, WeaponSlot.Side, 5, 5, 1, 6, new DiceRoll(1, 0, 3), 6, 5, RuleBook.IntoTheStorm, 158, special: "May reduce damage to 1d10+1 to increase range by 2VUs"));
+            Weapons.Add(new Weapon(LatheGravCulverin, WeaponType.Macrobattery, HullType.AllCruiser, WeaponSlot.Side, 5, 5, 1, 6, new DiceRoll(1, 0, 3), 6, 5, RuleBook.IntoTheStorm, 158, special: "May reduce damage to 1d10+1 to increase range by 2VUs"));
             Weapons.Add(new LandingBay("Lathe-Pattern Landing Bay", HullType.CruiserPlus, WeaponSlot.Side, 1, 5, 2, 2, RuleBook.BattlefleetKoronus, 36, special: "If this component becomes unpowered while open, it also becomes depressurised. The component must be open during the strategic turn that craft take off or land"));
-            Weapons.Add(new Weapon("Mars-Pattern Macrocannon Broadside", WeaponType.Macrobattery, HullType.AllCruiser, WeaponSlot.Side, 4, 5, 1, 6, new DiceRoll(1, 0, 2), 5, 6, RuleBook.CoreRulebook, 202));
-            Weapons.Add(new Weapon("Mars-Pattern Macrocannons", WeaponType.Macrobattery, HullType.All, WeaponSlot.All, 4, 2, 1, 3, new DiceRoll(1, 0, 2), 5, 6, RuleBook.CoreRulebook, 202));
+            Weapons.Add(new Weapon(MarsBroadsides, WeaponType.Macrobattery, HullType.AllCruiser, WeaponSlot.Side, 4, 5, 1, 6, new DiceRoll(1, 0, 2), 5, 6, RuleBook.CoreRulebook, 202));
+            Weapons.Add(new Weapon(MarsMacrocannons, WeaponType.Macrobattery, HullType.All, WeaponSlot.All, 4, 2, 1, 3, new DiceRoll(1, 0, 2), 5, 6, RuleBook.CoreRulebook, 202));
             Weapons.Add(new NovaCannon("Mars-Pattern Nova Cannon", HullType.CruiserPlus, 3, 7, 3, new DiceRoll(0, 2, 4), 40, RuleBook.BattlefleetKoronus, 36));
             Weapons.Add(new TorpedoTubes("Mars-Pattern Torpedo Tubes", HullType.AllCruiser, 2, 8, 2, 6, 42, RuleBook.BattlefleetKoronus, 37));
-            Weapons.Add(new Weapon("Mezoa-Pattern Hybrid Lance Battery", WeaponType.Lance, HullType.AllCruiser, WeaponSlot.Lance, 13, 6, 3, 2, new DiceRoll(1, 0, 5), 4, 4, RuleBook.BattlefleetKoronus, 35));
-            Weapons.Add(new Weapon("Mezoa-Pattern Hybrid Lance Weapon", WeaponType.Lance, HullType.All, WeaponSlot.Lance, 9, 4, 3, 1, new DiceRoll(1, 0, 5), 4, 4, RuleBook.BattlefleetKoronus, 35));
+            Weapons.Add(new Weapon(MezoaLanceBattery, WeaponType.Lance, HullType.AllCruiser, WeaponSlot.Lance, 13, 6, 3, 2, new DiceRoll(1, 0, 5), 4, 4, RuleBook.BattlefleetKoronus, 35));
+            Weapons.Add(new Weapon(MezoaLance, WeaponType.Lance, HullType.All, WeaponSlot.Lance, 9, 4, 3, 1, new DiceRoll(1, 0, 5), 4, 4, RuleBook.BattlefleetKoronus, 35));
             Weapons.Add(new Weapon("Mezoa-Pattern Macrocannons", WeaponType.Macrobattery, HullType.All, WeaponSlot.All, 4, 4, 1, 4, new DiceRoll(1, 0, 3), 5, 5, RuleBook.IntoTheStorm, 158));
             Weapons.Add(new TorpedoTubes("Plasma Accelerated Torpedo Tubes", HullType.All, 2, 4, 2, 2, 16, RuleBook.BattlefleetKoronus, 42, special: "Torpedoes launched from this component gain an additional +4VUs speed on the turn they are launched; Torpedoes launched by this gain +10 to hit", comp: ComponentOrigin.Archeotech));
             Weapons.Add(new Weapon("Pyros Melta-Cannons", WeaponType.Macrobattery, HullType.All, WeaponSlot.All, 4, 3, 2, 3, new DiceRoll(1, 0, 4), 4, 4, RuleBook.IntoTheStorm, 158, special: "When this weapon component inflicts a critical hit, it is automatically a Fire! Critical"));
-            Weapons.Add(new Weapon("Ryza-Pattern Plasma Battery", WeaponType.Macrobattery, HullType.All, WeaponSlot.All, 8, 4, 1, 4, new DiceRoll(1, 0, 4), 4, 5, RuleBook.CoreRulebook, 203, special: "When this rolls a critical result of 1 or 2, it affects 2 components instead of 1"));
+            Weapons.Add(new Weapon(RyzaPlasma, WeaponType.Macrobattery, HullType.All, WeaponSlot.All, 8, 4, 1, 4, new DiceRoll(1, 0, 4), 4, 5, RuleBook.CoreRulebook, 203, special: "When this rolls a critical result of 1 or 2, it affects 2 components instead of 1"));
             Weapons.Add(new NovaCannon("Ryza-Pattern Nova Cannon", HullType.CruiserPlus, 4, 7, 4, new DiceRoll(0, 2, 5), 36, RuleBook.BattlefleetKoronus, 37, "For every 5 degrees of failure on a test to fire this, the firing vessel suffers a critical hit. If the critical would affect a component, it affects this weapon"));
             Weapons.Add(new Weapon("Shard Battery Cannon", WeaponType.Macrobattery, HullType.All, WeaponSlot.All, 0, 3, 2, 4, new DiceRoll(1, 0, 2), 3, 6, RuleBook.CoreRulebook, 208, special: "Cannont become unpowered; If this is ever destroyed vessel suffers 2d5 hull integrity damage with no armour or shields", comp: ComponentOrigin.Xenotech));
             Weapons.Add(new Weapon("Staravar Laser Macrobattery", WeaponType.Macrobattery, HullType.All, WeaponSlot.All, 4, 4, 2, 4, new DiceRoll(1, 0, 2), 4, 12, RuleBook.IntoTheStorm, 162, comp: ComponentOrigin.Archeotech));

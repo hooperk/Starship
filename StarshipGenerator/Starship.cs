@@ -201,6 +201,7 @@ namespace StarshipGenerator
                     total += 1;
                 if (Background == Background.ThulianExploratorVessel)
                     total -= 1;
+                total += GMSpeed;
                 if (Hull.MaxSpeed < 1)
                     return Math.Max(total, 1);//Math.max in case ship has lots of negatives to speed and is universe class or something equally stupid
                 return (Math.Min(Hull.MaxSpeed, Math.Max(total, 1)));//no faster than max speed, no slower than 1
@@ -228,6 +229,7 @@ namespace StarshipGenerator
                     total += 3;
                 if (Background == Background.ThulianExploratorVessel)
                     total -= 5;
+                total += GMManoeuvrability;
                 return total;
             }
         }
@@ -251,6 +253,7 @@ namespace StarshipGenerator
                     total += 6;
                 if (Background == Background.ThulianExploratorVessel)
                     total += 10;
+                total += GMDetection;
                 return total;
             }
         }
@@ -261,10 +264,11 @@ namespace StarshipGenerator
         {
             get
             {
-                if (VoidShield == null)
-                    return 0;
-                else//upgrade can increase
-                    return VoidShield.Strength;
+                int total = 0;
+                if (VoidShield != null)
+                    total = VoidShield.Strength;
+                total += GMShields;
+                return total;
             }
         }
         /// <summary>
@@ -285,6 +289,7 @@ namespace StarshipGenerator
                     total -= 1;
                 if (ShipHistory == ShipHistory.WrestedFromASpaceHulk)
                     total += 1;
+                total += GMArmour;
                 return total;
             }
         }
@@ -313,6 +318,7 @@ namespace StarshipGenerator
                 int total = Hull.TurretRating;
                 foreach (Supplemental component in SupplementalComponents)
                     total += component.TurretRating;
+                total += GMTurretRating;
                 return Math.Max(total, 0);
             }
         }
@@ -441,6 +447,7 @@ namespace StarshipGenerator
                     total += component.CrewPopulation;
                 if (ShipHistory == ShipHistory.DeathCult)
                     total -= 8;
+                total += GMCrewPopulation;
                 return total;
             }
         }
@@ -513,6 +520,7 @@ namespace StarshipGenerator
                 }
                 if (DistributedCargoHold != Quality.None)
                     total -= 2;
+                total += GMMorale;
                 return total;
             }
         }
@@ -551,6 +559,7 @@ namespace StarshipGenerator
                     if ((Hull.HullTypes & (HullType.Transport | HullType.Raider | HullType.Frigate)) > 0)
                         total -= 1;
                 }
+                total += GMHullIntegrity;
                 return total;
             }
         }
@@ -911,6 +920,18 @@ namespace StarshipGenerator
         public int Matrix;//weapon upgraded by poor Targetting Matrix if any
 
         public Background Background;
+
+        //GM or Custom Modifiers
+        int GMSpeed;
+        int GMHullIntegrity;
+        int GMDetection;
+        int GMManoeuvrability;
+        int GMArmour;
+        int GMTurretRating;
+        int GMMorale;
+        int GMCrewPopulation;
+        int GMShields;
+        string GMSpecial;
 
         public string ToJSON()
         {

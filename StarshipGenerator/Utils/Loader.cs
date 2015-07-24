@@ -248,6 +248,7 @@ namespace StarshipGenerator.Utils
                             Weapons.Add(new Weapon(name, type, weaponClass, slots, power, space, sp, str, damage, crit, range, RuleBook.Custom, 0, special: special));
                             break;
                     }
+
                 }
             }
             for (int i = 0; i < ship.Weapons.Length; i++)
@@ -322,6 +323,62 @@ namespace StarshipGenerator.Utils
                         ship.Weapons[i] = weapon;
                 }
             }
+            if (!(String.IsNullOrWhiteSpace(file["customplasmaname"]) || String.IsNullOrWhiteSpace(file["customplasmapower"]) || String.IsNullOrWhiteSpace(file["customplasmaspace"])))
+            {
+                string name = file["customplasmaname"];
+                int power = int.Parse(file["customplasmapower"]);
+                int space = int.Parse(file["customplasmaspace"]);
+                int sp = 0;
+                if (!String.IsNullOrWhiteSpace(file["customplasmasp"]))
+                {
+                    sp = int.Parse(file["customplasmasp"]);
+                }
+                string special = file["customplasmaspecial"];
+                PlasmaDrives.Add(new PlasmaDrive(name, shipClass, power, space, special, RuleBook.Custom, 0, sp));
+            }
+            if (!(String.IsNullOrWhiteSpace(file["customwarpname"]) || String.IsNullOrWhiteSpace(file["customwarppower"]) || String.IsNullOrWhiteSpace(file["customwarpspace"])))
+            {
+                string name = file["customwarpname"];
+                int power = int.Parse(file["customwarppower"]);
+                int space = int.Parse(file["customwarpspace"]);
+                int sp = 0;
+                if (!String.IsNullOrWhiteSpace(file["customwarpsp"]))
+                {
+                    sp = int.Parse(file["customwarpsp"]);
+                }
+                string special = file["customwarpspecial"];
+                WarpDrives.Add(new WarpDrive(name,shipClass,power,space,RuleBook.Custom,0,sp,special));
+            }
+            if (!(String.IsNullOrWhiteSpace(file["customgellarname"]) || String.IsNullOrWhiteSpace(file["customgellarpower"])))
+            {
+                string name = file["customgellarname"];
+                int power = int.Parse(file["customgellarpower"]);
+                int sp = 0;
+                if (!String.IsNullOrWhiteSpace(file["customgellarsp"]))
+                {
+                    sp = int.Parse(file["customgellarsp"]);
+                }
+                string special = file["customgellarspecial"];
+                GellarFields.Add(new GellarField(name, shipClass, power, special, RuleBook.Custom, 0, sp));
+            }
+            bool shieldsDone = false;//if a custom shield was used, don't count the custom shields twice
+            if (!(String.IsNullOrWhiteSpace(file["customvoidname"]) || String.IsNullOrWhiteSpace(file["customvoidpower"])
+                || String.IsNullOrWhiteSpace(file["customvoidspace"]) || String.IsNullOrWhiteSpace(file["customshield"])))
+            {
+                string name = file["customvoidname"];
+                int power = int.Parse(file["customvoidpower"]);
+                int space = int.Parse(file["customvoidspace"]);
+                int sp = 0;
+                int str = int.Parse(file["customshield"]);
+                if (!String.IsNullOrWhiteSpace(file["customvoidsp"]))
+                {
+                    sp = int.Parse(file["customvoidsp"]);
+                }
+                string special = file["customvoidspecial"];
+                VoidShields.Add(new VoidShield(name, shipClass, power, space, str, RuleBook.Custom, 0, special, sp: sp));
+                shieldsDone = true;
+            }
+
             throw new NotImplementedException();
         }
 

@@ -378,7 +378,96 @@ namespace StarshipGenerator.Utils
                 VoidShields.Add(new VoidShield(name, shipClass, power, space, str, RuleBook.Custom, 0, special, sp: sp));
                 shieldsDone = true;
             }
-
+            if (!(String.IsNullOrWhiteSpace(file["custombridgename"]) || String.IsNullOrWhiteSpace(file["custombridgepower"]) || String.IsNullOrWhiteSpace(file["custombridgespace"])))
+            {
+                string name = file["custombridgename"];
+                int power = int.Parse(file["custombridgepower"]);
+                int space = int.Parse(file["custombridgespace"]);
+                int sp = 0;
+                if (!String.IsNullOrWhiteSpace(file["custombridgesp"]))
+                {
+                    sp = int.Parse(file["custombridgesp"]);
+                }
+                string special = file["custombridgespecial"];
+                Bridges.Add(new Bridge(name, shipClass, power, space, RuleBook.Custom, 0, special, sp));
+            }
+            if (!(String.IsNullOrWhiteSpace(file["customlifename"]) || String.IsNullOrWhiteSpace(file["customlifepower"]) || String.IsNullOrWhiteSpace(file["customlifespace"])))
+            {
+                string name = file["customlifename"];
+                int power = int.Parse(file["customlifepower"]);
+                int space = int.Parse(file["customlifespace"]);
+                int sp = 0;
+                if (!String.IsNullOrWhiteSpace(file["customlifesp"]))
+                {
+                    sp = int.Parse(file["customlifesp"]);
+                }
+                string special = file["customlifespecial"];
+                LifeSustainers.Add(new LifeSustainer(name, shipClass, power, space, 0, RuleBook.Custom, 0, special, sp: sp));
+            }
+            if (!(String.IsNullOrWhiteSpace(file["customcrewname"]) || String.IsNullOrWhiteSpace(file["customcrewpower"]) || String.IsNullOrWhiteSpace(file["customcrewspace"])))
+            {
+                string name = file["customcrewname"];
+                int power = int.Parse(file["customcrewpower"]);
+                int space = int.Parse(file["customcrewspace"]);
+                int sp = 0;
+                if (!String.IsNullOrWhiteSpace(file["customcrewsp"]))
+                {
+                    sp = int.Parse(file["customcrewsp"]);
+                }
+                string special = file["customcrewspecial"];
+                CrewQuarters.Add(new CrewQuarters(name, shipClass, power, space, 0, RuleBook.Custom, 0, special, sp: sp));
+            }
+            if (!(String.IsNullOrWhiteSpace(file["customaugurname"]) || String.IsNullOrWhiteSpace(file["customaugurpower"])))
+            {
+                string name = file["customaugurname"];
+                int power = int.Parse(file["customaugurpower"]);
+                int sp = 0;
+                if (!String.IsNullOrWhiteSpace(file["customaugursp"]))
+                {
+                    sp = int.Parse(file["customaugursp"]);
+                }
+                string special = file["customaugurspecial"];
+                AugurArrays.Add(new Augur(name,power,RuleBook.Custom,0,special:special,sp:sp));
+            }
+            if (!String.IsNullOrWhiteSpace(file["custommachine"]))
+                ship.GMMachineSpirit = file["custommachine"];
+            if (!String.IsNullOrWhiteSpace(file["customhistory"]))
+                ship.GMShipHistory = file["customhistory"];
+            if (!String.IsNullOrWhiteSpace(file["customspeed"]))
+                ship.GMSpeed = int.Parse(file["customspeed"]);
+            if (!String.IsNullOrWhiteSpace(file["customint"]))
+                ship.GMHullIntegrity = int.Parse(file["customint"]);
+            if (!String.IsNullOrWhiteSpace(file["customdet"]))
+                ship.GMDetection = int.Parse(file["customdet"]);
+            if (!String.IsNullOrWhiteSpace(file["customman"]))
+                ship.GMManoeuvrability = int.Parse(file["customman"]);
+            if (!String.IsNullOrWhiteSpace(file["customarmour"]))
+                ship.GMArmour = int.Parse(file["customarmour"]);
+            if (!String.IsNullOrWhiteSpace(file["customturret"]))
+                ship.GMTurretRating = int.Parse(file["customturret"]);
+            if (!String.IsNullOrWhiteSpace(file["custommorale"]))
+                ship.GMMorale = int.Parse(file["custommorale"]);
+            if (!String.IsNullOrWhiteSpace(file["customcrew"]))
+                ship.GMCrewPopulation = int.Parse(file["customcrew"]);
+            if(!(shieldsDone || String.IsNullOrWhiteSpace(file["customshield"])))
+                ship.GMShields = int.Parse(file["customshield"]);
+            ship.GMSpecial = file["customspecial"];
+            //custom components as one blob
+            if (ship != null && !(String.IsNullOrWhiteSpace(file["customcomppower"]) && String.IsNullOrWhiteSpace(file["customcompgenerate"])))
+            {
+                bool doBoth = !(String.IsNullOrWhiteSpace(file["customcomppower"]) || String.IsNullOrWhiteSpace(file["customcompgenerate"]));//if both present, separate comps for generate
+                if (doBoth)
+                    ship.SupplementalComponents.Add(new Supplemental("Custom Generators", ship.Hull.HullTypes, int.Parse(file["customcompgenerate"]), 0, 0, RuleBook.Custom, 0, generated: true));
+                bool usingPower = doBoth || !String.IsNullOrWhiteSpace(file["customcompgenerate"]);
+                int space = 0;
+                if(!String.IsNullOrWhiteSpace(file["customcompspace"]))
+                    space = int.Parse(file["customcompspace"]);
+                int sp = 0;
+                if(!String.IsNullOrWhiteSpace(file["customcompsp"]))
+                    sp = int.Parse(file["customcompsp"]);
+                ship.SupplementalComponents.Add(new Supplemental("Custom Components", ship.Hull.HullTypes, (usingPower ? int.Parse(file["customcomppower"]) : int.Parse(file["customcompgenerate"])), space, sp, RuleBook.Custom, 0,special:file["customcomponents"], generated: !usingPower));//account for power being used or generated, all added as one blob to be shown in special field
+            }
+            //plasmadrive,warpdrive on etc.
             throw new NotImplementedException();
         }
 

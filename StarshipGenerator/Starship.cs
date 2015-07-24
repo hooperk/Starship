@@ -922,16 +922,18 @@ namespace StarshipGenerator
         public Background Background;
 
         //GM or Custom Modifiers
-        int GMSpeed;
-        int GMHullIntegrity;
-        int GMDetection;
-        int GMManoeuvrability;
-        int GMArmour;
-        int GMTurretRating;
-        int GMMorale;
-        int GMCrewPopulation;
-        int GMShields;
-        string GMSpecial;
+        public int GMSpeed;
+        public int GMHullIntegrity;
+        public int GMDetection;
+        public int GMManoeuvrability;
+        public int GMArmour;
+        public int GMTurretRating;
+        public int GMMorale;
+        public int GMCrewPopulation;
+        public int GMShields;
+        public string GMSpecial;
+        public string GMMachineSpirit;
+        public string GMShipHistory;
 
         public string ToJSON()
         {

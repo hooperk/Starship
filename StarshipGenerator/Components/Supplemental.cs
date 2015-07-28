@@ -121,13 +121,13 @@ namespace StarshipGenerator.Components
                     switch (this.Quality)
                     {
                         case Quality.Poor:
-                            return Math.Max(_power - 2, 1);//poor quality generates 2 less instead of granting 1 more
+                            return Math.Max(RawPower - 2, 1);//poor quality generates 2 less instead of granting 1 more
                         case Quality.Good:
                         case Quality.Efficient:
                         case Quality.Best:
-                            return _power + 1;
+                            return RawPower + 1;
                         default:
-                            return _power;
+                            return RawPower;
                     }
                 }
                 return base.Power;

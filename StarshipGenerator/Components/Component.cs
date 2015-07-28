@@ -30,20 +30,20 @@ namespace StarshipGenerator.Components
                 switch (this.Quality)
                 {
                     case Quality.Poor:
-                        return Math.Max(_sp - 1, 1);
+                        return Math.Max(RawSP - 1, 1);
                     case Quality.Good:
                     case Quality.Slim:
                     case Quality.Efficient:
-                        return _sp + 1;
+                        return RawSP + 1;
                     case Quality.Best:
-                        return _sp + 2;
+                        return RawSP + 2;
                     default:
-                        return _sp;
+                        return RawSP;
                 }
             }
-            private set { _sp = value; }
+            private set { RawSP = value; }
         }
-        private int _sp;
+        public int RawSP{get; private set;}
         /// <summary>
         /// Power Used or supplied by component
         /// </summary>
@@ -51,23 +51,23 @@ namespace StarshipGenerator.Components
         {
             get
             {
-                if (_power == 0)
+                if (RawPower == 0)
                     return 0;//TODO: check if there was any case where this is what happens
                 switch (this.Quality)
                 {
                     case Quality.Poor:
-                        return _power + 1;
+                        return RawPower + 1;
                     case Quality.Good:
                     case Quality.Efficient:
                     case Quality.Best:
-                        return Math.Max(_power - 1, 1);
+                        return Math.Max(RawPower - 1, 1);
                     default:
-                        return _power;
+                        return RawPower;
                 }
             }
-            private set { _power = value; }
-        }//add quality modifier later on get
-        protected int _power;
+            private set { RawPower = value; }
+        }
+        public int RawPower { get; protected set; }
         /// <summary>
         /// Space taken up by component
         /// </summary>
@@ -75,25 +75,25 @@ namespace StarshipGenerator.Components
         {
             get
             {
-                if (_space == 0)
+                if (RawSpace == 0)
                     return 0;
                 switch (this.Quality)
                 {
                     case Quality.Poor:
-                        return _space + 1;
+                        return RawSpace + 1;
                     case Quality.Slim:
                     case Quality.Best:
-                        return Math.Max(_space - 1, 1);
+                        return Math.Max(RawSpace - 1, 1);
                     default:
-                        return _space;
+                        return RawSpace;
                 }
             }
             set
             {
-                _space = value;
+                RawSpace = value;
             }
         }
-        protected int _space;
+        public int RawSpace { get; protected set; }
         /// <summary>
         /// Any special effects of the component
         /// </summary>
@@ -101,13 +101,13 @@ namespace StarshipGenerator.Components
         {
             get
             {
-                if (_special == null)
+                if (RawSpecial == null)
                     return "";
-                return _special + ";";
+                return RawSpecial + ";";
             }
-            set { _special = value; }
+            set { RawSpecial = value; }
         }
-        private string _special;
+        public string RawSpecial;
         /// <summary>
         /// Rulebook this component can be found in
         /// </summary>

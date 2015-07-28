@@ -34,16 +34,16 @@ namespace StarshipGenerator.Components
                     switch (Quality)
                     {
                         case Quality.Poor:
-                            return Math.Max(_strength - 1, 1);
+                            return Math.Max(RawStrength - 1, 1);
                         case Quality.Best:
-                            return _strength + 1;
+                            return RawStrength + 1;
                     }
                 }
-                return _range;
+                return RawRange;
             }
-            private set { _strength = value; }
+            private set { RawStrength = value; }
         }
-        private int _strength;
+        public int RawStrength { get; private set; }
         /// <summary>
         /// Damage of the weapon
         /// </summary>
@@ -57,17 +57,17 @@ namespace StarshipGenerator.Components
                     switch (Quality)
                     {
                         case Quality.Poor:
-                            return _damage - 1;
+                            return RawDamage - 1;
                         case Quality.Good:
                         case Quality.Best:
-                            return _damage + 1;
+                            return RawDamage + 1;
                     }
                 }
-                return _damage;
+                return RawDamage;
             }
-            private set { _damage = value; }
+            private set { RawDamage = value; }
         }
-        protected DiceRoll _damage;
+        public DiceRoll RawDamage { get; protected set; }
         /// <summary>
         /// Crit ratign of the weapon
         /// </summary>
@@ -81,16 +81,16 @@ namespace StarshipGenerator.Components
                     switch (Quality)
                     {
                         case Quality.Poor:
-                            return _crit + 1;
+                            return RawCrit + 1;
                         case Quality.Best:
-                            return Math.Max(_crit - 1, 1);
+                            return Math.Max(RawCrit - 1, 1);
                     }
                 }
-                return _range;
+                return RawRange;
             }
-            private set { _crit = value; }
+            private set { RawCrit = value; }
         }
-        private int _crit;
+        public int RawCrit { get; private set; }
         /// <summary>
         /// Range of the weapon
         /// </summary>
@@ -122,11 +122,11 @@ namespace StarshipGenerator.Components
                         mod += 1;
                         break;
                 }
-                return Math.Max(_range+mod, 1);//prevent potential <1 values
+                return Math.Max(RawRange+mod, 1);//prevent potential <1 values
             }
-            private set { _range = value; }
+            private set { RawRange = value; }
         }
-        private int _range;
+        public int RawRange { get; private set; }
         /// <summary>
         /// Which stats are being affected by quality
         /// </summary>
@@ -139,7 +139,7 @@ namespace StarshipGenerator.Components
         {
             get
             {
-                return _power;
+                return RawPower;
             }
         }
         /// <summary>
@@ -152,7 +152,7 @@ namespace StarshipGenerator.Components
             {
                 if ((WeaponQuality & WeaponQuality.Space) > 0)
                     return base.Space;
-                return _space;
+                return RawSpace;
             }
             set
             {

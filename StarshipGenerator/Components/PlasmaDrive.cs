@@ -21,6 +21,7 @@ namespace StarshipGenerator.Components
                 return base.Name;
             }
         }
+        public string RawName { get { return base.Name; } }
         /// <summary>
         /// Manoeuvrability modifier this drive grants
         /// </summary>
@@ -33,12 +34,12 @@ namespace StarshipGenerator.Components
             get
             {
                 if (Modified && base.ComponentOrigin == ComponentOrigin.Standard)
-                    return _speed + 1;
-                return _speed;
+                    return RawSpeed + 1;
+                return RawSpeed;
             }
-            private set { _speed = value; }
+            private set { RawSpeed = value; }
         }
-        private int _speed;
+        public int RawSpeed { get; private set; }
         /// <summary>
         /// Power supplied by component
         /// </summary>
@@ -50,13 +51,13 @@ namespace StarshipGenerator.Components
                 switch (this.Quality)
                 {
                     case Quality.Poor:
-                        return _power - 2;//poor quality generates 2 less instead of granting 1 more
+                        return RawPower - 2;//poor quality generates 2 less instead of granting 1 more
                     case Quality.Good:
                     case Quality.Efficient:
                     case Quality.Best:
-                        return _power + 1;
+                        return RawPower + 1;
                     default:
-                        return _power;
+                        return RawPower;
                 }
             }
         }

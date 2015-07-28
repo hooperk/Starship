@@ -31,6 +31,12 @@ namespace StarshipGenerator.Utils
         private static readonly String MezoaLanceBattery = "Mezoa-Pattern Hybrid Lance Battery";
         private static readonly String MezoaLance = "Mezoa-Pattern Hybrid Lance Weapon";
         private static readonly String RyzaPlasma = "Ryza-Pattern Plasma Battery";
+        private static readonly String SprintTrader = @"Lathe-Pattern Class 2a ""Sprint Trader"" Drive";
+        private static readonly String EscortDrive = @"Lathe-Pattern Class 2b ""Escort"" Drive";
+        private static readonly String WarcruiserDrive = @"Jovian-Pattern ""Warcruiser"" Drive";
+        private static readonly String MimicDrive = "Mimic Engine";
+        private static readonly String Viperdrive = @"Segrazian ""Viperdrive"" Pirate Engine";
+        private static readonly String RepulsorShield = "Repulsor Shield";
         //Components
         public List<Hull> Hulls;
         public List<PlasmaDrive> PlasmaDrives;
@@ -231,7 +237,7 @@ namespace StarshipGenerator.Utils
                         power = int.Parse(file["customweapon" + i + "power"]);
                     string special = file["customweapon" + i + "special"];
                     HullType weaponClass = HullType.All;
-                    if(ship.Hull != null)
+                    if (ship.Hull != null)
                         weaponClass = ship.Hull.HullTypes;
                     switch (type)
                     {
@@ -248,43 +254,40 @@ namespace StarshipGenerator.Utils
                             Weapons.Add(new Weapon(name, type, weaponClass, slots, power, space, sp, str, damage, crit, range, RuleBook.Custom, 0, special: special));
                             break;
                     }
-
                 }
             }
             for (int i = 0; i < ship.Weapons.Length; i++)
             {
                 //add each weapon
-                Weapon weapon = Weapons.Where(x => x.Name.Equals(file["weapon" + (i + 1)], StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
-                if (weapon == null)
+                string name = file["weapon" + (i + 1)];
+                switch (name)
                 {
-                    switch (file["weapon" + (i + 1)])
-                    {
-                        case "Bombardment Cannons":
-                            weapon = Weapons.Where(x => x.Name.Equals(BombardmentCannons)).FirstOrDefault();
-                            break;
-                        case "Jovian Missile Battery":
-                            weapon = Weapons.Where(x => x.Name.Equals(JovianMissiles)).FirstOrDefault();
-                            break;
-                        case "Lathe Grav-culverin Broadside":
-                            weapon = Weapons.Where(x => x.Name.Equals(LatheGravCulverin)).FirstOrDefault();
-                            break;
-                        case "Mars Pattern Macrocannon Broadide":
-                            weapon = Weapons.Where(x => x.Name.Equals(MarsBroadsides)).FirstOrDefault();
-                            break;
-                        case "Mars Pattern Macrocannons":
-                            weapon = Weapons.Where(x => x.Name.Equals(MarsMacrocannons)).FirstOrDefault();
-                            break;
-                        case "Mezoa Lance Battery":
-                            weapon = Weapons.Where(x => x.Name.Equals(MezoaLanceBattery)).FirstOrDefault();
-                            break;
-                        case "Mezoa Lance Weapon":
-                            weapon = Weapons.Where(x => x.Name.Equals(MezoaLance)).FirstOrDefault();
-                            break;
-                        case "Ryza Pattern Plasma Battery":
-                            weapon = Weapons.Where(x => x.Name.Equals(RyzaPlasma)).FirstOrDefault();
-                            break;
-                    }
+                    case "Bombardment Cannons":
+                        name = BombardmentCannons;
+                        break;
+                    case "Jovian Missile Battery":
+                        name = JovianMissiles;
+                        break;
+                    case "Lathe Grav-culverin Broadside":
+                        name = LatheGravCulverin;
+                        break;
+                    case "Mars Pattern Macrocannon Broadide":
+                        name = MarsBroadsides;
+                        break;
+                    case "Mars Pattern Macrocannons":
+                        name = MarsMacrocannons;
+                        break;
+                    case "Mezoa Lance Battery":
+                        name = MezoaLanceBattery;
+                        break;
+                    case "Mezoa Lance Weapon":
+                        name = MezoaLance;
+                        break;
+                    case "Ryza Pattern Plasma Battery":
+                        name = RyzaPlasma;
+                        break;
                 }
+                Weapon weapon = Weapons.Where(x => x.Name.Equals(name, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
                 if (weapon != null)
                 {
                     Quality quality = Quality.Common;
@@ -317,8 +320,8 @@ namespace StarshipGenerator.Utils
                     if (!String.IsNullOrWhiteSpace(file["weap" + (i + 1) + "mod"]))
                         turbo = (Quality)Enum.Parse(typeof(Quality), file["weap" + (i + 1) + "mod"]);
                     if (quality != Quality.Common || turbo != Quality.None)
-                        ship.Weapons[i] = new Weapon(weapon.Name, weapon.Type, weapon.HullTypes, weapon.Slots, weapon.Power, weapon.Space, weapon.SP, weapon.Strength, weapon.Damage, weapon.Crit, weapon.Range,
-                            weapon.Origin, weapon.PageNumber, quality, wq, weapon.Special, turbo, weapon.ComponentOrigin);
+                        ship.Weapons[i] = new Weapon(weapon.Name, weapon.Type, weapon.HullTypes, weapon.Slots, weapon.RawPower, weapon.RawSpace, weapon.RawSP, weapon.RawStrength, weapon.RawDamage, weapon.RawCrit, weapon.RawRange,
+                            weapon.Origin, weapon.PageNumber, quality, wq, weapon.RawSpecial, turbo, weapon.ComponentOrigin);
                     else
                         ship.Weapons[i] = weapon;
                 }
@@ -347,7 +350,7 @@ namespace StarshipGenerator.Utils
                     sp = int.Parse(file["customwarpsp"]);
                 }
                 string special = file["customwarpspecial"];
-                WarpDrives.Add(new WarpDrive(name,shipClass,power,space,RuleBook.Custom,0,sp,special));
+                WarpDrives.Add(new WarpDrive(name, shipClass, power, space, RuleBook.Custom, 0, sp, special));
             }
             if (!(String.IsNullOrWhiteSpace(file["customgellarname"]) || String.IsNullOrWhiteSpace(file["customgellarpower"])))
             {
@@ -427,7 +430,7 @@ namespace StarshipGenerator.Utils
                     sp = int.Parse(file["customaugursp"]);
                 }
                 string special = file["customaugurspecial"];
-                AugurArrays.Add(new Augur(name,power,RuleBook.Custom,0,special:special,sp:sp));
+                AugurArrays.Add(new Augur(name, power, RuleBook.Custom, 0, special: special, sp: sp));
             }
             if (!String.IsNullOrWhiteSpace(file["custommachine"]))
                 ship.GMMachineSpirit = file["custommachine"];
@@ -449,7 +452,7 @@ namespace StarshipGenerator.Utils
                 ship.GMMorale = int.Parse(file["custommorale"]);
             if (!String.IsNullOrWhiteSpace(file["customcrew"]))
                 ship.GMCrewPopulation = int.Parse(file["customcrew"]);
-            if(!(shieldsDone || String.IsNullOrWhiteSpace(file["customshield"])))
+            if (!(shieldsDone || String.IsNullOrWhiteSpace(file["customshield"])))
                 ship.GMShields = int.Parse(file["customshield"]);
             ship.GMSpecial = file["customspecial"];
             //custom components as one blob
@@ -460,14 +463,174 @@ namespace StarshipGenerator.Utils
                     ship.SupplementalComponents.Add(new Supplemental("Custom Generators", ship.Hull.HullTypes, int.Parse(file["customcompgenerate"]), 0, 0, RuleBook.Custom, 0, generated: true));
                 bool usingPower = doBoth || !String.IsNullOrWhiteSpace(file["customcompgenerate"]);
                 int space = 0;
-                if(!String.IsNullOrWhiteSpace(file["customcompspace"]))
+                if (!String.IsNullOrWhiteSpace(file["customcompspace"]))
                     space = int.Parse(file["customcompspace"]);
                 int sp = 0;
-                if(!String.IsNullOrWhiteSpace(file["customcompsp"]))
+                if (!String.IsNullOrWhiteSpace(file["customcompsp"]))
                     sp = int.Parse(file["customcompsp"]);
-                ship.SupplementalComponents.Add(new Supplemental("Custom Components", ship.Hull.HullTypes, (usingPower ? int.Parse(file["customcomppower"]) : int.Parse(file["customcompgenerate"])), space, sp, RuleBook.Custom, 0,special:file["customcomponents"], generated: !usingPower));//account for power being used or generated, all added as one blob to be shown in special field
+                ship.SupplementalComponents.Add(new Supplemental("Custom Components", ship.Hull.HullTypes, (usingPower ? int.Parse(file["customcomppower"]) : int.Parse(file["customcompgenerate"])), space, sp, RuleBook.Custom, 0, special: file["customcomponents"], generated: !usingPower));//account for power being used or generated, all added as one blob to be shown in special field
             }
-            //plasmadrive,warpdrive on etc.
+            //essential components
+            if (ship != null)
+            {//Plasmadrive
+                string name = file["chosenplasma"];
+                PlasmaDrive plasma = null;
+                HullType size = HullType.None;
+                bool modified = false;
+                name = name.Replace("Jovian Pattern", "Jovian-Pattern").Replace("Lathe Pattern", "Lathe-Pattern");
+                if (name.Equals("Lathe-pattern 2a Drive"))
+                    name = SprintTrader;
+                if (name.Equals(@"Lathe-pattern 2b ""Escort"" Drive"))
+                    name = EscortDrive;
+                if (name.StartsWith("Modified "))
+                {
+                    modified = true;
+                    name = name.Substring(9);
+                }
+                if (name.Equals(@"Sgrazian ""Viperdrive"" Pirate Engine"))
+                    name = Viperdrive;
+                if (name.StartsWith(WarcruiserDrive))
+                {
+                    if (WarcruiserDrive.EndsWith("Large"))
+                        size = HullType.CruiserPlus;
+                    else
+                        size = HullType.LightCruiser;
+                    plasma = PlasmaDrives.Where(x => x.Name.Equals(WarcruiserDrive) && x.HullTypes == size).FirstOrDefault();
+                }
+                else if (name.StartsWith(MimicDrive))
+                {
+                    switch (name.Substring(14))
+                    {
+                        case "Huge":
+                            size = HullType.CruiserPlus;
+                            break;
+                        case "Large":
+                            size = HullType.LightCruiser;
+                            break;
+                        case "Medium":
+                            size = HullType.Raider | HullType.Frigate;
+                            break;
+                        case "Small":
+                            size = HullType.Transport;
+                            break;
+                    }
+                    plasma = PlasmaDrives.Where(x => x.Name.Equals(MimicDrive) && x.HullTypes == size).FirstOrDefault();
+                }
+                else
+                {
+                    plasma = PlasmaDrives.Where(x => x.Name.Equals(name, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
+                }
+                if (plasma != null)
+                {
+                    Quality quality = Quality.Common;
+                    if (!String.IsNullOrEmpty(file["plasmaquality"]))
+                    {
+                        quality = (Quality)Enum.Parse(typeof(Quality), file["plasmaquality"]);
+                        if (quality == Quality.Good)
+                        {
+                            switch (file["plasmachoice"])
+                            {
+                                case "Power":
+                                    quality = Quality.Efficient;
+                                    break;
+                                case "Space":
+                                    quality = Quality.Slim;
+                                    break;
+                            }
+                        }
+                    }
+                    ship.PlasmaDrive = new PlasmaDrive(plasma.RawName, plasma.HullTypes, plasma.RawPower, plasma.RawSpace, plasma.RawSpecial, plasma.Origin, plasma.PageNumber, plasma.RawSP, quality, plasma.Speed, plasma.Manoeuvrability, plasma.ComponentOrigin, modified);
+                }//Warp Drive
+                WarpDrive warp = WarpDrives.Where(x => x.Name.Equals(file["chosenwarp"],StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
+                if (warp != null)
+                {
+                    Quality quality = Quality.Common;
+                    if (!String.IsNullOrEmpty(file["warpquality"]))
+                    {
+                        quality = (Quality)Enum.Parse(typeof(Quality), file["warpquality"]);
+                        if (quality == Quality.Good)
+                        {
+                            switch (file["warpchoice"])
+                            {
+                                case "Power":
+                                    quality = Quality.Efficient;
+                                    break;
+                                case "Space":
+                                    quality = Quality.Slim;
+                                    break;
+                            }
+                        }
+                    }
+                    ship.WarpDrive = new WarpDrive(warp.Name, warp.HullTypes, warp.RawPower, warp.RawSpace, warp.Origin, warp.PageNumber, warp.RawSP, warp.RawSpecial, quality, warp.ComponentOrigin);
+                }//Gellar Field
+                GellarField gellar = GellarFields.Where(x => x.Name.Equals(file["chosengellar"], StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
+                if (gellar != null)
+                {
+                    Quality quality = Quality.Common;
+                    if (!String.IsNullOrEmpty(file["gellarquality"]))
+                    {
+                        quality = (Quality)Enum.Parse(typeof(Quality), file["gellarquality"]);
+                    }
+                    ship.GellarField = new GellarField(gellar.Name, gellar.HullTypes, gellar.RawPower, gellar.RawSpecial, gellar.Origin, gellar.PageNumber, gellar.RawSP, gellar.NavigateWarp, quality, gellar.ComponentOrigin);
+                }//Void shield
+                name = file["chosenvoid"];
+                if (name.Equals("Repulsor Shields"))
+                    name = RepulsorShield;
+                VoidShield shield = VoidShields.Where(x => x.Name.Equals(name, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
+                if (shield != null)
+                {
+                    Quality quality = Quality.Common;
+                    if (!String.IsNullOrEmpty(file["voidquality"]))
+                    {
+                        quality = (Quality)Enum.Parse(typeof(Quality), file["voidquality"]);
+                        if (quality == Quality.Good)
+                        {
+                            switch (file["voidchoice"])
+                            {
+                                case "Power":
+                                    quality = Quality.Efficient;
+                                    break;
+                                case "Space":
+                                    quality = Quality.Slim;
+                                    break;
+                            }
+                        }
+                    }
+                    ship.VoidShield = new VoidShield(shield.Name, shield.HullTypes, shield.RawPower, shield.RawSpace, shield.Strength, shield.Origin, shield.PageNumber, shield.RawSpecial, quality, shield.RawSP, shield.ComponentOrigin);
+                }//Ship's Bridge
+                name = file["chosenbridge"];
+                size = HullType.All;
+                if (name.EndsWith(", Large"))
+                {
+                    size = HullType.AllCruiser;
+                }
+                else if (name.EndsWith(", Small"))
+                {
+                    size = ~HullType.AllCruiser;
+                }
+                Bridge bridge = Bridges.Where(x => name.StartsWith(x.Name, StringComparison.OrdinalIgnoreCase) && (x.HullTypes & size) != 0).FirstOrDefault();
+                if (bridge != null)
+                {
+                    Quality quality = Quality.Common;
+                    if (!String.IsNullOrEmpty(file["bridgequality"]))
+                    {
+                        quality = (Quality)Enum.Parse(typeof(Quality), file["bridgequality"]);
+                        if (quality == Quality.Good)
+                        {
+                            switch (file["bridgechoice"])
+                            {
+                                case "Power":
+                                    quality = Quality.Efficient;
+                                    break;
+                                case "Space":
+                                    quality = Quality.Slim;
+                                    break;
+                            }
+                        }
+                    }
+                    ship.ShipBridge = new Bridge(bridge.Name, bridge.HullTypes, bridge.RawPower, bridge.RawSpace, bridge.Origin, bridge.PageNumber, bridge.RawSpecial, bridge.RawSP, quality, bridge.Manoeuvrability, bridge.BSModifier, bridge.Command, bridge.Repair, bridge.Pilot, bridge.NavigateWarp, bridge.ComponentOrigin, bridge.MiningObjective, bridge.CreedObjective, bridge.MilitaryObjective, bridge.TradeObjective, bridge.CriminalObjective, bridge.ExplorationObjective);
+                }//rest of essentials
+            }
             throw new NotImplementedException();
         }
 
@@ -568,23 +731,23 @@ namespace StarshipGenerator.Utils
             PlasmaDrives.Add(new PlasmaDrive("Jovian-Pattern Class 2 Drive", HullType.Raider | HullType.Frigate, 45, 10, null, RuleBook.CoreRulebook, 199));
             PlasmaDrives.Add(new PlasmaDrive("Jovian-Pattern Class 3 Drive", HullType.LightCruiser, 60, 12, null, RuleBook.CoreRulebook, 199));
             PlasmaDrives.Add(new PlasmaDrive("Jovian-Pattern Class 4 Drive", HullType.CruiserPlus, 75, 14, null, RuleBook.CoreRulebook, 199));
-            PlasmaDrives.Add(new PlasmaDrive(@"Jovian-Pattern ""Warcruiser"" Drive", HullType.CruiserPlus, 85, 17, null, RuleBook.IntoTheStorm, 156, 2));
-            PlasmaDrives.Add(new PlasmaDrive(@"Jovian-Pattern ""Warcruiser"" Drive", HullType.LightCruiser, 65, 14, null, RuleBook.IntoTheStorm, 156, 2));
+            PlasmaDrives.Add(new PlasmaDrive(WarcruiserDrive, HullType.CruiserPlus, 85, 17, null, RuleBook.IntoTheStorm, 156, 2));
+            PlasmaDrives.Add(new PlasmaDrive(WarcruiserDrive, HullType.LightCruiser, 65, 14, null, RuleBook.IntoTheStorm, 156, 2));
             PlasmaDrives.Add(new PlasmaDrive("Jovian-Pattern Class 8.1 Drive", HullType.Frigate, 44, 11, "On a critical hit to this drive roll a d10, ignore the crit on a 4+", RuleBook.BattlefleetKoronus, 31, 1));
             PlasmaDrives.Add(new PlasmaDrive("Jovian-Pattern Class 8.2 Drive", HullType.LightCruiser, 59, 13, "On a critical hit to this drive roll a d10, ignore the crit on a 4+", RuleBook.BattlefleetKoronus, 31, 1));
             PlasmaDrives.Add(new PlasmaDrive("Jovian-Pattern Class 8.3 Drive", HullType.CruiserPlus, 74, 15, "On a critical hit to this drive roll a d10, ignore the crit on a 4+", RuleBook.BattlefleetKoronus, 31, 1));
             PlasmaDrives.Add(new PlasmaDrive("Jovian-Pattern Class 8.4 Drive", HullType.GrandCruiser | HullType.BattleShip, 93, 20, "On a critical hit to this drive roll a d10, ignore the crit on a 4+", RuleBook.BattlefleetKoronus, 31, 1));
             PlasmaDrives.Add(new PlasmaDrive("Lathe-Pattern Class 1 Drive", HullType.Transport, 40, 12, null, RuleBook.CoreRulebook, 199, 1));
-            PlasmaDrives.Add(new PlasmaDrive(@"Lathe-Pattern Class 2a ""Sprint Trader"" Drive", HullType.Transport, 40, 14, null, RuleBook.IntoTheStorm, 156, 2, speed: 1, man: 3));
-            PlasmaDrives.Add(new PlasmaDrive(@"Lathe-Pattern Class 2b ""Escort"" Drive", HullType.Raider | HullType.Frigate, 47, 14, null, RuleBook.IntoTheStorm, 156, 2, speed: 1, man: 3));
+            PlasmaDrives.Add(new PlasmaDrive(SprintTrader, HullType.Transport, 40, 14, null, RuleBook.IntoTheStorm, 156, 2, speed: 1, man: 3));
+            PlasmaDrives.Add(new PlasmaDrive(EscortDrive, HullType.Raider | HullType.Frigate, 47, 14, null, RuleBook.IntoTheStorm, 156, 2, speed: 1, man: 3));
             PlasmaDrives.Add(new PlasmaDrive("Mezoa-Pattern Theta-7 Drive", HullType.Transport, 44, 18, "If vessel suffers thrusters damaged or engine crippled critical hits, the roll to determine severity is automatically 10", RuleBook.BattlefleetKoronus, 31, 1, speed: 2, man: 5));
-            PlasmaDrives.Add(new PlasmaDrive("Mimic Engine", HullType.CruiserPlus, 75, 14, "Navigator may make a +10 perception test to disguise ship as one it has already encountered, this lasts until seen visually", RuleBook.HostileAcquisition, 74, 3, comp: ComponentOrigin.Xenotech));
-            PlasmaDrives.Add(new PlasmaDrive("Mimic Engine", HullType.LightCruiser, 60, 12, "Navigator may make a +10 perception test to disguise ship as one it has already encountered, this lasts until seen visually", RuleBook.HostileAcquisition, 74, 3, comp: ComponentOrigin.Xenotech));
-            PlasmaDrives.Add(new PlasmaDrive("Mimic Engine", HullType.Raider | HullType.Frigate, 45, 10, "Navigator may make a +10 perception test to disguise ship as one it has already encountered, this lasts until seen visually", RuleBook.HostileAcquisition, 74, 3, comp: ComponentOrigin.Xenotech));
-            PlasmaDrives.Add(new PlasmaDrive("Mimic Engine", HullType.Transport, 40, 12, "Navigator may make a +10 perception test to disguise ship as one it has already encountered, this lasts until seen visually", RuleBook.HostileAcquisition, 74, 3, comp: ComponentOrigin.Xenotech));
+            PlasmaDrives.Add(new PlasmaDrive(MimicDrive, HullType.CruiserPlus, 75, 14, "Navigator may make a +10 perception test to disguise ship as one it has already encountered, this lasts until seen visually", RuleBook.HostileAcquisition, 74, 3, comp: ComponentOrigin.Xenotech));
+            PlasmaDrives.Add(new PlasmaDrive(MimicDrive, HullType.LightCruiser, 60, 12, "Navigator may make a +10 perception test to disguise ship as one it has already encountered, this lasts until seen visually", RuleBook.HostileAcquisition, 74, 3, comp: ComponentOrigin.Xenotech));
+            PlasmaDrives.Add(new PlasmaDrive(MimicDrive, HullType.Raider | HullType.Frigate, 45, 10, "Navigator may make a +10 perception test to disguise ship as one it has already encountered, this lasts until seen visually", RuleBook.HostileAcquisition, 74, 3, comp: ComponentOrigin.Xenotech));
+            PlasmaDrives.Add(new PlasmaDrive(MimicDrive, HullType.Transport, 40, 12, "Navigator may make a +10 perception test to disguise ship as one it has already encountered, this lasts until seen visually", RuleBook.HostileAcquisition, 74, 3, comp: ComponentOrigin.Xenotech));
             PlasmaDrives.Add(new PlasmaDrive(@"Saturine-Pattern Class 4A ""Ultra"" Drive", HullType.BattleCruiser, 90, 14, null, RuleBook.BattlefleetKoronus, 31));
             PlasmaDrives.Add(new PlasmaDrive("Saturine-Pattern Class 5 Drive", HullType.GrandCruiser | HullType.BattleShip, 95, 18, null, RuleBook.BattlefleetKoronus, 31));
-            PlasmaDrives.Add(new PlasmaDrive(@"Segrazian ""Viperdrive"" Pirate Engine", HullType.Raider | HullType.Frigate, 45, 16, "If the vessel suffers an engine crippled critical hit, the severity roll is automatically 8-10, engines wrecked", RuleBook.HostileAcquisition, 69, 2, man: 5, speed: 2));
+            PlasmaDrives.Add(new PlasmaDrive(Viperdrive, HullType.Raider | HullType.Frigate, 45, 16, "If the vessel suffers an engine crippled critical hit, the severity roll is automatically 8-10, engines wrecked", RuleBook.HostileAcquisition, 69, 2, man: 5, speed: 2));
             PlasmaDrives.Add(new PlasmaDrive("Aconite Solar Sails", HullType.Frigate, 50, 0, "A ship with this component may interupt its Manoeuvre Action at any point to perform a Shooting Action. Once the Shooting Action is resolved, it must complete the remainder of its Manoeuvre Action. May still only make one Shooting Action per turn", RuleBook.LureoftheExpanse, 140, comp: ComponentOrigin.Xenotech));
             //End of Plasma Drives
             //Warp Drives
@@ -612,7 +775,7 @@ namespace StarshipGenerator.Utils
             VoidShields.Add(new VoidShield("Castellan Shield Array", HullType.CruiserPlus, 7, 2, 2, RuleBook.IntoTheStorm, 161, "During enemy turn, may make free -10 tech use to double number of shields", sp: 2, comp: ComponentOrigin.Archeotech));
             VoidShields.Add(new VoidShield("Multiple Void Shield Array", HullType.CruiserPlus, 8, 1, 2, RuleBook.CoreRulebook, 200));
             VoidShields.Add(new VoidShield("Repulsor Shield Array", HullType.CruiserPlus, 8, 1, 2, RuleBook.IntoTheStorm, 157, "No penalties for moving through nebulae, ice rings, plasma clouds or celestial phenomonon"));
-            VoidShields.Add(new VoidShield("Repulsor Shield", HullType.All, 6, 1, 1, RuleBook.IntoTheStorm, 156, "No penalties for moving through nebulae, ice rings, plasma clouds or celestial phenomonon"));
+            VoidShields.Add(new VoidShield(RepulsorShield, HullType.All, 6, 1, 1, RuleBook.IntoTheStorm, 156, "No penalties for moving through nebulae, ice rings, plasma clouds or celestial phenomonon"));
             VoidShields.Add(new VoidShield("Single Void Shield Array", HullType.All, 5, 1, 1, RuleBook.CoreRulebook, 199));
             VoidShields.Add(new VoidShield("Triple Void Shield Array", HullType.GrandCruiser | HullType.BattleShip, 9, 3, 3, RuleBook.BattlefleetKoronus, 32));
             VoidShields.Add(new VoidShield(@"Voss ""Glimmer""-Pattern Multiple Void Shield Array", HullType.CruiserPlus, 5, 1, 2, RuleBook.BattlefleetKoronus, 32, "When this cancels a hit roll a d10: on a 3 or lower the void shield fails to stop the hit"));

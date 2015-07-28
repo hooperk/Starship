@@ -32,7 +32,7 @@ namespace StarshipGenerator.Components
         {
             get
             {
-                return _damage;
+                return RawDamage;
             }
         }
         /// <summary>

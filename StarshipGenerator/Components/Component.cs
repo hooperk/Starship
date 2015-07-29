@@ -81,6 +81,7 @@ namespace StarshipGenerator.Components
                 {
                     case Quality.Poor:
                         return RawSpace + 1;
+                    case Quality.Good:
                     case Quality.Slim:
                     case Quality.Best:
                         return Math.Max(RawSpace - 1, 1);

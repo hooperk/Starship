@@ -629,7 +629,39 @@ namespace StarshipGenerator.Utils
                         }
                     }
                     ship.ShipBridge = new Bridge(bridge.Name, bridge.HullTypes, bridge.RawPower, bridge.RawSpace, bridge.Origin, bridge.PageNumber, bridge.RawSpecial, bridge.RawSP, quality, bridge.Manoeuvrability, bridge.BSModifier, bridge.Command, bridge.Repair, bridge.Pilot, bridge.NavigateWarp, bridge.ComponentOrigin, bridge.MiningObjective, bridge.CreedObjective, bridge.MilitaryObjective, bridge.TradeObjective, bridge.CriminalObjective, bridge.ExplorationObjective);
-                }//rest of essentials
+                }
+                name = file["chosenlife"];
+                size = HullType.All;
+                if (name.EndsWith(", Large"))
+                {
+                    size = HullType.AllCruiser;
+                }
+                else if (name.EndsWith(", Small"))
+                {
+                    size = ~HullType.AllCruiser;
+                }
+                LifeSustainer sustainer = LifeSustainers.Where(x => name.StartsWith(x.Name, StringComparison.OrdinalIgnoreCase) && (x.HullTypes & size) != 0).FirstOrDefault();
+                if (bridge != null)
+                {
+                    Quality quality = Quality.Common;
+                    if (!String.IsNullOrEmpty(file["lifequality"]))
+                    {
+                        quality = (Quality)Enum.Parse(typeof(Quality), file["lifequality"]);
+                        if (quality == Quality.Good)
+                        {
+                            switch (file["lifechoice"])
+                            {
+                                case "Power":
+                                    quality = Quality.Efficient;
+                                    break;
+                                case "Space":
+                                    quality = Quality.Slim;
+                                    break;
+                            }
+                        }
+                    }
+                    ship.LifeSustainer = new LifeSustainer(sustainer.Name, sustainer.HullTypes, sustainer.RawPower, sustainer.RawSpace, sustainer.Morale, sustainer.Origin, sustainer.PageNumber, sustainer.RawSpecial, quality, sustainer.RawSP, sustainer.MoraleLoss, sustainer.CrewLoss, sustainer.ComponentOrigin);
+                }//crew quarters
             }
             throw new NotImplementedException();
         }

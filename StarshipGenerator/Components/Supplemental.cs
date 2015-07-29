@@ -310,9 +310,9 @@ namespace StarshipGenerator.Components
              *  "Max" : max }
              *}
              */
-            return @"{""Supplemental"":{""Name"":""" + Name.Escape() + @""",""Types"":" + (byte)HullTypes + @",""Power"":" + Power
-                + @",""Space"":" + Space + @",""SP"":" + SP + @",""Origin"":" + (byte)Origin + @",""Page"":" + PageNumber
-                + @",""Ram"":""" + RamDamage.ToString().Escape() + @""",""Special"":""" + Special.Escape() + @""",""Quality"":"
+            return @"{""Supplemental"":{""Name"":""" + Name.Escape() + @""",""Types"":" + (byte)HullTypes + @",""Power"":" + RawPower
+                + @",""Space"":" + RawSpace + @",""SP"":" + RawSP + @",""Origin"":" + (byte)Origin + @",""Page"":" + PageNumber
+                + @",""Ram"":""" + RamDamage.ToString().Escape() + @""",""Special"":""" + RawSpecial.Escape() + @""",""Quality"":"
                 + (byte)Quality + @",""Speed"":" + Speed + @",""Man"":" + Manoeuvrability + @",""Int"":" + HullIntegrity
                 + @",""Armour"":" + Armour + @",""Turrets"":" + TurretRating + @",""Morale"":" + Morale + @",""Crew"":"
                 + CrewPopulation + @",""Prow"":" + ProwArmour + @",""Rating"":" + CrewRating + @",""Mining"":"

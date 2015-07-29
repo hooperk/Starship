@@ -119,8 +119,8 @@ namespace StarshipGenerator.Components
              *  "Explore" : explore }
              * }
              * */
-            return @"{""Augur"":{""Name"":""" + Name.Escape() + @""",""Power"":" + Power + @",""Origin"":" + (byte)Origin + @",""Page"":" + PageNumber
-                + @",""Det"":" + DetectionRating + @",""Special"":""" + base.Special.Escape() + @""",""Quality"":" + (byte)Quality + @",""SP"":" + SP
+            return @"{""Augur"":{""Name"":""" + Name.Escape() + @""",""Power"":" + RawPower + @",""Origin"":" + (byte)Origin + @",""Page"":" + PageNumber
+                + @",""Det"":" + DetectionRating + @",""Special"":""" + RawSpecial.Escape() + @""",""Quality"":" + (byte)Quality + @",""SP"":" + RawSP
                 + @",""Man"":" + Manoeuvrability + @",""BS"":" + BSModifier + @",""Comp"":" + (byte)ComponentOrigin 
                 + @",""Mining"":" + MiningObjective + @",""Creed"":" + CreedObjective + @",""Military"":" + MilitaryObjective
                 + @",""Trade"":" + TradeObjective + @",""Criminal"":" + CriminalObjective + @",""Explore"":" + ExplorationObjective + @"}}";

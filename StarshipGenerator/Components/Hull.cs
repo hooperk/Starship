@@ -210,8 +210,8 @@ namespace StarshipGenerator.Components
              */
             StringBuilder output = new StringBuilder(@"{""Hull"":{""Name"":""" + Name.Escape() + @""",""Speed"":" + Speed);
             output.Append(@",""Man"":" + Manoeuvrability + @",""Det"":" + DetectionRating + @",""Int"":" + HullIntegrity);
-            output.Append(@",""Armour"":" + Armour + @",""Space"":" + Space + @",""SP"":" + SP + @",""Types"":" + (byte)HullTypes);
-            output.Append(@",""Special"":""" + Special.Escape() + @""",""Origin"":" + (byte)Origin + @",""Page"":" + PageNumber);
+            output.Append(@",""Armour"":" + Armour + @",""Space"":" + RawSpace + @",""SP"":" + RawSP + @",""Types"":" + (byte)HullTypes);
+            output.Append(@",""Special"":""" + RawSpecial.Escape() + @""",""Origin"":" + (byte)Origin + @",""Page"":" + PageNumber);
             output.Append(@",""Turrets"":" + TurretRating + @",""Prow"":" + ProwSlots + @",""Dorsal"":" + DorsalSlots);
             output.Append(@",""Side"":" + SideSlots + @",""Keel"":" + KeelSlots + @",""Aft"":" + AftSlots);
             output.Append(@",""Frontal"":" + DefaultProw.JSON());

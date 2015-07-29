@@ -130,8 +130,8 @@ namespace StarshipGenerator.Components
              *  "Criminal" : criminal,
              *  "Explore" : explore }
              *}*/
-            return @"{""Bridge"":{""Name"":""" + Name.Escape() + @""",""Types"":" + (byte)HullTypes + @",""Power"":" + Power + @",""Space"":" + Space
-                + @",""Origin"":" + (byte)Origin + @",""Page"":" + PageNumber + @",""Special"":""" + Special.Escape() + @""",""SP"":" + SP
+            return @"{""Bridge"":{""Name"":""" + Name.Escape() + @""",""Types"":" + (byte)HullTypes + @",""Power"":" + RawPower + @",""Space"":" + RawSpace
+                + @",""Origin"":" + (byte)Origin + @",""Page"":" + PageNumber + @",""Special"":""" + RawSpecial.Escape() + @""",""SP"":" + RawSP
                 + @",""Quality"":" + (byte)Quality + @",""Man"":" + Manoeuvrability + @",""BS"":" + BSModifier + @",""Command"":" + Command
                 + @",""Repair"":" + Repair + @",""Pilot"":" + Pilot + @",""Nav"":" + NavigateWarp + @",""Comp"":" + (byte)ComponentOrigin 
                 + @",""Mining"":" + MiningObjective + @",""Creed"":" + CreedObjective + @",""Military"":" + MilitaryObjective

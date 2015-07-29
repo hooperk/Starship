@@ -84,9 +84,9 @@ namespace StarshipGenerator.Components
              *  "Comp" : comp }
              *}
              */
-            return @"{""NovaCannon"":{""Name"":""" + Name.Escape() + @""",""Hulls"":" + (byte)HullTypes + @",""Power"":" + Power + @",""Space"":" + Space + @",""SP"":" + SP
-                + @",""Damage"":""" + Damage.ToString().Escape() + @""",""Range"":" + Range + @",""Origin"":" + (byte)Origin + @",""Page"":" + PageNumber
-                + @",""Special"":""" + Special.Escape() + @""",""Quality"":" + (byte)Quality + @",""WeapQual"":" + (byte)WeaponQuality + @",""Comp"":" + (byte)ComponentOrigin + @"}}";
+            return @"{""NovaCannon"":{""Name"":""" + Name.Escape() + @""",""Hulls"":" + (byte)HullTypes + @",""Power"":" + RawPower + @",""Space"":" + RawSpace + @",""SP"":" + RawSP
+                + @",""Damage"":""" + RawDamage.ToString().Escape() + @""",""Range"":" + RawRange + @",""Origin"":" + (byte)Origin + @",""Page"":" + PageNumber
+                + @",""Special"":""" + RawSpecial.Escape() + @""",""Quality"":" + (byte)Quality + @",""WeapQual"":" + (byte)WeaponQuality + @",""Comp"":" + (byte)ComponentOrigin + @"}}";
         }
     }
 }

@@ -576,7 +576,7 @@ namespace StarshipGenerator
             get
             {
                 int total = CrewRating;
-                //upgrades
+                total += GMCrewRating;
                 foreach (Supplemental component in SupplementalComponents)
                     total += component.CrewRating;
                 return total;
@@ -931,6 +931,7 @@ namespace StarshipGenerator
         public int GMMorale;
         public int GMCrewPopulation;
         public int GMShields;
+        public int GMCrewRating;
         public string GMSpecial;
         public string GMMachineSpirit;
         public string GMShipHistory;

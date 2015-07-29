@@ -212,5 +212,19 @@ namespace StarshipGenerator.Components
                 return @"null";
             return self.ToJSON();
         }
+
+        /// <summary>
+        /// External method for getting name of a component if it is not null and returning nothing otherwise
+        /// </summary>
+        /// <param name="self">Component to get the name of</param>
+        /// <returns>The raw name of the component</returns>
+        public static String GetName(this Component self)
+        {
+            if (self == null)
+                return "";
+            if (self is PlasmaDrive)
+                return ((PlasmaDrive)self).RawName;//as plasmadrive is the only class that renames itself, handle rawname in it
+            return self.Name;
+        }
     }
 }

@@ -22,24 +22,6 @@ namespace StarshipGenerator.Utils
         public static readonly Supplemental ArmouredProw = new Supplemental("Armoured Prow", HullType.CruiserPlus, 0, 0, 0, RuleBook.CoreRulebook, 204, new DiceRoll(1, 0, 0), "Cannot take macrobatteries or lance in prow", prowArmour: 4, max: 1);
         public static readonly Supplemental PlasmaRefinery = new Supplemental("Plasma Refinery", HullType.Transport, 10, 0, 0, RuleBook.BattlefleetKoronus, 30, special: "May spend 3 days and make 2 +10 pilot tests to harvest plasma granting +100 to objectives if fuel is used or sold. Failure on either test by 5 or more degrees destroyes the ship. If the ship does not harvest plasma for a year, reduce maximum power by 10");
         public static readonly LandingBay HoldLandingBay = new LandingBay("Hold Landing Bay", HullType.Transport, WeaponSlot.Auxiliary, 0, 0, 0, 2, RuleBook.BattlefleetKoronus, 36, special: "Attack Craft launched from this reduce their movement by 2VUs on the turn they launch. While in combat, squadron attempting to land must make a +10 Piloting + craft rating test to land safely. If this test is failed by 4 or more degrees teh component is considered damaged. it takes half an hour to land outside of combat");
-        //Renames from old ship sheet
-        private static readonly String BombardmentCannons = "Stygies-Pattern Bombardment Cannons";
-        private static readonly String JovianMissiles = "Jovian-Pattern Missile Battery";
-        private static readonly String LatheGravCulverin = "Lathe-Pattern Grav-Culverin Broadside";
-        private static readonly String MarsBroadsides = "Mars-Pattern Macrocannon Broadside";
-        private static readonly String MarsMacrocannons = "Mars-Pattern Macrocannons";
-        private static readonly String MezoaLanceBattery = "Mezoa-Pattern Hybrid Lance Battery";
-        private static readonly String MezoaLance = "Mezoa-Pattern Hybrid Lance Weapon";
-        private static readonly String RyzaPlasma = "Ryza-Pattern Plasma Battery";
-        private static readonly String SprintTrader = @"Lathe-Pattern Class 2a ""Sprint Trader"" Drive";
-        private static readonly String EscortDrive = @"Lathe-Pattern Class 2b ""Escort"" Drive";
-        private static readonly String WarcruiserDrive = @"Jovian-Pattern ""Warcruiser"" Drive";
-        private static readonly String MimicDrive = "Mimic Engine";
-        private static readonly String Viperdrive = @"Segrazian ""Viperdrive"" Pirate Engine";
-        private static readonly String RepulsorShield = "Repulsor Shield";
-        private static readonly String CogitatorInterlink = "Cogitator Interlink";
-        private static readonly String FieldBracing = "Field Bracing";
-        private static readonly String JammingSystem = "Hydraphurian KL-247 Jamming System";
         //Components
         public List<Hull> Hulls;
         public List<PlasmaDrive> PlasmaDrives;
@@ -265,29 +247,29 @@ namespace StarshipGenerator.Utils
                 string name = file["weapon" + (i + 1)];
                 switch (name)
                 {
-                    case "Bombardment Cannons":
-                        name = BombardmentCannons;
+                    case Old.BombardmentCannons:
+                        name = Names.BombardmentCannons;
                         break;
-                    case "Jovian Missile Battery":
-                        name = JovianMissiles;
+                    case Old.JovianMissiles:
+                        name = Names.JovianMissiles;
                         break;
-                    case "Lathe Grav-culverin Broadside":
-                        name = LatheGravCulverin;
+                    case Old.LatheGravCulverin:
+                        name = Names.LatheGravCulverin;
                         break;
-                    case "Mars Pattern Macrocannon Broadide":
-                        name = MarsBroadsides;
+                    case Old.MarsBroadsides:
+                        name = Names.MarsBroadsides;
                         break;
-                    case "Mars Pattern Macrocannons":
-                        name = MarsMacrocannons;
+                    case Old.MarsMacrocannons:
+                        name = Names.MarsMacrocannons;
                         break;
-                    case "Mezoa Lance Battery":
-                        name = MezoaLanceBattery;
+                    case Old.MezoaLanceBattery:
+                        name = Names.MezoaLanceBattery;
                         break;
-                    case "Mezoa Lance Weapon":
-                        name = MezoaLance;
+                    case Old.MezoaLance:
+                        name = Names.MezoaLance;
                         break;
-                    case "Ryza Pattern Plasma Battery":
-                        name = RyzaPlasma;
+                    case Old.RyzaPlasma:
+                        name = Names.RyzaPlasma;
                         break;
                 }
                 Weapon weapon = Weapons.Where(x => x.Name.Equals(name, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
@@ -479,29 +461,29 @@ namespace StarshipGenerator.Utils
                 PlasmaDrive plasma = null;
                 HullType size = HullType.None;
                 bool modified = false;
-                name = name.Replace("Jovian Pattern", "Jovian-Pattern").Replace("Lathe Pattern", "Lathe-Pattern");
-                if (name.Equals("Lathe-pattern 2a Drive"))
-                    name = SprintTrader;
-                if (name.Equals(@"Lathe-pattern 2b ""Escort"" Drive"))
-                    name = EscortDrive;
+                name = name.Replace(" Pattern", "-Pattern");
+                if (name.Equals(Old.SprintTrader))
+                    name = Names.SprintTrader;
+                if (name.Equals(Old.EscortDrive))
+                    name = Names.EscortDrive;
                 if (name.StartsWith("Modified "))
                 {
                     modified = true;
                     name = name.Substring(9);
                 }
-                if (name.Equals(@"Sgrazian ""Viperdrive"" Pirate Engine"))
-                    name = Viperdrive;
-                if (name.StartsWith(WarcruiserDrive))
+                if (name.Equals(Old.Viperdrive))
+                    name = Names.Viperdrive;
+                if (name.StartsWith(Names.WarcruiserDrive))
                 {
-                    if (WarcruiserDrive.EndsWith("Large"))
+                    if (name.EndsWith("Large"))
                         size = HullType.CruiserPlus;
                     else
                         size = HullType.LightCruiser;
-                    plasma = PlasmaDrives.Where(x => x.Name.Equals(WarcruiserDrive) && x.HullTypes == size).FirstOrDefault();
+                    plasma = PlasmaDrives.Where(x => x.Name.Equals(Names.WarcruiserDrive) && x.HullTypes == size).FirstOrDefault();
                 }
-                else if (name.StartsWith(MimicDrive))
+                else if (name.StartsWith(Names.MimicDrive))
                 {
-                    switch (name.Substring(14))
+                    switch (name.Substring(Names.MimicDrive.Length))
                     {
                         case "Huge":
                             size = HullType.CruiserPlus;
@@ -516,7 +498,7 @@ namespace StarshipGenerator.Utils
                             size = HullType.Transport;
                             break;
                     }
-                    plasma = PlasmaDrives.Where(x => x.Name.Equals(MimicDrive) && x.HullTypes == size).FirstOrDefault();
+                    plasma = PlasmaDrives.Where(x => x.Name.Equals(Names.MimicDrive) && x.HullTypes == size).FirstOrDefault();
                 }
                 else
                 {
@@ -576,8 +558,8 @@ namespace StarshipGenerator.Utils
                     ship.GellarField = new GellarField(gellar.Name, gellar.HullTypes, gellar.RawPower, gellar.RawSpecial, gellar.Origin, gellar.PageNumber, gellar.RawSP, gellar.NavigateWarp, quality, gellar.ComponentOrigin);
                 }//Void shield
                 name = file["chosenvoid"];
-                if (name.Equals("Repulsor Shields"))
-                    name = RepulsorShield;
+                if (name.Equals(Old.RepulsorShield))
+                    name = Names.RepulsorShield;
                 VoidShield shield = VoidShields.Where(x => x.Name.Equals(name, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
                 if (shield != null)
                 {
@@ -773,6 +755,18 @@ namespace StarshipGenerator.Utils
                     ship.ShipHistory = ShipHistory.Xenophilous;
                     break;
             }
+            if (!String.IsNullOrWhiteSpace(file["crew"]))
+                ship.CrewRace = (Race)Enum.Parse(typeof(Race), file["crew"]);
+            if (!String.IsNullOrWhiteSpace(file["crewrating"]))
+            {
+                CrewRating rating = 0;
+                if (Enum.TryParse<CrewRating>(file["crewrating"], out rating))
+                    ship.CrewRating = (int)rating;
+                else
+                    ship.CrewRating = (int)Enum.Parse(typeof(ServitorQuality), file["crewrating"]);
+            }
+            if (!String.IsNullOrWhiteSpace(file["crewmod"]))
+                ship.GMCrewRating = int.Parse(file["crewmod"]);
             if (!String.IsNullOrWhiteSpace(file["arrestor"]))
                 ship.ArresterEngines = (Quality)Enum.Parse(typeof(Quality), file["arrestor"]);
             if (!String.IsNullOrWhiteSpace(file["cherubim"]))
@@ -866,11 +860,11 @@ namespace StarshipGenerator.Utils
                     }
                     switch (name)
                     {
-                        case "Cogitator Interling":
-                            name = CogitatorInterlink;
+                        case Old.CogitatorInterlink:
+                            name = Names.CogitatorInterlink;
                             break;
-                        case "Hydraphuran Jamming System":
-                            name = JammingSystem;
+                        case Old.JammingSystem:
+                            name = Names.JammingSystem;
                             break;
                     }
                     //check for all with same name, then get the largest one(ships capable of say cruiser and transport use cruiser size if that is what is available)
@@ -983,23 +977,23 @@ namespace StarshipGenerator.Utils
             PlasmaDrives.Add(new PlasmaDrive("Jovian-Pattern Class 2 Drive", HullType.Raider | HullType.Frigate, 45, 10, null, RuleBook.CoreRulebook, 199));
             PlasmaDrives.Add(new PlasmaDrive("Jovian-Pattern Class 3 Drive", HullType.LightCruiser, 60, 12, null, RuleBook.CoreRulebook, 199));
             PlasmaDrives.Add(new PlasmaDrive("Jovian-Pattern Class 4 Drive", HullType.CruiserPlus, 75, 14, null, RuleBook.CoreRulebook, 199));
-            PlasmaDrives.Add(new PlasmaDrive(WarcruiserDrive, HullType.CruiserPlus, 85, 17, null, RuleBook.IntoTheStorm, 156, 2));
-            PlasmaDrives.Add(new PlasmaDrive(WarcruiserDrive, HullType.LightCruiser, 65, 14, null, RuleBook.IntoTheStorm, 156, 2));
+            PlasmaDrives.Add(new PlasmaDrive(Names.WarcruiserDrive, HullType.CruiserPlus, 85, 17, null, RuleBook.IntoTheStorm, 156, 2));
+            PlasmaDrives.Add(new PlasmaDrive(Names.WarcruiserDrive, HullType.LightCruiser, 65, 14, null, RuleBook.IntoTheStorm, 156, 2));
             PlasmaDrives.Add(new PlasmaDrive("Jovian-Pattern Class 8.1 Drive", HullType.Frigate, 44, 11, "On a critical hit to this drive roll a d10, ignore the crit on a 4+", RuleBook.BattlefleetKoronus, 31, 1));
             PlasmaDrives.Add(new PlasmaDrive("Jovian-Pattern Class 8.2 Drive", HullType.LightCruiser, 59, 13, "On a critical hit to this drive roll a d10, ignore the crit on a 4+", RuleBook.BattlefleetKoronus, 31, 1));
             PlasmaDrives.Add(new PlasmaDrive("Jovian-Pattern Class 8.3 Drive", HullType.CruiserPlus, 74, 15, "On a critical hit to this drive roll a d10, ignore the crit on a 4+", RuleBook.BattlefleetKoronus, 31, 1));
             PlasmaDrives.Add(new PlasmaDrive("Jovian-Pattern Class 8.4 Drive", HullType.GrandCruiser | HullType.BattleShip, 93, 20, "On a critical hit to this drive roll a d10, ignore the crit on a 4+", RuleBook.BattlefleetKoronus, 31, 1));
             PlasmaDrives.Add(new PlasmaDrive("Lathe-Pattern Class 1 Drive", HullType.Transport, 40, 12, null, RuleBook.CoreRulebook, 199, 1));
-            PlasmaDrives.Add(new PlasmaDrive(SprintTrader, HullType.Transport, 40, 14, null, RuleBook.IntoTheStorm, 156, 2, speed: 1, man: 3));
-            PlasmaDrives.Add(new PlasmaDrive(EscortDrive, HullType.Raider | HullType.Frigate, 47, 14, null, RuleBook.IntoTheStorm, 156, 2, speed: 1, man: 3));
+            PlasmaDrives.Add(new PlasmaDrive(Names.SprintTrader, HullType.Transport, 40, 14, null, RuleBook.IntoTheStorm, 156, 2, speed: 1, man: 3));
+            PlasmaDrives.Add(new PlasmaDrive(Names.EscortDrive, HullType.Raider | HullType.Frigate, 47, 14, null, RuleBook.IntoTheStorm, 156, 2, speed: 1, man: 3));
             PlasmaDrives.Add(new PlasmaDrive("Mezoa-Pattern Theta-7 Drive", HullType.Transport, 44, 18, "If vessel suffers thrusters damaged or engine crippled critical hits, the roll to determine severity is automatically 10", RuleBook.BattlefleetKoronus, 31, 1, speed: 2, man: 5));
-            PlasmaDrives.Add(new PlasmaDrive(MimicDrive, HullType.CruiserPlus, 75, 14, "Navigator may make a +10 perception test to disguise ship as one it has already encountered, this lasts until seen visually", RuleBook.HostileAcquisition, 74, 3, comp: ComponentOrigin.Xenotech));
-            PlasmaDrives.Add(new PlasmaDrive(MimicDrive, HullType.LightCruiser, 60, 12, "Navigator may make a +10 perception test to disguise ship as one it has already encountered, this lasts until seen visually", RuleBook.HostileAcquisition, 74, 3, comp: ComponentOrigin.Xenotech));
-            PlasmaDrives.Add(new PlasmaDrive(MimicDrive, HullType.Raider | HullType.Frigate, 45, 10, "Navigator may make a +10 perception test to disguise ship as one it has already encountered, this lasts until seen visually", RuleBook.HostileAcquisition, 74, 3, comp: ComponentOrigin.Xenotech));
-            PlasmaDrives.Add(new PlasmaDrive(MimicDrive, HullType.Transport, 40, 12, "Navigator may make a +10 perception test to disguise ship as one it has already encountered, this lasts until seen visually", RuleBook.HostileAcquisition, 74, 3, comp: ComponentOrigin.Xenotech));
+            PlasmaDrives.Add(new PlasmaDrive(Names.MimicDrive, HullType.CruiserPlus, 75, 14, "Navigator may make a +10 perception test to disguise ship as one it has already encountered, this lasts until seen visually", RuleBook.HostileAcquisition, 74, 3, comp: ComponentOrigin.Xenotech));
+            PlasmaDrives.Add(new PlasmaDrive(Names.MimicDrive, HullType.LightCruiser, 60, 12, "Navigator may make a +10 perception test to disguise ship as one it has already encountered, this lasts until seen visually", RuleBook.HostileAcquisition, 74, 3, comp: ComponentOrigin.Xenotech));
+            PlasmaDrives.Add(new PlasmaDrive(Names.MimicDrive, HullType.Raider | HullType.Frigate, 45, 10, "Navigator may make a +10 perception test to disguise ship as one it has already encountered, this lasts until seen visually", RuleBook.HostileAcquisition, 74, 3, comp: ComponentOrigin.Xenotech));
+            PlasmaDrives.Add(new PlasmaDrive(Names.MimicDrive, HullType.Transport, 40, 12, "Navigator may make a +10 perception test to disguise ship as one it has already encountered, this lasts until seen visually", RuleBook.HostileAcquisition, 74, 3, comp: ComponentOrigin.Xenotech));
             PlasmaDrives.Add(new PlasmaDrive(@"Saturine-Pattern Class 4A ""Ultra"" Drive", HullType.BattleCruiser, 90, 14, null, RuleBook.BattlefleetKoronus, 31));
             PlasmaDrives.Add(new PlasmaDrive("Saturine-Pattern Class 5 Drive", HullType.GrandCruiser | HullType.BattleShip, 95, 18, null, RuleBook.BattlefleetKoronus, 31));
-            PlasmaDrives.Add(new PlasmaDrive(Viperdrive, HullType.Raider | HullType.Frigate, 45, 16, "If the vessel suffers an engine crippled critical hit, the severity roll is automatically 8-10, engines wrecked", RuleBook.HostileAcquisition, 69, 2, man: 5, speed: 2));
+            PlasmaDrives.Add(new PlasmaDrive(Names.Viperdrive, HullType.Raider | HullType.Frigate, 45, 16, "If the vessel suffers an engine crippled critical hit, the severity roll is automatically 8-10, engines wrecked", RuleBook.HostileAcquisition, 69, 2, man: 5, speed: 2));
             PlasmaDrives.Add(new PlasmaDrive("Aconite Solar Sails", HullType.Frigate, 50, 0, "A ship with this component may interupt its Manoeuvre Action at any point to perform a Shooting Action. Once the Shooting Action is resolved, it must complete the remainder of its Manoeuvre Action. May still only make one Shooting Action per turn", RuleBook.LureoftheExpanse, 140, comp: ComponentOrigin.Xenotech));
             //End of Plasma Drives
             //Warp Drives
@@ -1027,7 +1021,7 @@ namespace StarshipGenerator.Utils
             VoidShields.Add(new VoidShield("Castellan Shield Array", HullType.CruiserPlus, 7, 2, 2, RuleBook.IntoTheStorm, 161, "During enemy turn, may make free -10 tech use to double number of shields", sp: 2, comp: ComponentOrigin.Archeotech));
             VoidShields.Add(new VoidShield("Multiple Void Shield Array", HullType.CruiserPlus, 8, 1, 2, RuleBook.CoreRulebook, 200));
             VoidShields.Add(new VoidShield("Repulsor Shield Array", HullType.CruiserPlus, 8, 1, 2, RuleBook.IntoTheStorm, 157, "No penalties for moving through nebulae, ice rings, plasma clouds or celestial phenomonon"));
-            VoidShields.Add(new VoidShield(RepulsorShield, HullType.All, 6, 1, 1, RuleBook.IntoTheStorm, 156, "No penalties for moving through nebulae, ice rings, plasma clouds or celestial phenomonon"));
+            VoidShields.Add(new VoidShield(Names.RepulsorShield, HullType.All, 6, 1, 1, RuleBook.IntoTheStorm, 156, "No penalties for moving through nebulae, ice rings, plasma clouds or celestial phenomonon"));
             VoidShields.Add(new VoidShield("Single Void Shield Array", HullType.All, 5, 1, 1, RuleBook.CoreRulebook, 199));
             VoidShields.Add(new VoidShield("Triple Void Shield Array", HullType.GrandCruiser | HullType.BattleShip, 9, 3, 3, RuleBook.BattlefleetKoronus, 32));
             VoidShields.Add(new VoidShield(@"Voss ""Glimmer""-Pattern Multiple Void Shield Array", HullType.CruiserPlus, 5, 1, 2, RuleBook.BattlefleetKoronus, 32, "When this cancels a hit roll a d10: on a 3 or lower the void shield fails to stop the hit"));
@@ -1038,17 +1032,17 @@ namespace StarshipGenerator.Utils
             //End of Void Shields
             //Ship's Bridges
             Bridges = new List<Bridge>(16);
-            Bridges.Add(new Bridge("Armoured Bridge", HullType.AllCruiser, 3, 2, RuleBook.CoreRulebook, 200, "Ignore critical hits, damaged or unpowered on a d10 of 4+"));
-            Bridges.Add(new Bridge("Armoured Bridge", HullType.Raider | HullType.Frigate, 2, 2, RuleBook.CoreRulebook, 200, "Ignore critical hits, damaged or unpowered on a d10 of 4+"));
-            Bridges.Add(new Bridge("Bridge of Antiquity", HullType.AllCruiser, 2, 1, RuleBook.CoreRulebook, 207, "+10 to social skills tests for characters on the bridge", 2, man: 5, command: 10, comp: ComponentOrigin.Archeotech));
-            Bridges.Add(new Bridge("Bridge of Antiquity", ~HullType.AllCruiser, 1, 1, RuleBook.CoreRulebook, 207, "+10 to social skills tests for characters on the bridge", 2, man: 5, command: 10, comp: ComponentOrigin.Archeotech));
-            Bridges.Add(new Bridge("Combat Bridge", HullType.AllCruiser, 2, 2, RuleBook.CoreRulebook, 200, repair: 10));
-            Bridges.Add(new Bridge("Combat Bridge", ~HullType.AllCruiser, 1, 1, RuleBook.CoreRulebook, 200, repair: 10));
-            Bridges.Add(new Bridge("Command Bridge", HullType.AllCruiser, 3, 2, RuleBook.CoreRulebook, 200, sp: 1, bs: 5, command: 5));
-            Bridges.Add(new Bridge("Command Bridge", HullType.Raider | HullType.Frigate, 2, 1, RuleBook.CoreRulebook, 200, sp: 1, bs: 5, command: 5));
+            Bridges.Add(new Bridge(Names.ArmouredBridge, HullType.AllCruiser, 3, 2, RuleBook.CoreRulebook, 200, "Ignore critical hits, damaged or unpowered on a d10 of 4+"));
+            Bridges.Add(new Bridge(Names.ArmouredBridge, HullType.Raider | HullType.Frigate, 2, 2, RuleBook.CoreRulebook, 200, "Ignore critical hits, damaged or unpowered on a d10 of 4+"));
+            Bridges.Add(new Bridge(Names.BridgeOfAntiquity, HullType.AllCruiser, 2, 1, RuleBook.CoreRulebook, 207, "+10 to social skills tests for characters on the bridge", 2, man: 5, command: 10, comp: ComponentOrigin.Archeotech));
+            Bridges.Add(new Bridge(Names.BridgeOfAntiquity, ~HullType.AllCruiser, 1, 1, RuleBook.CoreRulebook, 207, "+10 to social skills tests for characters on the bridge", 2, man: 5, command: 10, comp: ComponentOrigin.Archeotech));
+            Bridges.Add(new Bridge(Names.CombatBridge, HullType.AllCruiser, 2, 2, RuleBook.CoreRulebook, 200, repair: 10));
+            Bridges.Add(new Bridge(Names.CombatBridge, ~HullType.AllCruiser, 1, 1, RuleBook.CoreRulebook, 200, repair: 10));
+            Bridges.Add(new Bridge(Names.CommandBridge, HullType.AllCruiser, 3, 2, RuleBook.CoreRulebook, 200, sp: 1, bs: 5, command: 5));
+            Bridges.Add(new Bridge(Names.CommandBridge, HullType.Raider | HullType.Frigate, 2, 1, RuleBook.CoreRulebook, 200, sp: 1, bs: 5, command: 5));
             Bridges.Add(new Bridge("Commerce Bridge", HullType.Transport, 1, 1, RuleBook.CoreRulebook, 200, trade: 50));
-            Bridges.Add(new Bridge("Exploration Bridge", HullType.AllCruiser, 4, 2, RuleBook.IntoTheStorm, 157, "+5 to active augury", 1, exploration: 50));
-            Bridges.Add(new Bridge("Exploration Bridge", ~HullType.AllCruiser, 4, 1, RuleBook.IntoTheStorm, 157, "+5 to active augury", 1, exploration: 50));
+            Bridges.Add(new Bridge(Names.ExplorationBridge, HullType.AllCruiser, 4, 2, RuleBook.IntoTheStorm, 157, "+5 to active augury", 1, exploration: 50));
+            Bridges.Add(new Bridge(Names.ExplorationBridge, ~HullType.AllCruiser, 4, 1, RuleBook.IntoTheStorm, 157, "+5 to active augury", 1, exploration: 50));
             Bridges.Add(new Bridge("Fleet Flag Bridge", HullType.GrandCruiser | HullType.BattleShip, 4, 4, RuleBook.BattlefleetKoronus, 32, "+5 to Navigate(Stellar) tests; Allied ships within 30VU also gain +5 to Pilot and Navigate tests", 1, command: 10, pilot: 5, navigate: 5));
             Bridges.Add(new Bridge("Flight Command Bridge", HullType.AllCruiser, 2, 2, RuleBook.BattlefleetKoronus, 32, "+5 to command tests for small craft squadrons; Tests to ready new squadrons for launch are automatically passed; Gain +25 to objectives when using small craft for ground to air actions"));
             Bridges.Add(new Bridge("Invasion Bridge", HullType.CruiserPlus, 4, 3, RuleBook.BattlefleetKoronus, 32, "+10 to Ballistic Skill tests against planetary targets, units on a planet orbitted by this vessel coutn as equipped with a multicompass as long as they are in vox contact"));
@@ -1096,7 +1090,7 @@ namespace StarshipGenerator.Utils
             //End of Augur Arrays
             //Weapons
             Weapons = new List<Weapon>(46);
-            Weapons.Add(new Weapon(BombardmentCannons, WeaponType.Macrobattery, HullType.AllCruiser, WeaponSlot.Prow | WeaponSlot.Dorsal | WeaponSlot.Keel, 5, 3, 3, 3, new DiceRoll(1, 0, 6), 2, 4, RuleBook.BattlefleetKoronus, 34, special: "Add +1 to critical table for crits rolled, +20 to intimidate tests while ship armed with this is in orbit, may add 50 to military objectives on that planet, for planetary bombardments affects double the area, +20 damage to large enemies, +10 damage to individuals and vehicles"));
+            Weapons.Add(new Weapon(Names.BombardmentCannons, WeaponType.Macrobattery, HullType.AllCruiser, WeaponSlot.Prow | WeaponSlot.Dorsal | WeaponSlot.Keel, 5, 3, 3, 3, new DiceRoll(1, 0, 6), 2, 4, RuleBook.BattlefleetKoronus, 34, special: "Add +1 to critical table for crits rolled, +20 to intimidate tests while ship armed with this is in orbit, may add 50 to military objectives on that planet, for planetary bombardments affects double the area, +20 damage to large enemies, +10 damage to individuals and vehicles"));
             Weapons.Add(new Weapon("Dark Cannon", WeaponType.Macrobattery, HullType.All, WeaponSlot.All, 4, 2, 3, 3, new DiceRoll(1, 0, 1), 6, 6, RuleBook.HostileAcquisition, 74, special: "Vessels hit by this weapon suffer -15 to ballistic skill in their following turn", comp: ComponentOrigin.Xenotech));
             Weapons.Add(new Weapon("Disruption Macrocannons", WeaponType.Macrobattery, HullType.All, WeaponSlot.All, 4, 2, 2, 3, new DiceRoll(1, 0, 1), 0, 5, RuleBook.BattlefleetKoronus, 34, special: "Does not cause damage but for every 5 damage rolled, ignoring armour, oen random compoent on target vessel becomes unpowered; Cannot crit and may only be combined into a salvo with other Disruption Macrocannon batteries"));
             Weapons.Add(new Weapon("Disruption Macrocannon Broadside", WeaponType.Macrobattery, HullType.AllCruiser, WeaponSlot.Side, 6, 5, 2, 6, new DiceRoll(1, 0, 1), 0, 5, RuleBook.BattlefleetKoronus, 34, special: "Does not cause damage but for every 5 damage rolled, ignoring armour, oen random compoent on target vessel becomes unpowered; Cannot crit and may only be combined into a salvo with other Disruption Macrocannon batteries"));
@@ -1109,23 +1103,23 @@ namespace StarshipGenerator.Utils
             Weapons.Add(new TorpedoTubes("Gryphonne-Pattern Torpedo Tubes", ~HullType.Transport, 2, 6, 1, 4, 24, RuleBook.BattlefleetKoronus, 27));
             Weapons.Add(new Weapon("Hecutor-Pattern Plasma Battery", WeaponType.Macrobattery, HullType.AllCruiser, WeaponSlot.All, 8, 3, 2, 3, new DiceRoll(1, 0, 2), 4, 11, RuleBook.BattlefleetKoronus, 34, special: "When this rolls a critical result of 1 or 2, it affects 2 components instead of 1"));
             Weapons.Add(new Weapon("Hecutor-Pattern Plasma Broadside", WeaponType.Macrobattery, HullType.BattleCruiser | HullType.GrandCruiser | HullType.BattleShip, WeaponSlot.Side, 12, 5, 2, 5, new DiceRoll(1, 0, 2), 4, 11, RuleBook.BattlefleetKoronus, 34, special: "When this rolls a critical result of 1 or 2, it affects 2 components instead of 1"));
-            Weapons.Add(new Weapon(JovianMissiles, WeaponType.Macrobattery, HullType.All, WeaponSlot.All, 3, 1, 1, 5, new DiceRoll(1, 0, 1), 6, 6, RuleBook.IntoTheStorm, 158, special: "May not fire two turns ion a row"));
+            Weapons.Add(new Weapon(Names.JovianMissiles, WeaponType.Macrobattery, HullType.All, WeaponSlot.All, 3, 1, 1, 5, new DiceRoll(1, 0, 1), 6, 6, RuleBook.IntoTheStorm, 158, special: "May not fire two turns ion a row"));
             Weapons.Add(new LandingBay("Jovian-Pattern Escort Bay", HullType.AllCruiser, WeaponSlot.Side, 1, 4, 1, 1, RuleBook.BattlefleetKoronus, 36));
             Weapons.Add(new LandingBay("Jovian-Pattern Landing Bay", HullType.CruiserPlus, WeaponSlot.Side, 1, 6, 2, 2, RuleBook.BattlefleetKoronus, 36));
             Weapons.Add(new NovaCannon("Jovian-Pattern Nova Cannon", HullType.CruiserPlus, 6, 7, 5, new DiceRoll(0, 2, 7), 35, RuleBook.BattlefleetKoronus, 42, comp: ComponentOrigin.Archeotech, special: "Ships hit by this suffer 1d5 morale damage even if no damage is inflicted; If this is ever damaged: instead it is destroyed and ship takes 1d10 hull integrity damage with no reduction from armour or shields"));
             Weapons.Add(new Weapon("Las-Burner", WeaponType.Lance, HullType.All, WeaponSlot.Lance | WeaponSlot.Dorsal | WeaponSlot.Keel, 7, 3, 2, 2, new DiceRoll(0, 1, 1), 3, 3, RuleBook.BattlefleetKoronus, 35, special: "Grants +5 to opposed command test for boarding actions"));
-            Weapons.Add(new Weapon(LatheGravCulverin, WeaponType.Macrobattery, HullType.AllCruiser, WeaponSlot.Side, 5, 5, 1, 6, new DiceRoll(1, 0, 3), 6, 5, RuleBook.IntoTheStorm, 158, special: "May reduce damage to 1d10+1 to increase range by 2VUs"));
+            Weapons.Add(new Weapon(Names.LatheGravCulverin, WeaponType.Macrobattery, HullType.AllCruiser, WeaponSlot.Side, 5, 5, 1, 6, new DiceRoll(1, 0, 3), 6, 5, RuleBook.IntoTheStorm, 158, special: "May reduce damage to 1d10+1 to increase range by 2VUs"));
             Weapons.Add(new LandingBay("Lathe-Pattern Landing Bay", HullType.CruiserPlus, WeaponSlot.Side, 1, 5, 2, 2, RuleBook.BattlefleetKoronus, 36, special: "If this component becomes unpowered while open, it also becomes depressurised. The component must be open during the strategic turn that craft take off or land"));
-            Weapons.Add(new Weapon(MarsBroadsides, WeaponType.Macrobattery, HullType.AllCruiser, WeaponSlot.Side, 4, 5, 1, 6, new DiceRoll(1, 0, 2), 5, 6, RuleBook.CoreRulebook, 202));
-            Weapons.Add(new Weapon(MarsMacrocannons, WeaponType.Macrobattery, HullType.All, WeaponSlot.All, 4, 2, 1, 3, new DiceRoll(1, 0, 2), 5, 6, RuleBook.CoreRulebook, 202));
+            Weapons.Add(new Weapon(Names.MarsBroadsides, WeaponType.Macrobattery, HullType.AllCruiser, WeaponSlot.Side, 4, 5, 1, 6, new DiceRoll(1, 0, 2), 5, 6, RuleBook.CoreRulebook, 202));
+            Weapons.Add(new Weapon(Names.MarsMacrocannons, WeaponType.Macrobattery, HullType.All, WeaponSlot.All, 4, 2, 1, 3, new DiceRoll(1, 0, 2), 5, 6, RuleBook.CoreRulebook, 202));
             Weapons.Add(new NovaCannon("Mars-Pattern Nova Cannon", HullType.CruiserPlus, 3, 7, 3, new DiceRoll(0, 2, 4), 40, RuleBook.BattlefleetKoronus, 36));
             Weapons.Add(new TorpedoTubes("Mars-Pattern Torpedo Tubes", HullType.AllCruiser, 2, 8, 2, 6, 42, RuleBook.BattlefleetKoronus, 37));
-            Weapons.Add(new Weapon(MezoaLanceBattery, WeaponType.Lance, HullType.AllCruiser, WeaponSlot.Lance, 13, 6, 3, 2, new DiceRoll(1, 0, 5), 4, 4, RuleBook.BattlefleetKoronus, 35));
-            Weapons.Add(new Weapon(MezoaLance, WeaponType.Lance, HullType.All, WeaponSlot.Lance, 9, 4, 3, 1, new DiceRoll(1, 0, 5), 4, 4, RuleBook.BattlefleetKoronus, 35));
+            Weapons.Add(new Weapon(Names.MezoaLanceBattery, WeaponType.Lance, HullType.AllCruiser, WeaponSlot.Lance, 13, 6, 3, 2, new DiceRoll(1, 0, 5), 4, 4, RuleBook.BattlefleetKoronus, 35));
+            Weapons.Add(new Weapon(Names.MezoaLance, WeaponType.Lance, HullType.All, WeaponSlot.Lance, 9, 4, 3, 1, new DiceRoll(1, 0, 5), 4, 4, RuleBook.BattlefleetKoronus, 35));
             Weapons.Add(new Weapon("Mezoa-Pattern Macrocannons", WeaponType.Macrobattery, HullType.All, WeaponSlot.All, 4, 4, 1, 4, new DiceRoll(1, 0, 3), 5, 5, RuleBook.IntoTheStorm, 158));
             Weapons.Add(new TorpedoTubes("Plasma Accelerated Torpedo Tubes", HullType.All, 2, 4, 2, 2, 16, RuleBook.BattlefleetKoronus, 42, special: "Torpedoes launched from this component gain an additional +4VUs speed on the turn they are launched; Torpedoes launched by this gain +10 to hit", comp: ComponentOrigin.Archeotech));
             Weapons.Add(new Weapon("Pyros Melta-Cannons", WeaponType.Macrobattery, HullType.All, WeaponSlot.All, 4, 3, 2, 3, new DiceRoll(1, 0, 4), 4, 4, RuleBook.IntoTheStorm, 158, special: "When this weapon component inflicts a critical hit, it is automatically a Fire! Critical"));
-            Weapons.Add(new Weapon(RyzaPlasma, WeaponType.Macrobattery, HullType.All, WeaponSlot.All, 8, 4, 1, 4, new DiceRoll(1, 0, 4), 4, 5, RuleBook.CoreRulebook, 203, special: "When this rolls a critical result of 1 or 2, it affects 2 components instead of 1"));
+            Weapons.Add(new Weapon(Names.RyzaPlasma, WeaponType.Macrobattery, HullType.All, WeaponSlot.All, 8, 4, 1, 4, new DiceRoll(1, 0, 4), 4, 5, RuleBook.CoreRulebook, 203, special: "When this rolls a critical result of 1 or 2, it affects 2 components instead of 1"));
             Weapons.Add(new NovaCannon("Ryza-Pattern Nova Cannon", HullType.CruiserPlus, 4, 7, 4, new DiceRoll(0, 2, 5), 36, RuleBook.BattlefleetKoronus, 37, "For every 5 degrees of failure on a test to fire this, the firing vessel suffers a critical hit. If the critical would affect a component, it affects this weapon"));
             Weapons.Add(new Weapon("Shard Battery Cannon", WeaponType.Macrobattery, HullType.All, WeaponSlot.All, 0, 3, 2, 4, new DiceRoll(1, 0, 2), 3, 6, RuleBook.CoreRulebook, 208, special: "Cannont become unpowered; If this is ever destroyed vessel suffers 2d5 hull integrity damage with no armour or shields", comp: ComponentOrigin.Xenotech));
             Weapons.Add(new Weapon("Staravar Laser Macrobattery", WeaponType.Macrobattery, HullType.All, WeaponSlot.All, 4, 4, 2, 4, new DiceRoll(1, 0, 2), 4, 12, RuleBook.IntoTheStorm, 162, comp: ComponentOrigin.Archeotech));
@@ -1165,7 +1159,7 @@ namespace StarshipGenerator.Utils
             Supplementals.Add(new Supplemental("Cargo Hold and Lighter Bay", ~HullType.Transport, 1, 2, 1, RuleBook.CoreRulebook, 203, man: -3, trade: 50, criminal: 50));
             Supplementals.Add(new Supplemental("Chameleon Hull", HullType.All, 1, 0, 2, RuleBook.HostileAcquisition, 74, null, "External; May program a pattern, including markings, for the hull to show with a -10 Tech-Use Test and may change between programmed markings with a -10 Tech-Use Test"));
             Supplementals.Add(new Supplemental("Cloudmining Facility", HullType.Transport, 3, 4, 1, RuleBook.BattlefleetKoronus, 39, null, "After comets have been located with a +0 Scrutiny+Detection Test they may be mined which takes 1d10+5 days. This may either grant 1d5 morale and extend time at void by 1 month, or grant +50 to objectives if it can be used or sold. May be possible to construct an endeavour to mine comets", max: 1));
-            Supplementals.Add(new Supplemental(CogitatorInterlink, HullType.All, 1, 1, 1, RuleBook.IntoTheStorm, 161, crewRating: 5, comp: ComponentOrigin.Archeotech, max: 1));
+            Supplementals.Add(new Supplemental(Names.CogitatorInterlink, HullType.All, 1, 1, 1, RuleBook.IntoTheStorm, 161, crewRating: 5, comp: ComponentOrigin.Archeotech, max: 1));
             Supplementals.Add(new Supplemental("Compartmentalised Cargo Hold", ~HullType.Transport, 2, 5, 1, RuleBook.CoreRulebook, 203, trade: 100));
             Supplementals.Add(new Supplemental("Crew Reclamation Facility", HullType.All, 1, 1, 1, RuleBook.CoreRulebook, 205, crewLoss: -3, moraleLoss: 1, max: 1));
             Supplementals.Add(new Supplemental("Defensive Countermeasures", HullType.All, 1, 1, 2, RuleBook.BattlefleetKoronus, 38, null, "When deployed, ships targetting this vessel suffer a -20 to ballistic skills test, -30 if using torpedoes. This lasts for 1d5+1 strategic rounds and may not be used again until refitted at a shipyard with an upkeep test", max: 1));
@@ -1181,7 +1175,7 @@ namespace StarshipGenerator.Utils
             Supplementals.Add(new Supplemental("Excess Void Armour", ~HullType.AllCruiser, 0, 2, 2, RuleBook.LureoftheExpanse, 139, speed: -2, man: -3, armour: 3));
             Supplementals.Add(new Supplemental("Excess Void Armour", HullType.AllCruiser, 0, 3, 2, RuleBook.LureoftheExpanse, 139, speed: -2, man: -3, armour: 3));
             Supplementals.Add(new Supplemental("Extended Supply Vaults", HullType.All, 1, 4, 2, RuleBook.CoreRulebook, 205, null, "Double the time this vessel may remain at void without suffering Crew Population or Morale Loss. When making Extended Repairs repair an additional 1 Hull Integrity", morale: 1, max: 1));
-            Supplementals.Add(new Supplemental(FieldBracing, HullType.All, 0, 4, 2, RuleBook.BattlefleetKoronus, 38, null, "May exchange 1 Power for 2 Hull Integrity, up to +6 Hull Integrity. Should this component be damaged, unpowered or supplied with less power, the hull loses the bonus value proportionally, although this won't bring the Ship's Hull Integrity below 0. The amount of power supplied to this may be increased with a +0 Tech-Use Test, and may divert power from other components by making them unpowered"));
+            Supplementals.Add(new Supplemental("Field Bracing", HullType.All, 0, 4, 2, RuleBook.BattlefleetKoronus, 38, null, "May exchange 1 Power for 2 Hull Integrity, up to +6 Hull Integrity. Should this component be damaged, unpowered or supplied with less power, the hull loses the bonus value proportionally, although this won't bring the Ship's Hull Integrity below 0. The amount of power supplied to this may be increased with a +0 Tech-Use Test, and may divert power from other components by making them unpowered"));
             Supplementals.Add(new Supplemental("Fire Suppression Systems", ~HullType.AllCruiser, 1, 1, 2, RuleBook.BattlefleetKoronus, 38, null, "Once per turn, so long as the Bridge is powered and undamaged, a character may make a -10 Tech-Use Test as an extended action to extinguish one component on fire", max: 1));
             Supplementals.Add(new Supplemental("Fire Suppression Systems", HullType.LightCruiser | HullType.Cruiser | HullType.BattleCruiser, 2, 2, 2, RuleBook.BattlefleetKoronus, 38, null, "Once per turn, so long as the Bridge is powered and undamaged, a character may make a -10 Tech-Use Test as an extended action to extinguish one component on fire", max: 1));
             Supplementals.Add(new Supplemental("Fire Suppression Systems", HullType.GrandCruiser | HullType.BattleShip, 3, 3, 2, RuleBook.BattlefleetKoronus, 38, null, "Once per turn, so long as the Bridge is powered and undamaged, a character may make a -10 Tech-Use Test as an extended action to extinguish one component on fire", max: 1));
@@ -1194,7 +1188,7 @@ namespace StarshipGenerator.Utils
             Supplementals.Add(new Supplemental("Gravity Sails", ~HullType.AllCruiser, 3, 0, 3, RuleBook.CoreRulebook, 208, null, "External", speed: 1, man: 5, comp: ComponentOrigin.Xenotech));
             Supplementals.Add(new Supplemental("Gravity Sails", HullType.AllCruiser, 5, 0, 3, RuleBook.CoreRulebook, 208, null, "External", speed: 1, man: 5, comp: ComponentOrigin.Xenotech));
             Supplementals.Add(new Supplemental("Gyro-Stabalisation Matrix", HullType.All, 1, 1, 1, RuleBook.IntoTheStorm, 162, null, "Adjust Speed and Bearing, Come to New Heading and Evasive Manoeuvres are +0 tests instead of -20 or -10", comp: ComponentOrigin.Archeotech, max: 1));
-            Supplementals.Add(new Supplemental(JammingSystem, HullType.All, 4, 0, 1, RuleBook.BattlefleetKoronus, 39, null, "External; While this component is active: this vessel may not perform Silent Running but any Focussed Augury Tests to scan it suffer a -20 penalty", max: 1));
+            Supplementals.Add(new Supplemental(Names.JammingSystem, HullType.All, 4, 0, 1, RuleBook.BattlefleetKoronus, 39, null, "External; While this component is active: this vessel may not perform Silent Running but any Focussed Augury Tests to scan it suffer a -20 penalty", max: 1));
             Supplementals.Add(new Supplemental("Laboratoreum", HullType.All, 2, 1, 3, RuleBook.HostileAcquisition, 72, null, "This component grants +20 bonus to all tests to identify, analyse or repair artefacts of ancient or xenos origin, or to craft single items", max: 1));
             Supplementals.Add(new Supplemental("Librarium Vault", HullType.All, 1, 1, 1, RuleBook.CoreRulebook, 205, null, "+10 to Investigate Skill Tests made aboard this vessel", max: 1));
             Supplementals.Add(new Supplemental("Lux Net", HullType.All, 0, 2, 2, RuleBook.BattlefleetKoronus, 38, null, "This may only be deployed while a ship is stationary and inside a solar system. It takes 2 hours to deploy and 10 to retract. If the ship has to move during the net's operation, the net is destroyed. The Net counts as exposed when deployed. While deployed this generates 10 power and adds +1 to the number of degrees of successes on extended repairs"));

@@ -15,15 +15,15 @@ namespace StarshipGenerator.Utils
         /// <summary>
         /// Number of d10
         /// </summary>
-        int d10;
+        public int d10;
         /// <summary>
         /// Number of d5
         /// </summary>
-        int d5;
+        public int d5;
         /// <summary>
         /// integer modifier
         /// </summary>
-        int modifier;
+        public int Modifier;
 
         /// <summary>
         /// Make a new dice object, initialising from values for each component
@@ -35,7 +35,7 @@ namespace StarshipGenerator.Utils
         {
             this.d10 = d10;
             this.d5 = d5;
-            this.modifier = mod;
+            this.Modifier = mod;
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace StarshipGenerator.Utils
         {
             if (input == null)
             {
-                this.d10 = this.d5 = this.modifier = 0;
+                this.d10 = this.d5 = this.Modifier = 0;
                 return;
             }
             String roll = new string(input.Where(c => !Char.IsWhiteSpace(c)).ToArray());//strip whitespace
@@ -79,9 +79,9 @@ namespace StarshipGenerator.Utils
                 }
             }
             if (previous == index)
-                modifier = 0;
+                Modifier = 0;
             else
-                modifier = Int32.Parse(roll.Substring(previous, index - previous));
+                Modifier = Int32.Parse(roll.Substring(previous, index - previous));
         }
 
         /// <summary>
@@ -95,15 +95,15 @@ namespace StarshipGenerator.Utils
                 output.Append(d10 + "d10");
             if (d5 != 0)
                 output.Append((d10 == 0 || d5 < 0 ? "" : "+") + d5 + "d5");
-            if (modifier != 0 || (d10 == 0 && d5 == 0))//if modifier is non-null or rest of string is null
-                output.Append((modifier < 0 || (d10 == 0 && d5 == 0) ? "" : "+") + modifier);
+            if (Modifier != 0 || (d10 == 0 && d5 == 0))//if modifier is non-null or rest of string is null
+                output.Append((Modifier < 0 || (d10 == 0 && d5 == 0) ? "" : "+") + Modifier);
             return output.ToString();
         }
 
         //Print to string and include + or - at start
         private string ToStringAsModifier()
         {
-            if (d10 > 0 || (d10 == 0 && d5 > 0) || (d10 == 0 && d5 == 0 && modifier >= 0))
+            if (d10 > 0 || (d10 == 0 && d5 > 0) || (d10 == 0 && d5 == 0 && Modifier >= 0))
                 return "+" + this.ToString();
             return this.ToString();
         }
@@ -135,27 +135,27 @@ namespace StarshipGenerator.Utils
         #region arithmetic
         public DiceRoll Add(DiceRoll other)
         {
-            return new DiceRoll(this.d10 + other.d10, this.d5 + other.d5, this.modifier + other.modifier);
+            return new DiceRoll(this.d10 + other.d10, this.d5 + other.d5, this.Modifier + other.Modifier);
         }
 
         public DiceRoll Add(int mod)
         {
-            return new DiceRoll(this.d10, this.d5, this.modifier + mod);
+            return new DiceRoll(this.d10, this.d5, this.Modifier + mod);
         }
 
         public DiceRoll Sub(DiceRoll other)
         {
-            return new DiceRoll(this.d10 - other.d10, this.d5 - other.d5, this.modifier - other.modifier);
+            return new DiceRoll(this.d10 - other.d10, this.d5 - other.d5, this.Modifier - other.Modifier);
         }
 
         public DiceRoll Sub(int mod)
         {
-            return new DiceRoll(this.d10, this.d5, this.modifier - mod);
+            return new DiceRoll(this.d10, this.d5, this.Modifier - mod);
         }
 
         public DiceRoll Mul(int mod)
         {
-            return new DiceRoll(this.d10 * mod, this.d5 * mod, this.modifier * mod);
+            return new DiceRoll(this.d10 * mod, this.d5 * mod, this.Modifier * mod);
         }
 
         public DiceRoll Mul(DiceRoll other)
@@ -163,16 +163,16 @@ namespace StarshipGenerator.Utils
             if (this.d10 == 0 && this.d5 == 0)
             {
                 if (other.d10 != 0 || other.d5 != 0)//by putting this if inside the other instead if as an and, the else if won't be evaluated and the final return statement will perform just modifier * modifier
-                    return other.Mul(this.modifier);
+                    return other.Mul(this.Modifier);
             }
             else if (other.d10 != 0 || other.d5 != 0)
                 throw new FormatException("Cannot multiply by dice values, only modifiers and ints");
-            return this.Mul(other.modifier);
+            return this.Mul(other.Modifier);
         }
 
         public bool Equals(DiceRoll other)
         {
-            return (this.d10 == other.d10) && (this.d5 == other.d5) && (this.modifier == other.modifier);
+            return (this.d10 == other.d10) && (this.d5 == other.d5) && (this.Modifier == other.Modifier);
         }
 
         public bool Equals(String other)
@@ -198,7 +198,7 @@ namespace StarshipGenerator.Utils
 
         public override int GetHashCode()
         {
-            return d10.GetHashCode() + (13*d5.GetHashCode()) + (27*modifier.GetHashCode());
+            return d10.GetHashCode() + (13*d5.GetHashCode()) + (27*Modifier.GetHashCode());
         }
         #endregion
 

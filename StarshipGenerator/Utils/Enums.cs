@@ -216,6 +216,30 @@ namespace StarshipGenerator.Utils
 
     public static class EnumerationExtensions
     {
+
+        /// <summary>
+        /// Returns the display name of the Weapon type for dispaly
+        /// </summary>
+        /// <param name="self">Weapon Type to display</param>
+        /// <returns>Display name of Weapon Type</returns>
+        public static string Name(this WeaponType self)
+        {
+            switch(self){
+                case WeaponType.Macrobattery:
+                    return "Macrobattery";
+                case WeaponType.Lance:
+                    return "Lance";
+                case WeaponType.TorpedoTube:
+                    return "Torpedo Tubes";
+                case WeaponType.LandingBay:
+                    return "Landing Bay";
+                case WeaponType.NovaCannon:
+                    return "Nova Cannon";
+                default:
+                    return null;
+            }
+        }
+
         /// <summary>
         /// Returns the shortened name of the rulebook for dispaly
         /// </summary>

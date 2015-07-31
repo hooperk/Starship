@@ -69,6 +69,7 @@
     <Compile Include="Components\Weapon.cs" />
     <Compile Include="Ammo\Torpedo.cs" />
     <Compile Include="Utils\Loader.cs" />
+    <Compile Include="Utils\Constants.cs" />
     <Compile Include="Utils\Saver.cs" />
   </ItemGroup>
   <ItemGroup>

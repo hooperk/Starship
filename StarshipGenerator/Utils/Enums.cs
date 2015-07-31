@@ -613,9 +613,9 @@ namespace StarshipGenerator.Utils
                     return "Implacable Foe of The Fleet";
                 case Background.SteadfastAllyofTheFleet:
                     return "Steadfast Ally of the Fleet";
-                case Background.PlanetBoundForMillenia:
-                    return "Planetbound for Millenia";
                 default:
+                    if((self & Background.PlanetBoundForMillenia) > 0)
+                        return "Planetbound for Millenia";
                     return null;
             }
         }

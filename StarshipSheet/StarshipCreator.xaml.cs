@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace StarshipSheet
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for StarshipCreator.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class StarshipCreator : Window
     {
-        public MainWindow()
+        public StarshipCreator()
         {
             InitializeComponent();
         }

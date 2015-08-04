@@ -641,7 +641,7 @@ craft3:Shark Assault Boat"
                 writer.WriteLine("customcomponents:" + sp.PrintInt());
                 foreach (String compName in ship.SupplementalComponents.Where(x => x.Origin != RuleBook.Custom).Select(x => x.Name).Distinct())
                 {
-                    writer.WriteLine("{0}:{1}", compName, ship.SupplementalComponents.Where(x => x.Origin != RuleBook.Custom && x.Name.Equals(compName)).Count());//double check origin in case name overlap
+                    writer.WriteLine("{0}:{1}", compName, ship.SupplementalComponents.Where(x => x.Origin != RuleBook.Custom && x.Name.Equals(compName)).Count());//double check origin in case duplicate name
                 }
             }
         }

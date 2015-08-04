@@ -1,0 +1,75 @@
+﻿<Window x:Class="StarshipSheet.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="600" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Menu Grid.Row="0">
+            <MenuItem Header="_File">
+                <MenuItem Header="_Clear"/>
+                <Separator/>
+                <MenuItem Header="_Load"/>
+                <MenuItem Header="_Save"/>
+                <Separator/>
+                <MenuItem Header="_Exit"/>
+            </MenuItem>
+            <MenuItem Header="_Components">
+                <MenuItem Header="_Hull"/>
+                <MenuItem Header="_Plasma Drive"/>
+                <MenuItem Header="_Warp Drive"/>
+                <MenuItem Header="_Gellar Field"/>
+                <MenuItem Header="_Void Shield"/>
+                <MenuItem Header="Ship's _Bridge"/>
+                <MenuItem Header="_Life Sustainer"/>
+                <MenuItem Header="Crew _Quarters"/>
+                <MenuItem Header="_Augur Arrays"/>
+                <MenuItem Header="_Weapons"/>
+                <MenuItem Header="_Supplemental Components"/>
+                <MenuItem Header="_Crew"/>
+                <MenuItem Header="_Upgrades"/>
+            </MenuItem>
+        </Menu>
+        <Grid Grid.Row="1" Name="Details">
+            <!-- Name, SP, Power, Space, Crew Pop, Morale, Hull Int-->
+        </Grid>
+        <Grid Grid.Row="2" Name="Hull">
+            <!-- Hull, Hull values, crew, 2 rows: label and values-->
+        </Grid>
+        <Grid Grid.Row="3" Name="Essentials">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="3"/>
+                <ColumnDefinition Width="5"/><!-- may need adjusting-->
+            </Grid.ColumnDefinitions>
+            <!--Component type: Component Name, Component Special x8-->
+        </Grid>
+        <Grid Grid.Row="4" Name="Weapons">
+            <!--need to decide on container for this - weapons-->
+        </Grid>
+        <Grid Grid.Row="5" Name="Modifiers">
+            
+        </Grid>
+        <Grid Grid.Row="6" Name="Supplementals">
+            <!--need to decide on container for this - Supplementals-->
+        </Grid>
+    </Grid>
+</Window>

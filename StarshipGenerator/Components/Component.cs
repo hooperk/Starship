@@ -125,6 +125,30 @@ namespace StarshipGenerator.Components
         /// Origin of the component
         /// </summary>
         public virtual ComponentOrigin ComponentOrigin { get; private set; }
+        /// <summary>
+        /// Name o the component including the component's quality
+        /// </summary>
+        public String QualityName
+        {
+            get
+            {
+                switch (Quality)
+                {
+                    case Quality.Poor:
+                        return "Poor Quality " + Name;
+                    case Quality.Good:
+                        return "Good Quality " + Name;
+                    case Quality.Slim:
+                        return "Good Quality Slim " + Name;
+                    case Quality.Efficient:
+                        return "Good Quality Efficient " + Name;
+                    case Quality.Best:
+                        return "Best Quality " + Name;
+                    default:
+                        return Name;
+                }
+            }
+        }
 
         /// <summary>
         /// Create a new Component object

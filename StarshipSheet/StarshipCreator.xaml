@@ -11,6 +11,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <Menu Grid.Row="0">
@@ -53,10 +54,10 @@
                     <ColumnDefinition Width="56"/>
                     <ColumnDefinition Width="56"/>
                     <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="56"/>
                     <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="46"/>
-                    <ColumnDefinition Width="80"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <!-- Name, SP, Power, Space, Crew Pop, Morale, Hull Int-->
                 <Label Grid.Column="0" Grid.Row="0">Name</Label>
@@ -67,13 +68,38 @@
                 <TextBox Name="Space" Grid.Column="2" Grid.Row="1" IsReadOnly="True"/>
                 <Label Grid.Column="3" Grid.Row="0">Power</Label>
                 <TextBox Name="Power" Grid.Column="3" Grid.Row="1" IsReadOnly="True"/>
-                <Label Grid.Column="4" Grid.Row="0">Crew Population</Label>
-                <TextBox Name="CrewPop" Grid.Column="4" Grid.Row="1" IsReadOnly="True"/>
-                <Label Grid.Column="5" Grid.Row="0">Morale</Label>
-                <TextBox Name="Morale" Grid.Column="5" Grid.Row="1" IsReadOnly="True"/>
-                <Label Grid.Column="6" Grid.Row="0">Hull Integrity</Label>
-                <TextBox Name="HullInt" Grid.Column="6" Grid.Row="1" IsReadOnly="True"/>
-                <Button Grid.Column="8" Grid.Row="0" Grid.RowSpan="2" Content="Upgrades"/>
+                <Button Grid.Column="4" Grid.Row="0" Grid.RowSpan="2">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Label Grid.Row="0">Crew Population</Label>
+                        <TextBox Name="CrewPop" Grid.Row="1" IsReadOnly="True"/>
+                    </Grid>
+                </Button>
+                <Button Grid.Column="5" Grid.Row="0" Grid.RowSpan="2">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Label Grid.Row="0">Morale</Label>
+                        <TextBox Name="Morale" Grid.Row="1" IsReadOnly="True" Width="56"/>
+                    </Grid>
+                </Button>
+                <Button Grid.Column="6" Grid.Row="0" Grid.RowSpan="2">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Label Grid.Row="0">Hull Integrity</Label>
+                        <TextBox Name="HullInt" Grid.Row="1" IsReadOnly="True"/>
+                    </Grid>
+                </Button>
+                <Button Grid.Column="7" Grid.Row="0" Grid.RowSpan="2" Content="Damage"/>
+                <Button Grid.Column="8" Grid.Row="0" Grid.RowSpan="2" Content="Upgrades" />
             </Grid>
             <Grid Grid.Row="2" Name="Hull">
                 <Grid.RowDefinitions>
@@ -89,34 +115,33 @@
                     <ColumnDefinition Width="56"/>
                     <ColumnDefinition Width="40"/>
                     <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <Button Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" HorizontalContentAlignment="Left">
-                    <!--Add a click and border later-->
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="37"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <Label Grid.Row="0">Hull</Label>
-                        <TextBox Grid.Row="1" IsReadOnly="True" Background="{x:Null}" Width="190"/>
+                        <TextBlock Name="HullName" Grid.Row="1">None</TextBlock>
                     </Grid>
                 </Button>
                 <Label Grid.Column="1" Grid.Row="0">Hull Class</Label>
-                <TextBox Grid.Column="1" Grid.Row="1" IsReadOnly="True"/>
+                <TextBox Name="HullClass" Grid.Column="1" Grid.Row="1" IsReadOnly="True"/>
                 <Label Grid.Column="2" Grid.Row="0">Speed</Label>
-                <TextBox Grid.Column="2" Grid.Row="1" IsReadOnly="True"/>
+                <TextBox Name="Speed" Grid.Column="2" Grid.Row="1" IsReadOnly="True"/>
                 <Label Grid.Column="3" Grid.Row="0">Manoeuvrability</Label>
-                <TextBox Grid.Column="3" Grid.Row="1" IsReadOnly="True"/>
+                <TextBox Name="Manoeuvrability" Grid.Column="3" Grid.Row="1" IsReadOnly="True"/>
                 <TextBlock Grid.Column="4" Grid.Row="0" TextWrapping="WrapWithOverflow" Margin="5,0,0,5">Detection Rating</TextBlock>
-                <TextBox Grid.Column="4" Grid.Row="1" IsReadOnly="True"/>
+                <TextBox Name="Detection" Grid.Column="4" Grid.Row="1" IsReadOnly="True"/>
                 <TextBlock Grid.Column="5" Grid.Row="0" TextWrapping="WrapWithOverflow" Margin="5,0,0,5">Armour (Prow)</TextBlock>
-                <TextBox Grid.Column="5" Grid.Row="1" IsReadOnly="True"/>
+                <TextBox Name="Armour" Grid.Column="5" Grid.Row="1" IsReadOnly="True"/>
                 <TextBlock Grid.Column="6" Grid.Row="0" TextWrapping="WrapWithOverflow" Margin="5,0,0,5">Turret Rating</TextBlock>
-                <TextBox Grid.Column="6" Grid.Row="1" IsReadOnly="True"/>
+                <TextBox Name="Turrets" Grid.Column="6" Grid.Row="1" IsReadOnly="True"/>
                 <Label Grid.Column="7" Grid.Row="0">Shields</Label>
-                <TextBox Grid.Column="7" Grid.Row="1" IsReadOnly="True"/>
+                <TextBox Name="Shields" Grid.Column="7" Grid.Row="1" IsReadOnly="True"/>
                 <Button Grid.Column="9" Grid.Row="0" Grid.RowSpan="2">
                     <!--Add click and border later -->
                     <Grid>
@@ -124,13 +149,29 @@
                             <RowDefinition Height="37"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <Label Grid.Row="0">Crew Rating</Label>
-                        <TextBox Grid.Row="1" IsReadOnly="True" Background="{x:Null}"/>
+                        <Label Grid.Row="0">Crew Value</Label>
+                        <TextBlock Name="CrewRating" Grid.Row="1"/>
                     </Grid>
                 </Button>
                 <!-- Hull, Hull values, crew, 2 rows: label and values-->
             </Grid>
-            <Grid Grid.Row="3" Name="Essentials">
+            <Grid Grid.Row="3" Name="Complications">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                    <TextBlock Name="MachineSpirit" TextWrapping="WrapWithOverflow">Machine Spirit</TextBlock>
+              </Button>
+                <Button Grid.Column="1" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                    <TextBlock Name="ShipHistory" TextWrapping="WrapWithOverflow">Ship History</TextBlock>
+                </Button>
+            </Grid>
+            <Grid Grid.Row="4" Name="Essentials">
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition/>
@@ -173,7 +214,7 @@
                 <TextBox Name="QuartersSpecial" Grid.Column="2" Grid.Row="6" TextWrapping="WrapWithOverflow"/>
                 <TextBox Name="AugurSpecial" Grid.Column="2" Grid.Row="7" TextWrapping="WrapWithOverflow"/>
             </Grid>
-            <Grid Grid.Row="4" Name="Modifiers">
+            <Grid Grid.Row="5" Name="Modifiers">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -196,7 +237,7 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <Border Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="6" Grid.RowSpan="2" BorderBrush="LightGray" BorderThickness="0,0,1,0"/>
-                <Label Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="5">Objectives</Label>
+                <Label Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="5" ToolTip="Additional Achievement points when working towards particular types of objectives">Objectives</Label>
                 <Label Grid.Column="5" Grid.Row="0" HorizontalAlignment="Right">Modifiers:</Label>
                 <Label Grid.Column="0" Grid.Row="1">Mining</Label>
                 <Label Grid.Column="1" Grid.Row="1">Creed</Label>
@@ -243,7 +284,7 @@
                 <Label Grid.Column="13" Grid.Row="1">Warp</Label>
                 <TextBox Name="NavigateWarp" Grid.Column="13" Grid.Row="2" IsReadOnly="True"/>
             </Grid>
-            <Grid Grid.Row="5">
+            <Grid Grid.Row="6">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -258,7 +299,7 @@
                 </DataGrid>
                 <!--need to decide on container for this - weapons-->
             </Grid>
-            <Grid Grid.Row="6">
+            <Grid Grid.Row="7">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>

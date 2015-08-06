@@ -184,9 +184,9 @@ namespace StarshipGenerator.Components
             int prowArmour = 0, int crewRating = 0,
             int mining = 0, int creed = 0, int military = 0, int trade = 0, int criminal = 0,
             int exploration = 0, bool generated = false, int detection = 0, Weapon aux = null, 
-            int macrodamage = 0, int bs = 0, int navigate = 0, int crewLoss = 0, int moraleLoss = 0, 
-            ComponentOrigin comp = ComponentOrigin.Standard, string replace = null, int max = 0)
-            : base(name, sp, power, space, special, origin, page, types, quality, comp)
+            int macrodamage = 0, int bs = 0, int navigate = 0, int crewLoss = 0, int moraleLoss = 0,
+            ComponentOrigin comp = ComponentOrigin.Standard, string replace = null, int max = 0, Condition cond = Condition.Intact)
+            : base(name, sp, power, space, special, origin, page, types, quality, comp, cond)
         {
             this.Speed = speed;
             this.Manoeuvrability = man;
@@ -258,11 +258,11 @@ namespace StarshipGenerator.Components
             int crew = 0, int prowArmour = 0, int crewRating = 0, int mining = 0, int creed = 0, int military = 0,
             int trade = 0, int criminal = 0, int exploration = 0, bool generated = false, int detection = 0,
             Weapon aux = null, int macrodamage = 0, int bs = 0, int navigate = 0, int crewLoss = 0, int moraleLoss = 0,
-            ComponentOrigin comp = ComponentOrigin.Standard, string replace = null, int max = 0)
+            ComponentOrigin comp = ComponentOrigin.Standard, string replace = null, int max = 0, Condition cond = Condition.Intact)
             : this(name, types, power, space, sp, origin, page, new DiceRoll(ramming), special, quality, speed, man, hullint,
                 armour, turrets, morale, crew, prowArmour, crewRating,
                 mining, creed, military, trade, criminal, exploration, generated, detection, aux,
-                macrodamage, bs, navigate, crewLoss, moraleLoss, comp, replace, max) { }
+                macrodamage, bs, navigate, crewLoss, moraleLoss, comp, replace, max, cond) { }
 
         /// <summary>
         /// Serialises the Supplemental Component
@@ -307,7 +307,8 @@ namespace StarshipGenerator.Components
              *  "MoraleLoss" : moraleLoss,
              *  "Comp" : comp,
              *  "Replace" : replace,
-             *  "Max" : max }
+             *  "Max" : max,
+             *  "Cond" : condition}
              *}
              */
             return @"{""Supplemental"":{""Name"":""" + Name.Escape() + @""",""Types"":" + (byte)HullTypes + @",""Power"":" + RawPower
@@ -321,7 +322,7 @@ namespace StarshipGenerator.Components
                 + ExplorationObjective + @",""Gen"":" + (PowerGenerated ? 1 : 0) + @",""Det"":" + DetectionRating
                 + @",""Aux"":" + AuxiliaryWeapon.JSON() + @",""Macro"":"
                 + MacrobatteryModifier + @",""BS"":" + BSModifier + @",""Nav"":" + NavigateWarp + @",""CrewLoss"":"
-                + CrewLoss + @",""MoraleLoss"":" + MoraleLoss + @",""Comp"":" + (byte)ComponentOrigin + @",""Replace"":""" + Replace.Escape() + @""",""Max"":" + Max + @"}}";
+                + CrewLoss + @",""MoraleLoss"":" + MoraleLoss + @",""Comp"":" + (byte)ComponentOrigin + @",""Replace"":""" + Replace.Escape() + @""",""Max"":" + Max + @",""Cond"":" + Condition + @"}}";
         }
 
         /// <summary>

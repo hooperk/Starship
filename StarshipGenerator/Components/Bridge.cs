@@ -81,9 +81,9 @@ namespace StarshipGenerator.Components
         /// <param name="navigate">modifier to navigate the warp from this bridge</param>
         public Bridge(string name, HullType types, int power, int space, RuleBook origin, byte page, string special = null,
             int sp = 0, Quality quality = Quality.Common, int man = 0, int bs = 0, int command = 0,
-            int repair = 0, int pilot = 0, int navigate = 0, ComponentOrigin comp = ComponentOrigin.Standard, int mining = 0, 
-            int creed = 0, int military = 0, int trade = 0, int criminal = 0, int exploration = 0)
-            : base(name, sp, power, space, special, origin, page, types, quality, comp)
+            int repair = 0, int pilot = 0, int navigate = 0, ComponentOrigin comp = ComponentOrigin.Standard, int mining = 0,
+            int creed = 0, int military = 0, int trade = 0, int criminal = 0, int exploration = 0, Condition cond = Condition.Intact)
+            : base(name, sp, power, space, special, origin, page, types, quality, comp, cond)
         {
             this.Manoeuvrability = man;
             this.BSModifier = bs;
@@ -128,14 +128,15 @@ namespace StarshipGenerator.Components
              *  "Military" : military,
              *  "Trade" : trade,
              *  "Criminal" : criminal,
-             *  "Explore" : explore }
+             *  "Explore" : explore,
+             *  "Cond" : condition}
              *}*/
             return @"{""Bridge"":{""Name"":""" + Name.Escape() + @""",""Types"":" + (byte)HullTypes + @",""Power"":" + RawPower + @",""Space"":" + RawSpace
                 + @",""Origin"":" + (byte)Origin + @",""Page"":" + PageNumber + @",""Special"":""" + RawSpecial.Escape() + @""",""SP"":" + RawSP
                 + @",""Quality"":" + (byte)Quality + @",""Man"":" + Manoeuvrability + @",""BS"":" + BSModifier + @",""Command"":" + Command
                 + @",""Repair"":" + Repair + @",""Pilot"":" + Pilot + @",""Nav"":" + NavigateWarp + @",""Comp"":" + (byte)ComponentOrigin 
                 + @",""Mining"":" + MiningObjective + @",""Creed"":" + CreedObjective + @",""Military"":" + MilitaryObjective
-                + @",""Trade"":" + TradeObjective + @",""Criminal"":" + CriminalObjective + @",""Explore"":" + ExplorationObjective + @"}}";
+                + @",""Trade"":" + TradeObjective + @",""Criminal"":" + CriminalObjective + @",""Explore"":" + ExplorationObjective + @",""Cond"":" + Condition + @"}}";
         }
 
         /// <summary>

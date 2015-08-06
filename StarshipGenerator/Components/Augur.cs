@@ -77,8 +77,8 @@ namespace StarshipGenerator.Components
         public Augur(string name, int power, RuleBook origin, byte page, int det = 0, String special = null,
             Quality quality = Quality.Common, int sp = 0, int man = 0, int bs = 0, int mining = 0, 
             int creed = 0, int military = 0, int trade = 0, int criminal = 0, int exploration = 0,
-            ComponentOrigin comp = ComponentOrigin.Standard)
-            : base(name, sp, power, 0, special, origin, page, HullType.All, quality,comp)
+            ComponentOrigin comp = ComponentOrigin.Standard, Condition cond = Condition.Intact)
+            : base(name, sp, power, 0, special, origin, page, HullType.All, quality,comp,cond)
         {
             this.Manoeuvrability = man;
             this.DetectionRating = det;
@@ -116,14 +116,15 @@ namespace StarshipGenerator.Components
              *  "Military" : military,
              *  "Trade" : trade,
              *  "Criminal" : criminal,
-             *  "Explore" : explore }
+             *  "Explore" : explore,
+             *  "Cond" : condition}
              * }
              * */
             return @"{""Augur"":{""Name"":""" + Name.Escape() + @""",""Power"":" + RawPower + @",""Origin"":" + (byte)Origin + @",""Page"":" + PageNumber
                 + @",""Det"":" + DetectionRating + @",""Special"":""" + RawSpecial.Escape() + @""",""Quality"":" + (byte)Quality + @",""SP"":" + RawSP
                 + @",""Man"":" + Manoeuvrability + @",""BS"":" + BSModifier + @",""Comp"":" + (byte)ComponentOrigin 
                 + @",""Mining"":" + MiningObjective + @",""Creed"":" + CreedObjective + @",""Military"":" + MilitaryObjective
-                + @",""Trade"":" + TradeObjective + @",""Criminal"":" + CriminalObjective + @",""Explore"":" + ExplorationObjective + @"}}";
+                + @",""Trade"":" + TradeObjective + @",""Criminal"":" + CriminalObjective + @",""Explore"":" + ExplorationObjective + @",""Cond"":" + Condition + @"}}";
         }
 
         /// <summary>

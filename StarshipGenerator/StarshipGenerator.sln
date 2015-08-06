@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarshipGenerator", "Starsh
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarshipTester", "StarshipTester\StarshipTester.csproj", "{3F096387-2835-4274-81CE-34B8A6525382}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarshipSheet", "..\StarshipSheet\StarshipSheet.csproj", "{7C41D08F-502C-4E41-A8CC-7C362AF2A2BD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarshipCreator", "..\StarshipSheet\StarshipCreator.csproj", "{7C41D08F-502C-4E41-A8CC-7C362AF2A2BD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

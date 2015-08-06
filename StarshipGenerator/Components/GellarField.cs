@@ -28,9 +28,9 @@ namespace StarshipGenerator.Components
         /// <param name="page">page number to find this field on</param>
         /// <param name="sp">cost of this field</param>
         /// <param name="navigate">modifier to navigate the warp</param>
-        public GellarField(string name, HullType types, int power, string special, RuleBook origin, byte page, 
-            int sp = 0, int navigate = 0, Quality quality = Quality.Common, ComponentOrigin comp = ComponentOrigin.Standard)
-            : base(name, sp, power, 0, special, origin, page, types, quality, comp) 
+        public GellarField(string name, HullType types, int power, string special, RuleBook origin, byte page,
+            int sp = 0, int navigate = 0, Quality quality = Quality.Common, ComponentOrigin comp = ComponentOrigin.Standard, Condition cond = Condition.Intact)
+            : base(name, sp, power, 0, special, origin, page, types, quality, comp, cond) 
         {
             this.NavigateWarp = navigate;
         }
@@ -53,12 +53,13 @@ namespace StarshipGenerator.Components
              *   "SP" : sp,
              *   "Nav" : nav,
              *   "Quality" : quality,
-             *   "Comp" : comp }
+             *   "Comp" : comp,
+             *   "Cond" : condition}
              * }
              * */
             return @"{""Gellar"":{""Name"":""" + Name.Escape() + @""",""Types"":" + (byte)HullTypes + @",""Power"":" + RawPower + @",""Special"":"""
                 + RawSpecial.Escape() + @""",""Origin"":" + (byte)Origin + @",""Page"":" + PageNumber + @",""SP"":" + RawSP + @",""Nav"":" + NavigateWarp
-                + @",""Quality"":" + (byte)Quality + @",""Comp"":" + (byte)ComponentOrigin + @"}}";
+                + @",""Quality"":" + (byte)Quality + @",""Comp"":" + (byte)ComponentOrigin + @",""Cond"":" + Condition + @"}}";
         }
         /// <summary>
         /// Description of the GellarField to display while picking

@@ -65,9 +65,9 @@ namespace StarshipGenerator.Components
         /// <param name="wq">enum declaring which qualities to be adjusted</param>
         /// <param name="special">special rules of this weapon</param>
         public LandingBay(string name, HullType hulls, WeaponSlot slots, int power, int space, int sp, int str,
-            RuleBook origin, byte page, Quality quality = Quality.Common, WeaponQuality wq = WeaponQuality.None, 
-            string special = null, ComponentOrigin comp = ComponentOrigin.Standard)
-            : base(name, WeaponType.LandingBay, hulls, slots, power, space, sp, str, default(DiceRoll), 0, 0, origin, page, quality, wq, special, Quality.None, comp) 
+            RuleBook origin, byte page, Quality quality = Quality.Common, WeaponQuality wq = WeaponQuality.None,
+            string special = null, ComponentOrigin comp = ComponentOrigin.Standard, Condition cond = Condition.Intact)
+            : base(name, WeaponType.LandingBay, hulls, slots, power, space, sp, str, default(DiceRoll), 0, 0, origin, page, quality, wq, special, Quality.None, comp, cond) 
         {
             Squadrons = new List<Squadron>(Strength * 3);
         }
@@ -93,7 +93,8 @@ namespace StarshipGenerator.Components
              *  "WeapQual" : wq,
              *  "Special" : special,
              *  "Comp" : comp,
-             *  "Squadrons": [squadrons] }
+             *  "Squadrons": [squadrons],
+             *  "Cond" : Conditions}
              *}
              */
             StringBuilder output = new StringBuilder(@"{""Landing"":{""Name"":""" + Name.Escape() + @""",""Types"":" + (byte)HullTypes + @",""Slots"":" + (byte)Slots
@@ -108,7 +109,7 @@ namespace StarshipGenerator.Components
                         output.Append(",");
                 }
             }
-            output.Append(@"]}}");
+            output.Append(@"],""Cond"":" + Condition + @"}}");
             return output.ToString();
         }
 

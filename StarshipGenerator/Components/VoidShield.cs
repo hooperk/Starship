@@ -31,8 +31,8 @@ namespace StarshipGenerator.Components
         /// <param name="quality">quality of these shields</param>
         /// <param name="sp">cost of these shields</param>
         public VoidShield(string name, HullType types, int power, int space, int str, RuleBook origin, byte page, string special = null,
-            Quality quality = Quality.Common, int sp = 0, ComponentOrigin comp = ComponentOrigin.Standard)
-            : base(name, sp, power, space, special, origin, page, types, quality, comp)
+            Quality quality = Quality.Common, int sp = 0, ComponentOrigin comp = ComponentOrigin.Standard, Condition cond = Condition.Intact)
+            : base(name, sp, power, space, special, origin, page, types, quality, comp, cond)
         {
             this.Strength = str;
         }
@@ -55,12 +55,13 @@ namespace StarshipGenerator.Components
              *  "Special" : special,
              *  "Quality" : quality,
              *  "SP" : sp,
-             *  "Comp" : comp }
+             *  "Comp" : comp,
+             *  "Cond" : condition}
              *}
              */
             return @"{""Shield"":{""Name"":""" + Name.Escape() + @""",""Types"":" + (byte)HullTypes + @",""Power"":" + RawPower + @",""Space"":"
                 + RawSpace + @",""Str"":" + Strength + @",""Origin"":" + (byte)Origin + @",""Page"":" + PageNumber + @",""Special"":"""
-                + RawSpecial.Escape() + @""",""Quality"":" + (byte)Quality + @",""SP"":" + RawSP + @",""Comp"":" + (byte)ComponentOrigin + @"}}";
+                + RawSpecial.Escape() + @""",""Quality"":" + (byte)Quality + @",""SP"":" + RawSP + @",""Comp"":" + (byte)ComponentOrigin + @",""Cond"":" + Condition + @"}}";
         }
     }
 }

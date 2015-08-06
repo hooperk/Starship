@@ -30,8 +30,8 @@ namespace StarshipGenerator.Components
         /// <param name="moraleLoss">modifier to morale loss granted by this component</param>
         /// <param name="crewLoss">modifier to crew loss granted by this component</param>
         public LifeSustainer(string name, HullType types, int power, int space, int morale, RuleBook origin, byte page,
-            string special = null, Quality quality = Quality.Common, int sp = 0, int moraleLoss = 0, int crewLoss = 0, ComponentOrigin comp = ComponentOrigin.Standard)
-            : base(name, types, power, space, morale, origin, page, special, quality, sp, moraleLoss, comp) 
+            string special = null, Quality quality = Quality.Common, int sp = 0, int moraleLoss = 0, int crewLoss = 0, ComponentOrigin comp = ComponentOrigin.Standard, Condition cond = Condition.Intact)
+            : base(name, types, power, space, morale, origin, page, special, quality, sp, moraleLoss, comp, cond) 
         {
             this.CrewLoss = crewLoss;
         }
@@ -56,13 +56,14 @@ namespace StarshipGenerator.Components
              *  "SP" : sp,
              *  "MoraleLoss" : loss,
              *  "CrewLoss" : loss,
-             *  "Comp" : comp }
+             *  "Comp" : comp,
+             *  "Cond" : condition}
              *}
              */
             return @"{""Sustainer"":{""Name"":""" + Name.Escape() + @""",""Types"":" + (byte)HullTypes + @",""Power"":" + RawPower + @",""Space"":"
                 + RawSpace + @",""Morale"":" + Morale + @",""Origin"":" + (byte)Origin + @",""Page"":" + PageNumber + @",""Special"":"""
                 + RawSpecial.Escape() + @""",""Quality"":" + (byte)Quality + @",""SP"":" + RawSP + @",""MoraleLoss"":" + MoraleLoss
-                + @",""CrewLoss"":" + CrewLoss + @",""Comp"":" + (byte)ComponentOrigin + @"}}";
+                + @",""CrewLoss"":" + CrewLoss + @",""Comp"":" + (byte)ComponentOrigin + @",""Cond"":" + Condition + @"}}";
         }
 
         /// <summary>

@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using StarshipGenerator.Components;
-using StarshipGenerator.Utils;
 
-namespace StarshipGenerator
+namespace StarshipGenerator.Utils
 {
     /// <summary>
     /// Starship and all its internal components

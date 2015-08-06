@@ -24,9 +24,9 @@ namespace StarshipGenerator.Components
         /// <param name="sp">cost of this drive</param>
         /// <param name="special">special rules of this drive</param>
         /// <param name="quality">quality of this drive</param>
-        public WarpDrive(string name, HullType types, int power, int space, RuleBook origin, byte page, int sp = 0, string special = null, 
-            Quality quality = Quality.Common, ComponentOrigin comp = ComponentOrigin.Standard) 
-            : base(name, sp, power, space, special, origin, page, types, quality, comp) { }
+        public WarpDrive(string name, HullType types, int power, int space, RuleBook origin, byte page, int sp = 0, string special = null,
+            Quality quality = Quality.Common, ComponentOrigin comp = ComponentOrigin.Standard, Condition cond = Condition.Intact) 
+            : base(name, sp, power, space, special, origin, page, types, quality, comp, cond) { }
 
         /// <summary>
         /// Serialises the WarpDrive
@@ -45,12 +45,13 @@ namespace StarshipGenerator.Components
              *  "SP" : sp,
              *  "Special" : special,
              *  "Quality" : quality,
-             *  "Comp" : comp }
+             *  "Comp" : comp,
+             *  "Cond" : Condition}
              *}
              */
             return @"{""Warp"":{""Name"":""" + Name.Escape() + @""",""Types"":" + (byte)HullTypes + @",""Power"":" + RawPower + @",""Space"":"
                 + RawSpace + @",""Origin"":" + (byte)Origin + @",""Page"":" + PageNumber + @",""SP"":" + RawSP + @",""Special"":"""
-                + RawSpecial.Escape() + @""",""Quality"":" + (byte)Quality + @",""Comp"":" + (byte)ComponentOrigin + @"}}";
+                + RawSpecial.Escape() + @""",""Quality"":" + (byte)Quality + @",""Comp"":" + (byte)ComponentOrigin + @",""Cond"":" + Condition + @"}}";
         }
     }
 }

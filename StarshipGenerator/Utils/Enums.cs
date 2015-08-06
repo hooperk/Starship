@@ -210,12 +210,51 @@ namespace StarshipGenerator.Utils
     }
 
     /// <summary>
+    /// Enumeration stating the current condition of a ship component
+    /// </summary>
+    [Flags]
+    public enum Condition : byte
+    {
+        Intact = 0x00,
+        OnFire = 0x01,
+        Unpowered = 0x02,
+        Depressurized = 0x04,
+        Damaged = 0x08,
+        Destroyed = 0x10
+    }
+
+    /// <summary>
     /// Enumeration stating if component is standard, Archeotech or Xenotech
     /// </summary>
     public enum ComponentOrigin : byte { Standard, Archeotech, Xenotech }
 
     public static class EnumerationExtensions
     {
+        /// <summary>
+        /// Returns the display name of the highest Hulltype for naming ship classes
+        /// </summary>
+        /// <param name="self">Hulltype to display</param>
+        /// <returns>Display name of HullType</returns>
+        public static string HighName(this HullType self)
+        {
+            if ((self & HullType.BattleShip) != 0)
+                return "Battleship";
+            if ((self & HullType.GrandCruiser) != 0)
+                return "Grand Cruiser";
+            if ((self & HullType.BattleCruiser) != 0)
+                return "Battlecruiser";
+            if ((self & HullType.Cruiser) != 0)
+                return "Cruiser";
+            if ((self & HullType.LightCruiser) != 0)
+                return "Light Cruiser";
+            if ((self & HullType.Frigate) != 0)
+                return "Frigate";
+            if ((self & HullType.Raider) != 0)
+                return "Raider";
+            if ((self & HullType.Transport) != 0)
+                return "Transport";
+            return null;
+        }
 
         /// <summary>
         /// Returns the display name of the Weapon type for dispaly

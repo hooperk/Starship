@@ -24,8 +24,8 @@ namespace StarshipGenerator.Components
         /// <param name="sp">cost of this component</param>
         /// <param name="loss">modifier to morale loss granted by this component</param>
         public CrewQuarters(string name, HullType types, int power, int space, int morale, RuleBook origin, byte page,
-            string special = null, Quality quality = Quality.Common, int sp = 0, int loss = 0, ComponentOrigin comp = ComponentOrigin.Standard)
-            : base(name, types, power, space, morale, origin, page, special, quality, sp, loss, comp) { }
+            string special = null, Quality quality = Quality.Common, int sp = 0, int loss = 0, ComponentOrigin comp = ComponentOrigin.Standard, Condition cond = Condition.Intact)
+            : base(name, types, power, space, morale, origin, page, special, quality, sp, loss, comp, cond) { }
 
         /// <summary>
         /// Serialises the crew quarters
@@ -45,12 +45,13 @@ namespace StarshipGenerator.Components
              *  "Special" : special,
              *  "Quality" : quality,
              *  "SP" : sp,
-             *  "Loss" : loss}
+             *  "Loss" : loss,
+             *  "Cond" : Condition}
              *}
              **/
             return @"{""Quarters"":{""Name"":""" + Name.Escape() + @""",""Types"":" + (byte)HullTypes + @",""Power"":" + RawPower + @",""Space"":"
                 + RawSpace + @",""Morale"":" + Morale + @",""Origin"":" + (byte)Origin + @",""Page"":" + PageNumber + @",""Special"":""" + RawSpecial.Escape()
-                + @""",""Quality"":" + (byte)Quality + @",""SP"":" + RawSP + @",""Loss"":" + MoraleLoss + @",""Comp"":" + (byte)ComponentOrigin + @"}}";
+                + @""",""Quality"":" + (byte)Quality + @",""SP"":" + RawSP + @",""Loss"":" + MoraleLoss + @",""Comp"":" + (byte)ComponentOrigin + @",""Cond"":" + Condition + @"}}";
         }
     }
 }

@@ -211,9 +211,9 @@ namespace StarshipGenerator.Components
         /// <param name="special">special rules of this weapon</param>
         /// <param name="turbo">Quality of turboweapon battery upgrade if applicable</param>
         public Weapon(string name, WeaponType type, HullType hulls, WeaponSlot slots, int power, int space, int sp, int str,
-            DiceRoll damage, int crit, int range, RuleBook origin, byte page, Quality quality = Quality.Common, 
-            WeaponQuality wq = WeaponQuality.None, string special = null, Quality turbo = Quality.None, ComponentOrigin comp = ComponentOrigin.Standard)
-            : base(name, sp, power, space, special, origin, page, hulls, quality, comp)
+            DiceRoll damage, int crit, int range, RuleBook origin, byte page, Quality quality = Quality.Common,
+            WeaponQuality wq = WeaponQuality.None, string special = null, Quality turbo = Quality.None, ComponentOrigin comp = ComponentOrigin.Standard, Condition cond = Condition.Intact)
+            : base(name, sp, power, space, special, origin, page, hulls, quality, comp, cond)
         {
             this.Type = type;
             this.Slots = slots;
@@ -247,9 +247,9 @@ namespace StarshipGenerator.Components
         /// <param name="turbo">Quality of turboweapon battery upgrade if applicable</param>
         public Weapon(string name, WeaponType type, HullType hulls, WeaponSlot slots, int power, int space, 
             int sp, int str, string damage, int crit, int range, RuleBook origin, byte page, Quality quality = Quality.Common,
-            WeaponQuality wq = WeaponQuality.None, string special = null, Quality turbo = Quality.None, ComponentOrigin comp = ComponentOrigin.Standard)
+            WeaponQuality wq = WeaponQuality.None, string special = null, Quality turbo = Quality.None, ComponentOrigin comp = ComponentOrigin.Standard, Condition cond = Condition.Intact)
             : this(name, type, hulls, slots, power, space, sp, str, new DiceRoll(damage), crit, range, 
-            origin, page, quality, wq, special, turbo, comp) { }
+            origin, page, quality, wq, special, turbo, comp, cond) { }
 
         /// <summary>
         /// Serialises the component
@@ -276,14 +276,15 @@ namespace StarshipGenerator.Components
              *  "WeapQual" : wq,
              *  "Special" : special,
              *  "Turbo" : turbo,
-             *  "Comp" : comp }
+             *  "Comp" : comp,
+             *  "Cond" : Condition}
              *}
              */
             return @"{""Weapon"":{""Name"":""" + Name.Escape() + @""",""WeapType"":" + (byte)Type + @",""Types"":" + (byte)HullTypes
                 + @",""Slots"":" + (byte)Slots + @",""Power"":" + RawPower + @",""Space"":" + RawSpace + @",""SP"":" + RawSP + @",""Str"":"
                 + RawStrength + @",""Damage"":""" + RawDamage.ToString().Escape() + @""",""Crit"":" + RawCrit + @",""Range"":" + RawRange
                 + @",""Origin"":" + (byte)Origin + @",""Page"":" + PageNumber + @",""Quality"":" + (byte)Quality
-                + @",""Special"":""" + RawSpecial.Escape() + @""",""Turbo"":" + (byte)TurboWeapon + @",""Comp"":" + (byte)ComponentOrigin + @"}}";
+                + @",""Special"":""" + RawSpecial.Escape() + @""",""Turbo"":" + (byte)TurboWeapon + @",""Comp"":" + (byte)ComponentOrigin + @",""Cond"":" + Condition + @"}}";
         }
 
         /// <summary>

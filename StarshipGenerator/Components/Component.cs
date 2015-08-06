@@ -126,7 +126,7 @@ namespace StarshipGenerator.Components
         /// </summary>
         public virtual ComponentOrigin ComponentOrigin { get; private set; }
         /// <summary>
-        /// Name o the component including the component's quality
+        /// Name of the component including the component's quality
         /// </summary>
         public String QualityName
         {
@@ -149,6 +149,10 @@ namespace StarshipGenerator.Components
                 }
             }
         }
+        /// <summary>
+        /// Current condition of the Component
+        /// </summary>
+        public Condition Condition;
 
         /// <summary>
         /// Create a new Component object
@@ -162,7 +166,7 @@ namespace StarshipGenerator.Components
         /// <param name="page">page of the rulebook that the component may be found on</param>
         /// <param name="types">hulls which may use this component</param>
         /// <param name="quality">Quality of this component</param>
-        public Component(string name, int sp, int power, int space, string special, RuleBook origin, byte page, HullType types, Quality quality = Quality.Common, ComponentOrigin comp = ComponentOrigin.Standard)
+        public Component(string name, int sp, int power, int space, string special, RuleBook origin, byte page, HullType types, Quality quality = Quality.Common, ComponentOrigin comp = ComponentOrigin.Standard, Condition cond = Condition.Intact)
         {
             this.Name = name;
             this.SP = sp;
@@ -174,6 +178,7 @@ namespace StarshipGenerator.Components
             this.HullTypes = types;
             this.Quality = quality;
             this.ComponentOrigin = comp;
+            this.Condition = cond;
         }
 
         /// <summary>

@@ -83,10 +83,10 @@ namespace StarshipGenerator.Components
         /// <param name="wq">enum declaring which qualities to be adjusted</param>
         /// <param name="special">special rules of this weapon</param>
         public TorpedoTubes(string name, HullType hulls, int power, int space, int sp, int str,
-            int capacity, RuleBook origin, byte page, Quality quality = Quality.Common, WeaponQuality wq = WeaponQuality.None, 
-            string special = null, ComponentOrigin comp = ComponentOrigin.Standard)
+            int capacity, RuleBook origin, byte page, Quality quality = Quality.Common, WeaponQuality wq = WeaponQuality.None,
+            string special = null, ComponentOrigin comp = ComponentOrigin.Standard, Condition cond = Condition.Intact)
             : base(name, WeaponType.TorpedoTube, hulls, WeaponSlot.Prow | WeaponSlot.Keel, power, space, sp, str, default(DiceRoll), 0, 0, origin, page, 
-                quality, wq, special, Quality.None, comp) 
+                quality, wq, special, Quality.None, comp, cond) 
         {
             this.Capacity = capacity;
             Ammo = new List<Torpedo>(Capacity);
@@ -114,7 +114,8 @@ namespace StarshipGenerator.Components
              *  "Special" : special,
              *  "Comp" : comp,
              *  "Ammo" : [Torpedoes],
-             *  "Tubes" : [Tubes] }
+             *  "Tubes" : [Tubes],
+             *  "Cond" : condition}
              *}
              */
             StringBuilder output = new StringBuilder(
@@ -141,7 +142,7 @@ namespace StarshipGenerator.Components
                         output.Append(",");
                 }
             }
-            output.Append(@"]}}");
+            output.Append(@"],""Cond"":" + Condition + @"}}");
             return output.ToString();
         }
 

@@ -62,7 +62,7 @@
     <Compile Include="Components\Hull.cs" />
     <Compile Include="Components\PlasmaDrive.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Starship.cs" />
+    <Compile Include="Utils\Starship.cs" />
     <Compile Include="Components\Supplemental.cs" />
     <Compile Include="Components\VoidShield.cs" />
     <Compile Include="Components\WarpDrive.cs" />

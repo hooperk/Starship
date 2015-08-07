@@ -153,10 +153,14 @@ namespace StarshipGenerator.Utils
                     total += CrewQuarters.SP;
                 if (AugurArrays != null)
                     total += AugurArrays.SP;
-                foreach (Weapon gun in Weapons)
-                    total += gun.SP;
-                foreach (Supplemental component in SupplementalComponents)
-                    total += component.SP;
+                if (Weapons != null)
+                    foreach (Weapon gun in Weapons)
+                        if (gun != null)
+                            total += gun.SP;
+                if (SupplementalComponents != null)
+                    foreach (Supplemental component in SupplementalComponents)
+                        if (component != null)
+                            total += component.SP;
                 switch (Background)
                 {
                     case Background.ThulianExploratorVessel:
@@ -190,8 +194,10 @@ namespace StarshipGenerator.Utils
                 int total = Hull.Speed;
                 if (PlasmaDrive != null)
                     total += PlasmaDrive.Speed;
-                foreach (Supplemental component in SupplementalComponents)
-                    total += component.Speed;
+                if (SupplementalComponents != null)
+                    foreach (Supplemental component in SupplementalComponents)
+                        if (component != null)
+                            total += component.Speed;
                 if (MachineSpirit == MachineSpirit.Resolute)
                     total -= 1;
                 if (ShipHistory == ShipHistory.WrestedFromASpaceHulk)
@@ -222,8 +228,10 @@ namespace StarshipGenerator.Utils
                     total += ShipBridge.Manoeuvrability;
                 if (AugurArrays != null)
                     total += AugurArrays.Manoeuvrability;
-                foreach (Supplemental component in SupplementalComponents)
-                    total += component.Manoeuvrability;
+                if (SupplementalComponents != null)
+                    foreach (Supplemental component in SupplementalComponents)
+                        if (component != null)
+                            total += component.Manoeuvrability;
                 if (ShipHistory == ShipHistory.WrestedFromASpaceHulk)
                     total += 3;
                 if (Background == Background.ThulianExploratorVessel)
@@ -244,8 +252,10 @@ namespace StarshipGenerator.Utils
                 int total = Hull.DetectionRating;
                 if (AugurArrays != null)
                     total += AugurArrays.DetectionRating;
-                foreach (Supplemental component in SupplementalComponents)
-                    total += component.DetectionRating;
+                if (SupplementalComponents != null)
+                    foreach (Supplemental component in SupplementalComponents)
+                        if (component != null)
+                            total += component.DetectionRating;
                 if (MachineSpirit == MachineSpirit.ANoseForTrouble)
                     total += 5;
                 if (ShipHistory == ShipHistory.Haunted)
@@ -282,8 +292,10 @@ namespace StarshipGenerator.Utils
                 int total = Hull.Armour;
                 if (Hull.ArmourLocked)
                     return total;
-                foreach (Supplemental component in SupplementalComponents)
-                    total += component.Armour;
+                if (SupplementalComponents != null)
+                    foreach (Supplemental component in SupplementalComponents)
+                        if (component != null)
+                            total += component.Armour;
                 if (MachineSpirit == MachineSpirit.ANoseForTrouble)
                     total -= 1;
                 if (ShipHistory == ShipHistory.WrestedFromASpaceHulk)
@@ -300,8 +312,10 @@ namespace StarshipGenerator.Utils
             get
             {
                 int total = this.Armour;
-                foreach (Supplemental component in SupplementalComponents)
-                    total += component.ProwArmour;
+                if (SupplementalComponents != null)
+                    foreach (Supplemental component in SupplementalComponents)
+                        if (component != null)
+                            total += component.ProwArmour;
                 return total;
             }
         }
@@ -315,8 +329,10 @@ namespace StarshipGenerator.Utils
                 if (Hull == null)
                     return 0;
                 int total = Hull.TurretRating;
-                foreach (Supplemental component in SupplementalComponents)
-                    total += component.TurretRating;
+                if (SupplementalComponents != null)
+                    foreach (Supplemental component in SupplementalComponents)
+                        if (component != null)
+                            total += component.TurretRating;
                 total += GMTurretRating;
                 return Math.Max(total, 0);
             }
@@ -369,9 +385,10 @@ namespace StarshipGenerator.Utils
                     return 0;
                 int total = PlasmaDrive.Power;
                 total += Hull.Power;//if power != 0, hull grants or uses excess power
-                foreach (Supplemental component in SupplementalComponents)
-                    if (component.PowerGenerated)
-                        total += component.Power;
+                if (SupplementalComponents != null)
+                    foreach (Supplemental component in SupplementalComponents)
+                        if (component != null && component.PowerGenerated)
+                            total += component.Power;
                 if (ShipHistory == ShipHistory.WolfInSheepsClothing)
                     total -= 2;
                 return total;
@@ -397,10 +414,14 @@ namespace StarshipGenerator.Utils
                     total += LifeSustainer.Space;
                 if (CrewQuarters != null)
                     total += CrewQuarters.Space;
-                foreach (Weapon gun in Weapons)
-                    total += gun.Space;
-                foreach (Supplemental component in SupplementalComponents)
-                    total += component.Space;
+                if (Weapons != null)
+                    foreach (Weapon gun in Weapons)
+                        if (gun != null)
+                            total += gun.Space;
+                if (SupplementalComponents != null)
+                    foreach (Supplemental component in SupplementalComponents)
+                        if (component != null)
+                            total += component.Space;
                 return total;
             }
         }
@@ -426,11 +447,14 @@ namespace StarshipGenerator.Utils
                     total += CrewQuarters.Power;
                 if (AugurArrays != null)
                     total += AugurArrays.Power;
-                foreach (Weapon gun in Weapons)
-                    total += gun.Power;
-                foreach (Supplemental component in SupplementalComponents)
-                    if (!component.PowerGenerated)
-                        total += component.Power;
+                if (Weapons != null)
+                    foreach (Weapon gun in Weapons)
+                        if (gun != null)
+                            total += gun.Power;
+                if (SupplementalComponents != null)
+                    foreach (Supplemental component in SupplementalComponents)
+                        if (component != null && !component.PowerGenerated)
+                            total += component.Power;
                 return total;
             }
         }
@@ -442,8 +466,10 @@ namespace StarshipGenerator.Utils
             get
             {
                 int total = 100;
-                foreach (Supplemental component in SupplementalComponents)
-                    total += component.CrewPopulation;
+                if (SupplementalComponents != null)
+                    foreach (Supplemental component in SupplementalComponents)
+                        if (component != null)
+                            total += component.CrewPopulation;
                 if (ShipHistory == ShipHistory.DeathCult)
                     total -= 8;
                 total += GMCrewPopulation;
@@ -468,8 +494,10 @@ namespace StarshipGenerator.Utils
                     total += LifeSustainer.Morale;
                 if (CrewQuarters != null)
                     total += CrewQuarters.Morale;
-                foreach (Supplemental component in SupplementalComponents)
-                    total += component.Morale;
+                if (SupplementalComponents != null)
+                    foreach (Supplemental component in SupplementalComponents)
+                        if (component != null)
+                            total += component.Morale;
                 if (ShipHistory == ShipHistory.Haunted)
                     total -= 10;
                 if (CherubimAerie == Quality.Poor)
@@ -547,8 +575,10 @@ namespace StarshipGenerator.Utils
                 if (Hull == null)
                     return 0;
                 int total = Hull.HullIntegrity;
-                foreach (Supplemental component in SupplementalComponents)
-                    total += component.HullIntegrity;
+                if (SupplementalComponents != null)
+                    foreach (Supplemental component in SupplementalComponents)
+                        if (component != null)
+                            total += component.HullIntegrity;
                 //history
                 if (MachineSpirit == MachineSpirit.Resolute)
                     total += 3;
@@ -576,8 +606,10 @@ namespace StarshipGenerator.Utils
             {
                 int total = CrewRating;
                 total += GMCrewRating;
-                foreach (Supplemental component in SupplementalComponents)
-                    total += component.CrewRating;
+                if (SupplementalComponents != null)
+                    foreach (Supplemental component in SupplementalComponents)
+                        if (component != null)
+                            total += component.CrewRating;
                 return total;
             }
         }
@@ -596,8 +628,10 @@ namespace StarshipGenerator.Utils
                     total += ShipBridge.BSModifier;
                 if (AugurArrays != null)
                     total += AugurArrays.BSModifier;
-                foreach (Supplemental component in SupplementalComponents)
-                    total += component.BSModifier;
+                if (SupplementalComponents != null)
+                    foreach (Supplemental component in SupplementalComponents)
+                        if (component != null)
+                            total += component.BSModifier;
                 //upgrades
                 if (CrewRace == Race.Servitor)
                     total -= 10;
@@ -650,8 +684,10 @@ namespace StarshipGenerator.Utils
                     ram = new DiceRoll(1, 0, 0);
                 if ((Hull.HullTypes & (HullType.Raider | HullType.Transport)) > 0)
                     ram = new DiceRoll(0, 1, 0);
-                foreach (Supplemental component in SupplementalComponents)
-                    ram += component.RamDamage;
+                if (SupplementalComponents != null)
+                    foreach (Supplemental component in SupplementalComponents)
+                        if (component != null)
+                            ram += component.RamDamage;
                 ram += ProwArmour;
                 return ram;
             }
@@ -669,8 +705,10 @@ namespace StarshipGenerator.Utils
                     total += ShipBridge.MiningObjective;
                 if (AugurArrays != null)
                     total += AugurArrays.MiningObjective;
-                foreach (Supplemental component in SupplementalComponents)
-                    total += component.MiningObjective;
+                if (SupplementalComponents != null)
+                    foreach (Supplemental component in SupplementalComponents)
+                        if (component != null)
+                            total += component.MiningObjective;
                 return total;
             }
         }
@@ -686,8 +724,10 @@ namespace StarshipGenerator.Utils
                     total += ShipBridge.CreedObjective;
                 if (AugurArrays != null)
                     total += AugurArrays.CreedObjective;
-                foreach (Supplemental component in SupplementalComponents)
-                    total += component.CreedObjective;
+                if (SupplementalComponents != null)
+                    foreach (Supplemental component in SupplementalComponents)
+                        if (component != null)
+                            total += component.CreedObjective;
                 return total;
             }
         }
@@ -703,8 +743,10 @@ namespace StarshipGenerator.Utils
                     total += ShipBridge.MilitaryObjective;
                 if (AugurArrays != null)
                     total += AugurArrays.MilitaryObjective;
-                foreach (Supplemental component in SupplementalComponents)
-                    total += component.MilitaryObjective;
+                if (SupplementalComponents != null)
+                    foreach (Supplemental component in SupplementalComponents)
+                        if (component != null)
+                            total += component.MilitaryObjective;
                 return total;
             }
         }
@@ -720,8 +762,10 @@ namespace StarshipGenerator.Utils
                     total += ShipBridge.TradeObjective;
                 if (AugurArrays != null)
                     total += AugurArrays.TradeObjective;
-                foreach (Supplemental component in SupplementalComponents)
-                    total += component.TradeObjective;
+                if (SupplementalComponents != null)
+                    foreach (Supplemental component in SupplementalComponents)
+                        if (component != null)
+                            total += component.TradeObjective;
                 if (OstentatiousDisplayOfWealth != Quality.None)
                     total += 25;
                 return total;
@@ -739,8 +783,10 @@ namespace StarshipGenerator.Utils
                     total += ShipBridge.CriminalObjective;
                 if (AugurArrays != null)
                     total += AugurArrays.CriminalObjective;
-                foreach (Supplemental component in SupplementalComponents)
-                    total += component.CriminalObjective;
+                if (SupplementalComponents != null)
+                    foreach (Supplemental component in SupplementalComponents)
+                        if (component != null)
+                            total += component.CriminalObjective;
                 if (OstentatiousDisplayOfWealth != Quality.None)
                     total += 25;
                 if (DistributedCargoHold == Quality.Best)
@@ -762,8 +808,10 @@ namespace StarshipGenerator.Utils
                     total += ShipBridge.ExplorationObjective;
                 if (AugurArrays != null)
                     total += AugurArrays.ExplorationObjective;
-                foreach (Supplemental component in SupplementalComponents)
-                    total += component.ExplorationObjective;
+                if (SupplementalComponents != null)
+                    foreach (Supplemental component in SupplementalComponents)
+                        if (component != null)
+                            total += component.ExplorationObjective;
                 if (StarchartCollection == Quality.Best)
                     total += 50;
                 else if (StarchartCollection != Quality.None)
@@ -779,8 +827,10 @@ namespace StarshipGenerator.Utils
             get
             {
                 int total = 0;
-                foreach (Supplemental component in SupplementalComponents)
-                    total += component.MacrobatteryModifier;
+                if (SupplementalComponents != null)
+                    foreach (Supplemental component in SupplementalComponents)
+                        if (component != null)
+                            total += component.MacrobatteryModifier;
                 return total;
             }
         }
@@ -796,8 +846,10 @@ namespace StarshipGenerator.Utils
                     total += CrewQuarters.MoraleLoss;
                 if (LifeSustainer != null)
                     total += LifeSustainer.MoraleLoss;
-                foreach (Supplemental component in SupplementalComponents)
-                    total += component.MoraleLoss;
+                if (SupplementalComponents != null)
+                    foreach (Supplemental component in SupplementalComponents)
+                        if (component != null)
+                            total += component.MoraleLoss;
                 if (ShipHistory == ShipHistory.DeathCult)
                     total -= 2;
                 if (CrewRace == Race.Eldar)
@@ -815,8 +867,10 @@ namespace StarshipGenerator.Utils
                 double total = 0;
                 if (LifeSustainer != null)
                     total += LifeSustainer.CrewLoss;
-                foreach (Supplemental component in SupplementalComponents)
-                    total += component.CrewLoss;
+                if (SupplementalComponents != null)
+                    foreach (Supplemental component in SupplementalComponents)
+                        if (component != null)
+                            total += component.CrewLoss;
                 //complications
                 if (CrewRace == Race.Ork)
                     total -= 1;
@@ -893,8 +947,10 @@ namespace StarshipGenerator.Utils
                     total += GellarField.NavigateWarp;
                 if (ShipBridge != null)
                     total += ShipBridge.NavigateWarp;
-                foreach (Supplemental component in SupplementalComponents)
-                    total += component.NavigateWarp;
+                if (SupplementalComponents != null)
+                    foreach (Supplemental component in SupplementalComponents)
+                        if (component != null)
+                            total += component.NavigateWarp;
                 //upgrades
                 return total;
             }
@@ -985,7 +1041,7 @@ namespace StarshipGenerator.Utils
                 + @",""Starchart"":" + (byte)StarchartCollection + @",""StormTrooper"":" + (byte)StormTrooperDetachment + @",""Vaulted"":" + (byte)VaultedCeilings + @",""Arrester"":" + (byte)ArresterEngines
                 + @",""Distributed"":" + (byte)DistributedCargoHold + @",""Disciplinarium"":" + (byte)Disciplinarium + @",""Mimic"":" + (byte)MimicDrive + @",""Overload"":" + (byte)OverloadShieldCapacitors
                 + @",""Resolution"":" + (byte)ResolutionArena + @",""Secondary"":" + (byte)SecondaryReactor + @",""DamageControl"":" + (byte)SuperiorDamageControl + @",""Targetting"":" + (byte)TargettingMatrix
-                + @",""Matrix"":" + Matrix + @",""Background"":" + (byte)Background;            
+                + @",""Matrix"":" + Matrix + @",""Background"":" + (byte)Background;
         }
     }
 }

@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using StarshipGenerator.Utils;
+using StarshipGenerator.Components;
 
 namespace StarshipSheet
 {
@@ -25,15 +26,21 @@ namespace StarshipSheet
     {
         Loader loader;
         Starship starship;
+        public int WeaponRowCount { get; set; }
+        public int SupplementalRowCount { get; set; }
 
         public StarshipCreator()
         {
             loader = new Loader();//initialise with default components TODO:Loading of saved custom components
             starship = new Starship();//fresh starship
+            WeaponRowCount = 1;
+            SupplementalRowCount = 0;
             InitializeComponent();
             //for test
-            starship.Hull = loader.Hulls.First();
+            starship.Hull = loader.Hulls.Where(x => x.Name.Equals("Mars-class Battlecruiser", StringComparison.OrdinalIgnoreCase)).First();
             starship.PlasmaDrive = loader.PlasmaDrives.Where(x => (starship.Hull.HullTypes & x.HullTypes) != 0).First();
+            UpdateHull();
+            UpdatePlasma();
         }
 
         #region UpdateFields
@@ -52,6 +59,8 @@ namespace StarshipSheet
 
         public static string Print(int input)
         {
+            if (input == 0)
+                return "";
             return (input < 0 ? input.ToString() : "+" + input);
         }
 
@@ -141,7 +150,7 @@ namespace StarshipSheet
             UpdateDet();
             UpdateArmour();
             UpdateTurrets();
-            //UpdateWeapons?
+            UpdateWeaponSlots();
             //UpdateComponents?
             UpdateCommand();
             UpdateHistory();
@@ -366,6 +375,68 @@ namespace StarshipSheet
         //add weapon
 
         //add component
+        #endregion
+
+        #region Weapons
+        public void UpdateWeaponSlots()
+        {
+            Weapons.Children.RemoveRange(8,Weapons.Children.Count-7);
+            if (starship.Hull != null)
+            {
+                for (int i = 0; i < starship.Hull.ProwSlots; i++)
+                {
+                    if (i == 0)
+                        AddWeapon(WeaponSlot.Prow, starship.Hull.DefaultProw);
+                    else
+                        AddWeapon(WeaponSlot.Prow);
+                }
+                for (int i = 0; i < starship.Hull.DorsalSlots; i++)
+                    AddWeapon(WeaponSlot.Dorsal);
+                for (int i = 0; i < starship.Hull.SideSlots; i++)
+                {
+                    if (i == 0)
+                        AddWeapon(WeaponSlot.Port, starship.Hull.DefaultBroadside);
+                    else
+                        AddWeapon(WeaponSlot.Port);
+                }
+                for (int i = 0; i < starship.Hull.SideSlots; i++)
+                {
+                    if (i == 0)
+                        AddWeapon(WeaponSlot.Starboard, starship.Hull.DefaultBroadside);
+                    else
+                        AddWeapon(WeaponSlot.Starboard);
+                }
+                for (int i = 0; i < starship.Hull.KeelSlots; i++)
+                    AddWeapon(WeaponSlot.Keel);
+                for (int i = 0; i < starship.Hull.AftSlots; i++)
+                    AddWeapon(WeaponSlot.Aft);
+            }
+        }
+
+        public void AddWeapon(WeaponSlot facing, Weapon weapon=null)
+        {
+            UserControl NewWeapon = null;
+            if (weapon == null || weapon.Type == WeaponType.Macrobattery || weapon.Type == WeaponType.Lance)
+                NewWeapon = new WeaponTemplate(facing, weapon);
+            else if (weapon.Type == WeaponType.TorpedoTube)
+                NewWeapon = new AmmoWeapon(facing, weapon as TorpedoTubes);
+            else if (weapon.Type == WeaponType.LandingBay)
+                NewWeapon = new AmmoWeapon(facing, weapon as LandingBay);
+            else if (weapon.Type == WeaponType.NovaCannon)
+                NewWeapon = new NovaCannonTemplate(facing, weapon as NovaCannon);
+            if (NewWeapon != null)
+            {
+                Grid.SetRow(NewWeapon, WeaponRowCount++);//Add the extra row as you place this one
+                Grid.SetColumnSpan(NewWeapon, 7);
+                Weapons.Children.Add(NewWeapon);
+                if (weapon != null)
+                {
+                    UpdateSP();
+                    UpdateUsedSpace();
+                    UpdateUsedPower();
+                }
+            }
+        }
         #endregion
 
         #region Clear

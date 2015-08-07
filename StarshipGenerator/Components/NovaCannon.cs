@@ -42,16 +42,23 @@ namespace StarshipGenerator.Components
                 return "6-" + Range;
             }
         }
+        /// <summary>
+        /// Number of Nova Shells you have
+        /// </summary>
+        public int Ammo { get; set; }
 
         public NovaCannon(String name, HullType hulls, int power, int space, int sp,
             DiceRoll damage, int range, RuleBook origin, byte page, string special = null, Quality quality = Quality.Common,
-            WeaponQuality wq = WeaponQuality.None, ComponentOrigin comp = ComponentOrigin.Standard, Condition cond = Condition.Intact)
-            : base(name, WeaponType.NovaCannon, hulls, WeaponSlot.Prow, power, space, sp, 0, damage, 0, range, origin, page, quality, wq, special, Quality.None, comp, cond) { }
+            WeaponQuality wq = WeaponQuality.None, ComponentOrigin comp = ComponentOrigin.Standard, Condition cond = Condition.Intact, int ammo = 0)
+            : base(name, WeaponType.NovaCannon, hulls, WeaponSlot.Prow, power, space, sp, 0, damage, 0, range, origin, page, quality, wq, special, Quality.None, comp, cond) 
+        {
+            this.Ammo = ammo;
+        }
 
         public NovaCannon(String name, HullType hulls, int power, int space, int sp,
             int range, RuleBook origin, byte page, string damage = null, string special = null, Quality quality = Quality.Common,
-            WeaponQuality wq = WeaponQuality.None, ComponentOrigin comp = ComponentOrigin.Standard, Condition cond = Condition.Intact)
-            : this(name, hulls, power, space, sp, new DiceRoll(damage), range, origin, page, special, quality, wq, comp, cond) { }
+            WeaponQuality wq = WeaponQuality.None, ComponentOrigin comp = ComponentOrigin.Standard, Condition cond = Condition.Intact, int ammo = 0)
+            : this(name, hulls, power, space, sp, new DiceRoll(damage), range, origin, page, special, quality, wq, comp, cond, ammo) { }
 
         public override string Special
         {
@@ -82,12 +89,14 @@ namespace StarshipGenerator.Components
              *  "Quality" : quality,
              *  "WeapQual" : wq,
              *  "Comp" : comp,
-             *  "Cond" : Condition}
+             *  "Cond" : Condition,
+             *  "Ammo" : ammo}
              *}
              */
             return @"{""NovaCannon"":{""Name"":""" + Name.Escape() + @""",""Hulls"":" + (byte)HullTypes + @",""Power"":" + RawPower + @",""Space"":" + RawSpace + @",""SP"":" + RawSP
                 + @",""Damage"":""" + RawDamage.ToString().Escape() + @""",""Range"":" + RawRange + @",""Origin"":" + (byte)Origin + @",""Page"":" + PageNumber
-                + @",""Special"":""" + RawSpecial.Escape() + @""",""Quality"":" + (byte)Quality + @",""WeapQual"":" + (byte)WeaponQuality + @",""Comp"":" + (byte)ComponentOrigin + @",""Cond"":" + Condition + @"}}";
+                + @",""Special"":""" + RawSpecial.Escape() + @""",""Quality"":" + (byte)Quality + @",""WeapQual"":" + (byte)WeaponQuality + @",""Comp"":" + (byte)ComponentOrigin 
+                + @",""Cond"":" + Condition + @",""Ammo"":" + Ammo + @"}}";
         }
     }
 }

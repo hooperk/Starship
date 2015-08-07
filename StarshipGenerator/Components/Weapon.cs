@@ -69,7 +69,7 @@ namespace StarshipGenerator.Components
         }
         public DiceRoll RawDamage { get; protected set; }
         /// <summary>
-        /// Crit ratign of the weapon
+        /// Crit rating of the weapon
         /// </summary>
         /// <remarks>Accounts for quality</remarks>
         public virtual int Crit

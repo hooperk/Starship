@@ -149,6 +149,7 @@ namespace StarshipGenerator.Components
             this.Speed = speed;
             this.Manoeuvrability = man;
             this.DetectionRating = det;
+            this.HullIntegrity = hullint;
             this.Armour = armour;
             this.TurretRating = turrets;
             this.ProwSlots = prow;

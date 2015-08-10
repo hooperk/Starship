@@ -42,12 +42,14 @@ namespace StarshipSheet
         public AmmoWeapon(WeaponSlot facing, TorpedoTubes weapon)
             : this(facing, (Weapon)weapon)
         {
+            AmmoButton.Content = "Torpedoes";
             Tubes = true;
         }
 
         public AmmoWeapon(WeaponSlot facing, LandingBay weapon)
             : this(facing, (Weapon)weapon)
         {
+            AmmoButton.Content = "Squadrons";
             Tubes = false;
         }
 

@@ -17,7 +17,7 @@
         </Grid.ColumnDefinitions>
         <Label Name="Facing" Grid.Row="1" Grid.Column="0">Facing</Label>
         <Button Name="WeaponChoice" Grid.Row="1" Grid.Column="1">Weapon</Button>
-        <TextBox Name="WeaponType" Grid.Row="1" Grid.Column="2" IsReadOnly="True"/>
+        <TextBox Name="WeaponClass" Grid.Row="1" Grid.Column="2" IsReadOnly="True"/>
         <TextBox Name="WeaponStrength" Grid.Row="1" Grid.Column="3" IsReadOnly="True" HorizontalContentAlignment="Center"/>
         <TextBox Name="WeaponDamage" Grid.Row="1" Grid.Column="4" IsReadOnly="True"/>
         <TextBox Name="WeaponRange" Grid.Row="1" Grid.Column="5" IsReadOnly="True" HorizontalContentAlignment="Center"/>

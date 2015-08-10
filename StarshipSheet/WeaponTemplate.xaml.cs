@@ -36,13 +36,15 @@ namespace StarshipSheet
         }
         private Weapon _weapon;
         public WeaponSlot WeaponFacing { get; set; }
+        public int Macrodamage;
 
-        public WeaponTemplate(WeaponSlot facing, Weapon weapon = null)//Also pass in method for button - do after making said method
+        public WeaponTemplate(WeaponSlot facing, Weapon weapon = null, int macrodamage = 0)//Also pass in method for button - do after making said method
         {
             InitializeComponent();
             this.WeaponFacing = facing;
             Facing.Content = WeaponFacing.ToString();
             this.Weapon = weapon;
+            Macrodamage = macrodamage;
         }
 
         public void UpdateWeapon()
@@ -50,7 +52,7 @@ namespace StarshipSheet
             if (Weapon == null)
             {
                 WeaponChoice.Content = "Weapon";
-                WeaponType.Text = "";
+                WeaponClass.Text = "";
                 WeaponStrength.Text = "";
                 WeaponDamage.Text = "";
                 WeaponRange.Text = "";
@@ -59,9 +61,12 @@ namespace StarshipSheet
             else
             {
                 WeaponChoice.Content = Weapon.QualityName;
-                WeaponType.Text = Weapon.Type.Name();
+                WeaponClass.Text = Weapon.Type.Name();
                 WeaponStrength.Text = Weapon.Strength.ToString();
-                WeaponDamage.Text = Weapon.Damage.ToString();
+                if (Weapon.Type == WeaponType.Macrobattery)
+                    WeaponDamage.Text = (Weapon.Damage + Macrodamage).ToString();
+                else
+                    WeaponDamage.Text = Weapon.Damage.ToString();
                 WeaponRange.Text = Weapon.Range.ToString();
                 WeaponCrit.Text = Weapon.Crit.ToString();
             }

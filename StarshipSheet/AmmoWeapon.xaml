@@ -17,6 +17,6 @@
         <Button Name="WeaponChoice" Grid.Row="1" Grid.Column="1">Weapon</Button>
         <TextBox Name="WeaponType" Grid.Row="1" Grid.Column="2" IsReadOnly="True"/>
         <TextBox Name="WeaponStrength" Grid.Row="1" Grid.Column="3" IsReadOnly="True" HorizontalContentAlignment="Center"/>
-        <Button Grid.Row="2" Grid.Column="4" Click="Ammo_Click">Ammo</Button>
+        <Button x:Name="AmmoButton" Grid.Row="2" Grid.Column="4" Click="Ammo_Click">Ammo</Button>
     </Grid>
 </UserControl>

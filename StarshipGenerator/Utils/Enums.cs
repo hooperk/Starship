@@ -120,6 +120,7 @@ namespace StarshipGenerator.Utils
     /// </summary>
     public enum CrewRating : int
     {
+        None = 0,
         Incompetent = 20,
         Competent = 30,
         Crack = 40,
@@ -132,6 +133,7 @@ namespace StarshipGenerator.Utils
     /// </summary>
     public enum ServitorQuality : int
     {
+        None = 0,
         Poor = 20,
         Common = 30,
         Good = 35,

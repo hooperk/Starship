@@ -138,25 +138,30 @@ namespace StarshipSheet
 
         public void UpdateHull()
         {
-            HullName.Text = starship.Hull.Name;
-            HullClass.Text = starship.Hull.HullTypes.HighName();
-            UpdateSP();
+            if (starship.Hull != null)
+            {
+                HullName.Text = starship.Hull.Name;
+                HullClass.Text = starship.Hull.HullTypes.HighName();
+                if (starship.Hull.DefaultComponents != null)
+                {
+                    foreach (String name in starship.Hull.DefaultComponents.Select(x => x.Name).Distinct())
+                    {
+                        IEnumerable<Supplemental> components = starship.Hull.DefaultComponents.Where(x => x.Name.Equals(name));
+                        int count = components.Count();
+                        AddNewSupplemental(components.First(), count, count, false);
+                    }
+                }
+            }
+            else
+            {
+                HullName.Text = "None";
+                HullClass.Text = "";
+            }
+            UpdateWeaponSlots(false);
             UpdateMaxSpace();
-            UpdateMaxPower();
-            UpdateUsedPower();
-            UpdateMaxHullIntegrity();
-            UpdateSpeed();
-            UpdateMan();
-            UpdateDet();
-            UpdateArmour();
-            UpdateTurrets();
-            UpdateWeaponSlots();
-            //UpdateComponents?
             UpdateCommand();
             UpdateHistory();
-            UpdateRamming();
-            UpdateBS();
-            UpdateNavigateWarp();
+            UpdateSupplementals();//wraps up a lot of the hull updates into what is updated by this anyway
         }
 
         public void UpdateSpeed()
@@ -193,18 +198,32 @@ namespace StarshipSheet
 
         public void UpdateMachine()
         {
-            MachineSpirit.Text = starship.MachineSpirit.Name() + ": " + starship.MachineSpirit.Special();
+            if (starship.MachineSpirit == MachineSpirit.None)
+                MachineSpiritDisplay.Text = "Machine Spirit";
+            else
+                MachineSpiritDisplay.Text = starship.MachineSpirit.Name() + ": " + starship.MachineSpirit.Special();
         }
 
         public void UpdateHistory()
         {
-            ShipHistory.Text = starship.ShipHistory.Name() + ": " + starship.ShipHistory.Special();
+            if (starship.ShipHistory == ShipHistory.None)
+                ShipHistoryDisplay.Text = "Ship History";
+            else
+                ShipHistoryDisplay.Text = starship.ShipHistory.Name() + ": " + starship.ShipHistory.Special();
         }
 
         public void UpdatePlasma()
         {
-            PlasmaDrive.Content = starship.PlasmaDrive.Name;
-            PlasmaSpecial.Text = starship.PlasmaDrive.Special;
+            if (starship.PlasmaDrive == null)
+            {
+                PlasmaDrive.Content = "Plasma Drive";
+                PlasmaSpecial.Text = "";
+            }
+            else
+            {
+                PlasmaDrive.Content = starship.PlasmaDrive.Name;
+                PlasmaSpecial.Text = starship.PlasmaDrive.Special;
+            }
             UpdateSP();
             UpdateMaxPower();
             UpdateUsedSpace();
@@ -214,8 +233,16 @@ namespace StarshipSheet
 
         public void UpdateWarp()
         {
-            WarpDrive.Content = starship.WarpDrive.Name;
-            WarpSpecial.Text = starship.WarpDrive.Special;
+            if (starship.WarpDrive == null)
+            {
+                WarpDrive.Content = "Warp Drive";
+                WarpSpecial.Text = "";
+            }
+            else
+            {
+                WarpDrive.Content = starship.WarpDrive.Name;
+                WarpSpecial.Text = starship.WarpDrive.Special;
+            }
             UpdateSP();
             UpdateUsedPower();
             UpdateUsedSpace();
@@ -223,8 +250,16 @@ namespace StarshipSheet
 
         public void UpdateGellar()
         {
-            GellarField.Content = starship.GellarField.Name;
-            GellarSpecial.Text = starship.GellarField.Special;
+            if (starship.GellarField == null)
+            {
+                GellarField.Content = "Gellar Field";
+                GellarSpecial.Text = "";
+            }
+            else
+            {
+                GellarField.Content = starship.GellarField.Name;
+                GellarSpecial.Text = starship.GellarField.Special;
+            }
             UpdateSP();
             UpdateUsedPower();
             UpdateNavigateWarp();
@@ -232,8 +267,16 @@ namespace StarshipSheet
 
         public void UpdateVoid()
         {
-            VoidShield.Content = starship.VoidShield.Name;
-            VoidSpecial.Text = starship.VoidShield.Special;
+            if (starship.VoidShield == null)
+            {
+                VoidShield.Content = "Void Shield";
+                VoidSpecial.Text = "";
+            }
+            else
+            {
+                VoidShield.Content = starship.VoidShield.Name;
+                VoidSpecial.Text = starship.VoidShield.Special;
+            }
             UpdateSP();
             UpdateUsedSpace();
             UpdateUsedPower();
@@ -242,8 +285,16 @@ namespace StarshipSheet
 
         public void UpdateBridge()
         {
-            ShipBridge.Content = starship.ShipBridge.Name;
-            BridgeSpecial.Text = starship.ShipBridge.Special;
+            if (starship.ShipBridge == null)
+            {
+                ShipBridge.Content = "Ship's Bridge";
+                BridgeSpecial.Text = "";
+            }
+            else
+            {
+                ShipBridge.Content = starship.ShipBridge.Name;
+                BridgeSpecial.Text = starship.ShipBridge.Special;
+            }
             UpdateSP();
             UpdateUsedSpace();
             UpdateUsedPower();
@@ -263,8 +314,16 @@ namespace StarshipSheet
 
         public void UpdateLife()
         {
-            LifeSustainer.Content = starship.LifeSustainer.Name;
-            SustainerSpecial.Text = starship.LifeSustainer.Special;
+            if (starship.LifeSustainer == null)
+            {
+                LifeSustainer.Content = "Life Sustainer";
+                SustainerSpecial.Text = "";
+            }
+            else
+            {
+                LifeSustainer.Content = starship.LifeSustainer.Name;
+                SustainerSpecial.Text = starship.LifeSustainer.Special;
+            }
             UpdateSP();
             UpdateUsedSpace();
             UpdateUsedPower();
@@ -275,8 +334,16 @@ namespace StarshipSheet
 
         public void UpdateQuarters()
         {
-            CrewQuarters.Content = starship.CrewQuarters.Name;
-            QuartersSpecial.Text = starship.CrewQuarters.Special;
+            if (starship.CrewQuarters == null)
+            {
+                CrewQuarters.Content = "Crew Quarters";
+                QuartersSpecial.Text = "";
+            }
+            else
+            {
+                CrewQuarters.Content = starship.CrewQuarters.Name;
+                QuartersSpecial.Text = starship.CrewQuarters.Special;
+            }
             UpdateSP();
             UpdateUsedSpace();
             UpdateUsedPower();
@@ -286,8 +353,16 @@ namespace StarshipSheet
 
         public void UpdateAugurs()
         {
-            AugurArrays.Content = starship.AugurArrays.Name;
-            AugurSpecial.Text = starship.AugurArrays.Special;
+            if (starship.AugurArrays == null)
+            {
+                AugurArrays.Content = "Augur Arrays";
+                AugurSpecial.Text = "";
+            }
+            else
+            {
+                AugurArrays.Content = starship.AugurArrays.Name;
+                AugurSpecial.Text = starship.AugurArrays.Special;
+            }
             UpdateSP();
             UpdateUsedPower();
             UpdateMan();
@@ -301,7 +376,8 @@ namespace StarshipSheet
             UpdateExploration();
         }
 
-        public void UpdateMining(){
+        public void UpdateMining()
+        {
             MiningObjective.Text = Print(starship.MiningObjective);
         }
 
@@ -320,7 +396,7 @@ namespace StarshipSheet
             TradeObjective.Text = Print(starship.TradeObjective);
         }
 
-        public void UpdateCriminal() 
+        public void UpdateCriminal()
         {
             TradeObjective.Text = Print(starship.CriminalObjective);
         }
@@ -372,52 +448,114 @@ namespace StarshipSheet
             NavigateWarp.Text = Print(starship.NavigateTest);
         }
 
-        //add weapon
+        public void UpdateSupplementals()
+        {
+            UpdateSP();
+            UpdateUsedPower();
+            UpdateMaxPower();
+            UpdateUsedSpace();
+            UpdateRamming();
+            UpdateSpeed();
+            UpdateMan();
+            UpdateMaxHullIntegrity();
+            UpdateArmour();
+            UpdateTurrets();
+            UpdateMorale();
+            UpdateCrewPopulation();
+            UpdateRating();
+            UpdateMining();
+            UpdateCreed();
+            UpdateMilitary();
+            UpdateTrade();
+            UpdateCriminal();
+            UpdateExploration();
+            UpdateDet();
+            UpdateWeapons();
+            UpdateBS();
+            UpdateNavigateWarp();
+            UpdateCrewLoss();
+            UpdateMoraleLoss();
+        }
 
-        //add component
+        public void UpdateRating()
+        {
+            CrewRating.Text = starship.CrewValue.ToString();
+        }
+
         #endregion
 
         #region Weapons
-        public void UpdateWeaponSlots()
+        public void UpdateWeaponSlots(bool canupdate = true)
         {
-            Weapons.Children.RemoveRange(8,Weapons.Children.Count-7);
+            Weapons.Children.RemoveRange(8, Weapons.Children.Count - 7);
             if (starship.Hull != null)
             {
+                bool update = false;
+                int count = 0;
+                Weapon weapon;
                 for (int i = 0; i < starship.Hull.ProwSlots; i++)
                 {
-                    if (i == 0)
-                        AddWeapon(WeaponSlot.Prow, starship.Hull.DefaultProw);
-                    else
-                        AddWeapon(WeaponSlot.Prow);
+                    weapon = starship.WeaponList[count++].Item2;
+                    if (weapon != null)
+                        update = true;
+                    AddWeapon(WeaponSlot.Prow, weapon, false);
                 }
                 for (int i = 0; i < starship.Hull.DorsalSlots; i++)
-                    AddWeapon(WeaponSlot.Dorsal);
-                for (int i = 0; i < starship.Hull.SideSlots; i++)
                 {
-                    if (i == 0)
-                        AddWeapon(WeaponSlot.Port, starship.Hull.DefaultBroadside);
-                    else
-                        AddWeapon(WeaponSlot.Port);
+                    weapon = starship.WeaponList[count++].Item2;
+                    if (weapon != null)
+                        update = true;
+                    AddWeapon(WeaponSlot.Dorsal, weapon, false);
                 }
                 for (int i = 0; i < starship.Hull.SideSlots; i++)
                 {
-                    if (i == 0)
-                        AddWeapon(WeaponSlot.Starboard, starship.Hull.DefaultBroadside);
-                    else
-                        AddWeapon(WeaponSlot.Starboard);
+                    weapon = starship.WeaponList[count++].Item2;
+                    if (weapon != null)
+                        update = true;
+                    AddWeapon(WeaponSlot.Port, weapon, false);
+                }
+                for (int i = 0; i < starship.Hull.SideSlots; i++)
+                {
+                    weapon = starship.WeaponList[count++].Item2;
+                    if (weapon != null)
+                        update = true;
+                    AddWeapon(WeaponSlot.Starboard, weapon, false);
                 }
                 for (int i = 0; i < starship.Hull.KeelSlots; i++)
-                    AddWeapon(WeaponSlot.Keel);
+                {
+                    weapon = starship.WeaponList[count++].Item2;
+                    if (weapon != null)
+                        update = true;
+                    AddWeapon(WeaponSlot.Keel, weapon, false);
+                }
                 for (int i = 0; i < starship.Hull.AftSlots; i++)
-                    AddWeapon(WeaponSlot.Aft);
+                {
+                    weapon = starship.WeaponList[count++].Item2;
+                    if (weapon != null)
+                        update = true;
+                    AddWeapon(WeaponSlot.Aft, weapon, false);
+                }
+                foreach (Weapon aux in starship.WeaponList.Where(x => x.Item1 == WeaponSlot.Auxiliary).Select(x => x.Item2))
+                {
+                    weapon = starship.WeaponList[count++].Item2;
+                    if (weapon != null)
+                        update = true;
+                    AddWeapon(WeaponSlot.Auxiliary, weapon, false);
+                }
+                if (update && canupdate)
+                {
+                    UpdateSP();
+                    UpdateUsedSpace();
+                    UpdateUsedPower();
+                }
             }
         }
 
-        public void AddWeapon(WeaponSlot facing, Weapon weapon=null)
+        public void AddWeapon(WeaponSlot facing, Weapon weapon = null, bool update = true)
         {
             UserControl NewWeapon = null;
             if (weapon == null || weapon.Type == WeaponType.Macrobattery || weapon.Type == WeaponType.Lance)
-                NewWeapon = new WeaponTemplate(facing, weapon);
+                NewWeapon = new WeaponTemplate(facing, weapon, starship.MacrobatteryModifier);
             else if (weapon.Type == WeaponType.TorpedoTube)
                 NewWeapon = new AmmoWeapon(facing, weapon as TorpedoTubes);
             else if (weapon.Type == WeaponType.LandingBay)
@@ -429,7 +567,7 @@ namespace StarshipSheet
                 Grid.SetRow(NewWeapon, WeaponRowCount++);//Add the extra row as you place this one
                 Grid.SetColumnSpan(NewWeapon, 7);
                 Weapons.Children.Add(NewWeapon);
-                if (weapon != null)
+                if (weapon != null && update)
                 {
                     UpdateSP();
                     UpdateUsedSpace();
@@ -437,71 +575,35 @@ namespace StarshipSheet
                 }
             }
         }
+
+        public void UpdateWeapons()
+        {
+            foreach (IWeaponSlot control in Weapons.Children.OfType<IWeaponSlot>())
+            {
+                WeaponTemplate weapon = control as WeaponTemplate;
+                if (weapon != null)
+                    weapon.Macrodamage = starship.MacrobatteryModifier;
+                if (control.Weapon != null && (starship.TargettingMatrix != Quality.Poor || control.Equals(Weapons.Children[starship.Matrix + 7])))
+                {
+                    control.Weapon.TargettingMatrix = starship.TargettingMatrix;
+                }
+            }
+        }
         #endregion
 
-        #region Clear
-        public void ClearHull()
+        #region Supplementals
+        public void AddNewSupplemental(Supplemental component, int count = 1, int min = 0, bool update = true)
         {
-            HullName.Text = "None";
-            HullClass.Text = "";
-            Space.Text = "";
-            Manoeuvrability.Text = "";
-            Detection.Text = "";
-            Armour.Text = "";
-            Turrets.Text = "";
+            SupplementalTemplate template = new SupplementalTemplate(component, count, min);
+            Grid.SetRow(template, SupplementalRowCount++);
+            Supplementals.Children.Add(template);
+            if (component.AuxiliaryWeapon != null)
+                AddWeapon(WeaponSlot.Auxiliary, component.AuxiliaryWeapon, false);
+            if (update)
+                UpdateSupplementals();
+
         }
 
-        public void ClearMachine()
-        {
-            MachineSpirit.Text = "Machine Spirit";
-        }
-
-        public void ClearHistory()
-        {
-            ShipHistory.Text = "Ship History";
-        }
-
-        public void ClearPlasma()
-        {
-            PlasmaDrive.Content = "Plasma Drive";
-            PlasmaSpecial.Text = "";
-        }
-
-        public void ClearWarp() 
-        {
-            WarpDrive.Content = "Warp Drive";
-            WarpSpecial.Text = "";
-        }
-
-        public void ClearGellar()
-        {
-            GellarField.Content = "Gellar Field";
-            GellarSpecial.Text = "";
-        }
-
-        public void ClearBridge()
-        {
-            ShipBridge.Content = "Ship's Bridge";
-            BridgeSpecial.Text = "";
-        }
-
-        public void ClearSustainer()
-        {
-            LifeSustainer.Content = "Life Sustainer";
-            SustainerSpecial.Text = "";
-        }
-
-        public void ClearQuarters()
-        {
-            CrewQuarters.Content = "Crew Quarters";
-            QuartersSpecial.Text = "";
-        }
-
-        public void ClearAugurs()
-        {
-            AugurArrays.Content = "Augur Arrays";
-            AugurSpecial.Text = "";
-        }
         #endregion
     }
 }

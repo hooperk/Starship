@@ -64,6 +64,9 @@
     <Compile Include="NovaCannonTemplate.xaml.cs">
       <DependentUpon>NovaCannonTemplate.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SupplementalTemplate.xaml.cs">
+      <DependentUpon>SupplementalTemplate.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WeaponTemplate.xaml.cs">
       <DependentUpon>WeaponTemplate.xaml</DependentUpon>
     </Compile>
@@ -87,6 +90,10 @@
       <DependentUpon>StarshipCreator.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="SupplementalTemplate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="WeaponTemplate.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

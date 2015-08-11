@@ -311,8 +311,8 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="26"/>
-                    <ColumnDefinition Width="32"/>
+                    <ColumnDefinition Width="28"/>
+                    <ColumnDefinition Width="33"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>

@@ -10,8 +10,8 @@
             <ColumnDefinition Width="24"/>
             <ColumnDefinition Width="268"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="26"/>
-            <ColumnDefinition Width="32"/>
+            <ColumnDefinition Width="28"/>
+            <ColumnDefinition Width="33"/>
         </Grid.ColumnDefinitions>
         <Label x:Name="CountDisplay" Grid.Column="0" VerticalAlignment="Center"/>
         <TextBlock x:Name="ComponentName" Grid.Column="1" VerticalAlignment="Center" TextWrapping="WrapWithOverflow"/>

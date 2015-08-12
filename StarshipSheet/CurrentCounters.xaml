@@ -1,0 +1,25 @@
+﻿<Window x:Class="StarshipSheet.CurrentCounters"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:StarshipSheet"
+        Title="" Height="140" Width="140">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Label x:Name="Subject" Grid.Row="0" Grid.ColumnSpan="3" HorizontalContentAlignment="Center"/>
+        <local:NumericUpDown x:Name="Current" Grid.Row="1" Grid.Column="0"/>
+        <Label Grid.Row="1" Grid.Column="1" HorizontalContentAlignment="Center">of</Label>
+        <Label x:Name="Max" Grid.Row="1" Grid.Column="2"/>
+        <Button Grid.Row="2" Grid.Column="0" Click="Button_Click">Fill</Button>
+        <Button Grid.Row="2" Grid.Column="1" Click="Button_Click_1">Reset</Button>
+        <Button Grid.Row="2" Grid.Column="2" Click="Button_Click_2">Close</Button>
+    </Grid>
+</Window>

@@ -59,10 +59,19 @@
     <Compile Include="AmmoWeapon.xaml.cs">
       <DependentUpon>AmmoWeapon.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CurrentCounters.xaml.cs">
+      <DependentUpon>CurrentCounters.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DamageBox.xaml.cs">
+      <DependentUpon>DamageBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GridHelpers.cs" />
     <Compile Include="IWeaponSlot.cs" />
     <Compile Include="NovaCannonTemplate.xaml.cs">
       <DependentUpon>NovaCannonTemplate.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NumericUpDown.xaml.cs">
+      <DependentUpon>NumericUpDown.xaml</DependentUpon>
     </Compile>
     <Compile Include="SupplementalTemplate.xaml.cs">
       <DependentUpon>SupplementalTemplate.xaml</DependentUpon>
@@ -74,7 +83,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="CurrentCounters.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DamageBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="NovaCannonTemplate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NumericUpDown.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

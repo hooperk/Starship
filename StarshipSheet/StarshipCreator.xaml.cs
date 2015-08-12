@@ -49,8 +49,8 @@ namespace StarshipSheet
         private int maxspace = 0;
         private int usedpower = 0;
         private int maxpower = 0;
-        private int crewpopulation = 0;
-        private int morale = 0;
+        private int crewpopulation = 100;
+        private int morale = 100;
         private int hullintegrity = 0;
         private int armour = 0;
         private int prowarmour = 0;
@@ -105,7 +105,10 @@ namespace StarshipSheet
 
         public void UpdateCrewPopulation()
         {
+            if (starship.CurrentCrew > crewpopulation)
+                starship.CurrentCrew = crewpopulation;
             CrewPop.Text = starship.CurrentCrew + "/" + crewpopulation;
+            
         }
 
         public void UpdateMaxCrew()
@@ -116,6 +119,8 @@ namespace StarshipSheet
 
         public void UpdateMorale()
         {
+            if (starship.CurrentMorale > morale)
+                starship.CurrentMorale = morale;
             Morale.Text = starship.CurrentMorale + "/" + morale;
         }
 
@@ -127,6 +132,8 @@ namespace StarshipSheet
 
         public void UpdateHullIntegrity()
         {
+            if (starship.CurrentIntegrity > hullintegrity)
+                starship.CurrentIntegrity = hullintegrity;
             HullInt.Text = starship.CurrentIntegrity + "/" + hullintegrity;
         }
 
@@ -604,6 +611,41 @@ namespace StarshipSheet
 
         }
 
+        #endregion
+
+        #region buttons
+        public void CrewPop_Click(object sender, RoutedEventArgs e)
+        {
+            starship.CurrentCrew = (new CurrentCounters("Crew Population", starship.CurrentCrew, crewpopulation)).ShowDialog();
+            UpdateCrewPopulation();
+        }
+
+        public void Morale_Click(object sender, RoutedEventArgs e)
+        {
+            starship.CurrentMorale = (new CurrentCounters("Morale", starship.CurrentMorale, morale)).ShowDialog();
+            UpdateMorale();
+        }
+
+        public void HullIntegrity_Click(object sender, RoutedEventArgs e)
+        {
+            starship.CurrentIntegrity = (new CurrentCounters("Hull Integrity", starship.CurrentIntegrity, hullintegrity)).ShowDialog();
+            UpdateHullIntegrity();
+        }
+
+        private void Damage_Click(object sender, RoutedEventArgs e)
+        {
+            DamageBox box = new DamageBox(armour, prowarmour, crewloss, moraleloss);
+            bool? ran = box.ShowDialog();
+            if (ran.HasValue && ran.Value)
+            {
+                starship.CurrentIntegrity -= box.HullLost;
+                starship.CurrentMorale -= box.MoraleLost;
+                starship.CurrentCrew -= box.CrewLost;
+                UpdateHullIntegrity();
+                UpdateMorale();
+                UpdateCrewPopulation();
+            }
+        }
         #endregion
     }
 }

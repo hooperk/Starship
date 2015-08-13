@@ -71,10 +71,7 @@ namespace StarshipSheet
                 if (!int.TryParse(NUDTextBox.Text, out number)) NUDTextBox.Text = Value.ToString();
                 else
                 {
-                    if (number > Max) Value = Max;
-                    else if (number < Min) Value = Min;
-                    else
-                        Value = number;
+                    Value = number;
                 }
             }
             NUDTextBox.SelectionStart = NUDTextBox.Text.Length;
@@ -93,7 +90,12 @@ namespace StarshipSheet
             }
             set
             {
-                SetValue(ValueProperty, value);
+                if (value > Max)
+                    SetValue(ValueProperty, Max);
+                else if (value < Min)
+                    SetValue(ValueProperty, Min);
+                else
+                    SetValue(ValueProperty, value);
                 NUDTextBox.Text = Value.ToString();
             }
         }
@@ -106,7 +108,10 @@ namespace StarshipSheet
             }
             set
             {
-                SetValue(MinProperty, value);
+                if(value <= Max)//Don't allow min to be set above max
+                    SetValue(MinProperty, value);
+                if (Value < Min)
+                    Value = Min;
             }
         }
 
@@ -118,7 +123,10 @@ namespace StarshipSheet
             }
             set
             {
-                SetValue(MaxProperty, value);
+                if(value >= Min)//Don't allow max be set below min
+                    SetValue(MaxProperty, value);
+                if (Value > Max)
+                    Value = Max;
             }
         }
     }

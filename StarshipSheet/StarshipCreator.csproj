@@ -76,6 +76,9 @@
     <Compile Include="SupplementalTemplate.xaml.cs">
       <DependentUpon>SupplementalTemplate.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Upgrades.xaml.cs">
+      <DependentUpon>Upgrades.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WeaponTemplate.xaml.cs">
       <DependentUpon>WeaponTemplate.xaml</DependentUpon>
     </Compile>
@@ -112,6 +115,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="SupplementalTemplate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Upgrades.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

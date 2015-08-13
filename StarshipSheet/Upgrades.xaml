@@ -1,0 +1,90 @@
+﻿<Window x:Class="StarshipSheet.Upgrades"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:StarshipSheet"
+        Title="Upgrades" Height="600" Width="755">
+    <Grid local:GridHelpers.RowCount="3">
+        <ScrollViewer Grid.Row="0">
+            <!--Upgrades-->
+        </ScrollViewer>
+        <Grid Grid.Row="1" local:GridHelpers.RowCount="7">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <!--Background-->
+            <Label Grid.Row="0" Grid.Column="0"><Bold>Background:</Bold></Label>
+            <Button Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Click="ClearButton_Click">Clear Background</Button>
+            <Label Grid.Row="0" Grid.Column="3"><Bold>Cost</Bold></Label>
+            <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center">Thulian Explorator Vessel</Label>
+            <RadioButton x:Name="ThulianExploratorVessel" GroupName="Background" Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Label Grid.Row="1" Grid.Column="3" VerticalAlignment="Center" HorizontalContentAlignment="Center">1</Label>
+            <Border Grid.Row="1" Grid.Column="4" BorderBrush="Black" BorderThickness="1">
+                <TextBlock TextWrapping="WrapWithOverflow">+10 Detection, must take 1 archeotech component, -1 speed and -5 manoeuvrabilty</TextBlock>
+            </Border>
+            <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center">Reaver of the Expanse</Label>
+            <RadioButton x:Name="ReaverOfTheUnbeholdenReaches" GroupName="Background" Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Label Grid.Row="2" Grid.Column="3" VerticalAlignment="Center" HorizontalContentAlignment="Center">2</Label>
+            <Border Grid.Row="2" Grid.Column="4" BorderBrush="Black" BorderThickness="1">
+                <TextBlock TextWrapping="WrapWithOverflow">Long-term repairs fix 1d10+5 Hull Integrity, +10 to Silent Running, -10 to all social tests with anyone that knows where the crew is from</TextBlock>
+            </Border>
+            <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center">Veteran of the Angevin Crusade</Label>
+            <RadioButton x:Name="VeteranOfTheAngevinCrusade" GroupName="Background" Grid.Row="3" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Label Grid.Row="3" Grid.Column="3" VerticalAlignment="Center" HorizontalContentAlignment="Center">3</Label>
+            <Border Grid.Row="3" Grid.Column="4" Grid.ColumnSpan="2" BorderBrush="Black" BorderThickness="1">
+                <TextBlock Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" TextWrapping="WrapWithOverflow">+10 Ballistic Skill with ship weapons, -40 to Silent Running, +10 to charm and intimidate tests with anyone who understands the deeds of the ship</TextBlock>
+            </Border>
+            <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center">Implacable of the Fleet</Label>
+            <RadioButton x:Name="ImplacableFoeOfTheFleet" GroupName="Background" Grid.Row="4" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Label Grid.Row="4" Grid.Column="3" VerticalAlignment="Center" HorizontalContentAlignment="Center">1</Label>
+            <Border Grid.Row="4" Grid.Column="4" BorderBrush="Black" BorderThickness="1">
+                <TextBlock TextWrapping="WrapWithOverflow">+10 Command Test on board, Command test to ignore effects of crippled for first round after being crippled, crew members gain Enemy(Imperial Navy)</TextBlock>
+            </Border>
+            <Label Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center">Steadfast Ally of the Fleet</Label>
+            <RadioButton x:Name="SteadfastAllyofTheFleet" GroupName="Background" Grid.Row="5" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Label Grid.Row="5" Grid.Column="3" VerticalAlignment="Center" HorizontalContentAlignment="Center">2</Label>
+            <Border Grid.Row="5" Grid.Column="4" BorderBrush="Black" BorderThickness="1">
+                <TextBlock TextWrapping="WrapWithOverflow">+10 Command Test on board, Command test to ignore effects of crippled for first round after being crippled, crew members gain Good Reputation(Imperial Navy)</TextBlock>
+            </Border>
+            <Label Grid.Row="6" Grid.Column="0" VerticalAlignment="Center">Planetbound for Millenia</Label>
+            <local:NumericUpDown x:Name="d5" Value="1" Min="1" Max="5" Grid.Row="6" Grid.Column="1" VerticalAlignment="Center" ToolTip="Put the d5 part of the formula used to find how much hull integrity is lost here"/>
+            <Label Grid.Row="6" Grid.Column="3" VerticalAlignment="Center" HorizontalContentAlignment="Center">3</Label>
+            <RadioButton x:Name="PlanetBoundForMillenia" GroupName="Background" Grid.Row="6" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Border Grid.Row="6" Grid.Column="4" BorderBrush="Black" BorderThickness="1">
+                <TextBlock TextWrapping="WrapWithOverflow">Begins play with a modified drive at no cost, and may take one other archeotech component, +10 manoeuvrability within 5VU of a planet, Hull integrity -1d5-1 for Frigate, Transport or Raider, -1d5 for larger. Input d5 in field to the left.</TextBlock>
+            </Border>
+        </Grid>
+        <Grid Grid.Row="2" local:GridHelpers.RowCount="5" local:GridHelpers.ColumnCount="10" local:GridHelpers.StarColumns="9">
+            <!--Modifiers-->
+            <Label Grid.Row="0" Grid.Column="0">Speed</Label>
+            <local:NumericUpDown Value="{Binding Mode=TwoWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=Starship.GMSpeed}" Grid.Row="1" Grid.Column="0"/>
+            <Label Grid.Row="0" Grid.Column="1">Hull Integrity</Label>
+            <local:NumericUpDown Value="{Binding Mode=TwoWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=Starship.GMHullIntegrity}" Grid.Row="1" Grid.Column="1"/>
+            <Label Grid.Row="0" Grid.Column="2">Detection</Label>
+            <local:NumericUpDown Value="{Binding Mode=TwoWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=Starship.GMDetection}" Grid.Row="1" Grid.Column="2"/>
+            <Label Grid.Row="0" Grid.Column="3">Manoeuvrability</Label>
+            <local:NumericUpDown Value="{Binding Mode=TwoWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=Starship.GMManoeuvrability}" Grid.Row="1" Grid.Column="3"/>
+            <Label Grid.Row="0" Grid.Column="4">Armour</Label>
+            <local:NumericUpDown Value="{Binding Mode=TwoWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=Starship.GMArmour}" Grid.Row="1" Grid.Column="4"/>
+            <Label Grid.Row="0" Grid.Column="5">Turret Rating</Label>
+            <local:NumericUpDown Value="{Binding Mode=TwoWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=Starship.GMTurretRating}" Grid.Row="1" Grid.Column="5"/>
+            <Label Grid.Row="0" Grid.Column="6">Morale</Label>
+            <local:NumericUpDown Value="{Binding Mode=TwoWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=Starship.GMMorale}" Grid.Row="1" Grid.Column="6"/>
+            <Label Grid.Row="0" Grid.Column="7">Crew Population</Label>
+            <local:NumericUpDown Value="{Binding Mode=TwoWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=Starship.GMCrewPopulation}" Grid.Row="1" Grid.Column="7"/>
+            <Label Grid.Row="0" Grid.Column="8">Shields</Label>
+            <local:NumericUpDown Value="{Binding Mode=TwoWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=Starship.GMShields}" Grid.Row="1" Grid.Column="8"/>
+            <Label Grid.Row="0" Grid.Column="9">Crew Rating</Label>
+            <local:NumericUpDown Value="{Binding Mode=TwoWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=Starship.GMCrewRating}" Grid.Row="1" Grid.Column="9"/>
+            <Label Grid.Row="2" Grid.Column="0">Special:</Label>
+            <TextBox x:Name="Special" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="9"/>
+            <Label Grid.Row="3" Grid.Column="0">Machine Spirit:</Label>
+            <TextBox x:Name="Machine" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="9"/>
+            <Label Grid.Row="4" Grid.Column="0">Ship's History:</Label>
+            <TextBox x:Name="History" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="9"/>
+        </Grid>
+    </Grid>
+</Window>

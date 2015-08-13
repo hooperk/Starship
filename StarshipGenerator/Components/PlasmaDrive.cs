@@ -22,6 +22,13 @@ namespace StarshipGenerator.Components
             }
         }
         public string RawName { get { return base.Name; } }
+        public override int SP
+        {
+            get
+            {
+                return (Modified ? 3 : 0) + base.SP;
+            }
+        }
         /// <summary>
         /// Manoeuvrability modifier this drive grants
         /// </summary>

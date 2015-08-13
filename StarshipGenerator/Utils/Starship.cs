@@ -138,7 +138,11 @@ namespace StarshipGenerator.Utils
                 if (Hull != null)
                     total += Hull.SP;
                 if (PlasmaDrive != null)
+                {
                     total += PlasmaDrive.SP;
+                    if ((Background & Background.PlanetBoundForMillenia) != 0 && PlasmaDrive.Modified)
+                        total -= 3;//subtract the price of modified drive as planetboundformillenia grants modified drive for free
+                }
                 if (WarpDrive != null)
                     total += WarpDrive.SP;
                 if (GellarField != null)
@@ -357,7 +361,7 @@ namespace StarshipGenerator.Utils
                         total -= 3;
                     else
                         total -= 4;
-                    if (VaultedCeilings == Quality.Best)
+                    if (VaultedCeilings == Quality.Poor)
                         total -= 1;
                 }
                 if (SecondaryReactor != Quality.None)
@@ -632,14 +636,13 @@ namespace StarshipGenerator.Utils
                     foreach (Supplemental component in SupplementalComponents)
                         if (component != null)
                             total += component.BSModifier;
-                //upgrades
                 if (CrewRace == Race.Servitor)
                     total -= 10;
                 if (MachineSpirit == MachineSpirit.MartialHubris)
                     total += 5;
                 if (Background == Background.VeteranOfTheAngevinCrusade)
                     total += 10;
-                return 0;
+                return total;
             }
         }
 
@@ -871,7 +874,6 @@ namespace StarshipGenerator.Utils
                     foreach (Supplemental component in SupplementalComponents)
                         if (component != null)
                             total += component.CrewLoss;
-                //complications
                 if (CrewRace == Race.Ork)
                     total -= 1;
                 if (CrewRace == Race.Eldar)
@@ -892,13 +894,12 @@ namespace StarshipGenerator.Utils
                 int total = 0;
                 if (ShipBridge != null)
                     total += ShipBridge.Repair;
-                //upgrades
                 if (MachineSpirit == MachineSpirit.Resolute)
                     total += 10;
                 if (ShipHistory == ShipHistory.ReliquaryOfMars)
                     total -= 20;
                 if (ShipHistory == ShipHistory.Xenophilous)
-                    total -= 10;//remainder in special
+                    total -= 10;
                 switch (DistributedCargoHold)
                 {
                     case Quality.Poor:
@@ -951,7 +952,6 @@ namespace StarshipGenerator.Utils
                     foreach (Supplemental component in SupplementalComponents)
                         if (component != null)
                             total += component.NavigateWarp;
-                //upgrades
                 return total;
             }
         }
@@ -977,19 +977,19 @@ namespace StarshipGenerator.Utils
         public Background Background;
 
         //GM or Custom Modifiers
-        public int GMSpeed;
-        public int GMHullIntegrity;
-        public int GMDetection;
-        public int GMManoeuvrability;
-        public int GMArmour;
-        public int GMTurretRating;
-        public int GMMorale;
-        public int GMCrewPopulation;
-        public int GMShields;
-        public int GMCrewRating;
-        public string GMSpecial;
-        public string GMMachineSpirit;
-        public string GMShipHistory;
+        public int GMSpeed { get; set; }
+        public int GMHullIntegrity { get; set; }
+        public int GMDetection { get; set; }
+        public int GMManoeuvrability { get; set; }
+        public int GMArmour { get; set; }
+        public int GMTurretRating { get; set; }
+        public int GMMorale { get; set; }
+        public int GMCrewPopulation { get; set; }
+        public int GMShields { get; set; }
+        public int GMCrewRating { get; set; }
+        public string GMSpecial { get; set; }
+        public string GMMachineSpirit { get; set; }
+        public string GMShipHistory { get; set; }
 
         public string ToJSON()
         {

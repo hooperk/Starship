@@ -143,6 +143,33 @@ namespace StarshipSheet
             UpdateHullIntegrity();
         }
 
+        public void UpdateUpgrades()
+        {
+            UpdateSP();
+            UpdateSpeed();
+            UpdateDet();
+            UpdateArmour();
+            UpdateMaxSpace();
+            UpdateArmour();
+            UpdateTurrets();
+            UpdateMaxMorale();
+            UpdateMaxCrew();
+            UpdateShields();
+            UpdateCrewRating();
+            UpdateMaxHullIntegrity();
+            UpdateBS();
+            UpdateCommand();
+            UpdateTrade();
+            UpdateCriminal();
+            UpdateExploration();
+            UpdateRepair();
+            UpdatePilot();
+            UpdateWeapons();
+            UpdateHullSpecial();
+            UpdateMachine(false);
+            UpdateHistory(false);
+        }
+
         public void UpdateHull()
         {
             if (starship.Hull != null)
@@ -169,6 +196,19 @@ namespace StarshipSheet
             UpdateCommand();
             UpdateHistory();
             UpdateSupplementals();//wraps up a lot of the hull updates into what is updated by this anyway
+            UpdateHullSpecial();
+        }
+
+        public void UpdateHullSpecial()
+        {
+            if (starship.Hull.Special == null && starship.GMSpecial == null)
+                HullSpecial.Visibility = Visibility.Collapsed;
+            else
+            {
+                HullSpecialText.Text = starship.Hull.Special + starship.GMSpecial;
+                HullSpecial.Visibility = Visibility.Visible;
+            }
+                
         }
 
         public void UpdateSpeed()
@@ -203,20 +243,48 @@ namespace StarshipSheet
             Shields.Text = starship.Shields.ToString();
         }
 
-        public void UpdateMachine()
+        public void UpdateCrewRating()
         {
-            if (starship.MachineSpirit == MachineSpirit.None)
-                MachineSpiritDisplay.Text = "Machine Spirit";
-            else
-                MachineSpiritDisplay.Text = starship.MachineSpirit.Name() + ": " + starship.MachineSpirit.Special();
+            CrewRating.Text = Print(starship.CrewValue);
         }
 
-        public void UpdateHistory()
+        public void UpdateMachine(bool update = true)
+        {
+            if (starship.MachineSpirit == MachineSpirit.None)
+            {
+                MachineSpiritDisplay.Text = starship.GMMachineSpirit ?? "Machine Spirit";
+            }
+            else
+                MachineSpiritDisplay.Text = starship.MachineSpirit.Name() + ": " + starship.MachineSpirit.Special();
+            if (update)
+            {
+                UpdateSpeed();
+                UpdateDet();
+                UpdateArmour();
+                UpdateMaxHullIntegrity();
+                UpdateBS();
+                UpdateRepair();
+                UpdatePilot();
+            }
+        }
+
+        public void UpdateHistory(bool update = true)
         {
             if (starship.ShipHistory == ShipHistory.None)
-                ShipHistoryDisplay.Text = "Ship History";
+                ShipHistoryDisplay.Text = starship.GMShipHistory ?? "Ship History";
             else
                 ShipHistoryDisplay.Text = starship.ShipHistory.Name() + ": " + starship.ShipHistory.Special();
+            if (update)
+            {
+                UpdateSpeed();
+                UpdateMan();
+                UpdateDet();
+                UpdateArmour();
+                UpdateMaxPower();
+                UpdateMaxCrew();
+                UpdateMaxMorale();
+                UpdateRepair();
+            }
         }
 
         public void UpdatePlasma()
@@ -645,6 +713,13 @@ namespace StarshipSheet
                 UpdateMorale();
                 UpdateCrewPopulation();
             }
+        }
+
+        private void Upgrade_Click(object sender, RoutedEventArgs e)
+        {
+            Upgrades dialog = new Upgrades(starship);
+            dialog.ShowDialog();
+            UpdateUpgrades();
         }
         #endregion
     }

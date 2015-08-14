@@ -143,7 +143,7 @@ namespace StarshipSheet
             UpdateHullIntegrity();
         }
 
-        public void UpdateUpgrades()
+        public void UpdateBackgrounds()
         {
             UpdateSP();
             UpdateSpeed();
@@ -159,15 +159,22 @@ namespace StarshipSheet
             UpdateMaxHullIntegrity();
             UpdateBS();
             UpdateCommand();
-            UpdateTrade();
-            UpdateCriminal();
-            UpdateExploration();
             UpdateRepair();
             UpdatePilot();
             UpdateWeapons();
             UpdateHullSpecial();
             UpdateMachine(false);
             UpdateHistory(false);
+        }
+
+        public void UpdateUpgrades()
+        {
+            UpdateMaxSpace();
+            UpdateMaxMorale();
+            UpdateCommand();
+            UpdateTrade();
+            UpdateCriminal();
+            UpdateExploration();
         }
 
         public void UpdateHull()
@@ -719,7 +726,14 @@ namespace StarshipSheet
         {
             Upgrades dialog = new Upgrades(starship);
             dialog.ShowDialog();
-            UpdateUpgrades();
+            UpdateBackgrounds();
+        }
+
+        private void Background_Click(object sender, RoutedEventArgs e)
+        {
+            Backgrounds dialog = new Backgrounds(starship);
+            dialog.ShowDialog();
+            UpdateBackgrounds();
         }
         #endregion
     }

@@ -153,9 +153,10 @@
                 <TextBox Name="Turrets" Grid.Column="6" Grid.Row="1" IsReadOnly="True"/>
                 <Label Grid.Column="7" Grid.Row="0">Shields</Label>
                 <TextBox Name="Shields" Grid.Column="7" Grid.Row="1" IsReadOnly="True"/>
-                <Button Grid.Column="9" Grid.Row="0" Grid.RowSpan="2" Click="Upgrade_Click">
-                    <TextBlock TextAlignment="Center" TextWrapping="WrapWithOverflow">Upgrades, Background &amp; Modifiers</TextBlock>
+                <Button Grid.Column="9" Grid.Row="0" Click="Upgrade_Click">
+                    <TextBlock TextAlignment="Center" TextWrapping="WrapWithOverflow">Background &amp; Modifiers</TextBlock>
                 </Button>
+                <Button Grid.Column="9" Grid.Row="1" Click="Upgrade_Click">Upgrades</Button>
                 <Grid x:Name="HullSpecial" Grid.Row="2" Grid.ColumnSpan="10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>

@@ -100,7 +100,7 @@
                     </Grid>
                 </Button>
                 <Button Grid.Column="7" Grid.Row="0" Grid.RowSpan="2" Content="Damage" VerticalAlignment="Stretch" Click="Damage_Click"/>
-                <Button Grid.Column="8" Grid.Row="0" Grid.RowSpan="2" ToolTip="Crew Rating" HorizontalContentAlignment="Stretch">
+                <Button Grid.Column="8" Grid.Row="0" Grid.RowSpan="2" ToolTip="Crew Rating" HorizontalContentAlignment="Stretch" Click="CrewRating_Click">
                     <!--Add click and border later -->
                     <Grid>
                         <Grid.RowDefinitions>

@@ -10,7 +10,7 @@
                 <ToolTip>
                     <StackPanel Orientation="Vertical">
                         <Label>Servitor Crew is included in Crew Rating by choosing a crew race of 'Servitor'</Label>
-                        <Label>Targetting Matrix is included in Weapon Upgrades in the Weapon section of the application</Label>
+                        <Label>Targetting Matrix and Turbo Weapon Batteries are included in Weapon Upgrades in the Weapon section of the application</Label>
                         <Label>Atomics are not currently recorded by this application</Label>
                     </StackPanel>
                 </ToolTip>

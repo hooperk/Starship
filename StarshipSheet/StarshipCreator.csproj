@@ -62,6 +62,9 @@
     <Compile Include="Backgrounds.xaml.cs">
       <DependentUpon>Backgrounds.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CrewRating.xaml.cs">
+      <DependentUpon>CrewRating.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CurrentCounters.xaml.cs">
       <DependentUpon>CurrentCounters.xaml</DependentUpon>
     </Compile>
@@ -90,6 +93,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Backgrounds.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CrewRating.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

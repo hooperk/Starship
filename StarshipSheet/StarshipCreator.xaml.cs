@@ -204,6 +204,14 @@ namespace StarshipSheet
             UpdateHistory();
             UpdateSupplementals();//wraps up a lot of the hull updates into what is updated by this anyway
             UpdateHullSpecial();
+            //if the ship was empty or the hull integrity is now greater than max, reset it
+            if (starship.CurrentIntegrity == 0 || starship.CurrentIntegrity > hullintegrity)
+                starship.CurrentIntegrity = hullintegrity;
+            if (starship.CurrentCrew == 0 && starship.CurrentMorale == 0)
+            {
+                starship.CurrentCrew = crewpopulation;
+                starship.CurrentMorale = morale;
+            }
         }
 
         public void UpdateHullSpecial()
@@ -720,6 +728,13 @@ namespace StarshipSheet
                 UpdateMorale();
                 UpdateCrewPopulation();
             }
+        }
+
+        private void CrewRating_Click(object sender, RoutedEventArgs e)
+        {
+            CrewRating dialog = new CrewRating(starship);
+            dialog.ShowDialog();
+            UpdateCrewRating();
         }
 
         private void Upgrade_Click(object sender, RoutedEventArgs e)

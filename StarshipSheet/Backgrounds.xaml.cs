@@ -24,9 +24,9 @@ namespace StarshipSheet
 
         public Backgrounds(Starship starship)
         {
-            Starship = starship;
             if (starship == null)
                 throw new ArgumentNullException("Cannot initialise Backgrounds with a null ship");
+            Starship = starship;
             this.Closed += onClose;
             InitializeComponent();
             d5.Value = 1;

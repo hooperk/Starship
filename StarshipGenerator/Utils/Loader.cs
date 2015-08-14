@@ -351,13 +351,15 @@ namespace StarshipGenerator.Utils
             }
             bool shieldsDone = false;//if a custom shield was used, don't count the custom shields twice
             if (!(String.IsNullOrWhiteSpace(file["customvoidname"]) || String.IsNullOrWhiteSpace(file["customvoidpower"])
-                || String.IsNullOrWhiteSpace(file["customvoidspace"]) || String.IsNullOrWhiteSpace(file["customshield"])))
+                || String.IsNullOrWhiteSpace(file["customvoidspace"])))
             {
                 string name = file["customvoidname"];
                 int power = int.Parse(file["customvoidpower"]);
                 int space = int.Parse(file["customvoidspace"]);
                 int sp = 0;
-                int str = int.Parse(file["customshield"]);
+                int str = 0;
+                if(!String.IsNullOrWhiteSpace(file["customshield"]))
+                    int.Parse(file["customshield"]);
                 if (!String.IsNullOrWhiteSpace(file["customvoidsp"]))
                 {
                     sp = int.Parse(file["customvoidsp"]);

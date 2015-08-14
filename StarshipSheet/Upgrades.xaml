@@ -3,11 +3,14 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:StarshipSheet"
         Title="Upgrades" Height="600" Width="755">
-    <Grid local:GridHelpers.RowCount="3">
-        <ScrollViewer Grid.Row="0">
+    <Grid local:GridHelpers.RowCount="4" local:GridHelpers.StarRows="1">
+        <Label Grid.Row="0"><Bold>Upgrades</Bold></Label>
+        <ScrollViewer Grid.Row="1">
             <!--Upgrades-->
+            <Grid x:Name="UpgradeGrid" local:GridHelpers.RowCount="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=UpgradeCount}" local:GridHelpers.ColumnCount="4" local:GridHelpers.StarColumns="1">
+            </Grid>
         </ScrollViewer>
-        <Grid Grid.Row="1" local:GridHelpers.RowCount="7">
+        <Grid Grid.Row="2" local:GridHelpers.RowCount="7">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
@@ -57,28 +60,28 @@
                 <TextBlock TextWrapping="WrapWithOverflow">Begins play with a modified drive at no cost, and may take one other archeotech component, +10 manoeuvrability within 5VU of a planet, Hull integrity -1d5-1 for Frigate, Transport or Raider, -1d5 for larger. Input d5 in field to the left.</TextBlock>
             </Border>
         </Grid>
-        <Grid Grid.Row="2" local:GridHelpers.RowCount="5" local:GridHelpers.ColumnCount="10" local:GridHelpers.StarColumns="9">
+        <Grid Grid.Row="3" local:GridHelpers.RowCount="5" local:GridHelpers.ColumnCount="10" local:GridHelpers.StarColumns="9">
             <!--Modifiers-->
             <Label Grid.Row="0" Grid.Column="0">Speed</Label>
-            <local:NumericUpDown Value="{Binding Mode=TwoWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=Starship.GMSpeed}" Grid.Row="1" Grid.Column="0"/>
+            <local:NumericUpDown x:Name="Speed" Grid.Row="1" Grid.Column="0"/>
             <Label Grid.Row="0" Grid.Column="1">Hull Integrity</Label>
-            <local:NumericUpDown Value="{Binding Mode=TwoWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=Starship.GMHullIntegrity}" Grid.Row="1" Grid.Column="1"/>
+            <local:NumericUpDown x:Name="HullIntegrity" Grid.Row="1" Grid.Column="1"/>
             <Label Grid.Row="0" Grid.Column="2">Detection</Label>
-            <local:NumericUpDown Value="{Binding Mode=TwoWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=Starship.GMDetection}" Grid.Row="1" Grid.Column="2"/>
+            <local:NumericUpDown x:Name="Detection" Grid.Row="1" Grid.Column="2"/>
             <Label Grid.Row="0" Grid.Column="3">Manoeuvrability</Label>
-            <local:NumericUpDown Value="{Binding Mode=TwoWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=Starship.GMManoeuvrability}" Grid.Row="1" Grid.Column="3"/>
+            <local:NumericUpDown x:Name="Manoeuvrability" Grid.Row="1" Grid.Column="3"/>
             <Label Grid.Row="0" Grid.Column="4">Armour</Label>
-            <local:NumericUpDown Value="{Binding Mode=TwoWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=Starship.GMArmour}" Grid.Row="1" Grid.Column="4"/>
+            <local:NumericUpDown x:Name="Armour" Grid.Row="1" Grid.Column="4"/>
             <Label Grid.Row="0" Grid.Column="5">Turret Rating</Label>
-            <local:NumericUpDown Value="{Binding Mode=TwoWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=Starship.GMTurretRating}" Grid.Row="1" Grid.Column="5"/>
+            <local:NumericUpDown x:Name="TurretRating" Grid.Row="1" Grid.Column="5"/>
             <Label Grid.Row="0" Grid.Column="6">Morale</Label>
-            <local:NumericUpDown Value="{Binding Mode=TwoWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=Starship.GMMorale}" Grid.Row="1" Grid.Column="6"/>
+            <local:NumericUpDown x:Name="Morale" Grid.Row="1" Grid.Column="6"/>
             <Label Grid.Row="0" Grid.Column="7">Crew Population</Label>
-            <local:NumericUpDown Value="{Binding Mode=TwoWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=Starship.GMCrewPopulation}" Grid.Row="1" Grid.Column="7"/>
+            <local:NumericUpDown x:Name="CrewPopulation" Grid.Row="1" Grid.Column="7"/>
             <Label Grid.Row="0" Grid.Column="8">Shields</Label>
-            <local:NumericUpDown Value="{Binding Mode=TwoWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=Starship.GMShields}" Grid.Row="1" Grid.Column="8"/>
+            <local:NumericUpDown x:Name="Shields" Grid.Row="1" Grid.Column="8"/>
             <Label Grid.Row="0" Grid.Column="9">Crew Rating</Label>
-            <local:NumericUpDown Value="{Binding Mode=TwoWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=Starship.GMCrewRating}" Grid.Row="1" Grid.Column="9"/>
+            <local:NumericUpDown x:Name="CrewRating" Grid.Row="1" Grid.Column="9"/>
             <Label Grid.Row="2" Grid.Column="0">Special:</Label>
             <TextBox x:Name="Special" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="9"/>
             <Label Grid.Row="3" Grid.Column="0">Machine Spirit:</Label>

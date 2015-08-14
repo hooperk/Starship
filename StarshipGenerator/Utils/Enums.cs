@@ -321,9 +321,9 @@ namespace StarshipGenerator.Utils
                 case RuleBook.IntoTheStorm:
                     return "Into the Storm: The Explorer's Handbook";
                 case RuleBook.HostileAcquisition:
-                    return "Hostile Acquisitions: Profit and Plunder in teh Lawless Expanse";
+                    return "Hostile Acquisitions: Profit and Plunder in the Lawless Expanse";
                 case RuleBook.BattlefleetKoronus:
-                    return "Battlefleet Koronus: Voidshps and Warfare in the Koronus Expanse";
+                    return "Battlefleet Koronus: Voidships and Warfare in the Koronus Expanse";
                 case RuleBook.LureoftheExpanse:
                     return "Lure of the Expanse";
                 case RuleBook.SoulReaver:

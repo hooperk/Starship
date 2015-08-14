@@ -170,6 +170,9 @@
   <ItemGroup>
     <Resource Include="67ef7f38d041ca72ffefb8c111fae756_KPF_6.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Information-icon.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

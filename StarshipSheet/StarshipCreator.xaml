@@ -100,14 +100,14 @@
                     </Grid>
                 </Button>
                 <Button Grid.Column="7" Grid.Row="0" Grid.RowSpan="2" Content="Damage" VerticalAlignment="Stretch" Click="Damage_Click"/>
-                <Button Grid.Column="8" Grid.Row="0" Grid.RowSpan="2" ToolTip="Crew Rating">
+                <Button Grid.Column="8" Grid.Row="0" Grid.RowSpan="2" ToolTip="Crew Rating" HorizontalContentAlignment="Stretch">
                     <!--Add click and border later -->
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <Label Grid.Row="0">Rating</Label>
+                        <Label Grid.Row="0" HorizontalAlignment="Center">Rating</Label>
                         <TextBox Name="CrewRating" Grid.Row="1" TextAlignment="Center"/>
                     </Grid>
                 </Button>
@@ -142,18 +142,18 @@
                 <Label Grid.Column="1" Grid.Row="0">Hull Class</Label>
                 <TextBox Name="HullClass" Grid.Column="1" Grid.Row="1" IsReadOnly="True"/>
                 <Label Grid.Column="2" Grid.Row="0">Speed</Label>
-                <TextBox Name="Speed" Grid.Column="2" Grid.Row="1" IsReadOnly="True"/>
+                <TextBox Name="Speed" Grid.Column="2" Grid.Row="1" IsReadOnly="True" TextAlignment="Center"/>
                 <Label Grid.Column="3" Grid.Row="0">Manoeuvrability</Label>
-                <TextBox Name="Manoeuvrability" Grid.Column="3" Grid.Row="1" IsReadOnly="True"/>
+                <TextBox Name="Manoeuvrability" Grid.Column="3" Grid.Row="1" IsReadOnly="True" TextAlignment="Center"/>
                 <TextBlock Grid.Column="4" Grid.Row="0" TextWrapping="WrapWithOverflow" Margin="5,0,0,5">Detection Rating</TextBlock>
-                <TextBox Name="Detection" Grid.Column="4" Grid.Row="1" IsReadOnly="True"/>
+                <TextBox Name="Detection" Grid.Column="4" Grid.Row="1" IsReadOnly="True" TextAlignment="Center"/>
                 <TextBlock Grid.Column="5" Grid.Row="0" TextWrapping="WrapWithOverflow" Margin="5,0,0,5">Armour (Prow)</TextBlock>
-                <TextBox Name="Armour" Grid.Column="5" Grid.Row="1" IsReadOnly="True"/>
+                <TextBox Name="Armour" Grid.Column="5" Grid.Row="1" IsReadOnly="True" TextAlignment="Center"/>
                 <TextBlock Grid.Column="6" Grid.Row="0" TextWrapping="WrapWithOverflow" Margin="5,0,0,5">Turret Rating</TextBlock>
-                <TextBox Name="Turrets" Grid.Column="6" Grid.Row="1" IsReadOnly="True"/>
+                <TextBox Name="Turrets" Grid.Column="6" Grid.Row="1" IsReadOnly="True" TextAlignment="Center"/>
                 <Label Grid.Column="7" Grid.Row="0">Shields</Label>
-                <TextBox Name="Shields" Grid.Column="7" Grid.Row="1" IsReadOnly="True"/>
-                <Button Grid.Column="9" Grid.Row="0" Click="Upgrade_Click">
+                <TextBox Name="Shields" Grid.Column="7" Grid.Row="1" IsReadOnly="True" TextAlignment="Center"/>
+                <Button Grid.Column="9" Grid.Row="0" Click="Upgrade_Click" ToolTip="Ship Background and GM allowed modifiers to base stats">
                     <TextBlock TextAlignment="Center" TextWrapping="WrapWithOverflow">Background &amp; Modifiers</TextBlock>
                 </Button>
                 <Button Grid.Column="9" Grid.Row="1" Click="Upgrade_Click">Upgrades</Button>

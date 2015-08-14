@@ -3,9 +3,20 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:StarshipSheet"
         Title="Upgrades" Height="600" Width="755">
-    <Grid local:GridHelpers.RowCount="4" local:GridHelpers.StarRows="1">
-        <Label Grid.Row="0"><Bold>Upgrades</Bold></Label>
-        <ScrollViewer Grid.Row="1">
+    <Grid local:GridHelpers.RowCount="4" local:GridHelpers.StarRows="1" local:GridHelpers.ColumnCount="2" local:GridHelpers.StarColumns="0">
+        <Label Grid.Row="0" Grid.Column="0"><Bold>Upgrades</Bold></Label>
+        <Image Grid.Row="0" Grid.Column="1" Height="26" Source="Information-icon.png">
+            <Image.ToolTip>
+                <ToolTip>
+                    <StackPanel Orientation="Vertical">
+                        <Label>Servitor Crew is included in Crew Rating by choosing a crew race of 'Servitor'</Label>
+                        <Label>Targetting Matrix is included in Weapon Upgrades in the Weapon section of the application</Label>
+                        <Label>Atomics are not currently recorded by this application</Label>
+                    </StackPanel>
+                </ToolTip>
+            </Image.ToolTip>
+        </Image>
+        <ScrollViewer Grid.Row="1" Grid.ColumnSpan="2">
             <!--Upgrades-->
             <Grid x:Name="UpgradeGrid" local:GridHelpers.RowCount="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=UpgradeCount}" local:GridHelpers.ColumnCount="4" local:GridHelpers.StarColumns="1">
             </Grid>

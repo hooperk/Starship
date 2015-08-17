@@ -63,7 +63,7 @@ namespace StarshipGenerator.Utils
     /// <summary>
     /// Races enumeration
     /// </summary>
-    public enum Race : byte { Human, Servitor, Ork, Eldar, DarkEldar, Stryxis, Kroot, Chaos, Rakgol, Goff, EvilSunz, BadMoons, Deathskulls, BloodAxes, SnakeBites }//more to come?
+    public enum Race : byte { Human = 0, Servitor, Ork, Eldar, DarkEldar, Stryxis, Kroot, Chaos, Rakgol, Goff, EvilSunz, BadMoons, Deathskulls, BloodAxes, SnakeBites }//more to come?
 
     /// <summary>
     /// Enumeration denoting location of original component details

@@ -72,6 +72,9 @@
       <DependentUpon>DamageBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="GridHelpers.cs" />
+    <Compile Include="HullChooser.xaml.cs">
+      <DependentUpon>HullChooser.xaml</DependentUpon>
+    </Compile>
     <Compile Include="IWeaponSlot.cs" />
     <Compile Include="NovaCannonTemplate.xaml.cs">
       <DependentUpon>NovaCannonTemplate.xaml</DependentUpon>
@@ -105,6 +108,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="DamageBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="HullChooser.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

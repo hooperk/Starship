@@ -39,7 +39,7 @@ namespace StarshipGenerator.Components
                             return RawStrength + 1;
                     }
                 }
-                return RawRange;
+                return RawStrength;
             }
             private set { RawStrength = value; }
         }

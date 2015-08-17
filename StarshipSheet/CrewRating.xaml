@@ -3,14 +3,25 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:StarshipSheet"
         Title="CrewRating" Height="300" Width="500">
-    <Grid local:GridHelpers.RowCount="4" local:GridHelpers.StarRows="1" local:GridHelpers.ColumnCount="2" local:GridHelpers.StarColumns="0,1">
+    <Grid local:GridHelpers.RowCount="6" local:GridHelpers.StarRows="1">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
         <Label Grid.Row="0"><Bold>Crew Race</Bold></Label>
-        <ScrollViewer Grid.Row="1" Grid.ColumnSpan="2">
+        <ScrollViewer Grid.Row="1" Grid.ColumnSpan="3">
             <Grid Name="Races" local:GridHelpers.RowCount="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=RaceCount}" local:GridHelpers.ColumnCount="2" local:GridHelpers.StarColumns="1"/>
         </ScrollViewer>
-        <Label Grid.Row="2" Grid.Column="0">Crew Quality:</Label>
-        <ComboBox Name="Competency" Grid.Row="3" SelectionChanged="Competency_SelectionChanged"/>
-        <Label Grid.Row="2" Grid.Column="1">Crew Value</Label>
-        <TextBox Name="Value" Grid.Row="3" Grid.Column="1" IsReadOnly="True"/>
+        <Grid Grid.Row="2" Grid.ColumnSpan="3" local:GridHelpers.ColumnCount="2" local:GridHelpers.StarColumns="1">
+            <Label Grid.Column="0" Name="RaceName" FontWeight="Bold"/>
+            <TextBlock Grid.Column="1" Name="RaceDesc" VerticalAlignment="Center" Margin="5,0,0,0" TextWrapping="WrapWithOverflow"/>
+        </Grid>
+        <Label Grid.Row="3" Grid.Column="0">Crew Quality:</Label>
+        <ComboBox Name="Servitor" Grid.Row="4" Grid.Column="0" SelectionChanged="Competency_SelectionChanged"/>
+        <ComboBox Name="CrewQuality" Grid.Row="4" Grid.Column="0" SelectionChanged="Competency_SelectionChanged"/>        
+        <Label Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2">Crew Value</Label>
+        <TextBox Name="Value" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" IsReadOnly="True"/>
+        <Button Grid.Row="5" Grid.Column="2" Click="Button_Click">Save And Close</Button>
     </Grid>
 </Window>

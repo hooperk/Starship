@@ -108,7 +108,7 @@ namespace StarshipSheet
             if (starship.CurrentCrew > crewpopulation)
                 starship.CurrentCrew = crewpopulation;
             CrewPop.Text = starship.CurrentCrew + "/" + crewpopulation;
-            
+
         }
 
         public void UpdateMaxCrew()
@@ -179,15 +179,16 @@ namespace StarshipSheet
 
         public void UpdateHull()
         {
+            ClearSupplementals();
             if (starship.Hull != null)
             {
                 HullName.Text = starship.Hull.Name;
                 HullClass.Text = starship.Hull.HullTypes.HighName();
-                if (starship.Hull.DefaultComponents != null)
+                if (starship.SupplementalComponents != null)
                 {
-                    foreach (String name in starship.Hull.DefaultComponents.Select(x => x.Name).Distinct())
+                    foreach (String name in starship.SupplementalComponents.Select(x => x.Name).Distinct())
                     {
-                        IEnumerable<Supplemental> components = starship.Hull.DefaultComponents.Where(x => x.Name.Equals(name));
+                        IEnumerable<Supplemental> components = starship.SupplementalComponents.Where(x => x.Name.Equals(name));
                         int count = components.Count();
                         AddNewSupplemental(components.First(), count, count, false);
                     }
@@ -212,18 +213,24 @@ namespace StarshipSheet
                 starship.CurrentCrew = crewpopulation;
                 starship.CurrentMorale = morale;
             }
+            StringBuilder debug = new StringBuilder();
+            debug.AppendLine("Supplementals Row Definitions Count: " + Supplementals.RowDefinitions.Count);
+            debug.AppendLine("SupplementalRowCount: " + SupplementalRowCount);
+            for (int j = 0; j < Supplementals.Children.Count; j++)
+                debug.AppendLine("Child: " + j + "; Row: " + Grid.GetRow(Supplementals.Children[j]));
+            MessageBox.Show(debug.ToString());
         }
 
         public void UpdateHullSpecial()
         {
-            if (starship.Hull.Special == null && starship.GMSpecial == null)
+            if (starship.Hull == null || (starship.Hull.Special == null && starship.GMSpecial == null))
                 HullSpecial.Visibility = Visibility.Collapsed;
             else
             {
                 HullSpecialText.Text = starship.Hull.Special + starship.GMSpecial;
                 HullSpecial.Visibility = Visibility.Visible;
             }
-                
+
         }
 
         public void UpdateSpeed()
@@ -260,7 +267,7 @@ namespace StarshipSheet
 
         public void UpdateCrewRating()
         {
-            CrewRating.Text = Print(starship.CrewValue);
+            CrewRating.Text = starship.CrewValue.ToString();
         }
 
         public void UpdateMachine(bool update = true)
@@ -577,6 +584,7 @@ namespace StarshipSheet
         #region Weapons
         public void UpdateWeaponSlots(bool canupdate = true)
         {
+            WeaponRowCount = 1;
             Weapons.Children.RemoveRange(8, Weapons.Children.Count - 7);
             if (starship.Hull != null)
             {
@@ -588,7 +596,10 @@ namespace StarshipSheet
                     weapon = starship.WeaponList[count++].Item2;
                     if (weapon != null)
                         update = true;
-                    AddWeapon(WeaponSlot.Prow, weapon, false);
+                    if (i == 0 && starship.Hull.DefaultProw != null)
+                        AddWeapon(WeaponSlot.Prow, weapon, update, false);
+                    else
+                        AddWeapon(WeaponSlot.Prow, weapon, false);
                 }
                 for (int i = 0; i < starship.Hull.DorsalSlots; i++)
                 {
@@ -602,14 +613,20 @@ namespace StarshipSheet
                     weapon = starship.WeaponList[count++].Item2;
                     if (weapon != null)
                         update = true;
-                    AddWeapon(WeaponSlot.Port, weapon, false);
+                    if (i == 0 && starship.Hull.DefaultBroadside != null)
+                        AddWeapon(WeaponSlot.Port, weapon, update, false);
+                    else
+                        AddWeapon(WeaponSlot.Port, weapon, false);
                 }
                 for (int i = 0; i < starship.Hull.SideSlots; i++)
                 {
                     weapon = starship.WeaponList[count++].Item2;
                     if (weapon != null)
                         update = true;
-                    AddWeapon(WeaponSlot.Starboard, weapon, false);
+                    if (i == 0 && starship.Hull.DefaultBroadside != null)
+                        AddWeapon(WeaponSlot.Starboard, weapon, update, false);
+                    else
+                        AddWeapon(WeaponSlot.Starboard, weapon, false);
                 }
                 for (int i = 0; i < starship.Hull.KeelSlots; i++)
                 {
@@ -641,17 +658,17 @@ namespace StarshipSheet
             }
         }
 
-        public void AddWeapon(WeaponSlot facing, Weapon weapon = null, bool update = true)
+        public void AddWeapon(WeaponSlot facing, Weapon weapon = null, bool update = true, bool enabled = true)
         {
             UserControl NewWeapon = null;
             if (weapon == null || weapon.Type == WeaponType.Macrobattery || weapon.Type == WeaponType.Lance)
                 NewWeapon = new WeaponTemplate(facing, weapon, starship.MacrobatteryModifier);
             else if (weapon.Type == WeaponType.TorpedoTube)
-                NewWeapon = new AmmoWeapon(facing, weapon as TorpedoTubes);
+                NewWeapon = new AmmoWeapon(facing, weapon as TorpedoTubes, enabled);
             else if (weapon.Type == WeaponType.LandingBay)
-                NewWeapon = new AmmoWeapon(facing, weapon as LandingBay);
+                NewWeapon = new AmmoWeapon(facing, weapon as LandingBay, enabled);
             else if (weapon.Type == WeaponType.NovaCannon)
-                NewWeapon = new NovaCannonTemplate(facing, weapon as NovaCannon);
+                NewWeapon = new NovaCannonTemplate(facing, weapon as NovaCannon, enabled);
             if (NewWeapon != null)
             {
                 Grid.SetRow(NewWeapon, WeaponRowCount++);//Add the extra row as you place this one
@@ -694,6 +711,11 @@ namespace StarshipSheet
 
         }
 
+        public void ClearSupplementals()
+        {
+            Supplementals.Children.Clear();
+            SupplementalRowCount = 0;
+        }
         #endregion
 
         #region buttons
@@ -749,6 +771,13 @@ namespace StarshipSheet
             Backgrounds dialog = new Backgrounds(starship);
             dialog.ShowDialog();
             UpdateBackgrounds();
+        }
+
+        private void Hull_Click(object sender, RoutedEventArgs e)
+        {
+            HullChooser dialog = new HullChooser(starship, loader.Hulls);
+            dialog.ShowDialog();
+            UpdateHull();
         }
         #endregion
     }

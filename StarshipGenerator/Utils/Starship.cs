@@ -22,18 +22,25 @@ namespace StarshipGenerator.Utils
             set
             {
                 _hull = value;
-                Weapons = new Weapon[_hull.WeaponSlots];
                 SupplementalComponents = new List<Supplemental>();
-                if (_hull.DefaultProw != null)
-                    Weapons[0] = _hull.DefaultProw;
-                if (_hull.DefaultBroadside != null)
-                    Weapons[_hull.ProwSlots + _hull.DorsalSlots] = //Port slot
-                        Weapons[_hull.ProwSlots + _hull.DorsalSlots + _hull.SideSlots] = //Starboard slot
-                            _hull.DefaultBroadside;
-                if (_hull.DefaultComponents != null)
-                    SupplementalComponents.AddRange(_hull.DefaultComponents);
-                if (_hull.History != Utils.ShipHistory.None)
-                    ShipHistory = _hull.History;
+                if (_hull == null)
+                {
+                    Weapons = new Weapon[0];
+                }
+                else
+                {
+                    Weapons = new Weapon[_hull.WeaponSlots];
+                    if (_hull.DefaultProw != null)
+                        Weapons[0] = _hull.DefaultProw;
+                    if (_hull.DefaultBroadside != null)
+                        Weapons[_hull.ProwSlots + _hull.DorsalSlots] = //Port slot
+                            Weapons[_hull.ProwSlots + _hull.DorsalSlots + _hull.SideSlots] = //Starboard slot
+                                _hull.DefaultBroadside;
+                    if (_hull.DefaultComponents != null)
+                        SupplementalComponents.AddRange(_hull.DefaultComponents);
+                    if (_hull.History != Utils.ShipHistory.None)
+                        ShipHistory = _hull.History;
+                }
             }
         }
         private Hull _hull;
@@ -388,7 +395,8 @@ namespace StarshipGenerator.Utils
                 if (PlasmaDrive == null)
                     return 0;
                 int total = PlasmaDrive.Power;
-                total += Hull.Power;//if power != 0, hull grants or uses excess power
+                if(Hull != null)
+                    total += Hull.Power;//if power != 0, hull grants or uses excess power
                 if (SupplementalComponents != null)
                     foreach (Supplemental component in SupplementalComponents)
                         if (component != null && component.PowerGenerated)

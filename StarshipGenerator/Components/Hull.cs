@@ -141,8 +141,8 @@ namespace StarshipGenerator.Components
         /// <param name="shields">hulltypes of the shields which may be added</param>
         public Hull(string name, int speed, int man, int det, int hullint, int armour, int space, int sp, HullType type,
             String special, RuleBook origin, byte page, int turrets = 1, int prow = 0, int dorsal = 0,
-            int side = 0, int keel = 0, int aft = 0, Weapon frontal = null, Weapon broadside = null, 
-            Supplemental[] comps = null, int command = 0, int maxspeed = 0, int power = 0, ShipHistory history = ShipHistory.None, 
+            int side = 0, int keel = 0, int aft = 0, Weapon frontal = null, Weapon broadside = null,
+            Supplemental[] comps = null, int command = 0, int maxspeed = 0, int power = 0, ShipHistory history = ShipHistory.None,
             int bs = 0, bool locked = false, int navigate = 0, HullType shields = HullType.None)
             : base(name, sp, power, space, special, origin, page, type)
         {
@@ -227,7 +227,7 @@ namespace StarshipGenerator.Components
                         output.Append(@",");
                 }
             }
-            output.Append(@"],""Command"":" + Command + @",""Max"":" + MaxSpeed + @",""Power"":" + Power + @",""History"":" + (byte)History 
+            output.Append(@"],""Command"":" + Command + @",""Max"":" + MaxSpeed + @",""Power"":" + Power + @",""History"":" + (byte)History
                 + @",""BS"":" + BSModifier + @",""Locked"":" + (ArmourLocked ? 1 : 0) + @",""Nav"":" + NavigateWarp + @",""Shields"":" + (byte)VoidShields + @"}}");
             return output.ToString();
         }
@@ -252,21 +252,22 @@ namespace StarshipGenerator.Components
                     output.Append("; ");
                 }
                 if (DefaultBroadside != null)
-                    output.Append("1 Port and Starboard slot already equipped with " + DefaultBroadside.Name
+                    output.Append("1 Port and 1 Starboard slot each already equipped with " + DefaultBroadside.Name
                         + "; ");
-                foreach (String component in DefaultComponents.Select(c => c.Name).Distinct())
-                {
-                    int count = DefaultComponents.Where(c => c.Name == component).Count();
-                    output.Append("Comes with " + count + " built in " + component + (count > 1 ? "s; " : "; "));
-                }
+                if (DefaultComponents != null)
+                    foreach (String component in DefaultComponents.Select(c => c.Name).Distinct())
+                    {
+                        int count = DefaultComponents.Where(c => c.Name == component).Count();
+                        output.Append("Comes with " + count + " built in " + component + (count > 1 && !component.EndsWith("s") ? "s; " : "; "));
+                    }
                 if (History != ShipHistory.None)
                     output.Append("Past History is always " + History.Name() + ";");
                 if (BSModifier != 0)
-                    output.Append((BSModifier > 0 ? "+" : "") + BSModifier + " to hit with this ship's weapons");
+                    output.Append((BSModifier > 0 ? "+" : "") + BSModifier + " to hit with this ship's weapons; ");
                 if (NavigateWarp != 0)
-                    output.Append((NavigateWarp > 0 ? "+" : "") + NavigateWarp + " to navigate during warp travel;");
+                    output.Append((NavigateWarp > 0 ? "+" : "") + NavigateWarp + " to navigate during warp travel; ");
                 if (ArmourLocked)
-                    output.Append("May not be given armour upgrades;");
+                    output.Append("May not be given armour upgrades; ");
                 if (VoidShields != HullTypes)
                     output.Append("May attach Void Shields as if " + VoidShields.ToString());
                 output.Append(base.Special);

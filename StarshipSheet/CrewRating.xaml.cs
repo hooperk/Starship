@@ -35,8 +35,8 @@ namespace StarshipSheet
                 Button button = new Button();
                 button.Content = race.Name();
                 button.Click += ((s, e) => SetRace(race));
-                Grid.SetColumn(button,0);
-                Grid.SetRow(button,RaceCount);
+                Grid.SetColumn(button, 0);
+                Grid.SetRow(button, RaceCount);
                 TextBlock textblock = new TextBlock();
                 textblock.Text = race.Description();
                 textblock.TextWrapping = TextWrapping.WrapWithOverflow;
@@ -50,10 +50,9 @@ namespace StarshipSheet
                 Races.Children.Add(button);
                 Races.Children.Add(border);
             }
-            if (Starship.CrewRace == null)
-                SetRace(Race.Human);
-            else
-                SetRace(Starship.CrewRace);
+            Servitor.ItemsSource = Enum.GetValues(typeof(ServitorQuality));
+            CrewQuality.ItemsSource = Enum.GetValues(typeof(StarshipGenerator.Utils.CrewRating));
+            SetRace(Starship.CrewRace);
         }
 
         private void SetRace(Race race)
@@ -61,26 +60,38 @@ namespace StarshipSheet
             Starship.CrewRace = race;
             if (race == Race.Servitor)
             {
-                Competency.ItemsSource = Enum.GetValues(typeof(ServitorQuality));
-                if (Enum.IsDefined(typeof(ServitorQuality), Starship.CrewRating))
-                    Competency.SelectedItem = (ServitorQuality)Starship.CrewRating;
+                if (Starship.CrewRating != 0 && Enum.IsDefined(typeof(ServitorQuality), Starship.CrewRating))
+                    Servitor.SelectedItem = (ServitorQuality)Starship.CrewRating;
                 else
-                    Competency.SelectedItem = ServitorQuality.Common;
+                    Servitor.SelectedItem = ServitorQuality.Common;
+                Servitor.Visibility = Visibility.Visible;
+                CrewQuality.Visibility = Visibility.Hidden;
             }
             else
             {
-                Competency.ItemsSource = Enum.GetValues(typeof(StarshipGenerator.Utils.CrewRating));
-                if (Enum.IsDefined(typeof(StarshipGenerator.Utils.CrewRating), Starship.CrewRating))
-                    Competency.SelectedItem = (StarshipGenerator.Utils.CrewRating)Starship.CrewRating;
+                if (Starship.CrewRating != 0 && Enum.IsDefined(typeof(StarshipGenerator.Utils.CrewRating), Starship.CrewRating))
+                    CrewQuality.SelectedItem = (StarshipGenerator.Utils.CrewRating)Starship.CrewRating;
                 else
-                    Competency.SelectedItem = StarshipGenerator.Utils.CrewRating.Competent;
+                    CrewQuality.SelectedItem = StarshipGenerator.Utils.CrewRating.Competent;
+                CrewQuality.Visibility = Visibility.Visible;
+                Servitor.Visibility = Visibility.Hidden;
             }
+            RaceName.Content = race.Name() + ":";
+            RaceDesc.Text = race.Description();
         }
 
         private void Competency_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Starship.CrewRating = (int)Competency.SelectedItem;
+            if (Starship.CrewRace == Race.Servitor)
+                Starship.CrewRating = (int)Servitor.SelectedItem;
+            else
+                Starship.CrewRating = (int)CrewQuality.SelectedItem;
             Value.Text = Starship.CrewRating.ToString();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

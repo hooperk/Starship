@@ -39,15 +39,15 @@ namespace StarshipSheet
         public WeaponSlot WeaponFacing { get; set; }
         private bool Tubes;//if torpedo tubes or landing bay true for tubes
 
-        public AmmoWeapon(WeaponSlot facing, TorpedoTubes weapon)
-            : this(facing, (Weapon)weapon)
+        public AmmoWeapon(WeaponSlot facing, TorpedoTubes weapon, bool enabled = true)
+            : this(facing, (Weapon)weapon, enabled)
         {
             AmmoButton.Content = "Torpedoes";
             Tubes = true;
         }
 
-        public AmmoWeapon(WeaponSlot facing, LandingBay weapon)
-            : this(facing, (Weapon)weapon)
+        public AmmoWeapon(WeaponSlot facing, LandingBay weapon, bool enabled = true)
+            : this(facing, (Weapon)weapon, enabled)
         {
             AmmoButton.Content = "Squadrons";
             Tubes = false;
@@ -58,12 +58,17 @@ namespace StarshipSheet
         /// </summary>
         /// <param name="facing">Weapon slot</param>
         /// <param name="weapon">Torpedo tube or Landing Bay</param>
-        private AmmoWeapon(WeaponSlot facing, Weapon weapon)
+        private AmmoWeapon(WeaponSlot facing, Weapon weapon, bool enabled)
         {
             InitializeComponent();
             this.WeaponFacing = facing;
             Facing.Content = WeaponFacing.ToString();
             this.Weapon = weapon;
+            if (!enabled)
+            {
+                WeaponChoice.Visibility = Visibility.Collapsed;
+                WeaponName.Visibility = Visibility.Visible;
+            }
         }
 
         public void UpdateWeapon()
@@ -73,12 +78,21 @@ namespace StarshipSheet
                 WeaponChoice.Content = "Weapon";
                 WeaponType.Text = "";
                 WeaponStrength.Text = "";
+                WeaponSpecial.Text = "";
+                WeaponSpecial.Visibility = Visibility.Collapsed;
             }
             else
             {
                 WeaponChoice.Content = Weapon.QualityName;
+                WeaponName.Text = Weapon.QualityName;
                 WeaponType.Text = Weapon.Type.Name();
                 WeaponStrength.Text = Weapon.Strength.ToString();
+                string special = Weapon.Special;
+                WeaponSpecial.Text = special;
+                if (!String.IsNullOrWhiteSpace(special))
+                    WeaponSpecial.Visibility = Visibility.Visible;
+                else
+                    WeaponSpecial.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -87,7 +101,7 @@ namespace StarshipSheet
             //Open an ammo dialog
             if (Tubes)
             {
-                //...for torpedo tuebs
+                //...for torpedo tubes
             }
             else
             {

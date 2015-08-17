@@ -6,6 +6,10 @@
              mc:Ignorable="d" 
              d:DesignHeight="26" d:DesignWidth="670">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="62"/>
             <ColumnDefinition Width="295"/>
@@ -13,10 +17,12 @@
             <ColumnDefinition Width="56"/>
             <ColumnDefinition Width="167"/>
         </Grid.ColumnDefinitions>
-        <Label Name="Facing" Grid.Row="1" Grid.Column="0">Facing</Label>
-        <Button Name="WeaponChoice" Grid.Row="1" Grid.Column="1">Weapon</Button>
-        <TextBox Name="WeaponType" Grid.Row="1" Grid.Column="2" IsReadOnly="True"/>
-        <TextBox Name="WeaponStrength" Grid.Row="1" Grid.Column="3" IsReadOnly="True" HorizontalContentAlignment="Center"/>
-        <Button x:Name="AmmoButton" Grid.Row="2" Grid.Column="4" Click="Ammo_Click">Ammo</Button>
+        <Label Name="Facing" Grid.Row="0" Grid.Column="0">Facing</Label>
+        <Button Name="WeaponChoice" Grid.Row="0" Grid.Column="1">Weapon</Button>
+        <TextBlock Name="WeaponName" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" ToolTip="Default Weapon for this hull" Visibility="Collapsed"/>
+        <TextBox Name="WeaponType" Grid.Row="0" Grid.Column="2" IsReadOnly="True"/>
+        <TextBox Name="WeaponStrength" Grid.Row="0" Grid.Column="3" IsReadOnly="True" HorizontalContentAlignment="Center"/>
+        <Button x:Name="AmmoButton" Grid.Row="0" Grid.Column="4" Click="Ammo_Click">Ammo</Button>
+        <TextBlock Name="WeaponSpecial" Grid.Row="1" Grid.ColumnSpan="5" TextWrapping="WrapWithOverflow" Margin="5,5,5,5"/>
     </Grid>
 </UserControl>

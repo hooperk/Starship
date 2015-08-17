@@ -129,7 +129,7 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" HorizontalContentAlignment="Left">
+                <Button Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" HorizontalContentAlignment="Left" Click="Hull_Click">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="37"/>
@@ -153,7 +153,7 @@
                 <TextBox Name="Turrets" Grid.Column="6" Grid.Row="1" IsReadOnly="True" TextAlignment="Center"/>
                 <Label Grid.Column="7" Grid.Row="0">Shields</Label>
                 <TextBox Name="Shields" Grid.Column="7" Grid.Row="1" IsReadOnly="True" TextAlignment="Center"/>
-                <Button Grid.Column="9" Grid.Row="0" Click="Upgrade_Click" ToolTip="Ship Background and GM allowed modifiers to base stats">
+                <Button Grid.Column="9" Grid.Row="0" Click="Background_Click" ToolTip="Ship Background and GM allowed modifiers to base stats">
                     <TextBlock TextAlignment="Center" TextWrapping="WrapWithOverflow">Background &amp; Modifiers</TextBlock>
                 </Button>
                 <Button Grid.Column="9" Grid.Row="1" Click="Upgrade_Click">Upgrades</Button>
@@ -332,7 +332,7 @@
                 <Label Grid.Column="0" Grid.Row="0">Supplemental Components</Label>
                 <Button Grid.Column="2" Grid.Row="0">Add</Button>
                 <Button Grid.Column="3" Grid.Row="0">Clear</Button>
-                <Grid Grid.Row="1" Grid.ColumnSpan="4" Name="Supplementals" local:GridHelpers.RowCount="{Binding SupplementalRowCount}">
+                <Grid Grid.Row="1" Grid.ColumnSpan="4" Name="Supplementals" local:GridHelpers.RowCount="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=SupplementalRowCount}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>

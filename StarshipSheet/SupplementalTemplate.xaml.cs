@@ -35,7 +35,7 @@ namespace StarshipSheet
             Max = Component.Max;
             Count = count;
             CountDisplay.Content = Count.ToString();
-            ComponentName.Text = Component.QualityName;
+            ComponentName.Text = Component.QualityName + (Count > 1 && !Component.Name.EndsWith("s") ? "s" : "");
             Special.Text = Component.Special;
             CheckAdd();
             CheckRemove();

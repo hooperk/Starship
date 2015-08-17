@@ -38,13 +38,18 @@ namespace StarshipSheet
         public WeaponSlot WeaponFacing { get; set; }
         public int Macrodamage;
 
-        public WeaponTemplate(WeaponSlot facing, Weapon weapon = null, int macrodamage = 0)//Also pass in method for button - do after making said method
+        public WeaponTemplate(WeaponSlot facing, Weapon weapon = null, int macrodamage = 0, bool enabled = true)//Also pass in method for button - do after making said method
         {
             InitializeComponent();
             this.WeaponFacing = facing;
             Facing.Content = WeaponFacing.ToString();
             this.Weapon = weapon;
             Macrodamage = macrodamage;
+            if (!enabled)
+            {
+                WeaponChoice.Visibility = Visibility.Collapsed;
+                WeaponName.Visibility = Visibility.Visible;
+            }
         }
 
         public void UpdateWeapon()
@@ -57,10 +62,13 @@ namespace StarshipSheet
                 WeaponDamage.Text = "";
                 WeaponRange.Text = "";
                 WeaponCrit.Text = "";
+                WeaponSpecial.Text = "";
+                WeaponSpecial.Visibility = Visibility.Collapsed;
             }
             else
             {
                 WeaponChoice.Content = Weapon.QualityName;
+                WeaponName.Text = Weapon.QualityName;
                 WeaponClass.Text = Weapon.Type.Name();
                 WeaponStrength.Text = Weapon.Strength.ToString();
                 if (Weapon.Type == WeaponType.Macrobattery)
@@ -69,6 +77,12 @@ namespace StarshipSheet
                     WeaponDamage.Text = Weapon.Damage.ToString();
                 WeaponRange.Text = Weapon.Range.ToString();
                 WeaponCrit.Text = Weapon.Crit.ToString();
+                string special = Weapon.Special;
+                WeaponSpecial.Text = special;
+                if (!String.IsNullOrWhiteSpace(special))
+                    WeaponSpecial.Visibility = Visibility.Visible;
+                else
+                    WeaponSpecial.Visibility = Visibility.Collapsed;
             }
         }
     }

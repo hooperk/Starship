@@ -37,12 +37,17 @@ namespace StarshipSheet
         private Weapon _weapon;
         public WeaponSlot WeaponFacing { get; set; }
 
-        public NovaCannonTemplate(WeaponSlot facing, NovaCannon weapon)//Also pass in method for button - do after making said method
+        public NovaCannonTemplate(WeaponSlot facing, NovaCannon weapon, bool enabled = true)//Also pass in method for button - do after making said method
         {
             InitializeComponent();
             this.WeaponFacing = facing;
             Facing.Content = WeaponFacing.ToString();
             this.Weapon = weapon;
+            if (!enabled)
+            {
+                WeaponChoice.Visibility = Visibility.Collapsed;
+                WeaponName.Visibility = Visibility.Visible;
+            }
         }
 
         public void UpdateWeapon()
@@ -51,17 +56,24 @@ namespace StarshipSheet
             {
                 WeaponChoice.Content = "Weapon";
                 WeaponType.Text = "";
-                WeaponStrength.Text = "";
                 WeaponDamage.Text = "";
                 WeaponRange.Text = "";
+                WeaponSpecial.Text = "";
+                WeaponSpecial.Visibility = Visibility.Collapsed;
             }
             else
             {
                 WeaponChoice.Content = Weapon.QualityName;
+                WeaponName.Text = Weapon.QualityName;
                 WeaponType.Text = Weapon.Type.Name();
-                WeaponStrength.Text = Weapon.Strength.ToString();
                 WeaponDamage.Text = Weapon.Damage.ToString();
                 WeaponRange.Text = Weapon.DisplayRange;
+                string special = Weapon.Special;
+                WeaponSpecial.Text = special;
+                if (!String.IsNullOrWhiteSpace(special))
+                    WeaponSpecial.Visibility = Visibility.Visible;
+                else
+                    WeaponSpecial.Visibility = Visibility.Collapsed;
             }
         }
     }

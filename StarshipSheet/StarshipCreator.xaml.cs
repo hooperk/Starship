@@ -26,21 +26,34 @@ namespace StarshipSheet
     {
         Loader loader;
         Starship starship;
-        public int WeaponRowCount { get; set; }
-        public int SupplementalRowCount { get; set; }
+        public int WeaponRowCount
+        {
+            get
+            {
+                return GridHelpers.GetRowCount(Weapons);
+            }
+            set
+            {
+                GridHelpers.SetRowCount(Weapons, value);
+            }
+        }
+        public int SupplementalRowCount
+        {
+            get
+            {
+                return GridHelpers.GetRowCount(Supplementals);
+            }
+            set
+            {
+                GridHelpers.SetRowCount(Supplementals, value);
+            }
+        }
 
         public StarshipCreator()
         {
             loader = new Loader();//initialise with default components TODO:Loading of saved custom components
             starship = new Starship();//fresh starship
-            WeaponRowCount = 1;
-            SupplementalRowCount = 0;
             InitializeComponent();
-            //for test
-            starship.Hull = loader.Hulls.Where(x => x.Name.Equals("Mars-class Battlecruiser", StringComparison.OrdinalIgnoreCase)).First();
-            starship.PlasmaDrive = loader.PlasmaDrives.Where(x => (starship.Hull.HullTypes & x.HullTypes) != 0).First();
-            UpdateHull();
-            UpdatePlasma();
         }
 
         #region UpdateFields
@@ -213,12 +226,6 @@ namespace StarshipSheet
                 starship.CurrentCrew = crewpopulation;
                 starship.CurrentMorale = morale;
             }
-            StringBuilder debug = new StringBuilder();
-            debug.AppendLine("Supplementals Row Definitions Count: " + Supplementals.RowDefinitions.Count);
-            debug.AppendLine("SupplementalRowCount: " + SupplementalRowCount);
-            for (int j = 0; j < Supplementals.Children.Count; j++)
-                debug.AppendLine("Child: " + j + "; Row: " + Grid.GetRow(Supplementals.Children[j]));
-            MessageBox.Show(debug.ToString());
         }
 
         public void UpdateHullSpecial()
@@ -703,6 +710,7 @@ namespace StarshipSheet
         {
             SupplementalTemplate template = new SupplementalTemplate(component, count, min);
             Grid.SetRow(template, SupplementalRowCount++);
+            Grid.SetColumn(template, 0);
             Supplementals.Children.Add(template);
             if (component.AuxiliaryWeapon != null)
                 AddWeapon(WeaponSlot.Auxiliary, component.AuxiliaryWeapon, false);

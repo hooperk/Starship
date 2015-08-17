@@ -35,13 +35,17 @@ namespace StarshipSheet
             foreach (Hull hull in hulls)
             {
                 Hulls.Children.Add(MakeName(hull));
-                Hulls.Children.Add(MakeColumn(hull.Speed, 1));
-                Hulls.Children.Add(MakeColumn(hull.Manoeuvrability, 2));
-                Hulls.Children.Add(MakeColumn(hull.DetectionRating, 3));
-                Hulls.Children.Add(MakeColumn(hull.HullIntegrity, 4));
-                Hulls.Children.Add(MakeColumn(hull.Armour, 5));
-                Hulls.Children.Add(MakeColumn(hull.TurretRating, 6));
+                Hulls.Children.Add(MakeColumn(hull.SP, 1));
+                Hulls.Children.Add(MakeColumn(hull.Space, 2));
+                Hulls.Children.Add(MakeClass(hull));
+                Hulls.Children.Add(MakeColumn(hull.Speed, 4));
+                Hulls.Children.Add(MakeColumn(hull.Manoeuvrability, 5));
+                Hulls.Children.Add(MakeColumn(hull.DetectionRating, 6));
+                Hulls.Children.Add(MakeColumn(hull.HullIntegrity, 7));
+                Hulls.Children.Add(MakeColumn(hull.Armour, 8));
+                Hulls.Children.Add(MakeColumn(hull.TurretRating, 9));
                 Hulls.Children.Add(MakeSlots(hull));
+                Hulls.Children.Add(MakeSource(hull));
                 String description = hull.Description;
                 if (!String.IsNullOrWhiteSpace(description))
                     Hulls.Children.Add(MakeDecription(description));
@@ -60,6 +64,17 @@ namespace StarshipSheet
             return button;
         }
 
+        private TextBox MakeClass(Hull hull)
+        {
+            TextBox textbox = new TextBox();
+            textbox.Text = hull.HullTypes.HighName();
+            textbox.TextAlignment = TextAlignment.Center;
+            textbox.IsReadOnly = true;
+            Grid.SetRow(textbox, HullCount);
+            Grid.SetColumn(textbox, 3);
+            return textbox;
+        }
+
         private TextBox MakeColumn(int value, int column)
         {
             TextBox textbox = new TextBox();
@@ -75,10 +90,23 @@ namespace StarshipSheet
         {
             TextBox textbox = new TextBox();
             textbox.Text = hull.ProwSlots + "/" + hull.DorsalSlots + "/" + hull.SideSlots + "/" + hull.KeelSlots + "/" + hull.AftSlots;
+            textbox.ToolTip = "Prow/Dorsal/Side/Keel/Aft";
+            textbox.TextAlignment = TextAlignment.Center;
+            textbox.IsReadOnly = true;
+            Grid.SetRow(textbox, HullCount);
+            Grid.SetColumn(textbox, 10);
+            return textbox;
+        }
+
+        private TextBox MakeSource(Hull hull)
+        {
+            TextBox textbox = new TextBox();
+            textbox.Text = hull.Origin.Name();
+            textbox.ToolTip = hull.Origin.LongName() +", Page: " + hull.PageNumber;
             textbox.TextAlignment = TextAlignment.Center;
             textbox.IsReadOnly = true;
             Grid.SetRow(textbox, HullCount++);
-            Grid.SetColumn(textbox, 7);
+            Grid.SetColumn(textbox, 11);
             return textbox;
         }
 
@@ -104,6 +132,9 @@ namespace StarshipSheet
             if (Starship.Hull != null)
             {
                 HullName.Text = Starship.Hull.Name;
+                HullSP.Text = Starship.Hull.SP.ToString();
+                HullSpace.Text = Starship.Hull.Space.ToString();
+                HullClass.Text = Starship.Hull.HullTypes.HighName();
                 HullSpeed.Text = Starship.Hull.Speed.ToString();
                 HullMan.Text = Starship.Hull.Manoeuvrability.ToString();
                 HullDet.Text = Starship.Hull.DetectionRating.ToString();
@@ -111,11 +142,16 @@ namespace StarshipSheet
                 HullArmour.Text = Starship.Hull.Armour.ToString();
                 HullTurret.Text = Starship.Hull.TurretRating.ToString();
                 HullSlots.Text = Starship.Hull.ProwSlots + "/" + Starship.Hull.DorsalSlots + "/" + Starship.Hull.SideSlots + "/" + Starship.Hull.KeelSlots + "/" + Starship.Hull.AftSlots;
+                HullSource.Text = Starship.Hull.Origin.Name();
+                HullSource.ToolTip = Starship.Hull.Origin.LongName() + ", Page: " + Starship.Hull.PageNumber;
                 HullDesc.Text = Starship.Hull.Description;
             }
             else
             {
                 HullName.Text = "No Hull Chosen";
+                HullSP.Text = "";
+                HullSpace.Text = "";
+                HullClass.Text = "";
                 HullSpeed.Text = "";
                 HullMan.Text = "";
                 HullDet.Text = "";
@@ -123,6 +159,8 @@ namespace StarshipSheet
                 HullArmour.Text = "";
                 HullTurret.Text = "";
                 HullSlots.Text = "";
+                HullSource.Text = "";
+                HullSource.ToolTip = null;
                 HullDesc.Text = "";
             }
         }

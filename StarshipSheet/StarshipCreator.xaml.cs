@@ -564,8 +564,8 @@ namespace StarshipSheet
             UpdateMaxHullIntegrity();
             UpdateArmour();
             UpdateTurrets();
-            UpdateMorale();
-            UpdateCrewPopulation();
+            UpdateMaxMorale();
+            UpdateMaxCrew();
             UpdateRating();
             UpdateMining();
             UpdateCreed();

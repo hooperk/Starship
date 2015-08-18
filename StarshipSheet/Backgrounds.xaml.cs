@@ -67,8 +67,6 @@ namespace StarshipSheet
             Shields.Value = Starship.GMShields;
             CrewRating.Value = Starship.GMCrewRating;
             Special.Text = Starship.GMSpecial;
-            Machine.Text = Starship.GMMachineSpirit;
-            History.Text = Starship.GMShipHistory;
         }
 
         private void onClose(object sender, EventArgs e)
@@ -98,16 +96,6 @@ namespace StarshipSheet
             Starship.GMShields = Shields.Value;
             Starship.GMCrewRating = CrewRating.Value;
             Starship.GMSpecial = Special.Text;
-            if (!String.IsNullOrWhiteSpace(Machine.Text))
-            {
-                Starship.GMMachineSpirit = Machine.Text;
-                Starship.MachineSpirit = MachineSpirit.None;
-            }
-            if (!String.IsNullOrWhiteSpace(History.Text))
-            {
-                Starship.GMShipHistory = History.Text;
-                Starship.ShipHistory = ShipHistory.None;
-            }
         }
 
         private void ClearButton_Click(object sender, RoutedEventArgs e)

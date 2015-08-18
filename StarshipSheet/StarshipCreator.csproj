@@ -62,6 +62,9 @@
     <Compile Include="Backgrounds.xaml.cs">
       <DependentUpon>Backgrounds.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Complication.xaml.cs">
+      <DependentUpon>Complication.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CrewRating.xaml.cs">
       <DependentUpon>CrewRating.xaml</DependentUpon>
     </Compile>
@@ -96,6 +99,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Backgrounds.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Complication.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -185,7 +192,9 @@
     <Resource Include="67ef7f38d041ca72ffefb8c111fae756_KPF_6.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Information-icon.png" />
+    <Resource Include="Information-icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

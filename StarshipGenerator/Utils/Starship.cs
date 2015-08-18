@@ -39,7 +39,10 @@ namespace StarshipGenerator.Utils
                     if (_hull.DefaultComponents != null)
                         SupplementalComponents.AddRange(_hull.DefaultComponents);
                     if (_hull.History != Utils.ShipHistory.None)
+                    {
                         ShipHistory = _hull.History;
+                        GMShipHistory = null;
+                    }
                 }
             }
         }

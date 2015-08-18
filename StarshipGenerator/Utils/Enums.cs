@@ -492,7 +492,7 @@ namespace StarshipGenerator.Utils
                 case ShipHistory.WrestedFromASpaceHulk:
                     return "+1 Armour, +1 speed, +3 Manoeuvrability. When the crew suffers a misfortune, GM rolls twice and chooses the worse result";
                 case ShipHistory.TemperamentalWarpEngine:
-                    return "When travelling through the warp roll d10. 1-6: increase time by 1d5 weeks, 7+ reduce time by 1d5 weeks. May also occasionally end up somewhere other than where it intended";
+                    return "When travelling through the warp roll d10. 1-6: increase time by 1d5 weeks, 7+: reduce time by 1d5 weeks. May also occasionally end up somewhere other than where it intended";
                 case ShipHistory.FinancesInArrears:
                     return "Bound to a financer, all objectives require 50 extra achievement points. The financer may also act as a contact too";
                 case ShipHistory.Xenophilous:
@@ -526,7 +526,7 @@ namespace StarshipGenerator.Utils
                 case ShipHistory.WrestedFromASpaceHulk:
                     return "When the crew suffers a misfortune, GM rolls twice and chooses the worse result";
                 case ShipHistory.TemperamentalWarpEngine:
-                    return "When travelling through the warp roll d10. 1-6: increase time by 1d5 weeks, 7+ reduce time by 1d5 weeks. May also occasionally end up somewhere other than where it intended";
+                    return "When travelling through the warp roll d10. 1-6: increase time by 1d5 weeks, 7+: reduce time by 1d5 weeks. May also occasionally end up somewhere other than where it intended";
                 case ShipHistory.FinancesInArrears:
                     return "Bound to a financer, all objectives require 50 extra achievement points. The financer may also act as a contact too";
                 case ShipHistory.Xenophilous:

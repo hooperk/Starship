@@ -176,8 +176,6 @@ namespace StarshipSheet
             UpdatePilot();
             UpdateWeapons();
             UpdateHullSpecial();
-            UpdateMachine(false);
-            UpdateHistory(false);
         }
 
         public void UpdateUpgrades()
@@ -213,6 +211,10 @@ namespace StarshipSheet
                 HullName.Text = "None";
                 HullClass.Text = "";
             }
+            if (starship.Hull != null && starship.Hull.History != ShipHistory.None)
+                ShipHistoryButton.ToolTip = "Cannot change the history of this hull";
+            else
+                ShipHistoryButton.ToolTip = null;
             UpdateWeaponSlots(false);
             UpdateMaxSpace();
             UpdateCommand();
@@ -280,9 +282,11 @@ namespace StarshipSheet
 
         public void UpdateMachine(bool update = true)
         {
-            if (starship.MachineSpirit == MachineSpirit.None)
+            if (!String.IsNullOrWhiteSpace(starship.GMMachineSpirit))
+                MachineSpiritDisplay.Text = starship.GMMachineSpirit;
+            else if (starship.MachineSpirit == MachineSpirit.None)
             {
-                MachineSpiritDisplay.Text = starship.GMMachineSpirit ?? "Machine Spirit";
+                MachineSpiritDisplay.Text = "Machine Spirit";
             }
             else
                 MachineSpiritDisplay.Text = starship.MachineSpirit.Name() + ": " + starship.MachineSpirit.Special();
@@ -300,8 +304,10 @@ namespace StarshipSheet
 
         public void UpdateHistory(bool update = true)
         {
-            if (starship.ShipHistory == ShipHistory.None)
-                ShipHistoryDisplay.Text = starship.GMShipHistory ?? "Ship History";
+            if (!String.IsNullOrWhiteSpace(starship.GMShipHistory))
+                ShipHistoryDisplay.Text = starship.GMShipHistory;
+            else if (starship.ShipHistory == ShipHistory.None)
+                ShipHistoryDisplay.Text = "Ship History";
             else
                 ShipHistoryDisplay.Text = starship.ShipHistory.Name() + ": " + starship.ShipHistory.Special();
             if (update)
@@ -789,5 +795,22 @@ namespace StarshipSheet
             UpdateHull();
         }
         #endregion
+
+        private void Machine_Click(object sender, RoutedEventArgs e)
+        {
+            Complication dialog = Complication.MachineSpirit(starship);
+            dialog.ShowDialog();
+            UpdateMachine();
+        }
+
+        private void History_Click(object sender, RoutedEventArgs e)
+        {
+            if (starship.Hull == null || starship.Hull.History == ShipHistory.None)
+            {
+                Complication dialog = Complication.ShipHistory(starship);
+                dialog.ShowDialog();
+                UpdateHistory();
+            }
+        }
     }
 }

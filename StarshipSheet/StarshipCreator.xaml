@@ -176,10 +176,10 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                <Button Grid.Column="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Click="Machine_Click">
                     <TextBlock Name="MachineSpiritDisplay" TextWrapping="WrapWithOverflow">Machine Spirit</TextBlock>
                 </Button>
-                <Button Grid.Column="1" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                <Button Name="ShipHistoryButton" Grid.Column="1" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Click="History_Click">
                     <TextBlock Name="ShipHistoryDisplay" TextWrapping="WrapWithOverflow">Ship History</TextBlock>
                 </Button>
             </Grid>

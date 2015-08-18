@@ -184,6 +184,7 @@ namespace StarshipSheet
         {
             UpdateMaxSpace();
             UpdateMaxMorale();
+            UpdateShields();
             UpdateCommand();
             UpdateTrade();
             UpdateCriminal();

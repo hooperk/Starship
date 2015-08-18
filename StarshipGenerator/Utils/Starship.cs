@@ -287,6 +287,8 @@ namespace StarshipGenerator.Utils
                 int total = 0;
                 if (VoidShield != null)
                     total = VoidShield.Strength;
+                if (OverloadShieldCapacitors == Quality.Best)
+                    total += 1;
                 total += GMShields;
                 return total;
             }

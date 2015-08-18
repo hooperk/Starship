@@ -3,7 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:StarshipSheet"
         Title="Upgrades" Height="600" Width="755">
-    <Grid local:GridHelpers.RowCount="4" local:GridHelpers.StarRows="1" local:GridHelpers.ColumnCount="2" local:GridHelpers.StarColumns="0">
+    <Grid local:GridHelpers.ColumnCount="2" local:GridHelpers.StarColumns="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
         <Label Grid.Row="0" Grid.Column="0"><Bold>Upgrades</Bold></Label>
         <Image Grid.Row="0" Grid.Column="1" Height="26" Source="Information-icon.png">
             <Image.ToolTip>
@@ -19,6 +25,41 @@
         <ScrollViewer Grid.Row="1" Grid.ColumnSpan="2">
             <!--Upgrades-->
             <Grid x:Name="UpgradeGrid" local:GridHelpers.RowCount="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=UpgradeCount}" local:GridHelpers.ColumnCount="4" local:GridHelpers.StarColumns="1">
+            </Grid>
+        </ScrollViewer>
+        <Label Grid.Row="2" Grid.Column="0">
+            <Bold>Selected</Bold>
+        </Label>
+        <ScrollViewer Grid.Row="3" Grid.ColumnSpan="2">
+            <Grid local:GridHelpers.RowCount="14" local:GridHelpers.ColumnCount="2" local:GridHelpers.StarColumns="1">
+                <Label Grid.Row="0" Grid.Column="0" Name="CherubimAerieName" Visibility="Collapsed"/>
+                <TextBox Grid.Row="0" Grid.Column="1" Name="CherubimAerieText" IsReadOnly="True" TextWrapping="WrapWithOverflow" Visibility="Collapsed"/>
+                <Label Grid.Row="1" Grid.Column="0" Name="CrewImprovementsName" Visibility="Collapsed"/>
+                <TextBox Grid.Row="1" Grid.Column="1" Name="CrewImprovementsText" IsReadOnly="True" TextWrapping="WrapWithOverflow" Visibility="Collapsed"/>
+                <Label Grid.Row="2" Grid.Column="0" Name="OstentatiousName" Visibility="Collapsed"/>
+                <TextBox Grid.Row="2" Grid.Column="1" Name="OstentatiousText" IsReadOnly="True" TextWrapping="WrapWithOverflow" Visibility="Collapsed"/>
+                <Label Grid.Row="3" Grid.Column="0" Name="StarchartCollectionName" Visibility="Collapsed"/>
+                <TextBox Grid.Row="3" Grid.Column="1" Name="StarchartCollectionText" IsReadOnly="True" TextWrapping="WrapWithOverflow" Visibility="Collapsed"/>
+                <Label Grid.Row="4" Grid.Column="0" Name="StormTrooperName" Visibility="Collapsed"/>
+                <TextBox Grid.Row="4" Grid.Column="1" Name="StormTrooperText" IsReadOnly="True" TextWrapping="WrapWithOverflow" Visibility="Collapsed"/>
+                <Label Grid.Row="5" Grid.Column="0" Name="VaultedCeilingsName" Visibility="Collapsed"/>
+                <TextBox Grid.Row="5" Grid.Column="1" Name="VaultedCeilingsText" IsReadOnly="True" TextWrapping="WrapWithOverflow" Visibility="Collapsed"/>
+                <Label Grid.Row="6" Grid.Column="0" Name="ArresterEnginesName" Visibility="Collapsed"/>
+                <TextBox Grid.Row="6" Grid.Column="1" Name="ArresterEnginesText" IsReadOnly="True" TextWrapping="WrapWithOverflow" Visibility="Collapsed"/>
+                <Label Grid.Row="7" Grid.Column="0" Name="DistributedName" Visibility="Collapsed"/>
+                <TextBox Grid.Row="7" Grid.Column="1" Name="DistributedText" IsReadOnly="True" TextWrapping="WrapWithOverflow" Visibility="Collapsed"/>
+                <Label Grid.Row="8" Grid.Column="0" Name="DisciplinariumName" Visibility="Collapsed"/>
+                <TextBox Grid.Row="8" Grid.Column="1" Name="DisciplinariumText" IsReadOnly="True" TextWrapping="WrapWithOverflow" Visibility="Collapsed"/>
+                <Label Grid.Row="9" Grid.Column="0" Name="MimicDriveName" Visibility="Collapsed"/>
+                <TextBox Grid.Row="9" Grid.Column="1" Name="MimicDriveText" IsReadOnly="True" TextWrapping="WrapWithOverflow" Visibility="Collapsed"/>
+                <Label Grid.Row="10" Grid.Column="0" Name="OverloadShieldName" Visibility="Collapsed"/>
+                <TextBox Grid.Row="10" Grid.Column="1" Name="OverloadShieldText" IsReadOnly="True" TextWrapping="WrapWithOverflow" Visibility="Collapsed"/>
+                <Label Grid.Row="11" Grid.Column="0" Name="ResolutionArenaName" Visibility="Collapsed"/>
+                <TextBox Grid.Row="11" Grid.Column="1" Name="ResolutionArenaText" IsReadOnly="True" TextWrapping="WrapWithOverflow" Visibility="Collapsed"/>
+                <Label Grid.Row="12" Grid.Column="0" Name="SecondaryReactorName" Visibility="Collapsed"/>
+                <TextBox Grid.Row="12" Grid.Column="1" Name="SecondaryReactorText" IsReadOnly="True" TextWrapping="WrapWithOverflow" Visibility="Collapsed"/>
+                <Label Grid.Row="13" Grid.Column="0" Name="SuperiorDamageControlName" Visibility="Collapsed"/>
+                <TextBox Grid.Row="13" Grid.Column="1" Name="SuperiorDamageControlText" IsReadOnly="True" TextWrapping="WrapWithOverflow" Visibility="Collapsed"/>
             </Grid>
         </ScrollViewer>
     </Grid>

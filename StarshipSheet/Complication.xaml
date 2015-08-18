@@ -78,6 +78,6 @@
         <RadioButton Name="CustomChoice" GroupName="Choice" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Margin="2,2,2,2"/>
         <TextBox Name="CustomName" Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" Margin="2,2,2,2"/>
         <TextBox Name="CustomEffect" Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" VerticalAlignment="Center" Margin="2,2,2,2" TextWrapping="WrapWithOverflow"/>
-        <Button Grid.Row="4" Grid.Column="3" Click="Close_Click">Close</Button>
+        <Button Grid.Row="4" Grid.Column="3" Click="Close_Click">Save &amp; Close</Button>
     </Grid>
 </Window>

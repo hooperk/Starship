@@ -208,7 +208,7 @@ namespace StarshipSheet
                     if (MachineOrHistory)
                         Starship.GMMachineSpirit = CustomName.Text + ": " + CustomEffect.Text;
                     else
-                        Starship.GMShipHistory = CustomName.Text + ": " + CustomEffect.Text;
+                        Starship.GMShipHistory = CustomName.Text + ": " + CustomEffect;
                 }
                 else
                 {

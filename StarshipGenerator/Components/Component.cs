@@ -255,5 +255,15 @@ namespace StarshipGenerator.Components
                 return ((PlasmaDrive)self).RawName;//as plasmadrive is the only class that renames itself, handle rawname in it
             return self.Name;
         }
+
+        public static IEnumerable<Component> Highest(this IEnumerable<Component> self)
+        {
+            var groups = from component in self group component by component.GetName();
+            List<Component> components = new List<Component>();
+            foreach (var group in groups)
+            {
+                yield return group.OrderBy(x => x.HullTypes).First();
+            }
+        }
     }
 }

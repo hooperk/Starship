@@ -209,14 +209,14 @@
                 <Label Grid.Column="0" Grid.Row="5">Life Sustainer</Label>
                 <Label Grid.Column="0" Grid.Row="6">Crew Quarters</Label>
                 <Label Grid.Column="0" Grid.Row="7">Augur Arrays</Label>
-                <Button Name="PlasmaDrive" Grid.Column="1" Grid.Row="0">Plasma Drive</Button>
-                <Button Name="WarpDrive" Grid.Column="1" Grid.Row="1">Warp Drive</Button>
-                <Button Name="GellarField" Grid.Column="1" Grid.Row="2">Gellar Field</Button>
-                <Button Name="VoidShield" Grid.Column="1" Grid.Row="3">Void Shield</Button>
-                <Button Name="ShipBridge" Grid.Column="1" Grid.Row="4">Ship's Bridge</Button>
-                <Button Name="LifeSustainer" Grid.Column="1" Grid.Row="5">Life Sustainer</Button>
-                <Button Name="CrewQuarters" Grid.Column="1" Grid.Row="6">Crew Quarters</Button>
-                <Button Name="AugurArrays" Grid.Column="1" Grid.Row="7">Augur Arrays</Button>
+                <Button Name="PlasmaDrive" Grid.Column="1" Grid.Row="0" Click="PlasmaDrive_Click">Plasma Drive</Button>
+                <Button Name="WarpDrive" Grid.Column="1" Grid.Row="1" Click="WarpDrive_Click">Warp Drive</Button>
+                <Button Name="GellarField" Grid.Column="1" Grid.Row="2" Click="GellarField_Click">Gellar Field</Button>
+                <Button Name="VoidShield" Grid.Column="1" Grid.Row="3" Click="VoidShield_Click">Void Shield</Button>
+                <Button Name="ShipBridge" Grid.Column="1" Grid.Row="4" Click="ShipBridge_Click">Ship's Bridge</Button>
+                <Button Name="LifeSustainer" Grid.Column="1" Grid.Row="5" Click="LifeSustainer_Click">Life Sustainer</Button>
+                <Button Name="CrewQuarters" Grid.Column="1" Grid.Row="6" Click="CrewQuarters_Click">Crew Quarters</Button>
+                <Button Name="AugurArrays" Grid.Column="1" Grid.Row="7" Click="AugurArrays_Click">Augur Arrays</Button>
                 <TextBox Name="PlasmaSpecial" Grid.Column="2" Grid.Row="0" TextWrapping="WrapWithOverflow"/>
                 <TextBox Name="WarpSpecial" Grid.Column="2" Grid.Row="1" TextWrapping="WrapWithOverflow"/>
                 <TextBox Name="GellarSpecial" Grid.Column="2" Grid.Row="2" TextWrapping="WrapWithOverflow"/>

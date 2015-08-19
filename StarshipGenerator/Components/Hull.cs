@@ -268,8 +268,13 @@ namespace StarshipGenerator.Components
                     output.Append((NavigateWarp > 0 ? "+" : "") + NavigateWarp + " to navigate during warp travel; ");
                 if (ArmourLocked)
                     output.Append("May not be given armour upgrades; ");
+                HullType types = HullTypes & ~(HullTypes.Priority());
+                if (types != HullType.None)
+                {
+                    output.Append("May also use components as if a " + types.AllHulls() + " but must use the largest available variant if multiple variants exist; ");
+                }
                 if (VoidShields != HullTypes)
-                    output.Append("May attach Void Shields as if " + VoidShields.ToString());
+                    output.Append("May attach Void Shields as if " + VoidShields.AllHulls() + "; ");
                 output.Append(base.Special);
                 return output.ToString();
             }

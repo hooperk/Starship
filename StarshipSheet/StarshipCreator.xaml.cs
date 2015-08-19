@@ -327,12 +327,12 @@ namespace StarshipSheet
         {
             if (starship.PlasmaDrive == null)
             {
-                PlasmaDrive.Content = "Plasma Drive";
+                PlasmaDrive.Content = "Choose Plasma Drive";
                 PlasmaSpecial.Text = "";
             }
             else
             {
-                PlasmaDrive.Content = starship.PlasmaDrive.Name;
+                PlasmaDrive.Content = starship.PlasmaDrive.QualityName;
                 PlasmaSpecial.Text = starship.PlasmaDrive.Special;
             }
             UpdateSP();
@@ -346,12 +346,12 @@ namespace StarshipSheet
         {
             if (starship.WarpDrive == null)
             {
-                WarpDrive.Content = "Warp Drive";
+                WarpDrive.Content = "Choose Warp Drive";
                 WarpSpecial.Text = "";
             }
             else
             {
-                WarpDrive.Content = starship.WarpDrive.Name;
+                WarpDrive.Content = starship.WarpDrive.QualityName;
                 WarpSpecial.Text = starship.WarpDrive.Special;
             }
             UpdateSP();
@@ -363,12 +363,12 @@ namespace StarshipSheet
         {
             if (starship.GellarField == null)
             {
-                GellarField.Content = "Gellar Field";
+                GellarField.Content = "Choose Gellar Field";
                 GellarSpecial.Text = "";
             }
             else
             {
-                GellarField.Content = starship.GellarField.Name;
+                GellarField.Content = starship.GellarField.QualityName;
                 GellarSpecial.Text = starship.GellarField.Special;
             }
             UpdateSP();
@@ -380,12 +380,12 @@ namespace StarshipSheet
         {
             if (starship.VoidShield == null)
             {
-                VoidShield.Content = "Void Shield";
+                VoidShield.Content = "Choose Void Shield";
                 VoidSpecial.Text = "";
             }
             else
             {
-                VoidShield.Content = starship.VoidShield.Name;
+                VoidShield.Content = starship.VoidShield.QualityName;
                 VoidSpecial.Text = starship.VoidShield.Special;
             }
             UpdateSP();
@@ -398,12 +398,12 @@ namespace StarshipSheet
         {
             if (starship.ShipBridge == null)
             {
-                ShipBridge.Content = "Ship's Bridge";
+                ShipBridge.Content = "Choose Ship's Bridge";
                 BridgeSpecial.Text = "";
             }
             else
             {
-                ShipBridge.Content = starship.ShipBridge.Name;
+                ShipBridge.Content = starship.ShipBridge.QualityName;
                 BridgeSpecial.Text = starship.ShipBridge.Special;
             }
             UpdateSP();
@@ -427,12 +427,12 @@ namespace StarshipSheet
         {
             if (starship.LifeSustainer == null)
             {
-                LifeSustainer.Content = "Life Sustainer";
+                LifeSustainer.Content = "Choose Life Sustainer";
                 SustainerSpecial.Text = "";
             }
             else
             {
-                LifeSustainer.Content = starship.LifeSustainer.Name;
+                LifeSustainer.Content = starship.LifeSustainer.QualityName;
                 SustainerSpecial.Text = starship.LifeSustainer.Special;
             }
             UpdateSP();
@@ -447,12 +447,12 @@ namespace StarshipSheet
         {
             if (starship.CrewQuarters == null)
             {
-                CrewQuarters.Content = "Crew Quarters";
+                CrewQuarters.Content = "Choose Crew Quarters";
                 QuartersSpecial.Text = "";
             }
             else
             {
-                CrewQuarters.Content = starship.CrewQuarters.Name;
+                CrewQuarters.Content = starship.CrewQuarters.QualityName;
                 QuartersSpecial.Text = starship.CrewQuarters.Special;
             }
             UpdateSP();
@@ -466,12 +466,12 @@ namespace StarshipSheet
         {
             if (starship.AugurArrays == null)
             {
-                AugurArrays.Content = "Augur Arrays";
+                AugurArrays.Content = "Choose Augur Arrays";
                 AugurSpecial.Text = "";
             }
             else
             {
-                AugurArrays.Content = starship.AugurArrays.Name;
+                AugurArrays.Content = starship.AugurArrays.QualityName;
                 AugurSpecial.Text = starship.AugurArrays.Special;
             }
             UpdateSP();
@@ -794,7 +794,6 @@ namespace StarshipSheet
             dialog.ShowDialog();
             UpdateHull();
         }
-        #endregion
 
         private void Machine_Click(object sender, RoutedEventArgs e)
         {
@@ -812,5 +811,103 @@ namespace StarshipSheet
                 UpdateHistory();
             }
         }
+
+        private void PlasmaDrive_Click(object sender, RoutedEventArgs e)
+        {
+            if (starship.Hull == null)
+                MessageBox.Show("Can't select components until you've selected a hull");
+            else
+            {
+                Essential dialog = new Essential(loader.PlasmaDrives.Where(x => (x.HullTypes & starship.Hull.HullTypes) != 0).Highest(), typeof(PlasmaDrive), starship.PlasmaDrive);
+                //TODO: show only largest variant engines??
+                starship.PlasmaDrive = (PlasmaDrive)dialog.ShowDialog();
+                UpdatePlasma();
+            }
+        }
+
+        private void WarpDrive_Click(object sender, RoutedEventArgs e)
+        {
+            if (starship.Hull == null)
+                MessageBox.Show("Can't select components until you've selected a hull");
+            else
+            {
+                Essential dialog = new Essential(loader.WarpDrives.Where(x => (x.HullTypes & starship.Hull.HullTypes) != 0).Highest(), typeof(WarpDrive), starship.WarpDrive);
+                starship.WarpDrive = (WarpDrive)dialog.ShowDialog();
+                UpdateWarp();
+            }
+        }
+
+        private void GellarField_Click(object sender, RoutedEventArgs e)
+        {
+            if (starship.Hull == null)
+                MessageBox.Show("Can't select components until you've selected a hull");
+            else
+            {
+                Essential dialog = new Essential(loader.GellarFields.Where(x => (x.HullTypes & starship.Hull.HullTypes) != 0).Highest(), typeof(GellarField), starship.GellarField);
+                starship.GellarField = (GellarField)dialog.ShowDialog();
+                UpdateGellar();
+            }
+        }
+
+        private void VoidShield_Click(object sender, RoutedEventArgs e)
+        {
+            if (starship.Hull == null)
+                MessageBox.Show("Can't select components until you've selected a hull");
+            else
+            {
+                Essential dialog = new Essential(loader.VoidShields.Where(x => (x.HullTypes & starship.Hull.VoidShields) != 0).Highest(), typeof(VoidShield), starship.VoidShield);
+                starship.VoidShield = (VoidShield)dialog.ShowDialog();
+                UpdateVoid();
+            }
+        }
+
+        private void ShipBridge_Click(object sender, RoutedEventArgs e)
+        {
+            if (starship.Hull == null)
+                MessageBox.Show("Can't select components until you've selected a hull");
+            else 
+            {
+                Essential dialog = new Essential(loader.Bridges.Where(x => (x.HullTypes & starship.Hull.HullTypes) != 0).Highest(), typeof(Bridge), starship.ShipBridge);
+                starship.ShipBridge = (Bridge)dialog.ShowDialog();
+                UpdateBridge();
+            }
+        }
+
+        private void LifeSustainer_Click(object sender, RoutedEventArgs e)
+        {
+            if (starship.Hull == null)
+                MessageBox.Show("Can't select components until you've selected a hull");
+            else
+            {
+                Essential dialog = new Essential(loader.LifeSustainers.Where(x => (x.HullTypes & starship.Hull.HullTypes) != 0).Highest(), typeof(LifeSustainer), starship.LifeSustainer);
+                starship.LifeSustainer = (LifeSustainer)dialog.ShowDialog();
+                UpdateLife();
+            }
+        }
+
+        private void CrewQuarters_Click(object sender, RoutedEventArgs e)
+        {
+            if (starship.Hull == null)
+                MessageBox.Show("Can't select components until you've selected a hull");
+            else
+            {
+                Essential dialog = new Essential(loader.CrewQuarters.Where(x => (x.HullTypes & starship.Hull.HullTypes) != 0).Highest(), typeof(CrewQuarters), starship.CrewQuarters);
+                starship.CrewQuarters = (CrewQuarters)dialog.ShowDialog();
+                UpdateQuarters();
+            }
+        }
+
+        private void AugurArrays_Click(object sender, RoutedEventArgs e)
+        {
+            if (starship.Hull == null)
+                MessageBox.Show("Can't select components until you've selected a hull");
+            else
+            {
+                Essential dialog = new Essential(loader.AugurArrays.Where(x => (x.HullTypes & starship.Hull.HullTypes) != 0).Highest(), typeof(Augur), starship.AugurArrays);
+                starship.AugurArrays = (Augur)dialog.ShowDialog();
+                UpdateAugurs();
+            }
+        }
+        #endregion
     }
 }

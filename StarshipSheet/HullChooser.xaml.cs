@@ -117,7 +117,7 @@ namespace StarshipSheet
             textblock.TextWrapping = TextWrapping.WrapWithOverflow;
             textblock.Margin = new Thickness(5, 5, 5, 5);
             Grid.SetRow(textblock, HullCount++);
-            Grid.SetColumnSpan(textblock, 8);
+            Grid.SetColumnSpan(textblock, 12);
             return textblock;
         }
 

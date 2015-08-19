@@ -23,6 +23,7 @@ namespace StarshipSheet
     {
         public int ComponentCount { get; set; }
         Component Current;
+        readonly Component Original;
         Type ComponentType;
         private static readonly Quality[] ExternalQualities = new Quality[] { Quality.Poor, Quality.Common, Quality.Good, Quality.Best };
         private static readonly Quality[] InternalQualities = new Quality[] { Quality.Poor, Quality.Common, Quality.Slim, Quality.Efficient, Quality.Best };
@@ -31,7 +32,7 @@ namespace StarshipSheet
         {
             this.ComponentType = type;
             ComponentCount = 0;
-            this.Current = current;
+            this.Current = this.Original = current;
             InitializeComponent();
             if (type == typeof(Augur) || type == typeof(GellarField))
             {
@@ -58,6 +59,7 @@ namespace StarshipSheet
             ChosenQuality.ItemsSource = InternalQualities;
             Button button;
             TextBox textbox;
+            Label label;
             TextBlock textblock;
             button = new Button();
             button.Content = "Clear";
@@ -66,42 +68,69 @@ namespace StarshipSheet
             Grid.SetColumn(button, 0);
             Grid.SetColumnSpan(button, 4);
             Components.Children.Add(button);
-            foreach (Component component in components)
+            foreach (var group in components.GroupBy(x => x.ComponentOrigin).OrderBy(x => x.Key))
             {
-                button = new Button();
-                button.Content = component.GetName();
-                button.Click += ((s, e) => SetChosen(component));
-                Grid.SetRow(button, ComponentCount);
-                Grid.SetColumn(button, 0);
-                Components.Children.Add(button);
-                textbox = new TextBox();
-                textbox.Text = component.Power.ToString();
-                textbox.TextAlignment = TextAlignment.Center;
-                textbox.IsReadOnly = true;
-                Grid.SetRow(textbox, ComponentCount);
-                Grid.SetColumn(textbox, 1);
-                Components.Children.Add(textbox);
-                textbox = new TextBox();
-                textbox.Text = component.Space.ToString();
-                textbox.TextAlignment = TextAlignment.Center;
-                textbox.IsReadOnly = true;
-                Grid.SetRow(textbox, ComponentCount);
-                Grid.SetColumn(textbox, 2);
-                Components.Children.Add(textbox);
-                textbox = new TextBox();
-                textbox.Text = component.SP.ToString();
-                textbox.TextAlignment = TextAlignment.Center;
-                textbox.IsReadOnly = true;
-                Grid.SetRow(textbox, ComponentCount);
-                Grid.SetColumn(textbox, 3);
-                Components.Children.Add(textbox);
-                textblock = new TextBlock();
-                textblock.Text = component.Special;
-                textblock.Margin = new Thickness(2, 2, 2, 2);
-                textblock.TextWrapping = TextWrapping.WrapWithOverflow;
-                Grid.SetRow(textblock, ComponentCount++);
-                Grid.SetColumn(textblock, 5);
-                Components.Children.Add(textblock);
+                if (group.Key != ComponentOrigin.Standard)
+                {
+                    label = new Label();
+                    label.Content = group.Key.ToString();
+                    Grid.SetRow(label, ComponentCount++);
+                    Grid.SetColumn(label, 0);
+                    Components.Children.Add(label);
+                }
+                foreach (Component component in group)
+                {
+                    button = new Button();
+                    button.Content = component.GetName();
+                    button.Click += ((s, e) => SetChosen(component));
+                    Grid.SetRow(button, ComponentCount);
+                    Grid.SetColumn(button, 0);
+                    Components.Children.Add(button);
+                    textbox = new TextBox();
+                    textbox.Text = component.Power.ToString();
+                    textbox.TextAlignment = TextAlignment.Center;
+                    textbox.IsReadOnly = true;
+                    Grid.SetRow(textbox, ComponentCount);
+                    Grid.SetColumn(textbox, 1);
+                    Components.Children.Add(textbox);
+                    textbox = new TextBox();
+                    textbox.Text = component.Space.ToString();
+                    textbox.TextAlignment = TextAlignment.Center;
+                    textbox.IsReadOnly = true;
+                    Grid.SetRow(textbox, ComponentCount);
+                    Grid.SetColumn(textbox, 2);
+                    Components.Children.Add(textbox);
+                    textbox = new TextBox();
+                    textbox.Text = component.SP.ToString();
+                    textbox.TextAlignment = TextAlignment.Center;
+                    textbox.IsReadOnly = true;
+                    Grid.SetRow(textbox, ComponentCount);
+                    Grid.SetColumn(textbox, 3);
+                    Components.Children.Add(textbox);
+                    textblock = new TextBlock();
+                    textblock.Text = component.HullTypes.AllHulls();
+                    textblock.Margin = new Thickness(2, 2, 2, 2);
+                    textblock.TextWrapping = TextWrapping.WrapWithOverflow;
+                    Grid.SetRow(textblock, ComponentCount);
+                    Grid.SetColumn(textblock, 5);
+                    Components.Children.Add(textblock);
+                    label = new Label();
+                    label.Content = component.Origin.Name();
+                    label.ToolTip = component.Origin.LongName() + ", Page: " + component.PageNumber;
+                    Grid.SetRow(label, ComponentCount++);
+                    Grid.SetColumn(label, 6);
+                    Components.Children.Add(label);
+                    if (!String.IsNullOrWhiteSpace(component.Description))
+                    {
+                        textblock = new TextBlock();
+                        textblock.Text = component.Description;
+                        textblock.Margin = new Thickness(2, 2, 2, 2);
+                        textblock.TextWrapping = TextWrapping.WrapWithOverflow;
+                        Grid.SetRow(textblock, ComponentCount++);
+                        Grid.SetColumnSpan(textblock, 7);
+                        Components.Children.Add(textblock);
+                    }
+                }
             }
         }
 
@@ -109,10 +138,12 @@ namespace StarshipSheet
         {
             ChosenQuality.ItemsSource = ExternalQualities;
             TopSpace.Visibility = System.Windows.Visibility.Collapsed;
-            BottomShields.Visibility = System.Windows.Visibility.Collapsed;
+            BottomSpace.Visibility = System.Windows.Visibility.Collapsed;
             ChosenSpace.Visibility = System.Windows.Visibility.Collapsed;
+            SpaceField.Width = new GridLength(0);
             Button button;
             TextBox textbox;
+            Label label;
             TextBlock textblock;
             button = new Button();
             button.Content = "Clear";
@@ -121,35 +152,63 @@ namespace StarshipSheet
             Grid.SetColumn(button, 0);
             Grid.SetColumnSpan(button, 4);
             Components.Children.Add(button);
-            foreach (Component component in components)
+            foreach (var group in components.GroupBy(x => x.ComponentOrigin).OrderBy(x => x.Key))
             {
-                button = new Button();
-                button.Content = component.GetName();
-                button.Click += ((s, e) => SetChosen(component));
-                Grid.SetRow(button, ComponentCount);
-                Grid.SetColumn(button, 0);
-                Components.Children.Add(button);
-                textbox = new TextBox();
-                textbox.Text = component.Power.ToString();
-                textbox.TextAlignment = TextAlignment.Center;
-                textbox.IsReadOnly = true;
-                Grid.SetRow(textbox, ComponentCount);
-                Grid.SetColumn(textbox, 1);
-                Components.Children.Add(textbox);
-                textbox = new TextBox();
-                textbox.Text = component.SP.ToString();
-                textbox.TextAlignment = TextAlignment.Center;
-                textbox.IsReadOnly = true;
-                Grid.SetRow(textbox, ComponentCount);
-                Grid.SetColumn(textbox, 3);
-                Components.Children.Add(textbox);
-                textblock = new TextBlock();
-                textblock.Text = component.Special;
-                textblock.Margin = new Thickness(2, 2, 2, 2);
-                textblock.TextWrapping = TextWrapping.WrapWithOverflow;
-                Grid.SetRow(textblock, ComponentCount++);
-                Grid.SetColumn(textblock, 5);
-                Components.Children.Add(textblock);
+                if (group.Key != ComponentOrigin.Standard)
+                {
+                    label = new Label();
+                    label.Content = group.Key.ToString();
+                    Grid.SetRow(label, ComponentCount++);
+                    Grid.SetColumn(label, 0);
+                    Components.Children.Add(label);
+                }
+                foreach (Component component in group)
+                {
+                    button = new Button();
+                    button.Content = component.GetName();
+                    button.Click += ((s, e) => SetChosen(component));
+                    Grid.SetRow(button, ComponentCount);
+                    Grid.SetColumn(button, 0);
+                    Components.Children.Add(button);
+                    textbox = new TextBox();
+                    textbox.Text = component.Power.ToString();
+                    textbox.TextAlignment = TextAlignment.Center;
+                    textbox.IsReadOnly = true;
+                    Grid.SetRow(textbox, ComponentCount);
+                    Grid.SetColumn(textbox, 1);
+                    Components.Children.Add(textbox);
+                    textbox = new TextBox();
+                    textbox = new TextBox();
+                    textbox.Text = component.SP.ToString();
+                    textbox.TextAlignment = TextAlignment.Center;
+                    textbox.IsReadOnly = true;
+                    Grid.SetRow(textbox, ComponentCount);
+                    Grid.SetColumn(textbox, 3);
+                    Components.Children.Add(textbox);
+                    textblock = new TextBlock();
+                    textblock.Text = component.HullTypes.AllHulls();
+                    textblock.Margin = new Thickness(2, 2, 2, 2);
+                    textblock.TextWrapping = TextWrapping.WrapWithOverflow;
+                    Grid.SetRow(textblock, ComponentCount);
+                    Grid.SetColumn(textblock, 5);
+                    Components.Children.Add(textblock);
+                    label = new Label();
+                    label.Content = component.Origin.Name();
+                    label.ToolTip = component.Origin.LongName() + ", Page: " + component.PageNumber;
+                    Grid.SetRow(label, ComponentCount++);
+                    Grid.SetColumn(label, 6);
+                    Components.Children.Add(label);
+                    if (!String.IsNullOrWhiteSpace(component.Description))
+                    {
+                        textblock = new TextBlock();
+                        textblock.Text = component.Description;
+                        textblock.Margin = new Thickness(2, 2, 2, 2);
+                        textblock.TextWrapping = TextWrapping.WrapWithOverflow;
+                        Grid.SetRow(textblock, ComponentCount++);
+                        Grid.SetColumnSpan(textblock, 7);
+                        Components.Children.Add(textblock);
+                    }
+                }
             }
         }
 
@@ -159,59 +218,88 @@ namespace StarshipSheet
             TopShields.Visibility = System.Windows.Visibility.Visible;
             BottomShields.Visibility = Visibility.Visible;
             ChosenShields.Visibility = System.Windows.Visibility.Visible;
+            ShieldField.Width = new GridLength(47);
             Button button;
             TextBox textbox;
+            Label label;
             TextBlock textblock;
             button = new Button();
             button.Content = "Clear";
             button.Click += ((s, e) => SetChosen(null));
-            Grid.SetRow(button,ComponentCount++);
+            Grid.SetRow(button, ComponentCount++);
             Grid.SetColumn(button, 0);
             Grid.SetColumnSpan(button, 4);
             Components.Children.Add(button);
-            foreach (VoidShield component in components)
+            foreach (var group in components.GroupBy(x => x.ComponentOrigin).OrderBy(x => x.Key))
             {
-                button = new Button();
-                button.Content = component.GetName();
-                button.Click += ((s, e) => SetChosen(component));
-                Grid.SetRow(button, ComponentCount);
-                Grid.SetColumn(button, 0);
-                Components.Children.Add(button);
-                textbox = new TextBox();
-                textbox.Text = component.Power.ToString();
-                textbox.TextAlignment = TextAlignment.Center;
-                textbox.IsReadOnly = true;
-                Grid.SetRow(textbox, ComponentCount);
-                Grid.SetColumn(textbox, 1);
-                Components.Children.Add(textbox);
-                textbox = new TextBox();
-                textbox.Text = component.Space.ToString();
-                textbox.TextAlignment = TextAlignment.Center;
-                textbox.IsReadOnly = true;
-                Grid.SetRow(textbox, ComponentCount);
-                Grid.SetColumn(textbox, 2);
-                Components.Children.Add(textbox);
-                textbox = new TextBox();
-                textbox.Text = component.SP.ToString();
-                textbox.TextAlignment = TextAlignment.Center;
-                textbox.IsReadOnly = true;
-                Grid.SetRow(textbox, ComponentCount);
-                Grid.SetColumn(textbox, 3);
-                Components.Children.Add(textbox);
-                textbox = new TextBox();
-                textbox.Text = component.Strength.ToString();
-                textbox.TextAlignment = TextAlignment.Center;
-                textbox.IsReadOnly = true;
-                Grid.SetRow(textbox, ComponentCount);
-                Grid.SetColumn(textbox, 4);
-                Components.Children.Add(textbox);
-                textblock = new TextBlock();
-                textblock.Text = component.Special;
-                textblock.Margin = new Thickness(2, 2, 2, 2);
-                textblock.TextWrapping = TextWrapping.WrapWithOverflow;
-                Grid.SetRow(textblock, ComponentCount++);
-                Grid.SetColumn(textblock, 5);
-                Components.Children.Add(textblock);
+                if (group.Key != ComponentOrigin.Standard)
+                {
+                    label = new Label();
+                    label.Content = group.Key.ToString();
+                    Grid.SetRow(label, ComponentCount++);
+                    Grid.SetColumn(label, 0);
+                    Components.Children.Add(label);
+                }
+                foreach (VoidShield component in group)
+                {
+                    button = new Button();
+                    button.Content = component.GetName();
+                    button.Click += ((s, e) => SetChosen(component));
+                    Grid.SetRow(button, ComponentCount);
+                    Grid.SetColumn(button, 0);
+                    Components.Children.Add(button);
+                    textbox = new TextBox();
+                    textbox.Text = component.Power.ToString();
+                    textbox.TextAlignment = TextAlignment.Center;
+                    textbox.IsReadOnly = true;
+                    Grid.SetRow(textbox, ComponentCount);
+                    Grid.SetColumn(textbox, 1);
+                    Components.Children.Add(textbox);
+                    textbox = new TextBox();
+                    textbox.Text = component.Space.ToString();
+                    textbox.TextAlignment = TextAlignment.Center;
+                    textbox.IsReadOnly = true;
+                    Grid.SetRow(textbox, ComponentCount);
+                    Grid.SetColumn(textbox, 2);
+                    Components.Children.Add(textbox);
+                    textbox = new TextBox();
+                    textbox.Text = component.SP.ToString();
+                    textbox.TextAlignment = TextAlignment.Center;
+                    textbox.IsReadOnly = true;
+                    Grid.SetRow(textbox, ComponentCount);
+                    Grid.SetColumn(textbox, 3);
+                    Components.Children.Add(textbox);
+                    textbox = new TextBox();
+                    textbox.Text = component.Strength.ToString();
+                    textbox.TextAlignment = TextAlignment.Center;
+                    textbox.IsReadOnly = true;
+                    Grid.SetRow(textbox, ComponentCount);
+                    Grid.SetColumn(textbox, 4);
+                    Components.Children.Add(textbox);
+                    textblock = new TextBlock();
+                    textblock.Text = component.HullTypes.AllHulls();
+                    textblock.Margin = new Thickness(2, 2, 2, 2);
+                    textblock.TextWrapping = TextWrapping.WrapWithOverflow;
+                    Grid.SetRow(textblock, ComponentCount);
+                    Grid.SetColumn(textblock, 5);
+                    Components.Children.Add(textblock);
+                    label = new Label();
+                    label.Content = component.Origin.Name();
+                    label.ToolTip = component.Origin.LongName() + ", Page: " + component.PageNumber;
+                    Grid.SetRow(label, ComponentCount++);
+                    Grid.SetColumn(label, 6);
+                    Components.Children.Add(label);
+                    if (!String.IsNullOrWhiteSpace(component.Description))
+                    {
+                        textblock = new TextBlock();
+                        textblock.Text = component.Description;
+                        textblock.Margin = new Thickness(2, 2, 2, 2);
+                        textblock.TextWrapping = TextWrapping.WrapWithOverflow;
+                        Grid.SetRow(textblock, ComponentCount++);
+                        Grid.SetColumnSpan(textblock, 7);
+                        Components.Children.Add(textblock);
+                    }
+                }
             }
         }
 
@@ -234,7 +322,10 @@ namespace StarshipSheet
                 ChosenQuality.SelectedItem = Current.Quality;
                 if (ComponentType == typeof(PlasmaDrive))
                     Modified.IsChecked = ((PlasmaDrive)Current).Modified;
-                ChosenSpecial.Text = Current.Special;
+                ChosenSpecial.Text = Current.Description;
+                bool modifiable = Current.ComponentOrigin != ComponentOrigin.Archeotech;//can't modify an alreaddy archeotech drive
+                Modified.IsEnabled = modifiable;
+                Modified.ToolTip = (modifiable ? null : "Cannot modify an archeotech drive");
             }
             else
             {
@@ -299,14 +390,37 @@ namespace StarshipSheet
 
         private void Modified_Toggled(object sender, RoutedEventArgs e)
         {
-            UpdatePlasma();
-            UpdateChosen();
+            if (Current != null)
+            {
+                UpdatePlasma();
+                UpdateChosen();
+            }
         }
 
         private void UpdatePlasma()
         {
             Current = new PlasmaDrive(Current.GetName(), Current.HullTypes, Current.RawPower, Current.RawSpace, Current.RawSpecial, Current.Origin, Current.PageNumber, Current.RawSP,
                 (Quality)ChosenQuality.SelectedItem, ((PlasmaDrive)Current).RawSpeed, ((PlasmaDrive)Current).Manoeuvrability, Current.ComponentOrigin, Modified.IsChecked ?? false, Current.Condition);
+        }
+
+        private void Save_Click(object sender, RoutedEventArgs e)
+        {
+            DialogResult = true;
+            this.Close();
+        }
+
+        private void Cancel_Click(object sender, RoutedEventArgs e)
+        {
+            DialogResult = false;
+            this.Close();
+        }
+
+        public new Component ShowDialog()
+        {
+            bool? save = base.ShowDialog();
+            if (save ?? false)
+                return Current;
+            return Original;
         }
     }
 }

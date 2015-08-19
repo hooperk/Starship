@@ -45,8 +45,8 @@ namespace StarshipGenerator.Utils
         BattleCruiser = 0x20,
         GrandCruiser = 0x40,
         BattleShip = 0x80,//NOT IMPLEMENTED, currently hand coded onto grand
-        CruiserPlus = 0xF0,//Cruiser or bigger
-        AllCruiser= 0xF8,//Light cruiser or bigger
+        CruiserPlus = Cruiser | BattleCruiser | GrandCruiser | BattleShip,//Cruiser or bigger
+        AllCruiser= LightCruiser | CruiserPlus,//Light cruiser or bigger
         All = 0xFF
     }
 
@@ -233,6 +233,38 @@ namespace StarshipGenerator.Utils
     public static class EnumerationExtensions
     {
         /// <summary>
+        /// Method to find all the flags set seperately
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public static IEnumerable<Enum> GetFlags(this Enum input)
+        {
+            foreach (Enum value in Enum.GetValues(input.GetType()))
+                if (input.HasFlag(value))
+                    yield return value;
+        }
+
+        /// <summary>
+        /// Pretty print Hulltype bit array
+        /// </summary>
+        /// <param name="self">Hulltype to print</param>
+        /// <returns>Pretty printed names of the hull classes</returns>
+        public static string AllHulls(this HullType self)
+        {
+            StringBuilder output = new StringBuilder();
+            HullType[] toPrint = self.GetFlags().Cast<HullType>().ToArray();
+            for (int i = 0; i < toPrint.Length; i++)
+            {
+                if(toPrint[i] != HullType.None && toPrint[i] != HullType.CruiserPlus && toPrint[i] != HullType.AllCruiser && toPrint[i] != HullType.All){
+                    if (output.Length != 0)
+                        output.Append(", ");
+                    output.Append(toPrint[i].HighName());
+                }
+            }
+            return output.ToString();
+        }
+
+        /// <summary>
         /// Returns the display name of the highest Hulltype for naming ship classes
         /// </summary>
         /// <param name="self">Hulltype to display</param>
@@ -256,6 +288,32 @@ namespace StarshipGenerator.Utils
             if ((self & HullType.Transport) != 0)
                 return "Transport";
             return null;
+        }
+
+        /// <summary>
+        /// Returns the highest Hulltype for checking what the main type of a hull is
+        /// </summary>
+        /// <param name="self">Hulltype to check</param>
+        /// <returns>The single highest bit of the hulltype</returns>
+        public static HullType Priority(this HullType self)
+        {
+            if ((self & HullType.BattleShip) != 0)
+                return HullType.BattleShip;
+            if ((self & HullType.GrandCruiser) != 0)
+                return HullType.GrandCruiser;
+            if ((self & HullType.BattleCruiser) != 0)
+                return HullType.BattleCruiser;
+            if ((self & HullType.Cruiser) != 0)
+                return HullType.Cruiser;
+            if ((self & HullType.LightCruiser) != 0)
+                return HullType.LightCruiser;
+            if ((self & HullType.Frigate) != 0)
+                return HullType.Frigate;
+            if ((self & HullType.Raider) != 0)
+                return HullType.Raider;
+            if ((self & HullType.Transport) != 0)
+                return HullType.Transport;
+            return HullType.None;
         }
 
         /// <summary>

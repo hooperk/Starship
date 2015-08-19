@@ -74,6 +74,9 @@
     <Compile Include="DamageBox.xaml.cs">
       <DependentUpon>DamageBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Essential.xaml.cs">
+      <DependentUpon>Essential.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GridHelpers.cs" />
     <Compile Include="HullChooser.xaml.cs">
       <DependentUpon>HullChooser.xaml</DependentUpon>
@@ -115,6 +118,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="DamageBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Essential.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

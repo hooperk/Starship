@@ -17,7 +17,7 @@ namespace StarshipGenerator.Components
             get
             {
                 if (Modified && base.ComponentOrigin == ComponentOrigin.Standard)
-                    return "Modified " + Name;
+                    return "Modified " + base.Name;
                 return base.Name;
             }
         }
@@ -78,7 +78,7 @@ namespace StarshipGenerator.Components
             get
             {
                 if (Modified && base.ComponentOrigin == ComponentOrigin.Standard)
-                    return Space - 1;
+                    return base.Space - 1;
                 return base.Space;
             }
             set
@@ -162,8 +162,8 @@ namespace StarshipGenerator.Components
                 StringBuilder output = new StringBuilder();
                 if (Speed > 0)
                     output.Append("+" + Speed + " Speed; ");
-                else if (Speed > 0)
-                    output.Append("+" + Speed + " Speed; ");
+                else if (Speed < 0)
+                    output.Append(Speed + " Speed; ");
                 if (Manoeuvrability > 0)
                     output.Append("+" + Manoeuvrability + " Manoeuvrability; ");
                 else if (Manoeuvrability < 0)

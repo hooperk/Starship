@@ -37,9 +37,13 @@ namespace StarshipSheet
         private Weapon _weapon;
         public WeaponSlot WeaponFacing { get; set; }
         public int Macrodamage;
+        StarshipCreator Parent;
+        int Index;
 
-        public WeaponTemplate(WeaponSlot facing, Weapon weapon = null, int macrodamage = 0, bool enabled = true)//Also pass in method for button - do after making said method
+        public WeaponTemplate(WeaponSlot facing, StarshipCreator parent, int index, Weapon weapon = null, int macrodamage = 0, bool enabled = true)//Also pass in method for button - do after making said method
         {
+            this.Parent = parent;
+            this.Index = index;
             InitializeComponent();
             this.WeaponFacing = facing;
             Facing.Content = WeaponFacing.ToString();
@@ -84,6 +88,11 @@ namespace StarshipSheet
                 else
                     WeaponSpecial.Visibility = Visibility.Collapsed;
             }
+        }
+
+        private void WeaponChoice_Click(object sender, RoutedEventArgs e)
+        {
+            Parent.ChangeWeapon(Index);
         }
     }
 }

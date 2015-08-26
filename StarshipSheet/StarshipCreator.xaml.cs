@@ -607,61 +607,61 @@ namespace StarshipSheet
                 Weapon weapon;
                 for (int i = 0; i < starship.Hull.ProwSlots; i++)
                 {
-                    weapon = starship.WeaponList[count++].Item2;
+                    weapon = starship.WeaponList[count].Item2;
                     if (weapon != null)
                         update = true;
                     if (i == 0 && starship.Hull.DefaultProw != null)
-                        AddWeapon(WeaponSlot.Prow, weapon, update, false);
+                        AddWeapon(WeaponSlot.Prow, weapon, count++, false, false);
                     else
-                        AddWeapon(WeaponSlot.Prow, weapon, false);
+                        AddWeapon(WeaponSlot.Prow, weapon, count++, false);
                 }
                 for (int i = 0; i < starship.Hull.DorsalSlots; i++)
                 {
-                    weapon = starship.WeaponList[count++].Item2;
+                    weapon = starship.WeaponList[count].Item2;
                     if (weapon != null)
                         update = true;
-                    AddWeapon(WeaponSlot.Dorsal, weapon, false);
+                    AddWeapon(WeaponSlot.Dorsal, weapon, count++, false);
                 }
                 for (int i = 0; i < starship.Hull.SideSlots; i++)
                 {
-                    weapon = starship.WeaponList[count++].Item2;
+                    weapon = starship.WeaponList[count].Item2;
                     if (weapon != null)
                         update = true;
                     if (i == 0 && starship.Hull.DefaultBroadside != null)
-                        AddWeapon(WeaponSlot.Port, weapon, update, false);
+                        AddWeapon(WeaponSlot.Port, weapon, count++, false, false);
                     else
-                        AddWeapon(WeaponSlot.Port, weapon, false);
+                        AddWeapon(WeaponSlot.Port, weapon, count++, false);
                 }
                 for (int i = 0; i < starship.Hull.SideSlots; i++)
                 {
-                    weapon = starship.WeaponList[count++].Item2;
+                    weapon = starship.WeaponList[count].Item2;
                     if (weapon != null)
                         update = true;
                     if (i == 0 && starship.Hull.DefaultBroadside != null)
-                        AddWeapon(WeaponSlot.Starboard, weapon, update, false);
+                        AddWeapon(WeaponSlot.Starboard, weapon, count++, false, false);
                     else
-                        AddWeapon(WeaponSlot.Starboard, weapon, false);
+                        AddWeapon(WeaponSlot.Starboard, weapon, count++, false);
                 }
                 for (int i = 0; i < starship.Hull.KeelSlots; i++)
                 {
-                    weapon = starship.WeaponList[count++].Item2;
+                    weapon = starship.WeaponList[count].Item2;
                     if (weapon != null)
                         update = true;
-                    AddWeapon(WeaponSlot.Keel, weapon, false);
+                    AddWeapon(WeaponSlot.Keel, weapon, count++, false);
                 }
                 for (int i = 0; i < starship.Hull.AftSlots; i++)
                 {
-                    weapon = starship.WeaponList[count++].Item2;
+                    weapon = starship.WeaponList[count].Item2;
                     if (weapon != null)
                         update = true;
-                    AddWeapon(WeaponSlot.Aft, weapon, false);
+                    AddWeapon(WeaponSlot.Aft, weapon, count++, false);
                 }
                 foreach (Weapon aux in starship.WeaponList.Where(x => x.Item1 == WeaponSlot.Auxiliary).Select(x => x.Item2))
                 {
-                    weapon = starship.WeaponList[count++].Item2;
+                    weapon = starship.WeaponList[count].Item2;
                     if (weapon != null)
                         update = true;
-                    AddWeapon(WeaponSlot.Auxiliary, weapon, false);
+                    AddWeapon(WeaponSlot.Auxiliary, weapon, count++, false, false);
                 }
                 if (update && canupdate)
                 {
@@ -672,17 +672,17 @@ namespace StarshipSheet
             }
         }
 
-        public void AddWeapon(WeaponSlot facing, Weapon weapon = null, bool update = true, bool enabled = true)
+        public void AddWeapon(WeaponSlot facing, Weapon weapon, int count, bool update = true, bool enabled = true)
         {
             UserControl NewWeapon = null;
             if (weapon == null || weapon.Type == WeaponType.Macrobattery || weapon.Type == WeaponType.Lance)
-                NewWeapon = new WeaponTemplate(facing, weapon, starship.MacrobatteryModifier);
+                NewWeapon = new WeaponTemplate(facing, this, count, weapon, starship.MacrobatteryModifier);
             else if (weapon.Type == WeaponType.TorpedoTube)
-                NewWeapon = new AmmoWeapon(facing, weapon as TorpedoTubes, enabled);
+                NewWeapon = new AmmoWeapon(facing, this, count, weapon as TorpedoTubes, enabled);
             else if (weapon.Type == WeaponType.LandingBay)
-                NewWeapon = new AmmoWeapon(facing, weapon as LandingBay, enabled);
+                NewWeapon = new AmmoWeapon(facing, this, count, weapon as LandingBay, enabled);
             else if (weapon.Type == WeaponType.NovaCannon)
-                NewWeapon = new NovaCannonTemplate(facing, weapon as NovaCannon, enabled);
+                NewWeapon = new NovaCannonTemplate(facing, this, count, weapon as NovaCannon, enabled);
             if (NewWeapon != null)
             {
                 Grid.SetRow(NewWeapon, WeaponRowCount++);//Add the extra row as you place this one
@@ -704,11 +704,30 @@ namespace StarshipSheet
                 WeaponTemplate weapon = control as WeaponTemplate;
                 if (weapon != null)
                     weapon.Macrodamage = starship.MacrobatteryModifier;
-                if (control.Weapon != null && (starship.TargettingMatrix != Quality.Poor || control.Equals(Weapons.Children[starship.Matrix + 7])))
+                if (control.Weapon != null)
                 {
-                    control.Weapon.TargettingMatrix = starship.TargettingMatrix;
+                    if (starship.TargettingMatrix != Quality.Poor || control.Equals(Weapons.Children[starship.Matrix + 7]))
+                        control.Weapon.TargettingMatrix = starship.TargettingMatrix;
+                    else
+                        control.Weapon.TargettingMatrix = Quality.None;
                 }
             }
+        }
+
+        public void ChangeWeapon(int index)
+        {
+            WeaponSlot weaponType = starship.WeaponList[index].Item1;
+            if (weaponType == WeaponSlot.Prow)//Heavy weapons can be on all prows if they can be on a ship
+                weaponType |= WeaponSlot.Heavy;
+            if (((starship.Hull.HullTypes & HullType.AllCruiser) != 0) || (weaponType & WeaponSlot.Prow) != 0)//lances can be on all prows or any slot of ships bigger than frigates, raiders or transports
+                weaponType |= WeaponSlot.Lance;
+            if ((starship.Hull.HullTypes & (HullType.GrandCruiser | HullType.BattleShip)) != 0 && (weaponType & WeaponSlot.Dorsal) != 0)//Grand cruisers may have heavy weapons in dorsal slots
+                weaponType |= WeaponSlot.Heavy;
+            //Open weapon chooser
+            WeaponChooser dialog = new WeaponChooser(starship, weaponType, index, loader);
+            dialog.ShowDialog();
+            if (dialog.DialogResult ?? false)
+                UpdateWeaponSlots(true);      
         }
         #endregion
 
@@ -720,10 +739,9 @@ namespace StarshipSheet
             Grid.SetColumn(template, 0);
             Supplementals.Children.Add(template);
             if (component.AuxiliaryWeapon != null)
-                AddWeapon(WeaponSlot.Auxiliary, component.AuxiliaryWeapon, false);
+                AddWeapon(WeaponSlot.Auxiliary, component.AuxiliaryWeapon, -1, false, false);
             if (update)
                 UpdateSupplementals();
-
         }
 
         public void ClearSupplementals()
@@ -865,7 +883,7 @@ namespace StarshipSheet
         {
             if (starship.Hull == null)
                 MessageBox.Show("Can't select components until you've selected a hull");
-            else 
+            else
             {
                 Essential dialog = new Essential(loader.Bridges.Where(x => (x.HullTypes & starship.Hull.HullTypes) != 0).Highest(), typeof(Bridge), starship.ShipBridge);
                 starship.ShipBridge = (Bridge)dialog.ShowDialog();

@@ -175,12 +175,17 @@ namespace StarshipGenerator.Components
             get
             {
                 StringBuilder output = new StringBuilder();
+                int bonus = 0;
                 if (TurboWeapon != Quality.None)
                 {
                     output.Append("Ignore penalties for firing this weapon at double range; ");
                     if (TurboWeapon == Quality.Best)
-                        output.Append("+5 Ballistic Skill Tests with this weapon; ");
+                        bonus += 5;
                 }
+                if (TargettingMatrix == Quality.Poor)
+                    bonus += 5;
+                if(bonus != 0)
+                    output.Append("+" + bonus + " Ballistic Skill Tests with this weapon; ");
                 output.Append(base.Special);
                 return output.ToString();
             }

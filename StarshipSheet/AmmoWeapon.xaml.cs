@@ -38,16 +38,18 @@ namespace StarshipSheet
         private Weapon _weapon;
         public WeaponSlot WeaponFacing { get; set; }
         private bool Tubes;//if torpedo tubes or landing bay true for tubes
+        StarshipCreator Parent;
+        int Index;
 
-        public AmmoWeapon(WeaponSlot facing, TorpedoTubes weapon, bool enabled = true)
-            : this(facing, (Weapon)weapon, enabled)
+        public AmmoWeapon(WeaponSlot facing, StarshipCreator parent, int index, TorpedoTubes weapon, bool enabled = true)
+            : this(facing, parent, index, (Weapon)weapon, enabled)
         {
             AmmoButton.Content = "Torpedoes";
             Tubes = true;
         }
 
-        public AmmoWeapon(WeaponSlot facing, LandingBay weapon, bool enabled = true)
-            : this(facing, (Weapon)weapon, enabled)
+        public AmmoWeapon(WeaponSlot facing, StarshipCreator parent, int index, LandingBay weapon, bool enabled = true)
+            : this(facing, parent, index, (Weapon)weapon, enabled)
         {
             AmmoButton.Content = "Squadrons";
             Tubes = false;
@@ -58,8 +60,10 @@ namespace StarshipSheet
         /// </summary>
         /// <param name="facing">Weapon slot</param>
         /// <param name="weapon">Torpedo tube or Landing Bay</param>
-        private AmmoWeapon(WeaponSlot facing, Weapon weapon, bool enabled)
+        private AmmoWeapon(WeaponSlot facing, StarshipCreator parent, int index, Weapon weapon, bool enabled)
         {
+            this.Parent = parent;
+            this.Index = index;
             InitializeComponent();
             this.WeaponFacing = facing;
             Facing.Content = WeaponFacing.ToString();
@@ -107,6 +111,11 @@ namespace StarshipSheet
             {
                 //...for landing bays
             }
+        }
+
+        private void WeaponChoice_Click(object sender, RoutedEventArgs e)
+        {
+            Parent.ChangeWeapon(Index);
         }
     }
 }

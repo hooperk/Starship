@@ -649,6 +649,8 @@ namespace StarshipGenerator.Utils
                     foreach (Supplemental component in SupplementalComponents)
                         if (component != null)
                             total += component.BSModifier;
+                if (TargettingMatrix == Quality.Common)
+                    total += 5;
                 if (CrewRace == Race.Servitor)
                     total -= 10;
                 if (MachineSpirit == MachineSpirit.MartialHubris)

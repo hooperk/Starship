@@ -36,9 +36,13 @@ namespace StarshipSheet
         }
         private Weapon _weapon;
         public WeaponSlot WeaponFacing { get; set; }
+        StarshipCreator Parent;
+        int Index;
 
-        public NovaCannonTemplate(WeaponSlot facing, NovaCannon weapon, bool enabled = true)//Also pass in method for button - do after making said method
+        public NovaCannonTemplate(WeaponSlot facing, StarshipCreator parent, int index, NovaCannon weapon, bool enabled = true)//Also pass in method for button - do after making said method
         {
+            this.Parent = parent;
+            this.Index = index;
             InitializeComponent();
             this.WeaponFacing = facing;
             Facing.Content = WeaponFacing.ToString();
@@ -75,6 +79,11 @@ namespace StarshipSheet
                 else
                     WeaponSpecial.Visibility = Visibility.Collapsed;
             }
+        }
+
+        private void WeaponChoice_Click(object sender, RoutedEventArgs e)
+        {
+            Parent.ChangeWeapon(Index);
         }
     }
 }

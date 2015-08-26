@@ -20,7 +20,7 @@
             <ColumnDefinition Width="66"/>
         </Grid.ColumnDefinitions>
         <Label Name="Facing" Grid.Row="0" Grid.Column="0">Facing</Label>
-        <Button Name="WeaponChoice" Grid.Row="0" Grid.Column="1">Weapon</Button>
+        <Button Name="WeaponChoice" Grid.Row="0" Grid.Column="1" Click="WeaponChoice_Click">Weapon</Button>
         <TextBlock Name="WeaponName" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" ToolTip="Default Weapon for this hull" Visibility="Collapsed"/>
         <TextBox Name="WeaponType" Grid.Row="0" Grid.Column="2" IsReadOnly="True"/>
         <TextBox Name="WeaponDamage" Grid.Row="0" Grid.Column="4" IsReadOnly="True"/>

@@ -94,6 +94,9 @@
     <Compile Include="Upgrades.xaml.cs">
       <DependentUpon>Upgrades.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WeaponChooser.xaml.cs">
+      <DependentUpon>WeaponChooser.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WeaponTemplate.xaml.cs">
       <DependentUpon>WeaponTemplate.xaml</DependentUpon>
     </Compile>
@@ -154,6 +157,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Upgrades.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WeaponChooser.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

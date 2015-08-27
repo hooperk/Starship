@@ -29,7 +29,7 @@ namespace StarshipGenerator.Components
         {
             get
             {
-                if ((WeaponQuality & WeaponQuality.Strength) > 0)
+                if ((WeaponQuality & WeaponQuality.Strength) != 0)
                 {
                     switch (Quality)
                     {
@@ -52,7 +52,7 @@ namespace StarshipGenerator.Components
         {
             get
             {
-                if ((WeaponQuality & WeaponQuality.Damage) > 0)
+                if ((WeaponQuality & WeaponQuality.Damage) != 0)
                 {
                     switch (Quality)
                     {
@@ -76,7 +76,7 @@ namespace StarshipGenerator.Components
         {
             get
             {
-                if ((WeaponQuality & WeaponQuality.Crit) > 0)
+                if ((WeaponQuality & WeaponQuality.Crit) != 0)
                 {
                     switch (Quality)
                     {
@@ -100,7 +100,7 @@ namespace StarshipGenerator.Components
             get
             {
                 int mod = 0;
-                if ((WeaponQuality & WeaponQuality.Range) > 0)
+                if ((WeaponQuality & WeaponQuality.Range) != 0)
                 {
                     switch (Quality)
                     {

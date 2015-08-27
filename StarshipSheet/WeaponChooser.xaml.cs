@@ -182,7 +182,7 @@ namespace StarshipSheet
                 CurrentPower.Text = Current.Power.ToString();
                 CurrentSpace.Text = Current.Space.ToString();
                 CurrentSP.Text = Current.SP.ToString();
-                CurrentStr.Text = Current.SP.ToString();
+                CurrentStr.Text = Current.Strength.ToString();
                 if (Current.Type == WeaponType.LandingBay)
                 {
                     CurrentDamage.Text = "";

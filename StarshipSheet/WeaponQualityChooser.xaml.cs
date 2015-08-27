@@ -31,6 +31,11 @@ namespace StarshipSheet
             this.CurrentQuality = this.OriginalQuality = last;
             this.CurrentWQ = this.OriginalWQ = lastwq;
             InitializeComponent();
+            SpaceCheck.IsChecked = (CurrentWQ & WeaponQuality.Space) != 0;
+            StrengthCheck.IsChecked = (CurrentWQ & WeaponQuality.Strength) != 0;
+            DamageCheck.IsChecked = (CurrentWQ & WeaponQuality.Damage) != 0;
+            RangeCheck.IsChecked = (CurrentWQ & WeaponQuality.Range) != 0;
+            CritCheck.IsChecked = (CurrentWQ & WeaponQuality.Crit) != 0;
             QualityChoice.ItemsSource = new List<Quality>() { Quality.Poor, Quality.Common, Quality.Good, Quality.Best };
             QualityChoice.SelectedItem = CurrentQuality;
         }
@@ -44,11 +49,16 @@ namespace StarshipSheet
                 SpaceCheck.IsChecked = StrengthCheck.IsChecked = DamageCheck.IsChecked = RangeCheck.IsChecked = CritCheck.IsChecked = false;//uncheck all for common
             else if (CurrentQuality == Quality.Good)//If Good(Less can be set than poor or best)
                 StrengthCheck.IsChecked = CritCheck.IsChecked = false;//uncheck disallowed options for good quality
-            if ((CurrentQuality == Quality.Poor || CurrentQuality == Quality.Best) && (Type == WeaponType.LandingBay || Type == WeaponType.TorpedoTube))
+            if ((Type == WeaponType.LandingBay || Type == WeaponType.TorpedoTube))
             {
-                SpaceCheck.IsChecked = StrengthCheck.IsChecked = true;//Only two options available so auto check them
+                SpaceCheck.IsChecked = CurrentQuality != Quality.Common;
+                CurrentWQ = WeaponQuality.Space;
+                if (CurrentQuality == Quality.Poor || CurrentQuality == Quality.Best)
+                {
+                    StrengthCheck.IsChecked = true;//Only two options available so auto check them
+                    CurrentWQ |= WeaponQuality.Strength;
+                }
                 SpaceCheck.IsEnabled = StrengthCheck.IsEnabled = DamageCheck.IsEnabled = RangeCheck.IsEnabled = CritCheck.IsEnabled = false;//disable all sinc there is only one valid permutation
-                CurrentWQ = WeaponQuality.Space | WeaponQuality.Strength;
                 SetValues();
             }
             else

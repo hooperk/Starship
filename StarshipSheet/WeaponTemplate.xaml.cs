@@ -37,7 +37,7 @@ namespace StarshipSheet
         private Weapon _weapon;
         public WeaponSlot WeaponFacing { get; set; }
         public int Macrodamage;
-        StarshipCreator Parent;
+        private new StarshipCreator Parent;
         int Index;
 
         public WeaponTemplate(WeaponSlot facing, StarshipCreator parent, int index, Weapon weapon = null, int macrodamage = 0, bool enabled = true)//Also pass in method for button - do after making said method

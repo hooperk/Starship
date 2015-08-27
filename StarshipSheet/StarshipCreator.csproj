@@ -97,6 +97,9 @@
     <Compile Include="WeaponChooser.xaml.cs">
       <DependentUpon>WeaponChooser.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WeaponQualityChooser.xaml.cs">
+      <DependentUpon>WeaponQualityChooser.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WeaponTemplate.xaml.cs">
       <DependentUpon>WeaponTemplate.xaml</DependentUpon>
     </Compile>
@@ -161,6 +164,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="WeaponChooser.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WeaponQualityChooser.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -38,7 +38,7 @@ namespace StarshipSheet
         private Weapon _weapon;
         public WeaponSlot WeaponFacing { get; set; }
         private bool Tubes;//if torpedo tubes or landing bay true for tubes
-        StarshipCreator Parent;
+        private new StarshipCreator Parent;
         int Index;
 
         public AmmoWeapon(WeaponSlot facing, StarshipCreator parent, int index, TorpedoTubes weapon, bool enabled = true)

@@ -12,8 +12,8 @@
             <ColumnDefinition Width="23"/>
             <ColumnDefinition Width="56"/>
             <ColumnDefinition Width="54"/>
-            <ColumnDefinition Width="49"/>
             <ColumnDefinition Width="43"/>
+            <ColumnDefinition Width="49"/>
             <ColumnDefinition/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
@@ -26,24 +26,26 @@
         <Label Grid.Row="0" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Bottom">SP</Label>
         <Label Grid.Row="0" Grid.Column="5" HorizontalAlignment="Center" VerticalAlignment="Bottom">Strength</Label>
         <Label Grid.Row="0" Grid.Column="6" HorizontalAlignment="Center" VerticalAlignment="Bottom">Damage</Label>
-        <TextBlock Grid.Row="0" Grid.Column="7" TextWrapping="WrapWithOverflow" Margin="2,2,2,2" Width="45" TextAlignment="Center">Crit Rating</TextBlock>
-        <Label Grid.Row="0" Grid.Column="8" HorizontalAlignment="Center" VerticalAlignment="Bottom">Range</Label>
+        <Label Grid.Row="0" Grid.Column="7" HorizontalAlignment="Center" VerticalAlignment="Bottom">Range</Label>
+        <TextBlock Grid.Row="0" Grid.Column="8" TextWrapping="WrapWithOverflow" Margin="2,2,2,2" Width="45" TextAlignment="Center">Crit Rating</TextBlock>
         <Label Grid.Row="0" Grid.Column="10" HorizontalAlignment="Center" ToolTip="Hover over to see page number" VerticalAlignment="Bottom">Rulebook</Label>
-        <Grid Name="WeaponGrid" Grid.Row="1" Grid.ColumnSpan="11" local:GridHelpers.RowCount="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path=WeaponRowCount}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="205"/>
-                <ColumnDefinition Width="90"/>
-                <ColumnDefinition Width="43"/>
-                <ColumnDefinition Width="41"/>
-                <ColumnDefinition Width="23"/>
-                <ColumnDefinition Width="56"/>
-                <ColumnDefinition Width="54"/>
-                <ColumnDefinition Width="49"/>
-                <ColumnDefinition Width="43"/>
-                <ColumnDefinition/>
-                <ColumnDefinition Width="91"/>
-            </Grid.ColumnDefinitions>
-        </Grid>
+        <ScrollViewer Grid.Row="1" Grid.ColumnSpan="11">
+            <Grid Name="WeaponGrid" local:GridHelpers.RowCount="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path=WeaponRowCount}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="205"/>
+                    <ColumnDefinition Width="90"/>
+                    <ColumnDefinition Width="43"/>
+                    <ColumnDefinition Width="41"/>
+                    <ColumnDefinition Width="23"/>
+                    <ColumnDefinition Width="56"/>
+                    <ColumnDefinition Width="54"/>
+                    <ColumnDefinition Width="43"/>
+                    <ColumnDefinition Width="49"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+            </Grid>
+        </ScrollViewer>
         <Label Grid.Row="2" Grid.Column="0" VerticalAlignment="Bottom">
             <Bold>Selected</Bold>
         </Label>
@@ -53,8 +55,8 @@
         <Label Grid.Row="2" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Bottom">SP</Label>
         <Label Grid.Row="2" Grid.Column="5" HorizontalAlignment="Center" VerticalAlignment="Bottom">Strength</Label>
         <Label Grid.Row="2" Grid.Column="6" HorizontalAlignment="Center" VerticalAlignment="Bottom">Damage</Label>
-        <TextBlock Grid.Row="2" Grid.Column="7" TextWrapping="WrapWithOverflow" Margin="2,2,2,2" Width="45" TextAlignment="Center">Crit Rating</TextBlock>
-        <Label Grid.Row="2" Grid.Column="8" HorizontalAlignment="Center" VerticalAlignment="Bottom">Range</Label>
+        <Label Grid.Row="2" Grid.Column="7" HorizontalAlignment="Center" VerticalAlignment="Bottom">Range</Label>
+        <TextBlock Grid.Row="2" Grid.Column="8" TextWrapping="WrapWithOverflow" Margin="2,2,2,2" Width="45" TextAlignment="Center">Crit Rating</TextBlock>
         <TextBox Name="CurrentName" Grid.Row="3" Grid.Column="0" IsReadOnly="True"/>
         <TextBox Name="CurrentType" Grid.Row="3" Grid.Column="1" IsReadOnly="True"/>
         <TextBox Name="CurrentPower" Grid.Row="3" Grid.Column="2" IsReadOnly="True" HorizontalContentAlignment="Center"/>
@@ -62,16 +64,16 @@
         <TextBox Name="CurrentSP" Grid.Row="3" Grid.Column="4" IsReadOnly="True" HorizontalContentAlignment="Center"/>
         <TextBox Name="CurrentStr" Grid.Row="3" Grid.Column="5" IsReadOnly="True" HorizontalContentAlignment="Center"/>
         <TextBox Name="CurrentDamage" Grid.Row="3" Grid.Column="6" IsReadOnly="True" HorizontalContentAlignment="Center"/>
-        <TextBox Name="CurrentCrit" Grid.Row="3" Grid.Column="7" IsReadOnly="True" HorizontalContentAlignment="Center"/>
-        <TextBox Name="CurrentRange" Grid.Row="3" Grid.Column="8" IsReadOnly="True" HorizontalContentAlignment="Center"/>
-        <Button Grid.Row="3" Grid.Column="10">
+        <TextBox Name="CurrentRange" Grid.Row="3" Grid.Column="7" IsReadOnly="True" HorizontalContentAlignment="Center"/>
+        <TextBox Name="CurrentCrit" Grid.Row="3" Grid.Column="8" IsReadOnly="True" HorizontalContentAlignment="Center"/>
+        <Button Grid.Row="3" Grid.Column="10" ToolTip="Change the quality of this weapon" Click="Quality_Click">
             <TextBlock Name="CurrentQuality" Margin="2,2,2,2" TextWrapping="WrapWithOverflow">Change Quality</TextBlock>
         </Button>
-        <StackPanel Grid.Row="4" Grid.ColumnSpan="11" Orientation="Horizontal">
+        <Grid Grid.Row="4" Grid.ColumnSpan="11" local:GridHelpers.ColumnCount="2" local:GridHelpers.StarColumns="1">
             <Label>Special:</Label>
             <TextBox Name="CurrentSpecial" IsReadOnly="True" TextWrapping="WrapWithOverflow"/>
-        </StackPanel>
-        <Button Grid.Row="5" Grid.Column="8" Grid.ColumnSpan="2" Click="Button_Click_1">Save &amp; Close</Button>
-        <Button Grid.Row="5" Grid.Column="10" Click="Button_Click">Cancel</Button>
+        </Grid>
+        <Button Grid.Row="5" Grid.Column="8" Grid.ColumnSpan="2" Click="Save_Click">Save &amp; Close</Button>
+        <Button Grid.Row="5" Grid.Column="10" Click="Cancel_Click">Cancel</Button>
     </Grid>
 </Window>

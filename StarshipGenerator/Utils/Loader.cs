@@ -938,7 +938,7 @@ namespace StarshipGenerator.Utils
             Hulls.Add(new Hull("Armageddon-Class Battlecruiser", 5, 10, 10, 70, 20, 73, 63, HullType.BattleCruiser, "Can only stay at void half as long as other ships", RuleBook.BattlefleetKoronus, 23, 2, 1, 1, 2));
             Hulls.Add(new Hull("Avenger-Class Grand Cruiser", 5, 5, 10, 90, 21, 90, 70, HullType.GrandCruiser, null, RuleBook.BattlefleetKoronus, 20, 3, 0, 0, 3));
             Hulls.Add(new Hull("Carrack-Class Transport", 4, -5, 10, 45, 15, 38, 25, HullType.Transport, null, RuleBook.BattlefleetKoronus, 29, dorsal: 2, comps: new Supplemental[] { MainCargoHold }));
-            Hulls.Add(new Hull("Chalice-Class Battlecruiser", 6, 10, 10, 70, 19, 75, 63, HullType.BattleCruiser, "Any critical received has a 25% chance to cause an additional Fire! critical", RuleBook.BattlefleetKoronus, 22, 2, 1, 2, 2, power: 4));
+            Hulls.Add(new Hull("Chalice-Class Battlecruiser", 6, 10, 10, 70, 19, 75, 63, HullType.BattleCruiser, "Any critical received has a 25% chance to cause an additional Fire! critical", RuleBook.BattlefleetKoronus, 22, 2, 1, 1, 2, power: 4));
             Hulls.Add(new Hull("Claymore-Class Corvette", 8, 18, 12, 30, 17, 38, 38, HullType.Frigate, null, RuleBook.BattlefleetKoronus, 27, dorsal: 2));
             Hulls.Add(new Hull("Cobra-Class Destroyer", 10, 30, 10, 30, 15, 35, 30, HullType.Raider, null, RuleBook.IntoTheStorm, 152, 1, 1, 1));
             Hulls.Add(new Hull("Conquest-Class Star Galleon", 4, 5, 10, 65, 16, 56, 52, HullType.Cruiser | HullType.Transport, null, RuleBook.BattlefleetKoronus, 23, side: 2, comps: new Supplemental[] { MainCargoHold, MainCargoHold }));

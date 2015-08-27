@@ -36,7 +36,7 @@ namespace StarshipSheet
         }
         private Weapon _weapon;
         public WeaponSlot WeaponFacing { get; set; }
-        StarshipCreator Parent;
+        private new StarshipCreator Parent;
         int Index;
 
         public NovaCannonTemplate(WeaponSlot facing, StarshipCreator parent, int index, NovaCannon weapon, bool enabled = true)//Also pass in method for button - do after making said method

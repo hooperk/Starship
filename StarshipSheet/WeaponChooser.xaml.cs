@@ -38,6 +38,12 @@ namespace StarshipSheet
             Button button;
             TextBox textbox;
             TextBlock textblock;
+            button = new Button();
+            button.Content = "Clear Weapon";
+            button.Click += ((s, e) => SetCurrent(null));
+            Grid.SetRow(button, WeaponRowCount);
+            Grid.SetColumn(button, 0);
+            WeaponGrid.Children.Add(button);
             foreach (var group in loader.Weapons.Where(x => (x.HullTypes & starship.Hull.HullTypes) != 0 && (x.Slots & slot) != 0).GroupBy(x => x.ComponentOrigin).OrderBy(x => x.Key))
             {
                 if (group.Key != ComponentOrigin.Standard)
@@ -50,18 +56,91 @@ namespace StarshipSheet
                 }
                 foreach (Weapon weapon in group)
                 {
-                    //programatically show all buttons
+                    button = new Button();
+                    button.Content = weapon.Name;
+                    button.Click += ((s,e) => SetCurrent(weapon));
+                    Grid.SetRow(button, WeaponRowCount);
+                    Grid.SetColumn(button, 0);
+                    WeaponGrid.Children.Add(button);
+                    textbox = new TextBox();
+                    textbox.Text = weapon.Type.ToString();
+                    Grid.SetRow(textbox, WeaponRowCount);
+                    Grid.SetColumn(textbox, 1);
+                    WeaponGrid.Children.Add(textbox);
+                    textbox = new TextBox();
+                    textbox.Text = weapon.Power.ToString();
+                    textbox.TextAlignment = TextAlignment.Center;
+                    Grid.SetRow(textbox, WeaponRowCount);
+                    Grid.SetColumn(textbox, 2);
+                    WeaponGrid.Children.Add(textbox);
+                    textbox = new TextBox();
+                    textbox.Text = weapon.Space.ToString();
+                    textbox.TextAlignment = TextAlignment.Center;
+                    Grid.SetRow(textbox, WeaponRowCount);
+                    Grid.SetColumn(textbox, 3);
+                    WeaponGrid.Children.Add(textbox);
+                    textbox = new TextBox();
+                    textbox.Text = weapon.SP.ToString();
+                    textbox.TextAlignment = TextAlignment.Center;
+                    Grid.SetRow(textbox, WeaponRowCount);
+                    Grid.SetColumn(textbox, 4);
+                    WeaponGrid.Children.Add(textbox);
+                    textbox = new TextBox();
+                    textbox.Text = weapon.Strength.ToString();
+                    textbox.TextAlignment = TextAlignment.Center;
+                    Grid.SetRow(textbox, WeaponRowCount);
+                    Grid.SetColumn(textbox, 5);
+                    WeaponGrid.Children.Add(textbox);
+                    textbox = new TextBox();
+                    textbox.Text = weapon.Damage.ToString();
+                    textbox.TextAlignment = TextAlignment.Center;
+                    Grid.SetRow(textbox, WeaponRowCount);
+                    Grid.SetColumn(textbox, 6);
+                    WeaponGrid.Children.Add(textbox);
+                    textbox = new TextBox();
+                    textbox.Text = weapon.DisplayRange;
+                    textbox.TextAlignment = TextAlignment.Center;
+                    Grid.SetRow(textbox, WeaponRowCount);
+                    Grid.SetColumn(textbox, 7);
+                    WeaponGrid.Children.Add(textbox);
+                    textbox = new TextBox();
+                    textbox.Text = weapon.Crit.ToString();
+                    textbox.TextAlignment = TextAlignment.Center;
+                    Grid.SetRow(textbox, WeaponRowCount);
+                    Grid.SetColumn(textbox, 8);
+                    WeaponGrid.Children.Add(textbox);
+                    textbox = new TextBox();
+                    textbox.Text = weapon.Origin.Name();
+                    textbox.ToolTip = weapon.Origin.LongName() + ", Page: " + weapon.PageNumber;
+                    Grid.SetRow(textbox, WeaponRowCount++);
+                    Grid.SetColumn(textbox, 10);
+                    WeaponGrid.Children.Add(textbox);
+                    if (!String.IsNullOrWhiteSpace(weapon.Description))
+                    {
+                        textblock = new TextBlock();
+                        textblock.Text = weapon.Description;
+                        textblock.Margin = new Thickness(2, 2, 2, 2);
+                        textblock.TextWrapping = TextWrapping.WrapWithOverflow;
+                        Grid.SetRow(textblock, WeaponRowCount++);
+                        Grid.SetColumnSpan(textblock, 11);
+                        WeaponGrid.Children.Add(textblock);
+                    }
                 }
             }
+            Current = Starship.Weapons[Index];
+            UpdateCurrent();
         }
 
         private void SetCurrent(Weapon weapon)
         {
             Current = weapon;
+            UpdateCurrent();
         }
 
         private void ChangeQuality(Quality quality, WeaponQuality wq)
         {
+            if (Current == null)
+                return;
             if (Current is NovaCannon)
                 Current = new NovaCannon(Current.Name, Current.HullTypes, Current.RawPower, Current.RawSpace, Current.RawSP, Current.RawDamage, Current.RawRange, Current.Origin, Current.PageNumber, Current.RawSpecial,
                     quality, wq, Current.ComponentOrigin, Current.Condition, ((NovaCannon)Current).Ammo);
@@ -74,15 +153,84 @@ namespace StarshipSheet
             else
                 Current = new Weapon(Current.Name, Current.Type, Current.HullTypes, Current.Slots, Current.RawPower, Current.RawSpace, Current.RawSP, Current.RawStrength, Current.RawDamage, Current.RawCrit, Current.RawRange,
                 Current.Origin, Current.PageNumber, quality, wq, Current.RawSpecial, Quality.None, Current.ComponentOrigin, Current.Condition);
+            UpdateCurrent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void UpdateCurrent()
+        {
+            if (Current == null)
+            {
+                CurrentName.Text = "";
+                CurrentType.Text = "";
+                CurrentPower.Text = "";
+                CurrentSpace.Text = "";
+                CurrentSP.Text = "";
+                CurrentStr.Text = "";
+                CurrentDamage.Text = "";
+                CurrentDamage.ToolTip = null;
+                CurrentCrit.Text = "";
+                CurrentCrit.ToolTip = null;
+                CurrentRange.Text = "";
+                CurrentRange.ToolTip = null;
+                CurrentQuality.Text = "Choose Quality";
+                CurrentSpecial.Text = "";
+            }
+            else
+            {
+                CurrentName.Text = Current.Name;
+                CurrentType.Text = Current.Type.ToString();
+                CurrentPower.Text = Current.Power.ToString();
+                CurrentSpace.Text = Current.Space.ToString();
+                CurrentSP.Text = Current.SP.ToString();
+                CurrentStr.Text = Current.SP.ToString();
+                if (Current.Type == WeaponType.LandingBay)
+                {
+                    CurrentDamage.Text = "";
+                    CurrentDamage.ToolTip = "Landing Bays do not deal damage directly and don't have their own damage rating";
+                    CurrentCrit.Text = "";
+                    CurrentCrit.ToolTip = "Landing Bays do not deal damage directly and don't have their own crit rating";
+                    CurrentRange.Text = "";
+                    CurrentRange.ToolTip = "Landing Bays do not have a range; They release their attack craft which then fly on their own power until returning or dying";
+                }
+                else if (Current.Type == WeaponType.TorpedoTube)
+                {
+                    CurrentDamage.Text = "";
+                    CurrentDamage.ToolTip = "Damage rating is determined by the Torpedoes equipped so Torpedo Tubes have no damage rating";
+                    CurrentCrit.Text = "";
+                    CurrentCrit.ToolTip = "Crit rating is determined by the Torpedoes equipped so Torpedo Tubes have no crit rating";
+                    CurrentRange.Text = "";
+                    CurrentRange.ToolTip = "Torpedo Tubes do not have a range; They fire the torpedoes whcih travel under their own power until they hit something or reach their own range";
+                }
+                else
+                {
+                    CurrentDamage.Text = Current.Damage.ToString();
+                    CurrentDamage.ToolTip = null;
+                    if (Current.Type == WeaponType.NovaCannon)
+                    {
+                        CurrentCrit.Text = "";
+                        CurrentCrit.ToolTip = "Any damage dice which roll a 10 will inflict a critical hit, and this can cause multiple critical hits";
+                        CurrentRange.ToolTip = "Nove Cannons have a minimum range of 6 VUs";
+                    }
+                    else
+                    {
+                        CurrentCrit.Text = Current.Crit.ToString();
+                        CurrentCrit.Text = Current.Crit == 0 ? "This weapon cannot critically hit" : null;
+                        CurrentRange.ToolTip = null;
+                    }
+                    CurrentRange.Text = Current.DisplayRange;
+                }
+                CurrentQuality.Text = Current.Quality + " Quality";
+                CurrentSpecial.Text = Current.Description;
+            }
+        }
+
+        private void Cancel_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = false;
             this.Close();
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void Save_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = true;
             this.Close();
@@ -92,6 +240,13 @@ namespace StarshipSheet
         {
             if(DialogResult ?? false)
                 Starship.Weapons[Index] = Current;
+        }
+
+        private void Quality_Click(object sender, RoutedEventArgs e)
+        {
+            WeaponQualityChooser dialog = new WeaponQualityChooser(Current.Type, Current.Quality, Current.WeaponQuality);
+            Tuple<Quality, WeaponQuality> output = dialog.ShowDialog();
+            ChangeQuality(output.Item1, output.Item2);
         }
     }
 }

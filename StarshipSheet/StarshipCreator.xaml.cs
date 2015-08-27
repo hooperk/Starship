@@ -926,6 +926,33 @@ namespace StarshipSheet
                 UpdateAugurs();
             }
         }
+
+        private void WeaponUpgrade_Click(object sender, RoutedEventArgs e)
+        {
+            //Upgrade Dialog
+
+            UpdateWeapons();
+            UpdateBS();
+        }
+
+        private void ClearButton_Click(object sender, RoutedEventArgs e)
+        {
+            Starship.SupplementalComponents.Clear();
+            SupplementalRowCount = 0;
+            Supplementals.Children.Clear();
+            if (Starship.Hull != null && Starship.Hull.DefaultComponents != null)
+                foreach (Supplemental component in Starship.Hull.DefaultComponents)
+                    Starship.SupplementalComponents.Add(component);
+            if (Starship.SupplementalComponents != null)
+            {
+                foreach (String name in Starship.SupplementalComponents.Select(x => x.Name).Distinct())
+                {
+                    IEnumerable<Supplemental> components = Starship.SupplementalComponents.Where(x => x.Name.Equals(name));
+                    int count = components.Count();
+                    AddNewSupplemental(components.First(), count, count, false);
+                }
+            }
+        }
         #endregion
     }
 }

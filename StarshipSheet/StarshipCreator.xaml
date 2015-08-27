@@ -314,7 +314,7 @@
                 <Label Grid.Row="0" Grid.Column="4">Damage</Label>
                 <Label Grid.Row="0" Grid.Column="5">Range</Label>
                 <Label Grid.Row="0" Grid.Column="6">Crit Rating</Label>
-                <Button Grid.Row="0" Grid.RowSpan="10" Grid.Column="7" HorizontalContentAlignment="Stretch">
+                <Button Grid.Row="0" Grid.RowSpan="10" Grid.Column="7" HorizontalContentAlignment="Stretch" Click="WeaponUpgrade_Click">
                     <TextBlock TextWrapping="WrapWithOverflow" TextAlignment="Center">Weapon Upgrade</TextBlock>
                 </Button>
             </Grid>

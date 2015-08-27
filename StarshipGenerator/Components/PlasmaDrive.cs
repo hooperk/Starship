@@ -16,7 +16,7 @@ namespace StarshipGenerator.Components
         {
             get
             {
-                if (Modified && base.ComponentOrigin == ComponentOrigin.Standard)
+                if (Modified && RawCompOrigin == ComponentOrigin.Standard)
                     return "Modified " + base.Name;
                 return base.Name;
             }
@@ -40,7 +40,7 @@ namespace StarshipGenerator.Components
         {
             get
             {
-                if (Modified && base.ComponentOrigin == ComponentOrigin.Standard)
+                if (Modified && RawCompOrigin == ComponentOrigin.Standard)
                     return RawSpeed + 1;
                 return RawSpeed;
             }
@@ -77,8 +77,8 @@ namespace StarshipGenerator.Components
         {
             get
             {
-                if (Modified && base.ComponentOrigin == ComponentOrigin.Standard)
-                    return base.Space - 1;
+                if (Modified && RawCompOrigin == ComponentOrigin.Standard)
+                    return base.Space - 4;
                 return base.Space;
             }
             set
@@ -93,11 +93,15 @@ namespace StarshipGenerator.Components
         {
             get
             {
-                if (Modified && base.ComponentOrigin == ComponentOrigin.Standard)
+                if (Modified && RawCompOrigin == ComponentOrigin.Standard)
                     return ComponentOrigin.Archeotech;
-                return base.ComponentOrigin;
+                return RawCompOrigin;
             }
         }
+        /// <summary>
+        /// Get Component Origin without Modified alteration
+        /// </summary>
+        public ComponentOrigin RawCompOrigin{ get { return base.ComponentOrigin; } }
 
         /// <summary>
         /// Create a new plasma drive

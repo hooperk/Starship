@@ -16,7 +16,7 @@
         <Label x:Name="CountDisplay" Grid.Column="0" VerticalAlignment="Center"/>
         <TextBlock x:Name="ComponentName" Grid.Column="1" VerticalAlignment="Center" TextWrapping="WrapWithOverflow"/>
         <TextBlock x:Name="Special" Grid.Column="2" VerticalAlignment="Center" TextWrapping="WrapWithOverflow"/>
-        <Button x:Name="AddButton" Grid.Column="3" Height="26" VerticalAlignment="Center"><Bold>+</Bold></Button>
-        <Button x:Name="RemoveButton" Grid.Column="4" Height="26" VerticalAlignment="Center"><Bold>-</Bold></Button>
+        <Button x:Name="AddButton" Grid.Column="3" Height="26" VerticalAlignment="Center" Click="AddButton_Click"><Bold>+</Bold></Button>
+        <Button x:Name="RemoveButton" Grid.Column="4" Height="26" VerticalAlignment="Center" HorizontalAlignment="Left" Width="33" Click="RemoveButton_Click"><Bold>-</Bold></Button>
     </Grid>
 </UserControl>

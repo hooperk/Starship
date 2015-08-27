@@ -25,7 +25,7 @@
         <TextBox Name="WeaponType" Grid.Row="0" Grid.Column="2" IsReadOnly="True"/>
         <TextBox Name="WeaponDamage" Grid.Row="0" Grid.Column="4" IsReadOnly="True"/>
         <TextBox Name="WeaponRange" Grid.Row="0" Grid.Column="5" IsReadOnly="True" HorizontalContentAlignment="Center"/>
-        <Button Grid.Row="0" Grid.Column="6">Ammo</Button>
+        <Button Grid.Row="0" Grid.Column="6" ToolTip="Not Currently Functional">Ammo</Button>
         <TextBlock Name="WeaponSpecial" Grid.Row="1" Grid.ColumnSpan="7" TextWrapping="WrapWithOverflow" Margin="5,5,5,5"/>
     </Grid>
 </UserControl>

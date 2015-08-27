@@ -226,6 +226,32 @@ namespace StarshipGenerator.Components
         /// </summary>
         /// <returns>JSON object as string</returns>
         public abstract string ToJSON();
+
+        /// <summary>
+        /// Checks if the two Components are equal
+        /// </summary>
+        /// <param name="obj">Object to check equality against</param>
+        /// <returns>false if other object is null, is not a component or does not match</returns>
+        /// <remarks>If a component has the same name, origin and quality it is the same.
+        /// Currently inequalities could match between two custom components</remarks>
+        public override bool Equals(object obj)
+        {
+            Component other = obj as Component;
+            if (other == null)
+                return false;
+            if (this.GetType() != obj.GetType())
+                return false;
+            return (this.QualityName.Equals(other.QualityName) && this.HullTypes == other.HullTypes && this.Origin == other.Origin);
+        }
+
+        /// <summary>
+        /// Retrieve the hash code of the Component
+        /// </summary>
+        /// <returns>Hash Code of this Component</returns>
+        public override int GetHashCode()
+        {
+            return this.QualityName.GetHashCode() + (7 * this.HullTypes.GetHashCode()) + (13 * this.Origin.GetHashCode());//checking equality off having the same name and the same quality
+        }
     }
 
     public static class ComponentExtension

@@ -26,11 +26,16 @@ namespace StarshipSheet
         public int Max;
         public int Min;
         public int Count;
+        private new StarshipCreator Parent;
+        private Component Current;
 
-        public SupplementalTemplate(Supplemental component, int count = 1, int min = 0)
+        public SupplementalTemplate(StarshipCreator parent, Supplemental component, int count = 1, int min = 0)
         {
+            if (component == null)
+                throw new ArgumentException("Cannot create a Template of a null Component");
+            this.Parent = parent;
             InitializeComponent();
-            Component = component;
+            this.Component = component;
             Min = min;
             Max = Component.Max;
             Count = count;
@@ -55,6 +60,22 @@ namespace StarshipSheet
                 RemoveButton.IsEnabled = true;
             else
                 RemoveButton.IsEnabled = false;
+        }
+
+        private void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+            Parent.Starship.SupplementalComponents.Add(Component);
+            Count++;
+            CheckAdd();
+        }
+
+        private void RemoveButton_Click(object sender, RoutedEventArgs e)
+        {
+            Parent.Starship.SupplementalComponents.Remove(Component);
+            Count--;
+            CheckRemove();
+            if (Count == 0)
+                Parent.Supplementals.Children.Remove(this);
         }
     }
 }

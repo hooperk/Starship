@@ -321,11 +321,13 @@ namespace StarshipSheet
                     ChosenShields.Text = ((VoidShield)Current).Strength.ToString();
                 ChosenQuality.SelectedItem = Current.Quality;
                 if (ComponentType == typeof(PlasmaDrive))
+                {
                     Modified.IsChecked = ((PlasmaDrive)Current).Modified;
-                ChosenSpecial.Text = Current.Description;
-                bool modifiable = Current.ComponentOrigin != ComponentOrigin.Archeotech;//can't modify an alreaddy archeotech drive
-                Modified.IsEnabled = modifiable;
-                Modified.ToolTip = (modifiable ? null : "Cannot modify an archeotech drive");
+                    bool modifiable = ((PlasmaDrive)Current).RawCompOrigin == ComponentOrigin.Standard;//can't modify an already archeotech or xenotech drive
+                    Modified.IsEnabled = modifiable;
+                    Modified.ToolTip = (modifiable ? null : "Cannot modify an archeotech or xenotech drive");
+                }
+                    ChosenSpecial.Text = Current.Description;
             }
             else
             {
@@ -399,8 +401,10 @@ namespace StarshipSheet
 
         private void UpdatePlasma()
         {
-            Current = new PlasmaDrive(Current.GetName(), Current.HullTypes, Current.RawPower, Current.RawSpace, Current.RawSpecial, Current.Origin, Current.PageNumber, Current.RawSP,
-                (Quality)ChosenQuality.SelectedItem, ((PlasmaDrive)Current).RawSpeed, ((PlasmaDrive)Current).Manoeuvrability, Current.ComponentOrigin, Modified.IsChecked ?? false, Current.Condition);
+            PlasmaDrive old = Current as PlasmaDrive;
+            if(old != null)
+                Current = new PlasmaDrive(Current.GetName(), Current.HullTypes, Current.RawPower, Current.RawSpace, Current.RawSpecial, Current.Origin, Current.PageNumber, Current.RawSP,
+                    (Quality)ChosenQuality.SelectedItem, old.RawSpeed, old.Manoeuvrability, old.RawCompOrigin, Modified.IsChecked ?? false, Current.Condition);
         }
 
         private void Save_Click(object sender, RoutedEventArgs e)

@@ -302,5 +302,31 @@ namespace StarshipGenerator.Components
                 return Range.ToString();
             }
         }
+
+        /// <summary>
+        /// Checks if the two Components are equal
+        /// </summary>
+        /// <param name="obj">Object to check equality against</param>
+        /// <returns>false if other object is null, is not a component or does not match</returns>
+        /// <remarks>If a component has the same name, origin and quality (including weapon quality) it is the same.
+        /// Currently inequalities could match between two custom components</remarks>
+        public override bool Equals(object obj)
+        {
+            Weapon other = obj as Weapon;
+            if (other == null)
+                return false;
+            if (this.GetType() != obj.GetType())
+                return false;
+            return (this.QualityName.Equals(other.QualityName) && this.HullTypes == other.HullTypes && this.Origin == other.Origin && this.WeaponQuality == other.WeaponQuality);
+        }
+
+        /// <summary>
+        /// Retrieve the hash code of the Component
+        /// </summary>
+        /// <returns>Hash Code of this Component</returns>
+        public override int GetHashCode()
+        {
+            return this.QualityName.GetHashCode() + (7 * this.HullTypes.GetHashCode()) + (13 * this.Origin.GetHashCode()) + (17 * this.WeaponQuality.GetHashCode());//checking equality off having the same name and the same quality
+        }
     }
 }

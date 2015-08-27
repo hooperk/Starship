@@ -197,18 +197,18 @@
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="275"/>
+                    <ColumnDefinition Width="Auto" MinWidth="275"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <!--Component type: Component Name, Component Special x8-->
-                <Label Grid.Column="0" Grid.Row="0">Plasma Drive</Label>
-                <Label Grid.Column="0" Grid.Row="1">Warp Drive</Label>
-                <Label Grid.Column="0" Grid.Row="2">Gellar Field</Label>
-                <Label Grid.Column="0" Grid.Row="3">Void Shield</Label>
-                <Label Grid.Column="0" Grid.Row="4">Ship's Bridge</Label>
-                <Label Grid.Column="0" Grid.Row="5">Life Sustainer</Label>
-                <Label Grid.Column="0" Grid.Row="6">Crew Quarters</Label>
-                <Label Grid.Column="0" Grid.Row="7">Augur Arrays</Label>
+                <Label Grid.Column="0" Grid.Row="0" VerticalAlignment="Center">Plasma Drive</Label>
+                <Label Grid.Column="0" Grid.Row="1" VerticalAlignment="Center">Warp Drive</Label>
+                <Label Grid.Column="0" Grid.Row="2" VerticalAlignment="Center">Gellar Field</Label>
+                <Label Grid.Column="0" Grid.Row="3" VerticalAlignment="Center">Void Shield</Label>
+                <Label Grid.Column="0" Grid.Row="4" VerticalAlignment="Center">Ship's Bridge</Label>
+                <Label Grid.Column="0" Grid.Row="5" VerticalAlignment="Center">Life Sustainer</Label>
+                <Label Grid.Column="0" Grid.Row="6" VerticalAlignment="Center">Crew Quarters</Label>
+                <Label Grid.Column="0" Grid.Row="7" VerticalAlignment="Center">Augur Arrays</Label>
                 <Button Name="PlasmaDrive" Grid.Column="1" Grid.Row="0" Click="PlasmaDrive_Click">Plasma Drive</Button>
                 <Button Name="WarpDrive" Grid.Column="1" Grid.Row="1" Click="WarpDrive_Click">Warp Drive</Button>
                 <Button Name="GellarField" Grid.Column="1" Grid.Row="2" Click="GellarField_Click">Gellar Field</Button>

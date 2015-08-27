@@ -56,7 +56,7 @@
         <TextBox Name="ChosenSP" Grid.Row="3" Grid.Column="3" IsReadOnly="True" VerticalContentAlignment="Center" TextAlignment="Center"/>
         <TextBox Name="ChosenShields" Grid.Row="3" Grid.Column="4" IsReadOnly="True" VerticalContentAlignment="Center" TextAlignment="Center" Visibility="Collapsed"/>
         <ComboBox Name="ChosenQuality" Grid.Row="3" Grid.Column="5" SelectionChanged="ChosenQuality_SelectionChanged" VerticalContentAlignment="Center"/>
-        <CheckBox Name="Modified" Grid.Row="3" Grid.Column="6" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Collapsed" Checked="Modified_Toggled" Unchecked="Modified_Toggled"/>
+        <CheckBox Name="Modified" Grid.Row="3" Grid.Column="6" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Collapsed" Checked="Modified_Toggled" Unchecked="Modified_Toggled" ToolTipService.ShowOnDisabled="True"/>
         <TextBox Name="ChosenSpecial" Grid.Row="3" Grid.Column="7" Grid.ColumnSpan="3" IsReadOnly="True" TextWrapping="WrapWithOverflow"/>
         <Button Grid.Row="4" Grid.Column="8" Click="Save_Click">Save &amp; Close</Button>
         <Button Grid.Row="4" Grid.Column="9" Click="Cancel_Click">Cancel</Button>

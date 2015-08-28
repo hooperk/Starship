@@ -2,8 +2,40 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:StarshipSheet"
-        Title="Weapon Upgrades" Height="240" Width="475">
-    <Grid>
-        
+        Title="Weapon Upgrades" Height="300" Width="600"
+        Closed="onClose">
+    <Grid local:GridHelpers.RowCount="5" local:GridHelpers.StarRows="3">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="62"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="43"/>
+            <ColumnDefinition Width="49"/>
+            <ColumnDefinition Width="89"/>
+            <ColumnDefinition Width="102"/>
+        </Grid.ColumnDefinitions>
+        <Label Grid.Row="1" Grid.Column="0" HorizontalContentAlignment="Center" VerticalAlignment="Bottom">Slot</Label>
+        <Label Grid.Row="1" Grid.Column="1" VerticalAlignment="Bottom">Name</Label>
+        <Label Grid.Row="1" Grid.Column="2" HorizontalContentAlignment="Center" VerticalAlignment="Bottom">Range</Label>
+        <TextBlock Grid.Row="0" Grid.RowSpan="2" Grid.Column="3" VerticalAlignment="Bottom" Margin="2,2,2,2" TextAlignment="Center" TextWrapping="WrapWithOverflow">Ballistic Skill</TextBlock>
+        <TextBlock Grid.Row="0" Grid.RowSpan="2" Grid.Column="4" Margin="2,2,2,2" TextAlignment="Center" TextWrapping="WrapWithOverflow" VerticalAlignment="Bottom"
+                   ToolTip="No penalties for shooting at double range; Poor quality: -1 range, Good Quality: +1 Range, Best Quality: +5 BS">Turbo-Weapon Batteries</TextBlock>
+        <Label Grid.Row="0" Grid.Column="5" HorizontalContentAlignment="Center" VerticalAlignment="Bottom">Targetting Matrix</Label>
+        <Label Grid.Row="1" Grid.Column="5" HorizontalContentAlignment="Center" VerticalAlignment="Bottom">+5 to BS with:</Label>
+        <Border Grid.Row="0" Grid.RowSpan="2" Grid.Column="5" BorderThickness="0" ToolTip="Common Quality: +5 to BS with all weapons; Poor Quality: +5 Bs with only one weapon"/>
+        <Label Grid.Row="2" Grid.Column="5">All:</Label>
+        <CheckBox Name="AllCheck" Grid.Row="2" Grid.Column="5" HorizontalAlignment="Center" VerticalAlignment="Center" ToolTip="Common Quality" Click="SetCommonMatrix"/>
+        <ScrollViewer Grid.Row="3" Grid.ColumnSpan="6">
+            <Grid Name="WeaponGrid" local:GridHelpers.RowCount="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path=WeaponRowCount}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="62"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="43"/>
+                    <ColumnDefinition Width="49"/>
+                    <ColumnDefinition Width="89"/>
+                    <ColumnDefinition Width="85"/>
+                </Grid.ColumnDefinitions>
+            </Grid>
+        </ScrollViewer>
+        <Button Grid.Row="4" Grid.Column="5" Click="Button_Click">Save &amp; Close</Button>
     </Grid>
 </Window>

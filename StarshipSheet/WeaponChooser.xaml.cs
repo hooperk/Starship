@@ -58,59 +58,68 @@ namespace StarshipSheet
                 {
                     button = new Button();
                     button.Content = weapon.Name;
-                    button.Click += ((s,e) => SetCurrent(weapon));
+                    button.Click += ((s,e) => SetCurrent(weapon, weapon.Quality, weapon.WeaponQuality));
                     Grid.SetRow(button, WeaponRowCount);
                     Grid.SetColumn(button, 0);
                     WeaponGrid.Children.Add(button);
                     textbox = new TextBox();
                     textbox.Text = weapon.Type.ToString();
+                    textbox.IsReadOnly = true;
                     Grid.SetRow(textbox, WeaponRowCount);
                     Grid.SetColumn(textbox, 1);
                     WeaponGrid.Children.Add(textbox);
                     textbox = new TextBox();
                     textbox.Text = weapon.Power.ToString();
+                    textbox.IsReadOnly = true;
                     textbox.TextAlignment = TextAlignment.Center;
                     Grid.SetRow(textbox, WeaponRowCount);
                     Grid.SetColumn(textbox, 2);
                     WeaponGrid.Children.Add(textbox);
                     textbox = new TextBox();
                     textbox.Text = weapon.Space.ToString();
+                    textbox.IsReadOnly = true;
                     textbox.TextAlignment = TextAlignment.Center;
                     Grid.SetRow(textbox, WeaponRowCount);
                     Grid.SetColumn(textbox, 3);
                     WeaponGrid.Children.Add(textbox);
                     textbox = new TextBox();
                     textbox.Text = weapon.SP.ToString();
+                    textbox.IsReadOnly = true;
                     textbox.TextAlignment = TextAlignment.Center;
                     Grid.SetRow(textbox, WeaponRowCount);
                     Grid.SetColumn(textbox, 4);
                     WeaponGrid.Children.Add(textbox);
                     textbox = new TextBox();
                     textbox.Text = weapon.Strength.ToString();
+                    textbox.IsReadOnly = true;
                     textbox.TextAlignment = TextAlignment.Center;
                     Grid.SetRow(textbox, WeaponRowCount);
                     Grid.SetColumn(textbox, 5);
                     WeaponGrid.Children.Add(textbox);
                     textbox = new TextBox();
                     textbox.Text = weapon.Damage.ToString();
+                    textbox.IsReadOnly = true;
                     textbox.TextAlignment = TextAlignment.Center;
                     Grid.SetRow(textbox, WeaponRowCount);
                     Grid.SetColumn(textbox, 6);
                     WeaponGrid.Children.Add(textbox);
                     textbox = new TextBox();
                     textbox.Text = weapon.DisplayRange;
+                    textbox.IsReadOnly = true;
                     textbox.TextAlignment = TextAlignment.Center;
                     Grid.SetRow(textbox, WeaponRowCount);
                     Grid.SetColumn(textbox, 7);
                     WeaponGrid.Children.Add(textbox);
                     textbox = new TextBox();
                     textbox.Text = weapon.Crit.ToString();
+                    textbox.IsReadOnly = true;
                     textbox.TextAlignment = TextAlignment.Center;
                     Grid.SetRow(textbox, WeaponRowCount);
                     Grid.SetColumn(textbox, 8);
                     WeaponGrid.Children.Add(textbox);
                     textbox = new TextBox();
                     textbox.Text = weapon.Origin.Name();
+                    textbox.IsReadOnly = true;
                     textbox.ToolTip = weapon.Origin.LongName() + ", Page: " + weapon.PageNumber;
                     Grid.SetRow(textbox, WeaponRowCount++);
                     Grid.SetColumn(textbox, 10);
@@ -131,28 +140,22 @@ namespace StarshipSheet
             UpdateCurrent();
         }
 
-        private void SetCurrent(Weapon weapon)
+        private void SetCurrent(Weapon weapon, Quality quality = Quality.None, WeaponQuality wq = WeaponQuality.None)
         {
-            Current = weapon;
-            UpdateCurrent();
-        }
-
-        private void ChangeQuality(Quality quality, WeaponQuality wq)
-        {
-            if (Current == null)
-                return;
-            if (Current is NovaCannon)
-                Current = new NovaCannon(Current.Name, Current.HullTypes, Current.RawPower, Current.RawSpace, Current.RawSP, Current.RawDamage, Current.RawRange, Current.Origin, Current.PageNumber, Current.RawSpecial,
-                    quality, wq, Current.ComponentOrigin, Current.Condition, ((NovaCannon)Current).Ammo);
-            else if (Current is LandingBay)
-                Current = new LandingBay(Current.Name, Current.HullTypes, Current.Slots, Current.RawPower, Current.RawSpace, Current.RawSP, Current.RawStrength, Current.Origin, Current.PageNumber, quality, wq,
-                    Current.RawSpecial, Current.ComponentOrigin, Current.Condition);
-            else if (Current is TorpedoTubes)
-                Current = new TorpedoTubes(Current.Name, Current.HullTypes, Current.RawPower, Current.RawSpace, Current.RawSP, Current.RawStrength, ((TorpedoTubes)Current).Capacity, Current.Origin, Current.PageNumber, 
-                    quality, wq, Current.RawSpecial, Current.ComponentOrigin, Current.Condition);
+            if (weapon == null)
+                Current = null;
+            else if (weapon is NovaCannon)
+                Current = new NovaCannon(weapon.Name, weapon.HullTypes, weapon.RawPower, weapon.RawSpace, weapon.RawSP, weapon.RawDamage, weapon.RawRange, weapon.Origin, weapon.PageNumber, weapon.RawSpecial,
+                    quality, wq, weapon.ComponentOrigin, weapon.Condition, ((NovaCannon)weapon).Ammo);
+            else if (weapon is LandingBay)
+                Current = new LandingBay(weapon.Name, weapon.HullTypes, weapon.Slots, weapon.RawPower, weapon.RawSpace, weapon.RawSP, weapon.RawStrength, weapon.Origin, weapon.PageNumber, quality, wq, 
+                    weapon.RawSpecial, weapon.ComponentOrigin, weapon.Condition);
+            else if (weapon is TorpedoTubes)
+                Current = new TorpedoTubes(weapon.Name, weapon.HullTypes, weapon.RawPower, weapon.RawSpace, weapon.RawSP, weapon.RawStrength, ((TorpedoTubes)weapon).Capacity, weapon.Origin, weapon.PageNumber,
+                    quality, wq, weapon.RawSpecial, weapon.ComponentOrigin, weapon.Condition);
             else
-                Current = new Weapon(Current.Name, Current.Type, Current.HullTypes, Current.Slots, Current.RawPower, Current.RawSpace, Current.RawSP, Current.RawStrength, Current.RawDamage, Current.RawCrit, Current.RawRange,
-                Current.Origin, Current.PageNumber, quality, wq, Current.RawSpecial, Quality.None, Current.ComponentOrigin, Current.Condition);
+                Current = new Weapon(weapon.Name, weapon.Type, weapon.HullTypes, weapon.Slots, weapon.RawPower, weapon.RawSpace, weapon.RawSP, weapon.RawStrength, weapon.RawDamage, weapon.RawCrit, weapon.RawRange,
+                weapon.Origin, weapon.PageNumber, quality, wq, weapon.RawSpecial, Quality.None, weapon.ComponentOrigin, weapon.Condition);
             UpdateCurrent();
         }
 
@@ -244,9 +247,14 @@ namespace StarshipSheet
 
         private void Quality_Click(object sender, RoutedEventArgs e)
         {
-            WeaponQualityChooser dialog = new WeaponQualityChooser(Current.Type, Current.Quality, Current.WeaponQuality);
-            Tuple<Quality, WeaponQuality> output = dialog.ShowDialog();
-            ChangeQuality(output.Item1, output.Item2);
+            if (Current == null)
+                MessageBox.Show("Select a weapon first");
+            else
+            {
+                WeaponQualityChooser dialog = new WeaponQualityChooser(Current.Type, Current.Quality, Current.WeaponQuality);
+                Tuple<Quality, WeaponQuality> output = dialog.ShowDialog();
+                SetCurrent(Current, output.Item1, output.Item2);
+            }
         }
     }
 }

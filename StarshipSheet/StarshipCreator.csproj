@@ -103,6 +103,9 @@
     <Compile Include="WeaponTemplate.xaml.cs">
       <DependentUpon>WeaponTemplate.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WeaponUpgrades.xaml.cs">
+      <DependentUpon>WeaponUpgrades.xaml</DependentUpon>
+    </Compile>
     <Page Include="AmmoWeapon.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -172,6 +175,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="WeaponTemplate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WeaponUpgrades.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

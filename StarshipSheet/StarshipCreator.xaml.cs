@@ -704,13 +704,7 @@ namespace StarshipSheet
                 WeaponTemplate weapon = control as WeaponTemplate;
                 if (weapon != null)
                     weapon.Macrodamage = Starship.MacrobatteryModifier;
-                if (control.Weapon != null)
-                {
-                    if (Starship.TargettingMatrix != Quality.Poor || control.Equals(Weapons.Children[Starship.Matrix + 7]))
-                        control.Weapon.TargettingMatrix = Starship.TargettingMatrix;
-                    else
-                        control.Weapon.TargettingMatrix = Quality.None;
-                }
+                control.UpdateWeapon();
             }
         }
 
@@ -929,8 +923,8 @@ namespace StarshipSheet
 
         private void WeaponUpgrade_Click(object sender, RoutedEventArgs e)
         {
-            //Upgrade Dialog
-
+            WeaponUpgrades dialog = new WeaponUpgrades(Starship);
+            dialog.ShowDialog();
             UpdateWeapons();
             UpdateBS();
         }

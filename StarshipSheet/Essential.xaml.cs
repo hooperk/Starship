@@ -305,7 +305,8 @@ namespace StarshipSheet
 
         private void SetChosen(Component chosen)
         {
-            Current = chosen;
+            Modified.IsChecked = false;
+            UpdateCurrent(chosen, chosen.Quality);//always unmodified when you first add it
             UpdateChosen();
         }
 
@@ -327,7 +328,7 @@ namespace StarshipSheet
                     Modified.IsEnabled = modifiable;
                     Modified.ToolTip = (modifiable ? null : "Cannot modify an archeotech or xenotech drive");
                 }
-                    ChosenSpecial.Text = Current.Description;
+                ChosenSpecial.Text = Current.Description;
             }
             else
             {
@@ -345,47 +346,67 @@ namespace StarshipSheet
 
         private void ChosenQuality_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            UpdateCurrent(Current, (Quality)ChosenQuality.SelectedItem);
+        }
+
+        private void UpdateCurrent(Component next, Quality quality)
+        {
             if (ComponentType == typeof(PlasmaDrive))
             {
-                UpdatePlasma();
+                PlasmaDrive original = next as PlasmaDrive;
+                if (original != null)
+                    Current = new PlasmaDrive(original.GetName(), original.HullTypes, original.RawPower, original.RawSpace, original.RawSpecial, original.Origin, original.PageNumber, original.RawSP,
+                        quality, original.RawSpeed, original.Manoeuvrability, original.RawCompOrigin, Modified.IsChecked ?? false, original.Condition);
             }
             else if (ComponentType == typeof(WarpDrive))
             {
-                Current = new WarpDrive(Current.GetName(), Current.HullTypes, Current.RawPower, Current.RawSpace, Current.Origin, Current.PageNumber, Current.RawSP, Current.RawSpecial,
-                    (Quality)ChosenQuality.SelectedItem, Current.ComponentOrigin, Current.Condition);
+                WarpDrive original = next as WarpDrive;
+                if (original != null)
+                    Current = new WarpDrive(original.GetName(), original.HullTypes, original.RawPower, original.RawSpace, original.Origin, original.PageNumber, original.RawSP, original.RawSpecial,
+                        quality, original.ComponentOrigin, original.Condition);
             }
             else if (ComponentType == typeof(GellarField))
             {
-                Current = new GellarField(Current.GetName(), Current.HullTypes, Current.RawPower, Current.RawSpecial, Current.Origin, Current.PageNumber, Current.RawSP, ((GellarField)Current).NavigateWarp,
-                    (Quality)ChosenQuality.SelectedItem, Current.ComponentOrigin, Current.Condition);
+                GellarField original = next as GellarField;
+                if (original != null)
+                    Current = new GellarField(original.GetName(), original.HullTypes, original.RawPower, original.RawSpecial, original.Origin, original.PageNumber, original.RawSP, original.NavigateWarp,
+                        quality, original.ComponentOrigin, original.Condition);
             }
             else if (ComponentType == typeof(VoidShield))
             {
-                Current = new VoidShield(Current.GetName(), Current.HullTypes, Current.RawPower, Current.RawSpace, ((VoidShield)Current).Strength, Current.Origin, Current.PageNumber, Current.RawSpecial,
-                    (Quality)ChosenQuality.SelectedItem, Current.RawSP, Current.ComponentOrigin, Current.Condition);
+                VoidShield original = next as VoidShield;
+                if (original != null)
+                    Current = new VoidShield(original.GetName(), original.HullTypes, original.RawPower, original.RawSpace, original.Strength, original.Origin, original.PageNumber, original.RawSpecial,
+                        quality, original.RawSP, original.ComponentOrigin, original.Condition);
             }
             else if (ComponentType == typeof(Bridge))
             {
-                Bridge past = (Bridge)Current;
-                Current = new Bridge(past.GetName(), past.HullTypes, past.RawPower, past.RawSpace, past.Origin, past.PageNumber, past.RawSpecial, past.RawSP, (Quality)ChosenQuality.SelectedItem,
-                    past.Manoeuvrability, past.BSModifier, past.Command, past.Repair, past.Pilot, past.NavigateWarp, past.ComponentOrigin, past.MiningObjective, past.CreedObjective,
-                    past.MilitaryObjective, past.TradeObjective, past.CriminalObjective, past.ExplorationObjective, past.Condition);
+                Bridge original = next as Bridge;
+                if (original != null)
+                    Current = new Bridge(original.GetName(), original.HullTypes, original.RawPower, original.RawSpace, original.Origin, original.PageNumber, original.RawSpecial, original.RawSP, quality,
+                        original.Manoeuvrability, original.BSModifier, original.Command, original.Repair, original.Pilot, original.NavigateWarp, original.ComponentOrigin, original.MiningObjective, original.CreedObjective,
+                        original.MilitaryObjective, original.TradeObjective, original.CriminalObjective, original.ExplorationObjective, original.Condition);
             }
             else if (ComponentType == typeof(LifeSustainer))
             {
-                Current = new LifeSustainer(Current.GetName(), Current.HullTypes, Current.RawPower, Current.RawSpace, ((LifeSustainer)Current).Morale, Current.Origin, Current.PageNumber, Current.RawSpecial,
-                    (Quality)ChosenQuality.SelectedItem, Current.RawSP, ((LifeSustainer)Current).MoraleLoss, ((LifeSustainer)Current).CrewLoss, Current.ComponentOrigin, Current.Condition);
+                LifeSustainer original = next as LifeSustainer;
+                if (original != null)
+                    Current = new LifeSustainer(original.GetName(), original.HullTypes, original.RawPower, original.RawSpace, ((LifeSustainer)original).Morale, original.Origin, original.PageNumber, original.RawSpecial,
+                        quality, original.RawSP, ((LifeSustainer)original).MoraleLoss, ((LifeSustainer)original).CrewLoss, original.ComponentOrigin, original.Condition);
             }
             else if (ComponentType == typeof(CrewQuarters))
             {
-                Current = new CrewQuarters(Current.GetName(), Current.HullTypes, Current.RawPower, Current.RawSpace, ((CrewQuarters)Current).Morale, Current.Origin, Current.PageNumber, Current.RawSpecial,
-                    (Quality)ChosenQuality.SelectedItem, Current.RawSP, ((CrewQuarters)Current).MoraleLoss, Current.ComponentOrigin, Current.Condition);
+                CrewQuarters original = next as CrewQuarters;
+                if (original != null)
+                    Current = new CrewQuarters(original.GetName(), original.HullTypes, original.RawPower, original.RawSpace, ((CrewQuarters)original).Morale, original.Origin, original.PageNumber, original.RawSpecial,
+                        quality, original.RawSP, ((CrewQuarters)original).MoraleLoss, original.ComponentOrigin, original.Condition);
             }
             else if (ComponentType == typeof(Augur))
             {
-                Augur past = (Augur)Current;
-                Current = new Augur(past.GetName(), past.RawPower, past.Origin, past.PageNumber, past.DetectionRating, past.RawSpecial, (Quality)ChosenQuality.SelectedItem, past.RawSP, past.Manoeuvrability,
-                    past.BSModifier, past.MiningObjective, past.CreedObjective, past.MilitaryObjective, past.TradeObjective, past.CriminalObjective, past.ExplorationObjective, past.ComponentOrigin, past.Condition);
+                Augur original = next as Augur;
+                if (original != null)
+                    Current = new Augur(original.GetName(), original.RawPower, original.Origin, original.PageNumber, original.DetectionRating, original.RawSpecial, quality, original.RawSP, original.Manoeuvrability,
+                        original.BSModifier, original.MiningObjective, original.CreedObjective, original.MilitaryObjective, original.TradeObjective, original.CriminalObjective, original.ExplorationObjective, original.ComponentOrigin, original.Condition);
             }
             UpdateChosen();
         }
@@ -394,17 +415,9 @@ namespace StarshipSheet
         {
             if (Current != null)
             {
-                UpdatePlasma();
+                UpdateCurrent(Current, (Quality)ChosenQuality.SelectedItem);
                 UpdateChosen();
             }
-        }
-
-        private void UpdatePlasma()
-        {
-            PlasmaDrive old = Current as PlasmaDrive;
-            if(old != null)
-                Current = new PlasmaDrive(Current.GetName(), Current.HullTypes, Current.RawPower, Current.RawSpace, Current.RawSpecial, Current.Origin, Current.PageNumber, Current.RawSP,
-                    (Quality)ChosenQuality.SelectedItem, old.RawSpeed, old.Manoeuvrability, old.RawCompOrigin, Modified.IsChecked ?? false, Current.Condition);
         }
 
         private void Save_Click(object sender, RoutedEventArgs e)

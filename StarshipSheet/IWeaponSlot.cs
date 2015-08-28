@@ -7,5 +7,6 @@ namespace StarshipSheet
     {
         Weapon Weapon { get; set; }
         WeaponSlot WeaponFacing { get; set; }
+        void UpdateWeapon();
     }
 }

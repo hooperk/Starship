@@ -754,7 +754,10 @@ namespace StarshipSheet
                 {
                     IEnumerable<Supplemental> components = Starship.SupplementalComponents.Where(x => x.QualityName.Equals(name));
                     int count = components.Count();
-                    AddNewSupplemental(components.First(), count, count, false);
+                    int min = 0;
+                    if (Starship.Hull.DefaultComponents != null)
+                        min = Starship.Hull.DefaultComponents.Count(x => x.QualityName.Equals(name));
+                    AddNewSupplemental(components.First(), count, min, false);
                 }
             }
         }

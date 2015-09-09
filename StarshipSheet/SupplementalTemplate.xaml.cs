@@ -25,7 +25,7 @@ namespace StarshipSheet
 
         public int Max;
         public int Min;
-        public int Count;
+        public int Count { get; set; }
         private new StarshipCreator Parent;
         private Component Current;
 
@@ -67,6 +67,7 @@ namespace StarshipSheet
             Parent.Starship.SupplementalComponents.Add(Component);
             Count++;
             CheckAdd();
+            CountDisplay.Content = Count.ToString();
         }
 
         private void RemoveButton_Click(object sender, RoutedEventArgs e)
@@ -76,6 +77,8 @@ namespace StarshipSheet
             CheckRemove();
             if (Count == 0)
                 Parent.Supplementals.Children.Remove(this);
+            else
+                CountDisplay.Content = Count.ToString();
         }
     }
 }

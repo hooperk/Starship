@@ -34,7 +34,6 @@ namespace StarshipSheet
             ComponentCount = 0;
             InitializeComponent();
             Label label;
-            Label countLabel;
             Button button;
             TextBox textbox;
             TextBlock textblock;
@@ -42,20 +41,23 @@ namespace StarshipSheet
             {
                 foreach (var group in generated.GroupBy(x => x.ComponentOrigin))
                 {
-                    if (group.Key != ComponentOrigin.Standard)
+                    if (group.Count() > 0)
                     {
+                        if (group.Key != ComponentOrigin.Standard)
+                        {
+                            label = new Label();
+                            label.Content = group.Key.ToString();
+                            Grid.SetRow(label, ComponentCount);
+                            Grid.SetColumn(label, 0);
+                            ComponentGrid.Children.Add(label);
+                        }
                         label = new Label();
-                        label.Content = group.Key.ToString();
-                        Grid.SetRow(label, ComponentCount);
-                        Grid.SetColumn(label, 0);
+                        label.Content = generated.Key ? "Generated" : "Used";
+                        label.HorizontalContentAlignment = HorizontalAlignment.Center;
+                        Grid.SetRow(label, ComponentCount++);
+                        Grid.SetColumn(label, 2);
                         ComponentGrid.Children.Add(label);
                     }
-                    label = new Label();
-                    label.Content = generated.Key ? "Generated" : "Used";
-                    label.HorizontalContentAlignment = HorizontalAlignment.Center;
-                    Grid.SetRow(label, ComponentCount++);
-                    Grid.SetColumn(label, 2);
-                    ComponentGrid.Children.Add(label);
                     foreach (Supplemental baseComponent in group)
                     {
                         List<Supplemental> qualitycomponents = new List<Supplemental>();
@@ -103,7 +105,7 @@ namespace StarshipSheet
                                 baseComponent.MacrobatteryModifier, baseComponent.BSModifier, baseComponent.NavigateWarp, baseComponent.CrewLoss, baseComponent.MoraleLoss, baseComponent.ComponentOrigin, baseComponent.Replace, baseComponent.Max,
                                 StarshipGenerator.Utils.Condition.Intact));
                         }
-                        foreach (Supplemental component in qualitycomponents.Where(x => Starship.SupplementalComponents.Count(y => x.QualityName == y.QualityName && x.Origin == y.Origin) == 0 && Starship.SupplementalComponents.Count(y => x.Name == y.Name) < x.Max))
+                        foreach (Supplemental component in qualitycomponents.Where(x => Starship.SupplementalComponents.Count(y => x.QualityName == y.QualityName && x.Origin == y.Origin) == 0 && (x.Max == 0 || Starship.SupplementalComponents.Count(y => x.Name == y.Name) < x.Max)))
                         {
                             label = new Label();
                             String name = component.QualityName;
@@ -116,7 +118,7 @@ namespace StarshipSheet
                             Grid.SetRow(label, ComponentCount);
                             Grid.SetColumn(label, 0);
                             ComponentGrid.Children.Add(label);
-                            countLabel = new Label();
+                            Label countLabel = new Label();
                             countLabel.Content = 0;
                             countLabel.HorizontalContentAlignment = HorizontalAlignment.Center;
                             Grid.SetRow(countLabel, ComponentCount);

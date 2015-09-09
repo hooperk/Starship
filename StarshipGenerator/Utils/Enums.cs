@@ -44,7 +44,7 @@ namespace StarshipGenerator.Utils
         Cruiser = 0x10,
         BattleCruiser = 0x20,
         GrandCruiser = 0x40,
-        BattleShip = 0x80,//NOT IMPLEMENTED, currently hand coded onto grand
+        BattleShip = 0x80,//NOT IMPLEMENTED, currently most grand components can also be used by these
         CruiserPlus = Cruiser | BattleCruiser | GrandCruiser | BattleShip,//Cruiser or bigger
         AllCruiser= LightCruiser | CruiserPlus,//Light cruiser or bigger
         All = 0xFF

@@ -91,6 +91,9 @@
     <Compile Include="SupplementalTemplate.xaml.cs">
       <DependentUpon>SupplementalTemplate.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SupplementalWindow.xaml.cs">
+      <DependentUpon>SupplementalWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Upgrades.xaml.cs">
       <DependentUpon>Upgrades.xaml</DependentUpon>
     </Compile>
@@ -163,6 +166,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="SupplementalTemplate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SupplementalWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

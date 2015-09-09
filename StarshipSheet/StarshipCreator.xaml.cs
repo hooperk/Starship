@@ -191,20 +191,12 @@ namespace StarshipSheet
 
         public void UpdateHull()
         {
-            ClearSupplementals();
             if (Starship.Hull != null)
             {
                 HullName.Text = Starship.Hull.Name;
                 HullClass.Text = Starship.Hull.HullTypes.HighName();
-                if (Starship.SupplementalComponents != null)
-                {
-                    foreach (String name in Starship.SupplementalComponents.Select(x => x.Name).Distinct())
-                    {
-                        IEnumerable<Supplemental> components = Starship.SupplementalComponents.Where(x => x.Name.Equals(name));
-                        int count = components.Count();
-                        AddNewSupplemental(components.First(), count, count, false);
-                    }
-                }
+                ClearSupplementals();
+                RefillSupplementals();
             }
             else
             {
@@ -721,7 +713,7 @@ namespace StarshipSheet
             WeaponChooser dialog = new WeaponChooser(Starship, weaponType, index, loader);
             dialog.ShowDialog();
             if (dialog.DialogResult ?? false)
-                UpdateWeaponSlots(true);      
+                UpdateWeaponSlots(true);
         }
         #endregion
 
@@ -742,6 +734,29 @@ namespace StarshipSheet
         {
             Supplementals.Children.Clear();
             SupplementalRowCount = 0;
+        }
+
+        public void RefreshSupplementals()
+        {
+            ClearSupplementals();
+            if (Starship.Hull != null && Starship.Hull.DefaultComponents != null)
+            {
+                Starship.SupplementalComponents.AddRange(Starship.Hull.DefaultComponents);
+                RefillSupplementals();
+            }
+        }
+
+        public void RefillSupplementals()
+        {
+            if (Starship.SupplementalComponents != null)
+            {
+                foreach (String name in Starship.SupplementalComponents.Select(x => x.QualityName).Distinct())
+                {
+                    IEnumerable<Supplemental> components = Starship.SupplementalComponents.Where(x => x.QualityName.Equals(name));
+                    int count = components.Count();
+                    AddNewSupplemental(components.First(), count, count, false);
+                }
+            }
         }
         #endregion
 
@@ -929,23 +944,19 @@ namespace StarshipSheet
             UpdateBS();
         }
 
+        private void AddSupplemental_Click(object sender, RoutedEventArgs e)
+        {
+            SupplementalWindow dialog = new SupplementalWindow(Starship, loader);
+            dialog.ShowDialog();
+            ClearSupplementals();
+            RefillSupplementals();
+            UpdateSupplementals();
+        }
+
         private void ClearButton_Click(object sender, RoutedEventArgs e)
         {
             Starship.SupplementalComponents.Clear();
-            SupplementalRowCount = 0;
-            Supplementals.Children.Clear();
-            if (Starship.Hull != null && Starship.Hull.DefaultComponents != null)
-                foreach (Supplemental component in Starship.Hull.DefaultComponents)
-                    Starship.SupplementalComponents.Add(component);
-            if (Starship.SupplementalComponents != null)
-            {
-                foreach (String name in Starship.SupplementalComponents.Select(x => x.Name).Distinct())
-                {
-                    IEnumerable<Supplemental> components = Starship.SupplementalComponents.Where(x => x.Name.Equals(name));
-                    int count = components.Count();
-                    AddNewSupplemental(components.First(), count, count, false);
-                }
-            }
+            RefreshSupplementals();
         }
         #endregion
     }

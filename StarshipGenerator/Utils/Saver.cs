@@ -55,7 +55,7 @@ namespace StarshipGenerator.Utils
         /// <param name="fs">Open filestream ot a file to write to</param>
         public static void SaveSSS(Starship ship, FileStream fs)
         {
-            using (StreamWriter writer = new StreamWriter(fs))
+            using (StreamWriter writer = new StreamWriter(fs, ASCIIEncoding.Unicode))
             {
                 string name;
                 writer.WriteLine("version:" + Assembly.GetExecutingAssembly().GetName().Version);

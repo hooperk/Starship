@@ -21,7 +21,7 @@ namespace StarshipGenerator.Utils
         public static readonly NovaCannon MarsCannon = new NovaCannon("Mars-Pattern Nova Cannon", HullType.CruiserPlus, 4, 0, 0, new DiceRoll(0, 2, 5), 36, RuleBook.BattlefleetKoronus, 36);
         public static readonly Supplemental ArmouredProw = new Supplemental("Armoured Prow", HullType.CruiserPlus, 0, 0, 0, RuleBook.CoreRulebook, 204, new DiceRoll(1, 0, 0), "Cannot take macrobatteries or lance in prow", prowArmour: 4, max: 1);
         public static readonly Supplemental PlasmaRefinery = new Supplemental("Plasma Refinery", HullType.Transport, 10, 0, 0, RuleBook.BattlefleetKoronus, 30, special: "May spend 3 days and make 2 +10 pilot tests to harvest plasma granting +100 to objectives if fuel is used or sold. Failure on either test by 5 or more degrees destroyes the ship. If the ship does not harvest plasma for a year, reduce maximum power by 10");
-        public static readonly LandingBay HoldLandingBay = new LandingBay("Hold Landing Bay", HullType.Transport, WeaponSlot.Auxiliary, 0, 0, 0, 2, RuleBook.BattlefleetKoronus, 36, special: "Attack Craft launched from this reduce their movement by 2VUs on the turn they launch. While in combat, squadron attempting to land must make a +10 Piloting + craft rating test to land safely. If this test is failed by 4 or more degrees teh component is considered damaged. it takes half an hour to land outside of combat");
+        public static readonly LandingBay HoldLandingBay = new LandingBay("Hold Landing Bay", HullType.Transport, WeaponSlot.Auxiliary, 0, 0, 0, 2, RuleBook.BattlefleetKoronus, 36, special: "Attack Craft launched from this reduce their movement by 2VUs on the turn they launch. While in combat, squadron attempting to land must make a +10 Piloting + craft rating test to land safely. If this test is failed by 4 or more degrees the component is considered damaged. it takes half an hour to land outside of combat");
         //Components
         public List<Hull> Hulls;
         public List<PlasmaDrive> PlasmaDrives;
@@ -36,10 +36,22 @@ namespace StarshipGenerator.Utils
         public List<Supplemental> Supplementals;
         public List<Squadron> Squadrons;
         //end components
-        //Xeno-Hull Components
-        //End Xeno-Hull Components
 
-        public static Starship LoadLSS(String path)
+        /// <summary>
+        /// Select which loader to use based on extension
+        /// </summary>
+        /// <param name="path">Path to the starship to open</param>
+        /// <returns>The loaded Starship</returns>
+        public Starship LoadStarship(String path)
+        {
+            if (Path.GetExtension(path).Equals(".sss"))
+                return LoadSSS(path);
+            else if (Path.GetExtension(path).Equals(".lss"))
+                return LoadLSS(path);
+            return null;
+        }
+
+        public Starship LoadLSS(String path)
         {
             using (FileStream fs = File.OpenRead(path))
             {
@@ -47,7 +59,7 @@ namespace StarshipGenerator.Utils
             }
         }
 
-        public static Starship LoadLSS(FileStream fs)
+        public Starship LoadLSS(FileStream fs)
         {
             throw new NotImplementedException();
         }
@@ -241,10 +253,11 @@ namespace StarshipGenerator.Utils
                     }
                 }
             }
-            for (int i = 0; i < ship.Weapons.Length; i++)
+            int length = ship.Weapons.Length;
+            for (int i = 0; i < length; i++)
             {
                 //add each weapon
-                string name = file["weapon" + (i + 1)];
+                string name = file["weapon" + (length - i)];
                 switch (name)
                 {
                     case Old.BombardmentCannons:
@@ -276,13 +289,13 @@ namespace StarshipGenerator.Utils
                 if (weapon != null)
                 {
                     Quality quality = Quality.Common;
-                    if (!String.IsNullOrWhiteSpace(file["weapon" + (i + 1) + "quality"]))
-                        quality = (Quality)Enum.Parse(typeof(Quality), file["weapon" + (i + 1) + "quality"]);
+                    if (!String.IsNullOrWhiteSpace(file["weapon" + (length - i) + "quality"]))
+                        quality = (Quality)Enum.Parse(typeof(Quality), file["weapon" + (length - i) + "quality"]);
                     WeaponQuality wq = WeaponQuality.None;
                     //wxq1 & wxq2 for WeaponQuality, weapxmod for turbo
                     for (int j = 1; j <= 2; j++)
                     {
-                        switch (file["w" + (i + 1) + "q" + j])
+                        switch (file["w" + (length - i) + "q" + j])
                         {
                             case "Space":
                                 wq |= WeaponQuality.Space;
@@ -302,8 +315,8 @@ namespace StarshipGenerator.Utils
                         }
                     }
                     Quality turbo = Quality.None;
-                    if (!String.IsNullOrWhiteSpace(file["weap" + (i + 1) + "mod"]))
-                        turbo = (Quality)Enum.Parse(typeof(Quality), file["weap" + (i + 1) + "mod"]);
+                    if (!String.IsNullOrWhiteSpace(file["weap" + (length - i) + "mod"]))
+                        turbo = (Quality)Enum.Parse(typeof(Quality), file["weap" + (length - i) + "mod"]);
                     if (quality != Quality.Common || turbo != Quality.None)
                         ship.Weapons[i] = new Weapon(weapon.Name, weapon.Type, weapon.HullTypes, weapon.Slots, weapon.RawPower, weapon.RawSpace, weapon.RawSP, weapon.RawStrength, weapon.RawDamage, weapon.RawCrit, weapon.RawRange,
                             weapon.Origin, weapon.PageNumber, quality, wq, weapon.RawSpecial, turbo, weapon.ComponentOrigin);
@@ -459,7 +472,7 @@ namespace StarshipGenerator.Utils
             }
             //essential components
             {//Plasmadrive
-                string name = file["chosenplasma"];
+                string name = file["plasma"];
                 PlasmaDrive plasma = null;
                 HullType size = HullType.None;
                 bool modified = false;
@@ -527,7 +540,7 @@ namespace StarshipGenerator.Utils
                     }
                     ship.PlasmaDrive = new PlasmaDrive(plasma.RawName, plasma.HullTypes, plasma.RawPower, plasma.RawSpace, plasma.RawSpecial, plasma.Origin, plasma.PageNumber, plasma.RawSP, quality, plasma.Speed, plasma.Manoeuvrability, plasma.ComponentOrigin, modified);
                 }//Warp Drive
-                WarpDrive warp = WarpDrives.Where(x => x.Name.Equals(file["chosenwarp"], StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
+                WarpDrive warp = WarpDrives.Where(x => x.Name.Equals(file["warp"], StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
                 if (warp != null)
                 {
                     Quality quality = Quality.Common;
@@ -549,7 +562,7 @@ namespace StarshipGenerator.Utils
                     }
                     ship.WarpDrive = new WarpDrive(warp.Name, warp.HullTypes, warp.RawPower, warp.RawSpace, warp.Origin, warp.PageNumber, warp.RawSP, warp.RawSpecial, quality, warp.ComponentOrigin);
                 }//Gellar Field
-                GellarField gellar = GellarFields.Where(x => x.Name.Equals(file["chosengellar"], StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
+                GellarField gellar = GellarFields.Where(x => x.Name.Equals(file["gellar"], StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
                 if (gellar != null)
                 {
                     Quality quality = Quality.Common;
@@ -559,7 +572,7 @@ namespace StarshipGenerator.Utils
                     }
                     ship.GellarField = new GellarField(gellar.Name, gellar.HullTypes, gellar.RawPower, gellar.RawSpecial, gellar.Origin, gellar.PageNumber, gellar.RawSP, gellar.NavigateWarp, quality, gellar.ComponentOrigin);
                 }//Void shield
-                name = file["chosenvoid"];
+                name = file["void"];
                 if (name.Equals(Old.RepulsorShield))
                     name = Names.RepulsorShield;
                 VoidShield shield = VoidShields.Where(x => x.Name.Equals(name, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
@@ -584,7 +597,7 @@ namespace StarshipGenerator.Utils
                     }
                     ship.VoidShield = new VoidShield(shield.Name, shield.HullTypes, shield.RawPower, shield.RawSpace, shield.Strength, shield.Origin, shield.PageNumber, shield.RawSpecial, quality, shield.RawSP, shield.ComponentOrigin);
                 }//Ship's Bridge
-                name = file["chosenbridge"];
+                name = file["bridge"];
                 size = HullType.All;
                 if (name.EndsWith(", Large"))
                 {
@@ -616,8 +629,9 @@ namespace StarshipGenerator.Utils
                     }
                     ship.ShipBridge = new Bridge(bridge.Name, bridge.HullTypes, bridge.RawPower, bridge.RawSpace, bridge.Origin, bridge.PageNumber, bridge.RawSpecial, bridge.RawSP, quality, bridge.Manoeuvrability, bridge.BSModifier, bridge.Command, bridge.Repair, bridge.Pilot, bridge.NavigateWarp, bridge.ComponentOrigin, bridge.MiningObjective, bridge.CreedObjective, bridge.MilitaryObjective, bridge.TradeObjective, bridge.CriminalObjective, bridge.ExplorationObjective);
                 }//Life Sustainer
-                name = file["chosenlife"];
+                name = file["life"];
                 size = HullType.All;
+                name = name.Replace("Vitae ", "Vitae-");
                 if (name.EndsWith(", Large"))
                 {
                     size = HullType.AllCruiser;
@@ -648,7 +662,7 @@ namespace StarshipGenerator.Utils
                     }
                     ship.LifeSustainer = new LifeSustainer(sustainer.Name, sustainer.HullTypes, sustainer.RawPower, sustainer.RawSpace, sustainer.Morale, sustainer.Origin, sustainer.PageNumber, sustainer.RawSpecial, quality, sustainer.RawSP, sustainer.MoraleLoss, sustainer.CrewLoss, sustainer.ComponentOrigin);
                 }//crew quarters
-                name = file["chosenquarters"];
+                name = file["quarters"];
                 size = HullType.All;
                 if (name.EndsWith(", Large"))
                 {
@@ -662,12 +676,12 @@ namespace StarshipGenerator.Utils
                 if (quarters != null)
                 {
                     Quality quality = Quality.Common;
-                    if (!String.IsNullOrEmpty(file["crewquality"]))
+                    if (!String.IsNullOrEmpty(file["quartersquality"]))
                     {
-                        quality = (Quality)Enum.Parse(typeof(Quality), file["crewquality"]);
+                        quality = (Quality)Enum.Parse(typeof(Quality), file["quartersquality"]);
                         if (quality == Quality.Good)
                         {
-                            switch (file["crewchoice"])
+                            switch (file["quarterschoice"])
                             {
                                 case "Power":
                                     quality = Quality.Efficient;
@@ -680,7 +694,7 @@ namespace StarshipGenerator.Utils
                     }
                     ship.CrewQuarters = new CrewQuarters(quarters.Name, quarters.HullTypes, quarters.RawPower, quarters.RawSpace, quarters.Morale, quarters.Origin, quarters.PageNumber, quarters.RawSpecial, quality, quarters.RawSP, quarters.MoraleLoss, quarters.ComponentOrigin);
                 }//Augur Arrays
-                Augur arrays = AugurArrays.Where(x => x.Name.Equals(file["chosenaugur"], StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
+                Augur arrays = AugurArrays.Where(x => x.Name.Equals(file["augur"], StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
                 if (arrays != null)
                 {
                     Quality quality = Quality.Common;
@@ -691,7 +705,7 @@ namespace StarshipGenerator.Utils
                     ship.AugurArrays = new Augur(arrays.Name, arrays.RawPower, arrays.Origin, arrays.PageNumber, arrays.DetectionRating, arrays.RawSpecial, quality, arrays.RawSP, arrays.Manoeuvrability, arrays.BSModifier, arrays.MiningObjective, arrays.CreedObjective, arrays.MilitaryObjective, arrays.TradeObjective, arrays.CriminalObjective, arrays.ExplorationObjective, arrays.ComponentOrigin);
                 }
             }//end of essential components
-            switch (file["machinechoice"])
+            switch (file["machine"])
             {
                 case "A Nose For Trouble":
                     ship.MachineSpirit = MachineSpirit.ANoseForTrouble;
@@ -724,7 +738,7 @@ namespace StarshipGenerator.Utils
                     ship.MachineSpirit = MachineSpirit.AncientAndWise;
                     break;
             }
-            switch (file["historychoice"])
+            switch (file["history"])
             {
                 case "Reliquary of Mars":
                     ship.ShipHistory = ShipHistory.ReliquaryOfMars;
@@ -777,7 +791,7 @@ namespace StarshipGenerator.Utils
                 ship.CrewImprovements = (Quality)Enum.Parse(typeof(Quality), file["imperovements"]);
             if (!String.IsNullOrWhiteSpace(file["disciplinarium"]))
                 ship.Disciplinarium = (Quality)Enum.Parse(typeof(Quality), file["disciplinarium"]);
-            if (!String.IsNullOrWhiteSpace(file["distributed"]))
+            if (!String.IsNullOrWhiteSpace(file["distribute"]))
                 ship.DistributedCargoHold = (Quality)Enum.Parse(typeof(Quality), file["distributed"]);
             if (!String.IsNullOrWhiteSpace(file["mimic"]))
                 ship.MimicDrive = (Quality)Enum.Parse(typeof(Quality), file["mimic"]);
@@ -1217,7 +1231,7 @@ namespace StarshipGenerator.Utils
             Supplementals.Add(new Supplemental("Reinforced Prow", ~HullType.AllCruiser, 0, 2, 1, RuleBook.IntoTheStorm, 159, new DiceRoll(0, 1, 0), prowArmour: 2, max: 1));
             Supplementals.Add(new Supplemental("Reinforced Prow", HullType.AllCruiser, 0, 3, 1, RuleBook.IntoTheStorm, 159, new DiceRoll(0, 1, 0), prowArmour: 2, max: 1));
             Supplementals.Add(new Supplemental("Runecaster", HullType.All, 0, 1, 2, RuleBook.CoreRulebook, 208, special: "Warp journeys made while using this component take half the time; This component may never become unpowered", navigate: 20, comp: ComponentOrigin.Xenotech, max: 1));
-            Supplementals.Add(new Supplemental("Salvage Systems", HullType.Transport | HullType.AllCruiser, 5, 3, 3, RuleBook.BattlefleetKoronus, 40, null, "Fore every week spent attached to a wreck, may make a -10 Tech-Use Test to attempt to remove an identified component. A success removes the component for storage or towing, a failure destroys the component. These may be used or sold", man: -5, max: 1));
+            Supplementals.Add(new Supplemental("Salvage Systems", HullType.Transport | HullType.AllCruiser, 5, 3, 3, RuleBook.BattlefleetKoronus, 40, null, "For every week spent attached to a wreck, may make a -10 Tech-Use Test to attempt to remove an identified component. A success removes the component for storage or towing, a failure destroys the component. These may be used or sold", man: -5, max: 1));
             Supplementals.Add(new Supplemental("Sensorium", HullType.All, 1, 1, 2, RuleBook.HostileAcquisition, 72, null, "+10 to all Charm and Commerce tests conducted on this vessel if the subjects use the sensorium", morale: 2, max: 1));
             Supplementals.Add(new Supplemental("Shadowblind Bays", HullType.All, 3, 4, 2, RuleBook.IntoTheStorm, 159, null, "-40 to Scrutiny Tests to detect this bay while it is active", trade: 50, criminal: 75));
             Supplementals.Add(new Supplemental("Shadowfield", HullType.All, 8, 4, 4, RuleBook.HostileAcquisition, 75, null, "All ships firing at this vessel while this is active suffer -20 to ballistic skill tests. -30 to the pilot test to hit and run. +20 to Silent Running and any active or focussed augury against the vessel suffers -20. This vessel must decide if it will use its void shields or ghost shields at the beginning of combat", comp: ComponentOrigin.Xenotech));

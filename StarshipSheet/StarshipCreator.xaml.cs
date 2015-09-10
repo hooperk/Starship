@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using StarshipGenerator.Utils;
 using StarshipGenerator.Components;
+using Microsoft.Win32;
 
 namespace StarshipSheet
 {
@@ -75,6 +76,23 @@ namespace StarshipSheet
             if (input == 0)
                 return "";
             return (input < 0 ? input.ToString() : "+" + input);
+        }
+
+        public void UpdateAll()
+        {
+            UpdateHull();
+            UpdateMachine();//Hull updates history
+            UpdatePlasma();
+            UpdateWarp();
+            UpdateVoid();
+            UpdateGellar();
+            UpdateBridge();
+            UpdateQuarters();
+            UpdateLife();
+            UpdateAugurs();
+            UpdateWeaponSlots(false);
+            ClearSupplementals();
+            RefillSupplementals();
         }
 
         public void UpdateSP()
@@ -650,7 +668,7 @@ namespace StarshipSheet
                 }
                 foreach (Weapon aux in Starship.WeaponList.Where(x => x.Item1 == WeaponSlot.Auxiliary).Select(x => x.Item2))
                 {
-                    weapon = Starship.WeaponList[count].Item2;
+                    weapon = aux;
                     if (weapon != null)
                         update = true;
                     AddWeapon(WeaponSlot.Auxiliary, weapon, count++, false, false);
@@ -725,7 +743,7 @@ namespace StarshipSheet
             Grid.SetColumn(template, 0);
             Supplementals.Children.Add(template);
             if (component.AuxiliaryWeapon != null)
-                AddWeapon(WeaponSlot.Auxiliary, component.AuxiliaryWeapon, -1, false, false);
+                UpdateWeaponSlots(false);
             if (update)
                 UpdateSupplementals();
         }
@@ -949,6 +967,11 @@ namespace StarshipSheet
 
         private void AddSupplemental_Click(object sender, RoutedEventArgs e)
         {
+            if (Starship.Hull == null)
+            {
+                MessageBox.Show("Need to pick a hull first!");
+                return;
+            }
             SupplementalWindow dialog = new SupplementalWindow(Starship, loader);
             dialog.ShowDialog();
             ClearSupplementals();
@@ -960,6 +983,91 @@ namespace StarshipSheet
         {
             Starship.SupplementalComponents.Clear();
             RefreshSupplementals();
+        }
+
+        private void ClearMenu_Click(object sender, RoutedEventArgs e)
+        {
+            Starship = new Starship();
+            HullName.Text = "";
+            UpdateAll();
+        }
+
+        private void LoadMenu_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Filter = "Starship Sheets (.sss)|*.sss|Live Ship Sheets (.lss)|*.lss|All Ship Sheets|*.sss;*.lss";
+            dialog.FilterIndex = 3;
+            dialog.CheckFileExists = true;
+            if (dialog.ShowDialog() ?? false)
+            {
+                try
+                {
+                    Starship = loader.LoadStarship(dialog.FileName);
+                    UpdateAll();
+                    HullName.Text = Starship.Name;
+                }
+                catch (FormatException)
+                {
+                    MessageBox.Show("Invalid .sss file, letters stored in number field", "Error Opening File");
+                }
+                catch (ArgumentException)
+                {
+                    MessageBox.Show("Invalid .sss file.", "Error Opening File");
+                }
+                catch (KeyNotFoundException)
+                {
+                    MessageBox.Show("Invalid .sss file, missing required key", "Error Opening File");
+                }
+            }
+        }
+
+        private void SaveMenu_Click(object sender, RoutedEventArgs e)
+        {
+            SaveSheet();
+        }
+
+        private bool SaveSheet()
+        {
+            Starship.Name = HullName.Text;
+            SaveFileDialog dialog = new SaveFileDialog();
+            dialog.FileName = "Starship";
+            dialog.DefaultExt = ".sss";//TODO: change to .lss when ready
+            dialog.Filter = "Starship Sheets (.sss)|*.sss|Live Ship Sheets (.lss)|*.lss";
+            dialog.FilterIndex = 1;//TODO: Change to 2 once .lss load and save is ready
+            if (dialog.ShowDialog() ?? false)
+            {
+                Saver.SaveStarship(Starship, dialog.FileName);
+                return true;//report true or false for save on exit
+            }
+            return false;
+        }
+
+        private void Exit_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void FAQMenu_Click(object sender, RoutedEventArgs e)
+        {
+            FAQ_Page dialog = new FAQ_Page();
+            dialog.Show();
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            //TODO: Logic to not ask if nothing has been done
+            MessageBoxResult result = MessageBox.Show("Would you like to save your current ship before closing?", "Save Before Exit", MessageBoxButton.YesNoCancel);
+            switch (result)
+            {
+                case MessageBoxResult.Yes:
+                    if (SaveSheet())
+                        break;//if it saves close, but otherwise cancel
+                    e.Cancel = true;
+                    break;
+                case MessageBoxResult.Cancel:
+                    e.Cancel = true;
+                    break;
+            }
         }
         #endregion
     }

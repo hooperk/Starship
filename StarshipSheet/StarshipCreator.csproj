@@ -77,6 +77,9 @@
     <Compile Include="Essential.xaml.cs">
       <DependentUpon>Essential.xaml</DependentUpon>
     </Compile>
+    <Compile Include="FAQ Page.xaml.cs">
+      <DependentUpon>FAQ Page.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GridHelpers.cs" />
     <Compile Include="HullChooser.xaml.cs">
       <DependentUpon>HullChooser.xaml</DependentUpon>
@@ -138,6 +141,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Essential.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FAQ Page.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

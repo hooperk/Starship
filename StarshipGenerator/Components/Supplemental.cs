@@ -141,6 +141,21 @@ namespace StarshipGenerator.Components
         /// Maximum number of this component you may have, &lt;1 means unlimited
         /// </summary>
         public int Max { get; private set; }
+        /// <summary>
+        /// Any special effects of the component
+        /// </summary>
+        /// <remarks>Declares that the component is replacing another one</remarks>
+        public override string Special
+        {
+            get
+            {
+                return base.Special + ((Replace != null) ? "Replaces a " + Replace + ";" : "");
+            }
+            set
+            {
+                base.Special = value;
+            }
+        }
 
         /// <summary>
         /// Create a new supplemental Component
@@ -333,8 +348,6 @@ namespace StarshipGenerator.Components
             get
             {
                 StringBuilder output = new StringBuilder();
-                if (Replace != null)
-                    output.Append("Replaces a " + Replace + ";");
                 if (Speed > 0)
                     output.Append("+" + Speed + " Speed; ");
                 else if (Speed < 0)

@@ -27,6 +27,14 @@ namespace StarshipGenerator.Utils
             return self.Replace("\"", "\\\"");
         }
 
+        public static void SaveStarship(Starship ship, String path)
+        {
+            if (Path.GetExtension(path).Equals(".sss"))
+                SaveSSS(ship, path);
+            else if (Path.GetExtension(path).Equals(".lss"))
+                SaveLSS(ship, path);
+        }
+
         /// <summary>
         /// Save a Starship in the old .sss format
         /// </summary>
@@ -104,7 +112,7 @@ namespace StarshipGenerator.Utils
                         break;
                 }
                 writer.WriteLine("bridge:" + name);
-                writer.WriteLine("life:" + ship.LifeSustainer.GetName() + (ship.Hull == null || (ship.Hull.HullTypes & HullType.AllCruiser) != 0 ? ", Large" : ", Small"));
+                writer.WriteLine("life:" + ship.LifeSustainer.GetName().Replace("Vitae-","Vitae ") + (ship.Hull == null || (ship.Hull.HullTypes & HullType.AllCruiser) != 0 ? ", Large" : ", Small"));
                 writer.WriteLine("quarters:" + ship.CrewQuarters.GetName() + (ship.Hull == null || (ship.Hull.HullTypes & HullType.AllCruiser) != 0 ? ", Large" : ", Small"));
                 writer.WriteLine("augur:" + ship.AugurArrays.GetName());
                 String[] qualities = new String[14];
@@ -286,7 +294,7 @@ namespace StarshipGenerator.Utils
                 writer.WriteLine("voidquality:" + qualities[3].Escape());
                 writer.WriteLine("bridgequality:" + qualities[4].Escape());
                 writer.WriteLine("lifequality:" + qualities[5].Escape());
-                writer.WriteLine("quarterquality:" + qualities[6].Escape());
+                writer.WriteLine("quartersquality:" + qualities[6].Escape());
                 writer.WriteLine("augurquality:" + qualities[7].Escape());
                 writer.WriteLine("plasmachoice:" + qualities[8].Escape());
                 writer.WriteLine("warpchoice:" + qualities[9].Escape());
@@ -294,10 +302,10 @@ namespace StarshipGenerator.Utils
                 writer.WriteLine("voidchoice:" + qualities[10].Escape());
                 writer.WriteLine("bridgechoice:" + qualities[11].Escape());
                 writer.WriteLine("lifechoice:" + qualities[12].Escape());
-                writer.WriteLine("quarterchoice:" + qualities[13].Escape());
+                writer.WriteLine("quarterschoice:" + qualities[13].Escape());
                 writer.WriteLine("augurchoice:");
                 writer.WriteLine("crew:" + ship.CrewRace.Name());
-                writer.WriteLine("crewrating:" + (ship.CrewRace == Race.Servitor ? ((ServitorQuality)ship.CrewRating).ToString() : ((CrewRating)ship.CrewRating).ToString()));
+                writer.WriteLine("crewrating:" + (ship.CrewRating == 0 ? "" : (ship.CrewRace == Race.Servitor ? ((ServitorQuality)ship.CrewRating).ToString() : ((CrewRating)ship.CrewRating).ToString())));
                 writer.WriteLine("crewmod:" + ship.GMCrewRating);
                 //weapons, need to redo ordering when converting
                 Weapon[] weapons = ship.Weapons.Reverse().ToArray();//old ship sheet ordered weaposn in opposite way to new ship generator
@@ -389,11 +397,11 @@ guidance5:
 tno6:
 torpedo6:
 guidance6:
-cno1:2
+cno1:0
 craft1:Fury Interceptor
-cno2:2
+cno2:0
 craft2:Starhawk Bomber
-cno3:8
+cno3:0
 craft3:Shark Assault Boat"
                     );
                 writer.WriteLine("background:" + ship.Background.Name());
@@ -635,13 +643,13 @@ craft3:Shark Assault Boat"
                     }
                 }
                 writer.WriteLine("customcomppower:" + powerused.PrintInt());
-                writer.WriteLine("customrcompgenerate:" + powergen.PrintInt());
+                writer.WriteLine("customcompgenerate:" + powergen.PrintInt());
                 writer.WriteLine("customcompspace:" + space.PrintInt());
                 writer.WriteLine("customcompsp:" + sp.PrintInt());
                 writer.WriteLine("customcomponents:" + sp.PrintInt());
-                foreach (String compName in ship.SupplementalComponents.Where(x => x.Origin != RuleBook.Custom).Select(x => x.Name).Distinct())
+                foreach (String compName in ship.SupplementalComponents.Where(x => x.Origin != RuleBook.Custom).Select(x => x.QualityName).Distinct())
                 {
-                    writer.WriteLine("{0}:{1}", compName, ship.SupplementalComponents.Where(x => x.Origin != RuleBook.Custom && x.Name.Equals(compName)).Count());//double check origin in case duplicate name
+                    writer.WriteLine("{0}:{1}", compName, ship.SupplementalComponents.Count(x => x.Origin != RuleBook.Custom && x.QualityName.Equals(compName)) - (ship.Hull == null && ship.Hull.DefaultComponents == null ? 0 : ship.Hull.DefaultComponents.Count(x => x.QualityName == compName)));//double check origin in case duplicate name
                 }
             }
         }

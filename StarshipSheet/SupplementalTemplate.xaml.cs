@@ -68,6 +68,7 @@ namespace StarshipSheet
             Count++;
             CheckAdd();
             CountDisplay.Content = Count.ToString();
+            Parent.UpdateSupplementals();
         }
 
         private void RemoveButton_Click(object sender, RoutedEventArgs e)
@@ -79,6 +80,7 @@ namespace StarshipSheet
                 Parent.Supplementals.Children.Remove(this);
             else
                 CountDisplay.Content = Count.ToString();
+            Parent.UpdateSupplementals();
         }
     }
 }

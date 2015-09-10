@@ -1,0 +1,28 @@
+﻿<Window x:Class="StarshipSheet.FAQ_Page"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="FAQ_Page" Height="600" Width="700">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Label Grid.Row="0" Grid.Column="0">FAQ</Label>
+        <Button Grid.Row="0" Grid.Column="1" Click="Button_Click">Close</Button>
+        <ScrollViewer Grid.Row="1" Grid.ColumnSpan="2">
+            <StackPanel>
+                <TextBlock>- As of this version, no questions have been asked frequently or otherwise</TextBlock>
+                <!-- Layout to use
+                <Label>
+                    <Bold>Question</Bold>
+                </Label>
+                <TextBlock Margin="4" TextWrapping="WrapWithOverflow">Answer... Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas vitae dolor sit amet velit pulvinar suscipit in vitae ligula. Suspendisse purus tortor, pulvinar eget ultrices egestas, mattis vel orci. Phasellus a egestas tellus, eu tempor purus. Aenean sem odio, euismod sed molestie a, vestibulum ut neque. Sed laoreet, metus in accumsan laoreet, turpis dui viverra lorem, a viverra nibh neque vel augue. Nam elementum, dolor a eleifend blandit, elit lorem rhoncus ligula, id posuere mi lectus nec metus. Ut vulputate condimentum tellus sit amet lacinia. Curabitur suscipit ornare rhoncus. Nunc a ex nec nisi scelerisque cursus. Integer elit elit, rutrum.</TextBlock>
+                -->
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Window>

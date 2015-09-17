@@ -37,8 +37,10 @@
     <ApplicationIcon>67ef7f38d041ca72ffefb8c111fae756_KPF_6.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ReachFramework" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Printing" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -91,6 +93,7 @@
     <Compile Include="NumericUpDown.xaml.cs">
       <DependentUpon>NumericUpDown.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PrintSetup.cs" />
     <Compile Include="SupplementalTemplate.xaml.cs">
       <DependentUpon>SupplementalTemplate.xaml</DependentUpon>
     </Compile>

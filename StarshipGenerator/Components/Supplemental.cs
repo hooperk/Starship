@@ -156,6 +156,16 @@ namespace StarshipGenerator.Components
                 base.Special = value;
             }
         }
+        /// <summary>
+        /// Doesn't include replacing anything
+        /// </summary>
+        public override string Print
+        {
+            get
+            {
+                return base.Special;
+            }
+        }
 
         /// <summary>
         /// Create a new supplemental Component

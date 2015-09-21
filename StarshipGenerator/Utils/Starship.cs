@@ -116,6 +116,34 @@ namespace StarshipGenerator.Utils
                 return list;
             }
         }
+        /// <summary>
+        /// Final list of Supplementals minus replaced ones for printing
+        /// </summary>
+        public List<Supplemental> SupplementalList
+        {
+            get
+            {
+                if (SupplementalComponents == null)
+                    return null;
+                List<Supplemental> temp = new List<Supplemental>();
+                List<String> toRemove = new List<string>();
+                foreach (Supplemental component in SupplementalComponents)
+                {
+                    temp.Add(component);
+                    if (component.Replace != null)
+                        toRemove.Add(component.Replace);
+                }
+                foreach (String current in toRemove)
+                {
+                    try
+                    {
+                        temp.Remove(temp.Single(x => x.GetName().Equals(current)));//Sadly, yes, this was the most efficient way I could find for this
+                    }
+                    catch (ArgumentNullException) { }//if item is not in the list TODO work out handling instead of just ignore
+                }
+                return temp;
+            }
+        }
 
         /// <summary>
         /// Machine Spirit Complication of the Starship
@@ -400,7 +428,7 @@ namespace StarshipGenerator.Utils
                 if (PlasmaDrive == null)
                     return 0;
                 int total = PlasmaDrive.Power;
-                if(Hull != null)
+                if (Hull != null)
                     total += Hull.Power;//if power != 0, hull grants or uses excess power
                 if (SupplementalComponents != null)
                     foreach (Supplemental component in SupplementalComponents)

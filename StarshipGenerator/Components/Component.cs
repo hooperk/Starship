@@ -110,6 +110,10 @@ namespace StarshipGenerator.Components
         }
         public string RawSpecial;
         /// <summary>
+        /// Final Special to print, minus anything that doesn't need to go on the printing page like replacign other components
+        /// </summary>
+        public virtual string Print { get { return Special; } }
+        /// <summary>
         /// Rulebook this component can be found in
         /// </summary>
         public RuleBook Origin { get; private set; }

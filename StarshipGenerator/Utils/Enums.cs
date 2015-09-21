@@ -76,7 +76,8 @@ namespace StarshipGenerator.Utils
         HostileAcquisition,
         BattlefleetKoronus,
         LureoftheExpanse,
-        SoulReaver
+        SoulReaver,
+        FaithAndCoin
     }
 
     /// <summary>
@@ -360,6 +361,8 @@ namespace StarshipGenerator.Utils
                     return "Lure of the Expanse";
                 case RuleBook.SoulReaver:
                     return "The Soul Reaver";
+                case RuleBook.FaithAndCoin:
+                    return "Faith and Coin";
                 default:
                     return "Custom";
             }
@@ -386,6 +389,8 @@ namespace StarshipGenerator.Utils
                     return "Lure of the Expanse";
                 case RuleBook.SoulReaver:
                     return "The Soul Reaver";
+                case RuleBook.FaithAndCoin:
+                    return "Faith and Coin: Fortune and Fire in the Koronus Expanse";
                 default:
                     return "Custom";    
             }

@@ -1,25 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Xps;
 using System.Windows.Xps.Packaging;
+using System.IO;
 
 namespace StarshipSheet
 {
-    public static class PrintSetup
+    /// <summary>
+    /// Interaction logic for PrintPage.xaml
+    /// </summary>
+    public partial class PrintPage : Window
     {
+        public PrintPage()
+        {
+            InitializeComponent();
+        }
+
         /// <summary>
         /// Print Preview a flow document - From Stack Exchange
         /// </summary>
         /// <author>Cheeso</author>
         /// <see cref="http://stackoverflow.com/questions/2322064/how-can-i-produce-a-print-preview-of-a-flowdocument-in-a-wpf-application"/>
-        #region FromSource 
+        #region FromSource
         private static string _previewWindowXaml =
     @"<Window
         xmlns                 ='http://schemas.microsoft.com/netfx/2007/xaml/presentation'
@@ -28,10 +43,20 @@ namespace StarshipSheet
         Height                ='500'
         Width                 ='700'
         WindowStartupLocation ='CenterOwner'>
-        <DocumentViewer Name='dv1'/>
+        <DocumentViewer Name='dv1'>
+            <DocumentViewer.Resources>
+                <Style TargetType=""ContentControl"">
+                  <Style.Triggers>
+                    <Trigger Property=""Name"" Value=""PART_FindToolBarHost"">
+                      <Setter Property=""Visibility"" Value=""Collapsed"" />
+                    </Trigger>
+                  </Style.Triggers>
+                </Style>
+            </DocumentViewer.Resources>
+        </DocumentViewer>
      </Window>";
 
-        public static void DoPreview(string title, System.Windows.Media.Visual visual)
+        public void DoPreview(string title)
         {
             string fileName = System.IO.Path.GetTempFileName();
             try
@@ -40,7 +65,7 @@ namespace StarshipSheet
                 using (XpsDocument doc = new XpsDocument(fileName, FileAccess.ReadWrite))
                 {
                     XpsDocumentWriter writer = XpsDocument.CreateXpsDocumentWriter(doc);
-                    writer.Write(visual);
+                    writer.Write(this);
                 }
 
                 // Read the XPS document into a dynamically generated
@@ -58,8 +83,7 @@ namespace StarshipSheet
 
                         DocumentViewer dv1 = LogicalTreeHelper.FindLogicalNode(preview, "dv1") as DocumentViewer;
                         dv1.Document = fds as IDocumentPaginatorSource;
-
-
+                        
                         preview.ShowDialog();
                     }
                 }

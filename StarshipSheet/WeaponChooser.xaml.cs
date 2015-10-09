@@ -217,7 +217,7 @@ namespace StarshipSheet
                     else
                     {
                         CurrentCrit.Text = Current.Crit.ToString();
-                        CurrentCrit.Text = Current.Crit == 0 ? "This weapon cannot critically hit" : null;
+                        CurrentCrit.ToolTip = Current.Crit == 0 ? "This weapon cannot critically hit" : null;
                         CurrentRange.ToolTip = null;
                     }
                     CurrentRange.Text = Current.DisplayRange;

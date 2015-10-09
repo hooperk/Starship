@@ -1102,7 +1102,7 @@ namespace StarshipGenerator.Utils
             AugurArrays.Add(new Augur("Mark 201.b Augur Array", 5, RuleBook.CoreRulebook, 201, 5));
             AugurArrays.Add(new Augur("R-50 Auspex Multi-band", 4, RuleBook.CoreRulebook, 202, -2, "+5 to maneouvrability tests to avoid celestial phenomena", exploration: 50));
             AugurArrays.Add(new Augur("W-240 Passive Detection Arrays", 3, RuleBook.HostileAcquisition, 71, special: "May perform any detection actions on silent running without penalty", sp: 1));
-            AugurArrays.Add(new Augur("X-470 Ultimo Array", 6, RuleBook.BattlefleetKoronus, 33, 10, "+15 to detect ships on silent runnign with active augury; +5 to opponents ballistic skill tests to hit this vessel"));
+            AugurArrays.Add(new Augur("X-470 Ultimo Array", 6, RuleBook.BattlefleetKoronus, 33, 10, "+15 to detect ships on silent running with active augury; +5 to opponents ballistic skill tests to hit this vessel"));
             //End of Augur Arrays
             //Weapons
             Weapons = new List<Weapon>(46);
@@ -1254,8 +1254,8 @@ namespace StarshipGenerator.Utils
             Supplementals.Add(new Supplemental("Witch Augur", HullType.All, 1, 0, 2, RuleBook.HostileAcquisition, 73, null, "External; A Navigator may make a +0 Awareness Test, if successful he can identify nearby vessels or other large objects and estimate when and where they will transition out of the warp. For every degree of success he can sense objects within a range of about one hour's travel", comp: ComponentOrigin.Archeotech));
             Supplementals.Add(new Supplemental("Xenos Habitats", HullType.All, 2, 1, 1, RuleBook.IntoTheStorm, 159, null, "+10 bonus to Charm and Inquiry tests made with Xenos aboard this vessel. All objectives involving non-hostile dealings with xenos gain an additional 50 achievement points", morale: -2));
             Supplementals.Add(new Supplemental("Xenos Librarium", HullType.All, 1, 1, 3, RuleBook.HostileAcquisition, 75, null, "May receive +10 to Forbidden Lore(Xenos) Tests made aboard this vessel", comp: ComponentOrigin.Xenotech));
-            Supplementals.Add(new Supplemental(@"XED1.11178e ""Ubertas"" Device", HullType.All, 3, 1, 0, RuleBook.FaithAndCoin, 105, morale: 5, special: "PRovides free food for the ship, crew never suffers malnutrition or starvation, +10 to Medicae Tests to Diagnose and Contain Shipborne Sicknesses, liable to attract attention."));
-            Supplementals.Add(new Supplemental("The Grand Compendium", HullType.All, 1, 3, 0, RuleBook.FaithAndCoin, 107, special: "Once per game session, a character may spend a faith point to count all Common and Scholastic Lores as basic skill for the ramainder of the game session. May potentially be used to justify Elite advances in Commonand Scholastic Lores."));
+            Supplementals.Add(new Supplemental(@"XED1.11178e ""Ubertas"" Device", HullType.All, 3, 1, 0, RuleBook.FaithAndCoin, 105, morale: 5, special: "PRovides free food for the ship, crew never suffers malnutrition or starvation, +10 to Medicae Tests to Diagnose and Contain Shipborne Sicknesses, liable to attract attention.", comp: ComponentOrigin.Archeotech));
+            Supplementals.Add(new Supplemental("The Grand Compendium", HullType.All, 1, 3, 0, RuleBook.FaithAndCoin, 107, special: "Once per game session, a character may spend a faith point to count all Common and Scholastic Lores as basic skill for the ramainder of the game session. May potentially be used to justify Elite advances in Commonand Scholastic Lores.", comp: ComponentOrigin.Archeotech));
             //End of Supplemental Components
             //Squadrons
             Squadrons = new List<Squadron>(14);

@@ -86,7 +86,7 @@ namespace StarshipGenerator.Components
                             return Math.Max(RawCrit - 1, 1);
                     }
                 }
-                return RawRange;
+                return RawCrit;
             }
             private set { RawCrit = value; }
         }
